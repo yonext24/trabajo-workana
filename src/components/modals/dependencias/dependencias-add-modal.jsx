@@ -29,7 +29,7 @@ export function DependenciasAddModal ({ closeModal }) {
          control={control}
          rules={{ required: true }}
          defaultValue={null}
-         options={[{ text: 'Central', value: 'central' }, { text: 'Externo', value: 'externo' }, { text: 'Interno', value: 'interno' }, { text: 'Unidad', value: 'unidad' }]} />
+         options={['Central', 'Externo', 'Interno', 'Unidad']} />
 
         <label className='-mb-3 text-lg'>Unidad</label>
         <SelectInputControlled
@@ -37,7 +37,7 @@ export function DependenciasAddModal ({ closeModal }) {
          control={control}
          rules={{ required: true }}
          defaultValue={null}
-         options={[{ text: 'Abc', value: 'Abc' }, { text: 'Abc2', value: 'Abc2' }, { text: 'Abc3', value: 'Abc3' }, { text: 'Abc4', value: 'Abc4' }]} />
+         options={['Abc', 'Abc2', 'Abc3', 'Abc4']} />
          <div className='mb-4' />
 
         <ButtonsContainer closeModal={closeModal} >
