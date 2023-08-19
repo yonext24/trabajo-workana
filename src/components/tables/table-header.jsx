@@ -4,7 +4,7 @@ export function TableHeader ({ columns }) {
     <tr className="text-center [&_td]:pb-3 [&_td]:pt-1">
 
       {
-        columns.map(col => <td className="capitalize" key={col.text}>{col.text}</td>)
+        columns.map(col => <td className={`capitalize ${col.className ?? ''}`} key={col.text}>{col.text}</td>)
       }
 
     </tr>

@@ -10,7 +10,7 @@ const MobileNavbarLazy = lazy(() => import('../navbar/mobile-navbar'))
 
 const navbarEntrys = [
   { text: 'General', Icon: PersonIcon, href: '/general/sectores' },
-  { text: 'Usuarios', Icon: PersonsIcon, href: '/usuarios' },
+  { text: 'Usuarios', Icon: PersonsIcon, href: '/usuarios/roles' },
   {
     text: 'Oferta Academica',
     Icon: AcademyIcon,

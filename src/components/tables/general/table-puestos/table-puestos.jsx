@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux'
-import { TableContainer } from '../table-container'
-import { TableHeader } from '../table-header'
-import { TableGeneralRow } from './table-general-row'
+import { TableContainer } from '../../table-container'
+import { TableHeader } from '../../table-header'
+import { TablePuestosRow } from './table-puestos-row'
 
-export function TableGeneral () {
+export function TablePuestos () {
   // eslint-disable-next-line no-unused-vars
-  const { general: { sectores: { loading, data, error } } } = useSelector(s => s.data)
+  const { general: { puestos: { loading, data, error } } } = useSelector(s => s.data)
 
   return <TableContainer>
 
@@ -13,7 +13,7 @@ export function TableGeneral () {
       <TableHeader columns={[{ text: 'Nombre' }, { text: 'Acciones' }]} />
       <tbody className='[&>tr:last-of-type_td]:border-b-0'>
         {
-          data.map(el => <TableGeneralRow key={el.text} text={el.text} />)
+          data.map(el => <TablePuestosRow key={el} text={el} />)
         }
       </tbody>
     </table>

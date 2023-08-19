@@ -1,32 +1,41 @@
-import { useLayoutActions } from '../../../hooks/useLayoutActions'
-import { PenIcon, TrashIcon } from '../../icons'
-import { DeleteSectorModal } from '../../modals/general/delete-sector-modal'
-import { UpdateSectorModal } from '../../modals/general/update-sector-modal'
+import { useDataActions } from '@/hooks/useDataActions'
+import { useLayoutActions } from '@/hooks/useLayoutActions'
+import { PenIcon, TrashIcon } from '@/components/icons'
+import { DeleteModal } from '@/components/modals/delete-modal'
+import { UpdatePuestosModal } from '@/components/modals/puestos/update-puestos-modal'
 
-export function TableGeneralRow ({ text }) {
+export function TablePuestosRow ({ text }) {
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
+  const { delPuestosData } = useDataActions()
 
   const handleUpdateClick = () => {
-    const modalId = 'update-general-modal'
+    const modalId = 'update-puestos-modal'
     openModal({
-      Element: UpdateSectorModal,
+      Element: UpdatePuestosModal,
       id: modalId,
       props: {
         closeModal: () => {
           closeModalFunc(modalId)
-        }
+        },
+        entry: text
       }
     })
   }
+
   const handleDeleteClick = () => {
-    const modalId = 'delete-general-modal'
+    const modalId = 'delete-puestos-modal'
     openModal({
-      Element: DeleteSectorModal,
+      Element: DeleteModal,
       id: modalId,
       props: {
         closeModal: () => {
           closeModalFunc(modalId)
-        }
+        },
+        onClick: () => {
+          delPuestosData(text)
+        },
+        title: 'Eliminar Puesto',
+        sure: 'Realmente quiere eliminar este puesto?'
       }
     })
   }

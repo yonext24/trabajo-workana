@@ -4,7 +4,7 @@ export function ButtonsContainer ({ children, closeModal }) {
   return <div id='buttons-container' className="grid grid-cols-2 gap-12 text-white px-12
   [&>button]:py-1 [&>button]:text-button [&>button]:bg-gris-oscuro [&>button]:rounded-md">
     {children}
-    <button onClick={closeModal}>Salir</button>
+    <button type='button' onClick={closeModal}>Salir</button>
 
   </div>
 }

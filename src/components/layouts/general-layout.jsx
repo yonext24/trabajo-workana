@@ -2,7 +2,7 @@ import { UserInfo } from '../common/user-info'
 
 export function GeneralLayout ({ children, text }) {
   return <div id='page-container' className="flex flex-col flex-1 gap-y-4 w-full">
-    <header className="w-full flex justify-between py-8 px-8">
+    <header className="w-full flex justify-between py-8 pl-16 px-8">
       <h1 className="text-4xl">{text}</h1>
       <UserInfo />
     </header>

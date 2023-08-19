@@ -1,30 +1,40 @@
-import { useLayoutActions } from '../../../hooks/useLayoutActions'
-import { PenIcon, TrashIcon } from '../../icons'
+import { useDataActions } from '../../../../hooks/useDataActions'
+import { useLayoutActions } from '../../../../hooks/useLayoutActions'
+import { PenIcon, TrashIcon } from '../../../icons'
+import { DeleteModal } from '../../../modals/delete-modal'
+import { UpdateDependenciaModal } from '../../../modals/dependencias/update-dependencia-modal'
 
-export function TableDependenciasRow ({ sector, nombre, abreviatura, unidad }) {
+export function TableDependenciasRow ({ sector, nombre, abreviatura, unidad, id }) {
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
+  const { delDependenciesData } = useDataActions()
 
   const handleUpdateClick = () => {
     const modalId = 'update-general-modal'
     openModal({
-      Element: <div></div>,
+      Element: UpdateDependenciaModal,
       id: modalId,
       props: {
         closeModal: () => {
           closeModalFunc(modalId)
-        }
+        },
+        entryData: { sector, nombre, abreviatura, unidad, id }
       }
     })
   }
   const handleDeleteClick = () => {
     const modalId = 'delete-general-modal'
     openModal({
-      Element: <div />,
+      Element: DeleteModal,
       id: modalId,
       props: {
         closeModal: () => {
           closeModalFunc(modalId)
-        }
+        },
+        onClick: () => {
+          delDependenciesData(nombre)
+        },
+        title: 'Eliminar Dependencia',
+        sure: 'Realmente quiere eliminar esta dependencia?'
       }
     })
   }
