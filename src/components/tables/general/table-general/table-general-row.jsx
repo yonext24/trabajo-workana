@@ -2,7 +2,7 @@ import { useDataActions } from '@/hooks/useDataActions'
 import { useLayoutActions } from '@/hooks/useLayoutActions'
 import { PenIcon, TrashIcon } from '@/components/icons'
 import { DeleteModal } from '@/components/modals/delete-modal'
-import { UpdateSectorModal } from '@/components/modals/sectores/update-sector-modal'
+import { UpdateSectorModal } from '@/components/modals/general/sectores/update-sector-modal'
 
 export function TableGeneralRow ({ text }) {
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()

@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form'
-import { InputWLabel } from '../../common/input-w-label'
-import { ButtonsContainer } from '../buttons-container'
-import { DefaultModalLayout } from '../default-modal-layout'
-import { ModalBackground } from '../modal-background'
-import { SelectInputControlled } from '../../common/select-input-controlled'
-import { useDataActions } from '../../../hooks/useDataActions'
+import { InputWLabel } from '../../../common/input-w-label'
+import { ButtonsContainer } from '../../buttons-container'
+import { DefaultModalLayout } from '../../default-modal-layout'
+import { ModalBackground } from '../../modal-background'
+import { SelectInputControlled } from '../../../common/select-input-controlled'
+import { useDataActions } from '../../../../hooks/useDataActions'
 
 export function DependenciasAddModal ({ closeModal }) {
   const { register, handleSubmit, control } = useForm()

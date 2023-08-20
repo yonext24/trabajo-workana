@@ -1,7 +1,7 @@
 import { NuevoButton } from '../../components/common/nuevo-button'
 import { TableModulos } from '../../components/tables/general/table-modulos/table-modulos'
 import { useLayoutActions } from '../../hooks/useLayoutActions'
-import { AddModulosModal } from '../../components/modals/modulos/add-modulos-modal'
+import { AddModulosModal } from '../../components/modals/general/modulos/add-modulos-modal'
 
 // Esta página y todas las de la carpeta /general tienen un layout ya integrado, en /components/layout/general-tabs-layout
 // y ahí esta estilado el div#page-content

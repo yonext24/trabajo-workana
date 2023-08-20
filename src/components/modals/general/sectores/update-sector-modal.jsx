@@ -1,7 +1,7 @@
-import { useDataActions } from '../../../hooks/useDataActions'
-import { ButtonsContainer } from '../buttons-container'
-import { DefaultModalLayout } from '../default-modal-layout'
-import { ModalBackground } from '../modal-background'
+import { useDataActions } from '../../../../hooks/useDataActions'
+import { ButtonsContainer } from '../../buttons-container'
+import { DefaultModalLayout } from '../../default-modal-layout'
+import { ModalBackground } from '../../modal-background'
 
 export function UpdateSectorModal ({ closeModal, entry }) {
   const { updSectoresData } = useDataActions()

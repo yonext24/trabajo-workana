@@ -22,7 +22,7 @@ export default {
       },
 
       animation: {
-        appear: 'appear .2s ease-in'
+        appear: 'appear .14s ease-in'
       },
       keyframes: {
         appear: { from: { opacity: 0 }, to: { opacity: 1 } }

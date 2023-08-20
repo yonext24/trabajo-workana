@@ -1,37 +1,41 @@
-import { useDataActions } from '@/hooks/useDataActions'
-import { PenIcon, TrashIcon } from '@/components/icons'
-import { UpdatePuestosModal } from '@/components/modals/puestos/update-puestos-modal'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
+import { Row } from '../../row'
+import { RowLayout } from '../../row-layout'
+import { RolePermissionsModal } from '@/components/modals/usuarios/roles/role-permissions-modal'
+import { useUsuariosActions } from '@/hooks/useUsuariosActions'
+import { UpdRolesModal } from '@/components/modals/usuarios/roles/upd-roles-modal'
 
 export function TableRolesRow ({ nombre, descripcion }) {
-  const { delPuestosData } = useDataActions()
-  const { handleUpd, handleDel } = useTableDefaultModals({
+  const { deleteRole } = useUsuariosActions()
+  const { handleUpd, handleDel, handlePerm } = useTableDefaultModals({
     place: 'roles',
-    update: { el: UpdatePuestosModal, entry: nombre },
+    perm: { el: RolePermissionsModal, nombre },
+    update: { el: UpdRolesModal, entry: nombre },
     del: {
       onClick: () => {
-        delPuestosData(nombre)
+        deleteRole({ nombre })
       },
-      title: 'Eliminar Usuario',
-      sure: 'Realmente quiere eliminar este usuario?'
+      title: 'Eliminar Rol',
+      sure: 'Realmente quiere eliminar este rol?'
     }
   })
 
-  return <tr className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px]">
-    <td className="border-r">{nombre}</td>
-    <td className="border-r">{descripcion}</td>
-    <td>
-      <div className="w-full h-full flex justify-center items-center gap-4">
+  const rows = [
+    { id: 1, text: nombre },
+    { id: 2, text: descripcion },
+    {
+      id: 3,
+      actions: [
+        { type: 'update', onClick: handleUpd },
+        { type: 'delete', onClick: handleDel },
+        { type: 'permisos', onClick: handlePerm }
+      ]
+    }
+  ]
 
-        <button onClick={handleUpd} className="bg-verde text-white p-1 rounded-md">
-          <PenIcon className='h-5 w-5' />
-        </button>
-
-        <button onClick={handleDel} className="bg-red-500 text-white p-1 rounded-md">
-          <TrashIcon className='h-5 w-5' />
-        </button>
-
-      </div>
-    </td>
-  </tr>
+  return <RowLayout>
+    {
+      rows.map(el => <Row key={el.id} {...el} funcProps={{ role: { nombre, descripcion } }} ></Row>)
+    }
+  </RowLayout>
 }

@@ -17,12 +17,12 @@ const navbarEntrys = [
     sub: [
       { text: 'Unidad Academica', Icon: GraduateIcon, href: '/oferta-academica/unidad' },
       { text: 'Extensión', Icon: HomeIcon, href: '/oferta-academica/extension' },
-      { text: 'Carrera', Icon: VerifiedIcon, href: '/oferta-academica/carrera' },
-      { text: 'Reportes', Icon: ReportsIcon, href: '/ofreta-academica/reportes' }
+      { text: 'Carrera', Icon: VerifiedIcon, href: '/oferta-academica/carrera' }
     ]
   },
   { text: 'Centros Educativos', Icon: HomeIcon, href: '/centros' },
-  { text: 'Geografía', Icon: PlanetIcon, href: '/geografia' }
+  { text: 'Geografía', Icon: PlanetIcon, href: '/geografia' },
+  { text: 'Reportes', Icon: ReportsIcon, href: '/ofreta-academica/reportes' }
 
 ]
 

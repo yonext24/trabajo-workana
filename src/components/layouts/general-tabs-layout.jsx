@@ -20,7 +20,7 @@ export function GeneralTabsLayout ({ tabsName, children }) {
   const { modals } = useSelector(s => s.layout)
 
   return <>
-    <main className="flex flex-col bg-white rounded-2xl py-4 gap-y-6 [&>#page-content]:px-2 [&>#page-content]:md:px-8 [&>#page-content]:flex [&>#page-content]:flex-col
+    <main className="flex flex-col bg-white rounded-2xl [&>#page-content]:pb-6 py-4 gap-y-6 [&>#page-content]:px-2 [&>#page-content]:md:px-8 [&>#page-content]:flex [&>#page-content]:flex-col
     [&>#page-content]:gap-y-8 px-1 md:px-4 relative">
       <PageTabs tabs={tabs[tabsName]} />
       { children }

@@ -2,7 +2,7 @@
 import { NuevoButton } from '@/components/common/nuevo-button'
 import { TableGeneral } from '@/components/tables/general/table-general/table-general'
 import { useLayoutActions } from '@/hooks/useLayoutActions'
-import { AddSectorModal } from '@/components/modals/sectores/add-sector.modal'
+import { AddSectorModal } from '@/components/modals/general/sectores/add-sector.modal'
 import { useEffect } from 'react'
 import { useDataActions } from '@/hooks/useDataActions'
 import { useSelector } from 'react-redux'

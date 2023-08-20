@@ -3,6 +3,7 @@ import { DefaultModalLayout } from './default-modal-layout'
 import { ModalBackground } from './modal-background'
 
 export function DeleteModal ({ closeModal, onClick, title, sure }) {
+  console.log(onClick)
   const handleSubmit = e => {
     e.preventDefault()
 

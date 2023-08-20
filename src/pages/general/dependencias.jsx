@@ -3,7 +3,7 @@ import { TableDependencias } from '../../components/tables/general/table-depende
 import { NuevoButton } from '../../components/common/nuevo-button'
 import { Filter } from '../../components/general/filter'
 import { useLayoutActions } from '../../hooks/useLayoutActions'
-import { DependenciasAddModal } from '../../components/modals/dependencias/dependencias-add-modal'
+import { DependenciasAddModal } from '../../components/modals/general/dependencias/dependencias-add-modal'
 
 // Esta página y todas las de la carpeta /general tienen un layout ya integrado, en /components/layout/general-tabs-layout
 // y ahí esta estilado el div#page-content

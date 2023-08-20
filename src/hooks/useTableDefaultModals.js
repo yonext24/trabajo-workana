@@ -2,7 +2,7 @@ import { DefaultComp } from '@/components/fallbacks/default-comp'
 import { useLayoutActions } from './useLayoutActions'
 import { DeleteModal } from '@/components/modals/delete-modal'
 
-export function useTableDefaultModals ({ place, add, update, del }) {
+export function useTableDefaultModals ({ place, add, update, del, perm }) {
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
 
   const handleAdd = () => {
@@ -14,7 +14,7 @@ export function useTableDefaultModals ({ place, add, update, del }) {
         closeModal: () => {
           closeModalFunc(modalId)
         },
-        ...add.props
+        ...add
       }
     })
   }
@@ -27,15 +27,14 @@ export function useTableDefaultModals ({ place, add, update, del }) {
         closeModal: () => {
           closeModalFunc(modalId)
         },
-        ...update.props
+        ...update
       }
     })
   }
-
   const handleDel = () => {
     const modalId = `delete-${place}-modal`
     openModal({
-      Element: del?.el ?? DefaultComp,
+      Element: del?.el ?? DeleteModal,
       id: modalId,
       props: {
         closeModal: () => {
@@ -43,10 +42,24 @@ export function useTableDefaultModals ({ place, add, update, del }) {
         },
         title: `Eliminar ${place.charAt(0).toUpperCase().concat(place.substring(1, place.length))}`,
         sure: `Realmente quiere eliminar este ${place}?`,
-        ...del.props
+        ...del
+      }
+    })
+  }
+  const handlePerm = (funcProps) => {
+    const modalId = `permissions-${place}-modal`
+    openModal({
+      Element: perm?.el ?? DefaultComp,
+      id: modalId,
+      props: {
+        closeModal: () => {
+          closeModalFunc(modalId)
+        },
+        ...perm?.props,
+        ...funcProps
       }
     })
   }
 
-  return { handleAdd, handleDel, handleUpd }
+  return { handleAdd, handleDel, handleUpd, handlePerm }
 }

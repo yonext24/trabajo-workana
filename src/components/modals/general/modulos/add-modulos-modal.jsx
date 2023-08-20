@@ -1,30 +1,28 @@
 import { useForm } from 'react-hook-form'
-import { useDataActions } from '../../../hooks/useDataActions'
-import { ButtonsContainer } from '../buttons-container'
-import { DefaultModalLayout } from '../default-modal-layout'
-import { ModalBackground } from '../modal-background'
-import { InputWLabel } from '../../common/input-w-label'
+import { useDataActions } from '../../../../hooks/useDataActions'
+import { ButtonsContainer } from '../../buttons-container'
+import { DefaultModalLayout } from '../../default-modal-layout'
+import { ModalBackground } from '../../modal-background'
+import { InputWLabel } from '../../../common/input-w-label'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
-export function AddPuestosModal ({ closeModal }) {
+export function AddModulosModal ({ closeModal }) {
   const { register, handleSubmit } = useForm()
-  const { general: { puestos: { data: puestosData } } } = useSelector(s => s.data)
-  const { addPuestosData } = useDataActions()
-
-  console.log({ puestosData })
+  const { general: { modulos: { data: modulosData } } } = useSelector(s => s.data)
+  const { addModulosData } = useDataActions()
 
   const handleUpdate = (data) => {
-    if (puestosData.some(el => el === data.name)) {
+    if (modulosData.some(el => el === data.name)) {
       toast.error('Ya existe un puesto de esas características.')
       return
     }
-    addPuestosData(data.name)
+    addModulosData(data.name)
   }
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal} >
 
-    <DefaultModalLayout title='Agregar Puesto' >
+    <DefaultModalLayout title='Agregar Modulo' >
       <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold'>
 
       <InputWLabel id='name' name='name' labelText='Nombre' type='text' inputClassName={'mb-12'} autoFocus register={register} required />

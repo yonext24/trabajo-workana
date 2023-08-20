@@ -2,7 +2,7 @@ import { useDataActions } from '@/hooks/useDataActions'
 import { useLayoutActions } from '@/hooks/useLayoutActions'
 import { PenIcon, TrashIcon } from '@/components/icons'
 import { DeleteModal } from '@/components/modals/delete-modal'
-import { UpdatePuestosModal } from '@/components/modals/puestos/update-puestos-modal'
+import { UpdatePuestosModal } from '@/components/modals/general/puestos/update-puestos-modal'
 
 export function TablePuestosRow ({ text }) {
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()

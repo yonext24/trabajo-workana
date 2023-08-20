@@ -2,7 +2,7 @@ import { useDataActions } from '../../../../hooks/useDataActions'
 import { useLayoutActions } from '../../../../hooks/useLayoutActions'
 import { PenIcon, TrashIcon } from '../../../icons'
 import { DeleteModal } from '../../../modals/delete-modal'
-import { UpdateDependenciaModal } from '../../../modals/dependencias/update-dependencia-modal'
+import { UpdateDependenciaModal } from '../../../modals/general/dependencias/update-dependencia-modal'
 
 export function TableDependenciasRow ({ sector, nombre, abreviatura, unidad, id }) {
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
