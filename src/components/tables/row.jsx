@@ -1,7 +1,7 @@
 import { KeyIcon, PenIcon, TrashIcon } from '../icons'
 
-export function Row ({ text, actions = false, funcProps }) {
-  return <td className="border-r">
+export function Row ({ text, actions = false, funcProps, className }) {
+  return <td className={`border-r ${className ?? ''}`}>
     {
       actions
         ? <div className="w-full h-full flex justify-center items-center gap-4">

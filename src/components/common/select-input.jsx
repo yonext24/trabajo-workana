@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { DownArrowIcon } from '../icons'
 
-export function SelectInput ({ options, defaultValue = null, firstOne = false, handleOptionClick }) {
+export function SelectInput ({ options, defaultValue = null, firstOne = false, handleOptionClick, disabled }) {
   const [value, setValue] = useState(firstOne ? options[0] : defaultValue)
   const [open, setOpen] = useState(false)
 
@@ -18,14 +18,21 @@ export function SelectInput ({ options, defaultValue = null, firstOne = false, h
   }, [])
 
   const handleChange = (selected) => {
+    if (disabled) return
     setValue(selected)
     setOpen(false)
     handleOptionClick(selected)
   }
 
+  const handleClick = (e) => {
+    e.stopPropagation()
+    if (disabled) return
+    setOpen(!open)
+  }
+
   return <div className="relative w-full">
-    <div onClick={(e) => { e.stopPropagation(); setOpen(!open) }} id='fake-select' className="cursor-default text-lg pl-4
-    border-2 border-gris rounded-md flex w-full overflow-hidden">
+    <div onClick={handleClick} id='fake-select' data-disabled={disabled} className="cursor-default text-lg pl-4
+    border-2 border-gris rounded-md flex w-full overflow-hidden data-[disabled]:shadow-lg data-[disabled]:cursor-not-allowed">
       <div className='flex-1 text-left py-[2px]'>
         <span className='block py-px capitalize'>{value || 'Seleccionar'}</span>
       </div>

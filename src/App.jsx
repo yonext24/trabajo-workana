@@ -13,6 +13,9 @@ import { Modulos } from './pages/general/modulos'
 import { Roles } from './pages/usuarios/roles'
 import { Permisos } from './pages/usuarios/permisos'
 import { Usuarios } from './pages/usuarios/usuarios'
+import { Tipo } from './pages/oferta-academica/unidad-academica/tipo'
+import { Unidad } from './pages/oferta-academica/unidad-academica/unidad'
+import { Extension } from './pages/oferta-academica/extension/extension'
 function App () {
   return (
     <Router>
@@ -73,6 +76,27 @@ function App () {
                 </ProtectedRoute>
               }/>
 
+            </Route>
+
+            <Route element={<GeneralTabsLayout tabsName='oferta-academica-unidad'><Outlet /></GeneralTabsLayout>}>
+              <Route path='/oferta-academica/unidad/tipo' element={
+                <ProtectedRoute>
+                  <Tipo />
+                </ProtectedRoute>
+              }/>
+              <Route path='/oferta-academica/unidad/unidad' element={
+                <ProtectedRoute>
+                  <Unidad />
+                </ProtectedRoute>
+              }/>
+            </Route>
+
+            <Route element={<GeneralTabsLayout noTabs><Outlet /></GeneralTabsLayout>}>
+              <Route path='/oferta-academica/extension' element={
+                <ProtectedRoute>
+                  <Extension />
+                </ProtectedRoute>
+              } />
             </Route>
 
           </Route>

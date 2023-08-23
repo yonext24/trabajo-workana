@@ -15,7 +15,7 @@ const navbarEntrys = [
     text: 'Oferta Academica',
     Icon: AcademyIcon,
     sub: [
-      { text: 'Unidad Academica', Icon: GraduateIcon, href: '/oferta-academica/unidad' },
+      { text: 'Unidad Academica', Icon: GraduateIcon, href: '/oferta-academica/unidad/tipo' },
       { text: 'Extensión', Icon: HomeIcon, href: '/oferta-academica/extension' },
       { text: 'Carrera', Icon: VerifiedIcon, href: '/oferta-academica/carrera' }
     ]
@@ -47,7 +47,7 @@ export function MainLayout ({ children }) {
   }, [])
   if (location.pathname === '/login') return children
 
-  return <div id='main-layout' className={`flex flex-1 justify-between flex-row-reverse ${screenWidth.isMobile ? 'flex-col-reverse' : ''}`}>
+  return <div id='main-layout' className={`flex flex-1 max-w-full justify-between flex-row-reverse ${screenWidth.isMobile ? 'flex-col-reverse' : ''}`}>
 
     {children}
 

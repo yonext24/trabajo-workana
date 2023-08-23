@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import layoutReducer from './layout/slice'
 import dataReducer from './data/slice'
 import usuariosReducer from './usuarios/slice'
+import ofertaAcademicaReducer from './oferta-academica/slice'
 
 const rollbackerMiddleware = store => next => action => {
   if (typeof action === 'function') {
@@ -15,7 +16,8 @@ export const store = configureStore({
   reducer: {
     layout: layoutReducer,
     data: dataReducer,
-    usuarios: usuariosReducer
+    usuarios: usuariosReducer,
+    ofertaAcademica: ofertaAcademicaReducer
   },
   middleware: [rollbackerMiddleware]
 })

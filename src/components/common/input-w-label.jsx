@@ -5,7 +5,7 @@ export function InputWLabel ({ id, name, placeholder, labelText, type, inputClas
       isTextArea
         ? <textarea
           placeholder={placeholder ?? ''}
-          className={`py-1 px-2 border-2 border-gris rounded-md w-full ${inputClassName}`}
+          className={`py-1 px-2 border-2 border-gris rounded-md w-full disabled:shadow-lg disabled:cursor-not-allowed ${inputClassName}`}
           id={id}
           name={name}
           type={type}
@@ -14,7 +14,7 @@ export function InputWLabel ({ id, name, placeholder, labelText, type, inputClas
         />
         : <input
           placeholder={placeholder ?? ''}
-          className={`py-1 px-2 border-2 border-gris rounded-md w-full ${inputClassName}`}
+          className={`py-1 px-2 border-2 border-gris rounded-md w-full disabled:shadow-lg disabled:cursor-not-allowed ${inputClassName}`}
           id={id}
           name={name}
           type={type}

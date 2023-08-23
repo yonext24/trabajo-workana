@@ -2,8 +2,20 @@ import { useState, useMemo } from 'react'
 import { DownArrowIcon } from '../icons'
 import { useNavigate } from 'react-router-dom'
 
-export function RawEntry ({ text, Icon, isSub, handleClick, open, noArrow = false }) {
-  return <button onClick={() => { handleClick() }} className={`h-16 ${isSub ? 'ml-4' : ''} w-full hover:text-white
+export function RawEntry ({ text, Icon, isSub, open, noArrow = false, setOpen, href, closeModal }) {
+  const navigate = useNavigate() // <- Not the best, i know
+
+  const handleEntryClick = () => {
+    if (href) {
+      navigate(href)
+      closeModal && closeModal()
+    }
+    if (!isSub) {
+      setOpen(prev => !prev)
+    }
+  }
+
+  return <button onClick={handleEntryClick} className={`h-16 ${isSub ? 'ml-4' : ''} w-full hover:text-white
   transition-colors flex items-center justify-between text-gray-400 font-semibold ${isSub ? '' : ''}`}>
     <Icon className='h-6 w-6 mr-3' strokeWidth={2} />
     <div id='text-container' className="flex-1 text-start">
@@ -22,21 +34,11 @@ export function NavEntry ({ text, Icon, sub, href = false, closeModal = false })
   // que van a tener, esto es para que haya una animación a la hora de apretar el botón
   const maxHeightValue = useMemo(() => sub ? sub.length * 64 : 0)
 
-  const navigate = useNavigate() // <- Not the best, i know
-  const handleEntryClick = () => {
-    if (href) {
-      navigate(href)
-      closeModal && closeModal()
-      return
-    }
-    setOpen(prev => !prev)
-  }
-
   return <div className="flex flex-col overflow-hidden">
-    <RawEntry text={text} Icon={Icon} handleClick={handleEntryClick} open={open} />
+    <RawEntry text={text} Icon={Icon} open={open} setOpen={setOpen} href={href} closeModal={closeModal} />
     <div style={{ maxHeight: open ? `${maxHeightValue}px` : '0px' }} className={'transition-all duration-300 overflow-hidden'}>
       {
-        sub?.map(el => <RawEntry key={el.text} text={el.text} Icon={el.Icon} isSub={true} />)
+        sub?.map(el => <RawEntry key={el.text} text={el.text} Icon={el.Icon} isSub={true} href={el.href} closeModal={closeModal} />)
       }
     </div>
   </div>

@@ -1,8 +1,8 @@
 // Como la mayoría de modales tienen 2 botones, y uno de ellos es para cerrar, hago este componente
 // que recibe un sólo boton en children y el otro ya lo tengo controlado
-export function ButtonsContainer ({ children, closeModal }) {
-  return <div id='buttons-container' className="grid grid-cols-2 gap-12 text-white px-12
-  [&>button]:py-1 [&>button]:text-button [&>button]:bg-gris-oscuro [&>button]:rounded-md">
+export function ButtonsContainer ({ children, closeModal, alone, className }) {
+  return <div id='buttons-container' className={`grid ${alone ? 'grid-cols-1' : 'grid-cols-2'} gap-12 text-white place-content-center
+  [&>button]:py-3 [&>button]:text-button [&>button:first-of-type]:ml-auto [&>button:last-of-type]:mr-auto [&>button]:bg-gris-oscuro [&>button]:w-[200px] [&>button]:rounded-md ${className ?? ''}`}>
     {children}
     <button type='button' onClick={closeModal}>Salir</button>
 

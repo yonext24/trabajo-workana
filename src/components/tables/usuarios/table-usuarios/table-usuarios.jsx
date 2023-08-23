@@ -5,8 +5,8 @@ const toShow = ['usuario', 'nombres', 'apellidos', 'telefono', 'celular', 'cui',
 export function TableUsuarios () {
   const { showing } = useSelector(s => s.usuarios).usuarios
 
-  return <div className="border border-gris flex flex-col w-full
-  [&>#row]:grid [&>#row]:grid-cols-2 [&_#td]:py-2 [&_#row:not(:last-of-type)>#td]:border-b [&_#td]:px-2 font-semibold">
+  return <div className="border border-gris flex flex-col w-full font-bold
+  [&>#row]:grid [&>#row]:grid-cols-2 [&_#td]:py-[9px] [&_#row:not(:last-of-type)>#td]:border-b [&_#td]:px-2">
     {
       toShow.map(key => ({ [key]: showing[key] })).map((el) => {
         const element = Object.entries(el)[0]
@@ -15,7 +15,7 @@ export function TableUsuarios () {
           <div id='row' key={element[0]}>
 
             <div id='td' className='capitalize border-r'>{element[0].replace(/_/g, ' ')}</div>
-            <div id='td' className=''>{element[1]}</div>
+            <div id='td' className='text-center'>{element[1]}</div>
 
           </div>
         )

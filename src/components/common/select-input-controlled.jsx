@@ -1,7 +1,7 @@
 import { Controller } from 'react-hook-form'
 import { SelectInput } from './select-input'
 
-export function SelectInputControlled ({ control, name, handleOptionClick, defaultValue, options, rules }) {
+export function SelectInputControlled ({ control, name, handleOptionClick, defaultValue, options, rules, disabled }) {
   return <Controller
     name={name}
     control={control}
@@ -10,6 +10,7 @@ export function SelectInputControlled ({ control, name, handleOptionClick, defau
     render={({ field: { onChange, value } }) => (
       <SelectInput
         options={options}
+        disabled={disabled}
         defaultValue={value}
         handleOptionClick={(selected) => {
           handleOptionClick && handleOptionClick(selected)
