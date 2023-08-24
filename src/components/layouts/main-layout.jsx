@@ -17,7 +17,7 @@ const navbarEntrys = [
     sub: [
       { text: 'Unidad Academica', Icon: GraduateIcon, href: '/oferta-academica/unidad/tipo' },
       { text: 'Extensión', Icon: HomeIcon, href: '/oferta-academica/extension' },
-      { text: 'Carrera', Icon: VerifiedIcon, href: '/oferta-academica/carrera' }
+      { text: 'Carrera', Icon: VerifiedIcon, href: '/oferta-academica/carrera/nivel' }
     ]
   },
   { text: 'Centros Educativos', Icon: HomeIcon, href: '/centros' },

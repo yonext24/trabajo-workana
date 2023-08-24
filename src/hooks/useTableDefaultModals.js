@@ -2,7 +2,7 @@ import { DefaultComp } from '@/components/fallbacks/default-comp'
 import { useLayoutActions } from './useLayoutActions'
 import { DeleteModal } from '@/components/modals/delete-modal'
 
-export function useTableDefaultModals ({ place, add, update, del, perm }) {
+export function useTableDefaultModals ({ place, add, update, del, perm, see }) {
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
 
   const handleAdd = () => {
@@ -55,11 +55,25 @@ export function useTableDefaultModals ({ place, add, update, del, perm }) {
         closeModal: () => {
           closeModalFunc(modalId)
         },
-        ...perm?.props,
+        ...perm,
+        ...funcProps
+      }
+    })
+  }
+  const handleSee = (funcProps) => {
+    const modalId = `see-${place}-modal`
+    openModal({
+      Element: see?.el ?? DefaultComp,
+      id: modalId,
+      props: {
+        closeModal: () => {
+          closeModalFunc(modalId)
+        },
+        ...see,
         ...funcProps
       }
     })
   }
 
-  return { handleAdd, handleDel, handleUpd, handlePerm }
+  return { handleAdd, handleDel, handleUpd, handlePerm, handleSee }
 }

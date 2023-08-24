@@ -16,6 +16,8 @@ import { Usuarios } from './pages/usuarios/usuarios'
 import { Tipo } from './pages/oferta-academica/unidad-academica/tipo'
 import { Unidad } from './pages/oferta-academica/unidad-academica/unidad'
 import { Extension } from './pages/oferta-academica/extension/extension'
+import { Nivel } from './pages/oferta-academica/carrera/nivel'
+import { Carrera } from './pages/oferta-academica/carrera/carrera'
 function App () {
   return (
     <Router>
@@ -95,6 +97,19 @@ function App () {
               <Route path='/oferta-academica/extension' element={
                 <ProtectedRoute>
                   <Extension />
+                </ProtectedRoute>
+              } />
+            </Route>
+
+            <Route element={<GeneralTabsLayout tabsName='oferta-academica-carrera'><Outlet /></GeneralTabsLayout>}>
+              <Route path='oferta-academica/carrera/nivel' element={
+                <ProtectedRoute>
+                  <Nivel />
+                </ProtectedRoute>
+              } />
+              <Route path='oferta-academica/carrera/carrera' element={
+                <ProtectedRoute>
+                  <Carrera />
                 </ProtectedRoute>
               } />
             </Route>
