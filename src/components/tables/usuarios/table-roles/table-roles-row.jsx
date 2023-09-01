@@ -9,8 +9,8 @@ export function TableRolesRow ({ nombre, descripcion }) {
   const { deleteRole } = useUsuariosActions()
   const { handleUpd, handleDel, handlePerm } = useTableDefaultModals({
     place: 'roles',
-    perm: { el: RolePermissionsModal, nombre },
-    update: { el: UpdRolesModal, entry: nombre },
+    perm: { el: RolePermissionsModal, nombre, descripcion },
+    update: { el: UpdRolesModal, nombre, descripcion },
     del: {
       onClick: () => {
         deleteRole({ nombre })

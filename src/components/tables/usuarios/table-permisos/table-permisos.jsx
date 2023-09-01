@@ -8,7 +8,6 @@ export function TablePermisos ({ outsideData, columns = [], selectFunction = fal
   // eslint-disable-next-line no-unused-vars
   const { data, loading, filtered, revalidating, error } = useSelector(s => s.usuarios).permisos
   const { getPermisosData } = useUsuariosActions()
-  console.log(data)
 
   useEffect(() => { if (!outsideData) getPermisosData() }, [])
 

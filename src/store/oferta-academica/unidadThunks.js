@@ -1,5 +1,6 @@
 import { fakeData } from '@/assets/fake-api-call'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { setThunks } from '../setThunks'
 
 export const get_unidad_academica_tipos = createAsyncThunk('oferta-academica/unidad-academica/tipo/get', async (_, api) => {
   await new Promise(resolve => setTimeout(resolve, 1500))
@@ -19,7 +20,7 @@ export const delete_unidad_academica_tipos = createAsyncThunk('oferta-academica/
 export const update_unidad_academica_tipos = createAsyncThunk('oferta-academica/unidad-academica/tipos/update', async ({ nombre, newData }, api) => {
   await new Promise(resolve => setTimeout(resolve, 1500))
 
-  return { nombre, newData }
+  return { id: nombre, newData }
 })
 
 /*
@@ -52,70 +53,50 @@ export const delete_unidad_academica_unidad = createAsyncThunk('oferta-academica
 export const update_unidad_academica_unidad = createAsyncThunk('oferta-academica/unidad-academica/unidad/update', async ({ nombre, newData }, api) => {
   await new Promise(resolve => setTimeout(resolve, 1500))
 
-  return { nombre, newData }
+  return { id: nombre, newData }
 })
 
 export const setUnidadAcademicaExtraReducers = builder => {
-  builder.addCase(get_unidad_academica_tipos.fulfilled, (state, action) => {
-    const data = action.payload
-    state.unidadAcademica.tipo.data = data
-    state.unidadAcademica.tipo.loading = false
-    state.unidadAcademica.tipo.revalidate = false
-    state.unidadAcademica.tipo.error = null
-  })
-  builder.addCase(add_unidad_academica_tipos.fulfilled, (state, action) => {
-    const data = action.payload
-    state.unidadAcademica.tipo.data.push(data)
-    state.unidadAcademica.tipo.loading = false
-    state.unidadAcademica.tipo.error = null
-  })
-  builder.addCase(delete_unidad_academica_tipos.fulfilled, (state, action) => {
-    const nombre = action.payload
-    state.unidadAcademica.tipo.data = state.unidadAcademica.tipo.data.filter(el => el.nombre !== nombre)
-    state.unidadAcademica.tipo.loading = false
-    state.unidadAcademica.tipo.revalidate = false
-    state.unidadAcademica.tipo.error = null
-  })
-  builder.addCase(update_unidad_academica_tipos.fulfilled, (state, action) => {
-    const { newData, nombre } = action.payload
-    state.unidadAcademica.tipo.data = state.unidadAcademica.tipo.data.map(el => {
-      if (el.nombre === nombre) return newData
-      return el
-    })
-    state.unidadAcademica.tipo.loading = false
-    state.unidadAcademica.tipo.revalidate = false
-    state.unidadAcademica.tipo.error = null
-  })
-  builder.addCase(get_unidad_academica_unidad.fulfilled, (state, action) => {
-    const data = action.payload
-    state.unidadAcademica.unidad.data = data
+  const toLoop = [
+    {
+      tipo: {
+        get: {
+          function: get_unidad_academica_tipos
+        },
+        add: {
+          function: add_unidad_academica_tipos
+        },
+        update: {
+          function: update_unidad_academica_tipos,
+          filterBy: 'nombre'
+        },
+        del: {
+          function: delete_unidad_academica_tipos,
+          filterBy: 'nombre'
+        },
+        hasFiltered: true
+      }
+    },
+    {
+      unidad: {
+        get: {
+          function: get_unidad_academica_unidad
+        },
+        add: {
+          function: add_unidad_academica_unidad
+        },
+        update: {
+          function: update_unidad_academica_unidad,
+          filterBy: 'nombre'
+        },
+        del: {
+          function: delete_unidad_academica_unidad,
+          filterBy: 'nombre'
+        },
+        hasFiltered: true
+      }
+    }
+  ]
 
-    state.unidadAcademica.unidad.filtered = data
-    state.unidadAcademica.unidad.loading = false
-    state.unidadAcademica.unidad.revalidate = false
-    state.unidadAcademica.unidad.error = null
-  })
-  builder.addCase(add_unidad_academica_unidad.fulfilled, (state, action) => {
-    const data = action.payload
-    state.unidadAcademica.unidad.data.push(data)
-    state.unidadAcademica.unidad.loading = false
-    state.unidadAcademica.unidad.error = null
-  })
-  builder.addCase(delete_unidad_academica_unidad.fulfilled, (state, action) => {
-    const nombre = action.payload
-    state.unidadAcademica.unidad.data = state.unidadAcademica.unidad.data.filter(el => el.nombre !== nombre)
-    state.unidadAcademica.unidad.loading = false
-    state.unidadAcademica.unidad.revalidate = false
-    state.unidadAcademica.unidad.error = null
-  })
-  builder.addCase(update_unidad_academica_unidad.fulfilled, (state, action) => {
-    const { newData, nombre } = action.payload
-    state.unidadAcademica.unidad.data = state.unidadAcademica.unidad.data.map(el => {
-      if (el.nombre === nombre) return newData
-      return el
-    })
-    state.unidadAcademica.unidad.loading = false
-    state.unidadAcademica.unidad.revalidate = false
-    state.unidadAcademica.unidad.error = null
-  })
+  setThunks({ builder, toLoop, placeName: 'unidadAcademica' })
 }

@@ -5,12 +5,12 @@ import { ModalBackground } from '@/components/modals/modal-background'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useForm } from 'react-hook-form'
 
-export function UpdateNivelModal ({ closeModal, nombre, descripcion }) {
+export function UpdateTipoRecursoModal ({ closeModal, nombre, descripcion }) {
   const { handleSubmit, register } = useForm()
-  const { updateCarreraNivel } = useOfertaAcademicaActions()
+  const { updateCarreraTipoRecurso } = useOfertaAcademicaActions()
 
-  const handleUpload = data => {
-    updateCarreraNivel({ newData: { ...data, nombre }, nombre })
+  const handleUpload = newData => {
+    updateCarreraTipoRecurso({ newData: { ...newData, nombre }, nombre })
       .then(closeModal)
   }
 

@@ -8,25 +8,27 @@ import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { TablePermisos } from '@/components/tables/usuarios/table-permisos/table-permisos'
+import { ButtonsContainer } from '../../buttons-container'
 
-export function UpdRolesModal ({ closeModal }) {
+export function UpdRolesModal ({ closeModal, nombre, descripcion }) {
   const { permisos: { data: permisosData }, roles: { data: rolesData } } = useSelector(s => s.usuarios)
   const { register } = useForm()
-  const { getPermisosData } = useUsuariosActions()
+  const { getPermisosData, getRolePermissions } = useUsuariosActions()
   const [filteredRows, setFilteredRows] = useState(permisosData)
   const [addedPermissions, setAddedPermissions] = useState([])
 
   useEffect(() => {
-    getPermisosData(false)
+    getPermisosData()
+    getRolePermissions(nombre)
   }, [])
 
   return <ModalBackground closeModal={closeModal} onClick={closeModal}>
-    <DefaultModalLayout title='Modificar Rol' className={'!max-w-5xl !max-h-[95vh] !mx-4 overflow-auto'}>
-      <form className='p-6 px-8 flex flex-col gap-y-3'>
+    <DefaultModalLayout title='Modificar Rol' className={'!max-w-5xl !max-h-[98vh] !mx-4 overflow-hidden'}>
+      <form className='p-6 px-8 flex flex-col gap-y-3 overflow-y-auto'>
 
         <div className='grid gap-3 grid-cols-[.7fr_1fr]'>
-          <InputWLabel register={register} name='nombre' id='nombre' labelText='Nombre' required type='text' />
-          <InputWLabel register={register} name='descripcion' id='descripcion' labelText='Descripcion' required type='text' />
+          <InputWLabel register={register} name='nombre' value={nombre} labelText='Nombre' disabled type='text' />
+          <InputWLabel register={register} name='descripcion' defaultValue={descripcion} id='descripcion' labelText='Descripcion' required type='text' />
         </div>
 
         <h4 className='text-2xl'>Agregar Permisos</h4>
@@ -34,6 +36,12 @@ export function UpdRolesModal ({ closeModal }) {
         <PermisosFilter outsideFunc={setFilteredRows} />
 
         <TablePermisos outsideData={filteredRows} selectFunction={setAddedPermissions} columns={[{ text: 'Agregar' }]} />
+
+        <ButtonsContainer className={'[&>button]:py-[6px]'}>
+          <button type='submit'>
+            Actualizar
+          </button>
+        </ButtonsContainer>
 
       </form>
 

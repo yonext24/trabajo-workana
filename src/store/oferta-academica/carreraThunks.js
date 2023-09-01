@@ -1,5 +1,6 @@
 import { fakeData } from '@/assets/fake-api-call'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { setThunks } from '../setThunks'
 
 export const get_carrera_nivel_data = createAsyncThunk('oferta-academica/carrera/nivel/get', async () => {
   await new Promise(resolve => setTimeout(resolve, 2000))
@@ -11,6 +12,12 @@ export const add_carrera_nivel = createAsyncThunk('oferta-academica/carrera/nive
   await new Promise(resolve => setTimeout(resolve, 2000))
 
   return newData
+})
+
+export const update_carrera_nivel = createAsyncThunk('oferta-academica/carrera/nivel/update', async ({ nombre, newData }) => {
+  await new Promise(resolve => setTimeout(resolve, 2000))
+
+  return { id: nombre, newData }
 })
 
 export const delete_carrera_nivel = createAsyncThunk('oferta-academica/carrera/nivel/delete', async ({ nombre }) => {
@@ -37,54 +44,154 @@ export const add_carrera_carrera = createAsyncThunk('oferta-academica/carrera/ca
   return newData
 })
 
+export const update_carrera_carrera = createAsyncThunk('oferta-academica/carrera/carrera/update', async ({ nombre, newData }) => {
+  await new Promise(resolve => setTimeout(resolve, 2000))
+
+  return { id: nombre, newData }
+})
+
 export const delete_carrera_carrera = createAsyncThunk('oferta-academica/carrera/carrera/delete', async ({ nombre }) => {
   await new Promise(resolve => setTimeout(resolve, 2000))
 
   return nombre
 })
 
+/* *********************************************************************************************
+
+                                    TIPO_RECURSO THUNKS
+
+********************************************************************************************* */
+
+export const get_tipo_recurso_data = createAsyncThunk('oferta-academica/carrera/tipo_recurso/get', async () => {
+  await new Promise(resolve => setTimeout(resolve, 2000))
+
+  return fakeData({ nombre: 8, descripcion: 15 })
+})
+
+export const add_tipo_recurso = createAsyncThunk('oferta-academica/carrera/tipo_recurso/add', async ({ newData }) => {
+  await new Promise(resolve => setTimeout(resolve, 2000))
+
+  return newData
+})
+
+export const delete_tipo_recurso = createAsyncThunk('oferta-academica/carrera/tipo_recurso/delete', async ({ nombre }) => {
+  await new Promise(resolve => setTimeout(resolve, 2000))
+
+  return nombre
+})
+
+export const update_tipo_recurso = createAsyncThunk('oferta-academica/carrera/tipo_recurso/update', async ({ nombre, newData }) => {
+  await new Promise(resolve => setTimeout(resolve, 2000))
+
+  return { id: nombre, newData }
+})
+/* *********************************************************************************************
+
+                                    RECURSO THUNKS
+
+********************************************************************************************* */
+
+export const get_recurso_data = createAsyncThunk('oferta-academica/carrera/recurso/get', async () => {
+  await new Promise(resolve => setTimeout(resolve, 200))
+
+  return fakeData({ nombre: 8, descripcion: 15, tipo: 8 })
+})
+
+export const add_recurso = createAsyncThunk('oferta-academica/carrera/recurso/add', async ({ newData }) => {
+  await new Promise(resolve => setTimeout(resolve, 200))
+
+  return newData
+})
+
+export const delete_recurso = createAsyncThunk('oferta-academica/carrera/recurso/delete', async ({ nombre }) => {
+  await new Promise(resolve => setTimeout(resolve, 2000))
+
+  return nombre
+})
+
+export const update_recurso = createAsyncThunk('oferta-academica/carrera/recurso/update', async ({ nombre, newData }) => {
+  await new Promise(resolve => setTimeout(resolve, 2000))
+
+  return { id: nombre, newData }
+})
+
+const toLoop = [
+  {
+    carrera: {
+      get: {
+        function: get_carrera_carrera_data
+      },
+      add: {
+        function: add_carrera_carrera
+      },
+      update: {
+        function: update_carrera_carrera,
+        filterBy: 'nombre'
+      },
+      del: {
+        function: delete_carrera_carrera,
+        filterBy: 'nombre'
+      }
+    }
+  },
+  {
+    tipo_recurso: {
+      get: {
+        function: get_tipo_recurso_data
+      },
+      add: {
+        function: add_tipo_recurso
+      },
+      update: {
+        function: update_tipo_recurso,
+        filterBy: 'nombre'
+      },
+      del: {
+        function: delete_tipo_recurso,
+        filterBy: 'nombre'
+      }
+    }
+  },
+  {
+    nivel: {
+      get: {
+        function: get_carrera_nivel_data
+      },
+      add: {
+        function: add_carrera_nivel
+      },
+      update: {
+        function: update_carrera_nivel,
+        filterBy: 'nombre'
+      },
+      del: {
+        function: delete_carrera_nivel,
+        filterBy: 'nombre'
+      }
+
+    }
+  },
+  {
+    recurso: {
+      get: {
+        function: get_recurso_data
+      },
+      add: {
+        function: add_recurso
+      },
+      update: {
+        function: update_recurso,
+        filterBy: 'nombre'
+      },
+      del: {
+        function: delete_recurso,
+        filterBy: 'nombre'
+      },
+      hasFiltered: true
+    }
+  }
+]
+
 export const setCarreraThunks = builder => {
-  builder.addCase(get_carrera_nivel_data.fulfilled, (state, action) => {
-    const data = action.payload
-    state.carrera.nivel.data = data
-    state.carrera.nivel.loading = false
-    state.carrera.nivel.revalidating = false
-    state.carrera.nivel.error = null
-  })
-  builder.addCase(add_carrera_nivel.fulfilled, (state, action) => {
-    const data = action.payload
-    state.carrera.nivel.data.push(data)
-    state.carrera.nivel.loading = false
-    state.carrera.nivel.revalidating = false
-    state.carrera.nivel.error = null
-  })
-  builder.addCase(delete_carrera_nivel.fulfilled, (state, action) => {
-    const nombre = action.payload
-    state.carrera.nivel.data = state.carrera.nivel.data.filter(el => el.nombre !== nombre)
-    state.carrera.nivel.loading = false
-    state.carrera.nivel.revalidating = false
-    state.carrera.nivel.error = null
-  })
-  builder.addCase(get_carrera_carrera_data.fulfilled, (state, action) => {
-    const data = action.payload
-    state.carrera.carrera.data = data
-    state.carrera.carrera.filtered = data
-    state.carrera.carrera.loading = false
-    state.carrera.carrera.revalidating = false
-    state.carrera.carrera.error = null
-  })
-  builder.addCase(add_carrera_carrera.fulfilled, (state, action) => {
-    const data = action.payload
-    state.carrera.carrera.data.push(data)
-    state.carrera.carrera.loading = false
-    state.carrera.carrera.revalidating = false
-    state.carrera.carrera.error = null
-  })
-  builder.addCase(delete_carrera_carrera.fulfilled, (state, action) => {
-    const nombre = action.payload
-    state.carrera.carrera.data = state.carrera.carrera.data.filter(el => el.nombre !== nombre)
-    state.carrera.carrera.loading = false
-    state.carrera.carrera.revalidating = false
-    state.carrera.carrera.error = null
-  })
+  setThunks({ builder, toLoop, placeName: 'carrera' })
 }

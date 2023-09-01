@@ -39,6 +39,19 @@ const initialState = {
       data: [],
       filtered: [],
       error: null
+    },
+    tipo_recurso: {
+      loading: false,
+      revalidating: false,
+      data: [],
+      error: null
+    },
+    recurso: {
+      loading: false,
+      revalidating: false,
+      data: [],
+      filtered: [],
+      error: null
     }
   }
 }
@@ -55,6 +68,10 @@ export const ofertaAcademicaSlice = createSlice({
     set_extension_filtered: (state, action) => {
       const { filteredData } = action.payload
       state.extension.filtered = filteredData
+    },
+    set_recurso_filtered: (state, action) => {
+      const { filteredData } = action.payload
+      state.carrera.recurso.filtered = filteredData
     }
 
   },
@@ -65,5 +82,5 @@ export const ofertaAcademicaSlice = createSlice({
   }
 })
 
-export const { set_unidad_filtered, set_extension_filtered } = ofertaAcademicaSlice.actions
+export const { set_unidad_filtered, set_extension_filtered, set_recurso_filtered } = ofertaAcademicaSlice.actions
 export default ofertaAcademicaSlice.reducer

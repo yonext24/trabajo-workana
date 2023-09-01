@@ -47,8 +47,8 @@ export function ExtensionMainTableRow ({ ua, codigo, nombre, estado, fecha_de_cr
     {
       id: 5,
       carreras: [
-        { type: 'add', onClick: handleCarreraAdd },
-        { type: 'see', onClick: handleCarreraUpd }
+        { type: 'add', onClick: handleCarreraUpd },
+        { type: 'see', onClick: handleCarreraAdd }
       ]
     },
     {

@@ -18,6 +18,9 @@ import { Unidad } from './pages/oferta-academica/unidad-academica/unidad'
 import { Extension } from './pages/oferta-academica/extension/extension'
 import { Nivel } from './pages/oferta-academica/carrera/nivel'
 import { Carrera } from './pages/oferta-academica/carrera/carrera'
+import { TipoRecurso } from './pages/oferta-academica/carrera/tipo-recurso'
+import { Recurso } from './pages/oferta-academica/carrera/recurso'
+import { Reportes } from './pages/reportes/reportes'
 function App () {
   return (
     <Router>
@@ -112,7 +115,27 @@ function App () {
                   <Carrera />
                 </ProtectedRoute>
               } />
+              <Route path='oferta-academica/carrera/tipo-recurso' element={
+                <ProtectedRoute>
+                  <TipoRecurso />
+                </ProtectedRoute>
+              } />
+              <Route path='oferta-academica/carrera/recurso' element={
+                <ProtectedRoute>
+                  <Recurso />
+                </ProtectedRoute>
+              } />
             </Route>
+
+          </Route>
+
+          <Route path='reportes' element={
+            <GeneralLayout text={'Reportes'}>
+              <GeneralTabsLayout noTabs>
+                <Reportes />
+              </GeneralTabsLayout>
+            </GeneralLayout>
+          }>
 
           </Route>
 

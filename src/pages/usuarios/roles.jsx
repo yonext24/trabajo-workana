@@ -10,10 +10,11 @@ import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 
 export function Roles () {
   const { handleAdd } = useTableDefaultModals({ add: { el: AddRolesModal }, place: 'roles' })
-  const { getRolesData } = useUsuariosActions()
+  const { getRolesData, getPermisosData } = useUsuariosActions()
 
   useEffect(() => {
     getRolesData()
+    getPermisosData()
   }, [])
 
   return <div id='page-content'>

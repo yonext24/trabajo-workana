@@ -1,6 +1,22 @@
-import { add_carrera_carrera, add_carrera_nivel, delete_carrera_carrera, delete_carrera_nivel, get_carrera_carrera_data, get_carrera_nivel_data } from '@/store/oferta-academica/carreraThunks'
+import {
+  add_carrera_carrera,
+  add_carrera_nivel,
+  add_recurso,
+  add_tipo_recurso,
+  delete_carrera_carrera,
+  delete_carrera_nivel,
+  delete_recurso,
+  delete_tipo_recurso,
+  get_carrera_carrera_data,
+  get_carrera_nivel_data,
+  get_recurso_data,
+  get_tipo_recurso_data,
+  update_carrera_nivel,
+  update_recurso,
+  update_tipo_recurso
+} from '@/store/oferta-academica/carreraThunks'
 import { add_extension, get_extension_data } from '@/store/oferta-academica/extensionThunks'
-import { set_extension_filtered, set_unidad_filtered } from '@/store/oferta-academica/slice'
+import { set_extension_filtered, set_recurso_filtered, set_unidad_filtered } from '@/store/oferta-academica/slice'
 import {
   add_unidad_academica_tipos,
   add_unidad_academica_unidad,
@@ -17,10 +33,22 @@ export function useOfertaAcademicaActions () {
 
   const setUnidadFiltered = (filteredData) => { dispatch(set_unidad_filtered({ filteredData })) }
   const setExtensionFiltered = (filteredData) => { dispatch(set_extension_filtered({ filteredData })) }
+  const setRecursoFiltered = (filteredData) => { dispatch(set_recurso_filtered({ filteredData })) }
 
   const getCarreraNivelData = async () => { return dispatch(get_carrera_nivel_data()) }
   const addCarreraNivel = async (newData) => { return dispatch(add_carrera_nivel({ newData })) }
   const deleteCarreraNivel = async (nombre) => { return dispatch(delete_carrera_nivel({ nombre })) }
+  const updateCarreraNivel = async ({ nombre, newData }) => { return dispatch(update_carrera_nivel({ nombre, newData })) }
+
+  const getCarreraTipoRecursoData = async () => { return dispatch(get_tipo_recurso_data()) }
+  const addCarreraTipoRecurso = async (newData) => { return dispatch(add_tipo_recurso({ newData })) }
+  const deleteCarreraTipoRecurso = async (nombre) => { return dispatch(delete_tipo_recurso({ nombre })) }
+  const updateCarreraTipoRecurso = async ({ nombre, newData }) => { return dispatch(update_tipo_recurso({ nombre, newData })) }
+
+  const getCarreraRecursoData = async () => { return dispatch(get_recurso_data()) }
+  const addCarreraRecurso = async (newData) => { return dispatch(add_recurso({ newData })) }
+  const deleteCarreraRecurso = async (nombre) => { return dispatch(delete_recurso({ nombre })) }
+  const updateCarreraRecurso = async ({ nombre, newData }) => { return dispatch(update_recurso({ nombre, newData })) }
 
   const getCarreraCarreraData = async () => { return dispatch(get_carrera_carrera_data()) }
   const addCarreraCarrera = async (newData) => { return dispatch(add_carrera_carrera({ newData })) }
@@ -50,13 +78,23 @@ export function useOfertaAcademicaActions () {
     deleteUnidadAcademicaUnidad,
     setUnidadFiltered,
     setExtensionFiltered,
+    setRecursoFiltered,
     getOfertaAcademicaExtension,
     addOfertaAcademicaExtension,
     getCarreraNivelData,
     addCarreraNivel,
+    updateCarreraNivel,
     deleteCarreraNivel,
     getCarreraCarreraData,
     addCarreraCarrera,
-    deleteCarreraCarrera
+    deleteCarreraCarrera,
+    getCarreraTipoRecursoData,
+    deleteCarreraTipoRecurso,
+    addCarreraTipoRecurso,
+    updateCarreraTipoRecurso,
+    getCarreraRecursoData,
+    addCarreraRecurso,
+    deleteCarreraRecurso,
+    updateCarreraRecurso
   }
 }

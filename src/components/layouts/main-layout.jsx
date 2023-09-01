@@ -13,6 +13,7 @@ const navbarEntrys = [
   { text: 'Usuarios', Icon: PersonsIcon, href: '/usuarios/roles' },
   {
     text: 'Oferta Academica',
+    includes: 'oferta-academica',
     Icon: AcademyIcon,
     sub: [
       { text: 'Unidad Academica', Icon: GraduateIcon, href: '/oferta-academica/unidad/tipo' },
@@ -20,9 +21,9 @@ const navbarEntrys = [
       { text: 'Carrera', Icon: VerifiedIcon, href: '/oferta-academica/carrera/nivel' }
     ]
   },
+  { text: 'Reportes', Icon: ReportsIcon, href: '/reportes' },
   { text: 'Centros Educativos', Icon: HomeIcon, href: '/centros' },
-  { text: 'Geografía', Icon: PlanetIcon, href: '/geografia' },
-  { text: 'Reportes', Icon: ReportsIcon, href: '/ofreta-academica/reportes' }
+  { text: 'Geografía', Icon: PlanetIcon, href: '/geografia' }
 
 ]
 

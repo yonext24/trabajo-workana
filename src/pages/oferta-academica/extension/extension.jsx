@@ -16,6 +16,8 @@ export function Extension () {
     setExtensionFiltered(data)
   }, [data])
 
+  console.log({ data })
+
   useEffect(() => { getOfertaAcademicaExtension() }, [])
 
   return <div id="page-content">

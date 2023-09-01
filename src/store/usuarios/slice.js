@@ -1,6 +1,5 @@
-import { fakeData } from '@/assets/fake-api-call'
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { add_roles_extraReducers } from './thunks'
+import { createSlice } from '@reduxjs/toolkit'
+import { addUsuariosExtraReducers } from './thunks'
 
 const fakeUsers = [
   {
@@ -85,53 +84,6 @@ const fakeUsers = [
   }
 ]
 
-export const get_roles_data = createAsyncThunk('usuarios/roles/get_data', async (_, api) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return fakeData({ nombre: 10, descripcion: 20 })
-})
-
-export const get_role_permissions = createAsyncThunk('usuarios/roles/get_permissions', async ({ role }, api) => {
-  await new Promise(resolve => setTimeout(resolve, 1000))
-  const modulos = api.getState().data.general.modulos.data
-
-  let data = fakeData({ modulo: 10, operacion: 8, unidad: 7, extension: 6, nivel: 5 })
-
-  const operaciones = ['Create', 'Delete', 'Update', 'Read']
-
-  data = data.map((el, id) => ({
-    id,
-    unidad: 1,
-    nivel: 2,
-    extension: 3,
-    operacion: operaciones[Math.floor(Math.random() * operaciones.length)],
-    modulo: modulos[Math.floor(Math.random() * modulos.length)]
-  }))
-
-  return { role, data }
-})
-
-export const get_permisos_data = createAsyncThunk('usuarios/permisos/get_data', async (revalidate = true, api) => {
-  const permisos = api.getState().usuarios.permisos.data
-  if (permisos.length > 0 && !revalidate) return permisos
-
-  await new Promise(resolve => setTimeout(resolve, 2000))
-  const modulos = api.getState().data.general.modulos.data
-
-  const data = fakeData({ modulo: 10, operacion: 8, unidad: 7, extension: 6, nivel: 5 })
-
-  const operaciones = ['Create', 'Delete', 'Update', 'Read']
-
-  return data.map((el, id) => ({
-    id,
-    unidad: 1,
-    nivel: 2,
-    extension: 3,
-    operacion: operaciones[Math.floor(Math.random() * operaciones.length)],
-    modulo: modulos[Math.floor(Math.random() * modulos.length)]
-  }))
-})
-
 const initialState = {
   roles: {
     data: [],
@@ -172,22 +124,7 @@ const usuariosSlice = createSlice({
 
   },
   extraReducers: (builder) => {
-    builder.addCase(get_roles_data.fulfilled, (state, action) => {
-      state.roles.data = action.payload
-    })
-    builder.addCase(get_role_permissions.fulfilled, (state, action) => {
-      const { role, data } = action.payload
-      state.roles.data = state.roles.data.map(el => {
-        if (el.nombre === role) return { ...el, permissions: data }
-        return el
-      })
-    })
-    builder.addCase(get_permisos_data.fulfilled, (state, action) => {
-      state.permisos.data = action.payload
-      state.permisos.filtered = action.payload
-    })
-
-    add_roles_extraReducers(builder)
+    addUsuariosExtraReducers(builder)
   }
 })
 
