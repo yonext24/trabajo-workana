@@ -1,9 +1,11 @@
 import { useLocation } from 'react-router-dom'
 import { LogoutIcon } from '../icons'
 import { NavEntry, RawEntry } from './nav-entry'
+import { useAuthActions } from '@/hooks/useAuthActions'
 
 export default function Navbar ({ entrys }) {
   const location = useLocation().pathname
+  const { Logout } = useAuthActions()
 
   return <>
     <div className='w-[250px] max-[850px]:w-[210px] h-full' />
@@ -16,7 +18,7 @@ export default function Navbar ({ entrys }) {
       </div>
       <div className="py-5 border-t-2 mr-8 border-neutral-400">
         <span className='text-center font-bold'>admin1</span>
-        <RawEntry Icon={LogoutIcon} text={'Salir'} handleClick={() => {}} noArrow />
+        <RawEntry Icon={LogoutIcon} text={'Salir'} handleClick={Logout} noArrow />
       </div>
     </nav>
   </>

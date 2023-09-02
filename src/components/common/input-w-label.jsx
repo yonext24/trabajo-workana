@@ -1,6 +1,8 @@
-export function InputWLabel ({ id, name, placeholder, labelText, type, inputClassName, register, isTextArea = false, required, ...props }) {
-  return <div className="flex flex-col">
-    <label htmlFor={id ?? name} className="font-semibold text-lg capitalize">{labelText ?? name}</label>
+export function InputWLabel ({ id, name, placeholder, labelText, type, inputClassName, register, isTextArea = false, noLabel = false, required, ...props }) {
+  return <div className={'flex flex-col'} id='input-w-label'>
+    {
+      !noLabel && <label htmlFor={id ?? name} className="font-semibold text-lg capitalize">{labelText ?? name}</label>
+    }
     {
       isTextArea
         ? <textarea

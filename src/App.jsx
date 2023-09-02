@@ -21,7 +21,17 @@ import { Carrera } from './pages/oferta-academica/carrera/carrera'
 import { TipoRecurso } from './pages/oferta-academica/carrera/tipo-recurso'
 import { Recurso } from './pages/oferta-academica/carrera/recurso'
 import { Reportes } from './pages/reportes/reportes'
+import { CentrosEducativos } from './pages/centros-educativos/centros-educativos'
+import { Geografia } from './pages/geografia/geografia'
+import { useEffect } from 'react'
+import { useAuthActions } from './hooks/useAuthActions'
+import { Perfil } from './pages/perfil'
+import { CambiarContrasena } from './pages/cambiar-contraseña'
+
 function App () {
+  const { CheckSession } = useAuthActions()
+  useEffect(() => { CheckSession() }, [])
+
   return (
     <Router>
 
@@ -132,12 +142,50 @@ function App () {
           <Route path='reportes' element={
             <GeneralLayout text={'Reportes'}>
               <GeneralTabsLayout noTabs>
-                <Reportes />
+                <ProtectedRoute>
+                  <Reportes />
+                </ProtectedRoute>
               </GeneralTabsLayout>
             </GeneralLayout>
-          }>
+          } />
 
-          </Route>
+          <Route path='centros' element={
+            <GeneralLayout text={'Centros Educativos'}>
+              <GeneralTabsLayout noTabs>
+                <ProtectedRoute>
+                  <CentrosEducativos />
+                </ProtectedRoute>
+              </GeneralTabsLayout>
+            </GeneralLayout>
+          } />
+
+          <Route path='geografia' element={
+            <GeneralLayout text={'Geografía'}>
+              <GeneralTabsLayout noTabs>
+                <ProtectedRoute>
+                  <Geografia />
+                </ProtectedRoute>
+              </GeneralTabsLayout>
+            </GeneralLayout>
+          } />
+          <Route path='perfil' element={
+            <GeneralLayout text={'Perfil de usuario'}>
+              <GeneralTabsLayout noTabs>
+                <ProtectedRoute>
+                  <Perfil />
+                </ProtectedRoute>
+              </GeneralTabsLayout>
+            </GeneralLayout>
+          } />
+          <Route path='cambiar-contraseña' element={
+            <GeneralLayout text={'Cambiar contraseña'}>
+              <GeneralTabsLayout noTabs>
+                <ProtectedRoute>
+                  <CambiarContrasena />
+                </ProtectedRoute>
+              </GeneralTabsLayout>
+            </GeneralLayout>
+          } />
 
         </Routes>
 

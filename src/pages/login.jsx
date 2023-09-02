@@ -3,10 +3,24 @@ import { InputWLabel } from '../components/common/input-w-label'
 import { ReactPortal } from '../components/modals/react-portal'
 import { useLayoutActions } from '../hooks/useLayoutActions'
 import { PasswordRecoveryModal } from '../components/modals/login/password-recovery-modal'
+import { useForm } from 'react-hook-form'
+import { useAuthActions } from '@/hooks/useAuthActions'
+import { useEffect } from 'react'
+import { USER_POSSIBLE_STATES } from '@/store/auth/slice'
+import { useNavigate } from 'react-router-dom'
 
 export function Login () {
+  const { handleSubmit, register } = useForm()
   const { modals } = useSelector(s => s.layout)
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
+  const { Login } = useAuthActions()
+  const auth = useSelector(s => s.auth)
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (auth.logged === USER_POSSIBLE_STATES.LOGGED) navigate('/general/sectores')
+  }, [auth])
 
   const handleRecoveryClick = () => {
     const id = 'password-recovery-modal-root'
@@ -18,13 +32,18 @@ export function Login () {
       id
     })
   }
+
+  const handleUpdate = ({ name, password }) => {
+    Login({ name, password })
+  }
+
   return <>
     <main className="bg-gris flex-1 py-8 px-4">
 
-      <form className="bg-white rounded-lg h-full w-full gap-y-3 flex flex-col max-w-lg mx-auto px-16 py-8">
+      <form onSubmit={handleSubmit(handleUpdate)} className="bg-white rounded-lg h-full w-full gap-y-3 flex flex-col max-w-lg mx-auto px-16 py-8">
         <h1 className='text-3xl font-semibold text-center mb-2'>Iniciar Sesion</h1>
-        <InputWLabel labelText={'Nombre'} id='name' name='name' inputClassName='mt-2' />
-        <InputWLabel labelText={'Contraseña'} id='password' name='password' inputClassName='mt-2' />
+        <InputWLabel labelText={'Nombre'} register={register} required name='name' inputClassName='mt-2' />
+        <InputWLabel labelText={'Contraseña'} register={register} required name='password' inputClassName='mt-2' />
         <button className='text-button bg-gris-oscuro py-1 px-16 w-max text-white mx-auto rounded-md'>Entrar</button>
         <div className='w-full border-t-2 border-gris flex'>
           <button onClick={handleRecoveryClick} type='button' className='underline text-blue-500 font-semibold mx-auto mt-1'>Recuperar contraseña</button>

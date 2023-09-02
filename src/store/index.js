@@ -3,6 +3,7 @@ import layoutReducer from './layout/slice'
 import dataReducer from './data/slice'
 import usuariosReducer from './usuarios/slice'
 import ofertaAcademicaReducer from './oferta-academica/slice'
+import authReducer from './auth/slice'
 
 const rollbackerMiddleware = store => next => action => {
   if (typeof action === 'function') {
@@ -17,7 +18,8 @@ export const store = configureStore({
     layout: layoutReducer,
     data: dataReducer,
     usuarios: usuariosReducer,
-    ofertaAcademica: ofertaAcademicaReducer
+    ofertaAcademica: ofertaAcademicaReducer,
+    auth: authReducer
   },
   middleware: [rollbackerMiddleware]
 })

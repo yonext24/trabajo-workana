@@ -9,8 +9,8 @@ const NavbarLazy = lazy(() => import('../navbar/navbar'))
 const MobileNavbarLazy = lazy(() => import('../navbar/mobile-navbar'))
 
 const navbarEntrys = [
-  { text: 'General', Icon: PersonIcon, href: '/general/sectores' },
-  { text: 'Usuarios', Icon: PersonsIcon, href: '/usuarios/roles' },
+  { text: 'General', Icon: PersonIcon, href: '/general/sectores', includes: '/general/' },
+  { text: 'Usuarios', Icon: PersonsIcon, href: '/usuarios/roles', includes: '/usuarios/' },
   {
     text: 'Oferta Academica',
     includes: 'oferta-academica',
@@ -21,9 +21,9 @@ const navbarEntrys = [
       { text: 'Carrera', Icon: VerifiedIcon, href: '/oferta-academica/carrera/nivel' }
     ]
   },
-  { text: 'Reportes', Icon: ReportsIcon, href: '/reportes' },
-  { text: 'Centros Educativos', Icon: HomeIcon, href: '/centros' },
-  { text: 'Geografía', Icon: PlanetIcon, href: '/geografia' }
+  { text: 'Reportes', Icon: ReportsIcon, href: '/reportes', includes: '/reportes' },
+  { text: 'Centros Educativos', Icon: HomeIcon, href: '/centros', includes: '/centros' },
+  { text: 'Geografía', Icon: PlanetIcon, href: '/geografia', includes: '/geografia' }
 
 ]
 

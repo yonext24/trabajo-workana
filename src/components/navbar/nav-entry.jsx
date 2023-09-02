@@ -2,10 +2,14 @@ import { useState, useMemo, useEffect } from 'react'
 import { DownArrowIcon } from '../icons'
 import { useNavigate } from 'react-router-dom'
 
-export function RawEntry ({ text, Icon, isSub, open, noArrow = false, setOpen, href, closeModal, isSelected }) {
+export function RawEntry ({ text, Icon, isSub, open, noArrow = false, setOpen, href, closeModal, isSelected, handleClick }) {
   const navigate = useNavigate() // <- Not the best, i know
 
   const handleEntryClick = () => {
+    if (handleClick) {
+      handleClick()
+      return
+    }
     if (href) {
       navigate(href)
       closeModal && closeModal()
