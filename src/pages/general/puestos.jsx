@@ -1,29 +1,25 @@
 import { NuevoButton } from '../../components/common/nuevo-button'
-import { useLayoutActions } from '../../hooks/useLayoutActions'
 import { TablePuestos } from '../../components/tables/general/table-puestos/table-puestos'
 import { AddPuestosModal } from '../../components/modals/general/puestos/add-puestos-modal'
+import { usePermissions } from '@/hooks/usePermissions'
+import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 
 // Esta página y todas las de la carpeta /general tienen un layout ya integrado, en /components/layout/general-tabs-layout
 // y ahí esta estilado el div#page-content
 
 export function Puestos () {
-  const { openModal, closeModal: closeModalFunc } = useLayoutActions()
-
-  const handleClick = () => {
-    const modalId = 'update-general-modal'
-    openModal({
-      Element: AddPuestosModal,
-      id: modalId,
-      props: {
-        closeModal: () => {
-          closeModalFunc(modalId)
-        }
-      }
-    })
-  }
+  const permissions = usePermissions({ nameOfModule: 'GENERAL' })
+  const { CREATE } = permissions
+  const { handleAdd } = useTableDefaultModals({
+    place: 'dependencias',
+    add: { el: AddPuestosModal }
+  })
 
   return <div id='page-content'>
-    <NuevoButton handleClick={handleClick} />
-    <TablePuestos />
+    {
+      CREATE &&
+      <NuevoButton handleClick={handleAdd} />
+    }
+    <TablePuestos permissions={permissions} />
   </div>
 }

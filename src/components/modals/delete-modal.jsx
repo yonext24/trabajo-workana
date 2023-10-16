@@ -20,7 +20,7 @@ export function DeleteModal ({ closeModal, onClick, title, sure }) {
         <p className='mb-12'>{sure}</p>
 
         <ButtonsContainer closeModal={closeModal}>
-          <button type='submit' className='bg-red-500'>Eliminar</button>
+          <button type='submit' className='bg-red-500'>Desactivar</button>
         </ButtonsContainer>
 
       </form>

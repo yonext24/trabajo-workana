@@ -1,55 +1,88 @@
+import { fetchHandler } from '@/utils/fetchHandler'
+import { routes } from '@/utils/routes'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-// Acción asincrónica para verificar la sesión inicial
-export const checkSession = createAsyncThunk('auth/checkSession', async () => {
-  const token = localStorage.getItem('tkn')
-
-  if (token) {
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    // const response = await fetch('/api/user', {
-    //   headers: {
-    //     Authorization: `Bearer ${token}`,
-    //   },
-    // });
-
-    // if (response.ok) {
-    //   return await response.json();
-    // }
+const permissionParser = ({ userPermissions, modulos }) => {
+  return userPermissions.map(permission => {
+    const nombre = modulos.find(modulo => modulo.codigo === permission.modulo).modulo
 
     return {
-      token: 'test',
-      user: {
-        username: 'admin1',
-        rol: 'Admin',
-        puesto: 'Jefe Departamento XYZ',
-        nombre: 'Juan Pérez',
-        telefono: 1122334455,
-        celular: 12893131,
-        CUI: 21321832,
-        correo: 'example@example.com'
-      }
+      ...permission,
+      nombre
     }
-  }
+  })
+}
 
-  return false
+const getUserData = async ({ headers }) => {
+  const user = await fetch(routes.auth.perfil, {
+    headers
+  }).then(fetchHandler)
+
+  const userPermissions = await fetch(routes.permisos.permisos, {
+    headers
+  }).then(fetchHandler)
+
+  const { modulos, operacion } = await fetch(routes.permisos.parametros, {
+    headers
+  }).then(fetchHandler)
+
+  const parsedPermissions = permissionParser({ userPermissions, modulos })
+
+  return { user, permissions: parsedPermissions, operacion }
+}
+
+// Acción asincrónica para verificar la sesión inicial
+export const checkSession = createAsyncThunk(routes.auth.login, async () => {
+  const token = localStorage.getItem('token')
+  if (!token) return false
+
+  try {
+    const headers = {
+      Authorization: `Bearer ${token}`
+    }
+
+    const { user, permissions, operacion } = await getUserData({ headers })
+
+    return {
+      token,
+      user,
+      permissions,
+      operacion
+    }
+  } catch (err) {
+    localStorage.removeItem('token')
+    const errMessage = err instanceof Error ? err.message : 'Ocurrió un error inesperado, porfavor contacta a soporte. (From not expected catch)'
+    throw new Error(errMessage)
+  }
 })
 
-export const login = createAsyncThunk('auth/login', async ({ data }, api) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
+export const login = createAsyncThunk('auth/login', async ({ formData }, api) => {
+  try {
+    const { access_token: token } = await fetch(routes.auth.login, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      credentials: 'include',
+      body: formData.toString()
+    }).then(fetchHandler)
 
-  localStorage.setItem('tkn', 'test')
-
-  return {
-    token: 'test',
-    user: {
-      username: 'admin1',
-      rol: 'Admin',
-      puesto: 'Jefe Departamento XYZ',
-      nombre: 'Juan Pérez',
-      telefono: 1122334455,
-      celular: 12893131,
-      CUI: 21321832,
-      correo: 'example@example.com'
+    const headers = {
+      Authorization: `Bearer ${token}`
     }
+
+    const { user, permissions, operacion } = await getUserData({ headers })
+
+    localStorage.setItem('token', token)
+
+    return {
+      token,
+      user,
+      permissions,
+      operacion
+    }
+  } catch (err) {
+    const errMessage = err instanceof Error ? err.message : 'Ocurrió un error inesperado, porfavor contacta a soporte. (From not expected catch)'
+    throw new Error(errMessage)
   }
 })

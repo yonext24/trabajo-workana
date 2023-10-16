@@ -6,8 +6,7 @@ const tabs = {
   general: [
     { text: 'Sectores', href: '/general/sectores' },
     { text: 'Dependencias', href: '/general/dependencias' },
-    { text: 'Puestos', href: '/general/puestos' },
-    { text: 'Modulos', href: '/general/modulos' }
+    { text: 'Puestos', href: '/general/puestos' }
   ],
   usuarios: [
     { text: 'Roles', href: '/usuarios/roles' },
@@ -35,7 +34,7 @@ export function GeneralTabsLayout ({ tabsName, children, noTabs = false }) {
       {
         !noTabs && <PageTabs tabs={tabs[tabsName]} />
       }
-      { children }
+      {children}
     </main>
     <ReactPortal wrapperId='general-portal-wrapper'>
       {

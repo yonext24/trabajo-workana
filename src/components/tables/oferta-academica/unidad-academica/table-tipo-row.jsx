@@ -4,15 +4,17 @@ import { RowLayout } from '../../row-layout'
 import { TipoUpdateModal } from '@/components/modals/oferta-academica/unidad-academica/tipo-update-modal'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 
-export function TableTipoRow ({ nombre, descripcion }) {
+export function TableTipoRow ({ permissions, nombre, descripcion }) {
+  const { UPDATE } = permissions
+
   const { deleteUnidadAcademicaTipos } = useOfertaAcademicaActions()
   const { handleUpd, handleDel } = useTableDefaultModals({
     del: {
       onClick: () => {
         deleteUnidadAcademicaTipos(nombre)
       },
-      title: 'Borrar Tipo',
-      sure: 'Realmente quiere borrar este tipo?'
+      title: 'Desactivar Tipo',
+      sure: 'Realmente quiere desactivar este tipo?'
     },
     update: { el: TipoUpdateModal, nombre, descripcion },
     place: 'tipo'
@@ -21,10 +23,13 @@ export function TableTipoRow ({ nombre, descripcion }) {
     { text: nombre },
     { text: descripcion },
     {
-      actions: [
-        { type: 'update', onClick: handleUpd },
-        { type: 'delete', onClick: handleDel }
-      ]
+      actions:
+      UPDATE
+        ? [
+            { type: 'update', onClick: handleUpd },
+            { type: 'delete', onClick: handleDel }
+          ]
+        : []
     }
   ]
 

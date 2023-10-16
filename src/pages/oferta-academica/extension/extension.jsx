@@ -3,6 +3,7 @@ import { SelectInput } from '@/components/common/select-input'
 import { ExtensionAddModal } from '@/components/modals/oferta-academica/extension/extension-add-modal'
 import { ExtensionMainTable } from '@/components/tables/oferta-academica/extension/extension-main-table'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { usePermissions } from '@/hooks/usePermissions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
@@ -10,15 +11,18 @@ import { useSelector } from 'react-redux'
 export function Extension () {
   const { getOfertaAcademicaExtension, setExtensionFiltered } = useOfertaAcademicaActions()
   const { handleAdd } = useTableDefaultModals({ place: 'extension', add: { el: ExtensionAddModal } })
-  const { data } = useSelector(s => s.ofertaAcademica.extension)
+  const data = useSelector(s => s.ofertaAcademica.extension.data)
+
+  const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
+  const { CREATE } = permissions
 
   useEffect(() => {
     setExtensionFiltered(data)
   }, [data])
 
-  console.log({ data })
-
   useEffect(() => { getOfertaAcademicaExtension() }, [])
+
+  console.log({ data })
 
   return <div id="page-content">
     <div className="flex justify-between items-end">
@@ -32,8 +36,11 @@ export function Extension () {
           <SelectInput options={['1', '2']} firstOne/>
         </div>
       </div>
-      <NuevoButton handleClick={handleAdd} />
+      {
+        CREATE &&
+        <NuevoButton handleClick={handleAdd} />
+      }
     </div>
-    <ExtensionMainTable />
+    <ExtensionMainTable permissions={permissions} />
   </div>
 }

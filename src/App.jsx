@@ -9,7 +9,6 @@ import { GeneralSectores } from './pages/general/sectores'
 import { Dependencias } from './pages/general/dependencias'
 import { Puestos } from './pages/general/puestos'
 import 'react-toastify/dist/ReactToastify.css'
-import { Modulos } from './pages/general/modulos'
 import { Roles } from './pages/usuarios/roles'
 import { Permisos } from './pages/usuarios/permisos'
 import { Usuarios } from './pages/usuarios/usuarios'
@@ -23,14 +22,12 @@ import { Recurso } from './pages/oferta-academica/carrera/recurso'
 import { Reportes } from './pages/reportes/reportes'
 import { CentrosEducativos } from './pages/centros-educativos/centros-educativos'
 import { Geografia } from './pages/geografia/geografia'
-import { useEffect } from 'react'
-import { useAuthActions } from './hooks/useAuthActions'
 import { Perfil } from './pages/perfil'
 import { CambiarContrasena } from './pages/cambiar-contraseña'
+import { useAuth } from './hooks/useAuth'
 
 function App () {
-  const { CheckSession } = useAuthActions()
-  useEffect(() => { CheckSession() }, [])
+  useAuth()
 
   return (
     <Router>
@@ -40,138 +37,126 @@ function App () {
         <Routes>
 
           <Route path='/login' element={
-              <AuthLayout>
-                <Login />
-              </AuthLayout>
-            }
+            <AuthLayout>
+              <Login />
+            </AuthLayout>
+          }
           />
 
-          <Route element={ <GeneralLayout><Outlet /></GeneralLayout> }>
-            <Route element={ <GeneralTabsLayout tabsName='general'><Outlet /></GeneralTabsLayout> }>
-
+          <Route element={<GeneralLayout><Outlet /></GeneralLayout>}>
+            <Route element={
+              <ProtectedRoute name='GENERAL' parsedName='General'>
+                <GeneralTabsLayout tabsName='general'>
+                  <Outlet />
+                </GeneralTabsLayout>
+              </ProtectedRoute>
+            }>
               <Route path='/general/sectores' element={
-                <ProtectedRoute>
-                  <GeneralSectores />
-                </ProtectedRoute>
-                }
+                <GeneralSectores />
+              }
               />
               <Route path='/general/dependencias' element={
-                <ProtectedRoute>
-                  <Dependencias />
-                </ProtectedRoute>
-                }
+                <Dependencias />
+              }
               />
               <Route path='/general/puestos' element={
-                <ProtectedRoute>
-                  <Puestos />
-                </ProtectedRoute>
-              } />
-              <Route path='/general/modulos' element={
-                <ProtectedRoute>
-                  <Modulos />
-                </ProtectedRoute>
+                <Puestos />
               } />
             </Route>
 
-            <Route element={<GeneralTabsLayout tabsName='usuarios'><Outlet /></GeneralTabsLayout>}>
-
+            <Route element={
+              <ProtectedRoute name='USUARIOS' parsedName={'Usuarios'}>
+                <GeneralTabsLayout tabsName='usuarios'>
+                  <Outlet />
+                </GeneralTabsLayout>
+              </ProtectedRoute>
+            }>
               <Route path='/usuarios/roles' element={
-                <ProtectedRoute>
-                  <Roles />
-                </ProtectedRoute>
-              }/>
+                <Roles />
+              } />
               <Route path='/usuarios/permisos' element={
-                <ProtectedRoute>
-                  <Permisos />
-                </ProtectedRoute>
-              }/>
+                <Permisos />
+              } />
               <Route path='/usuarios/usuarios' element={
-                <ProtectedRoute>
-                  <Usuarios />
-                </ProtectedRoute>
-              }/>
-
+                <Usuarios />
+              } />
             </Route>
 
-            <Route element={<GeneralTabsLayout tabsName='oferta-academica-unidad'><Outlet /></GeneralTabsLayout>}>
-              <Route path='/oferta-academica/unidad/tipo' element={
-                <ProtectedRoute>
+            <Route element={
+              <ProtectedRoute name='OFERTA_ACADEMICA' parsedName={'Oferta Académica'}>
+                <Outlet/>
+              </ProtectedRoute>
+            }>
+              <Route element={
+                <GeneralTabsLayout tabsName='oferta-academica-unidad'>
+                  <Outlet />
+                </GeneralTabsLayout>
+              }>
+                <Route path='/oferta-academica/unidad/tipo' element={
                   <Tipo />
-                </ProtectedRoute>
-              }/>
-              <Route path='/oferta-academica/unidad/unidad' element={
-                <ProtectedRoute>
+                } />
+                <Route path='/oferta-academica/unidad/unidad' element={
                   <Unidad />
-                </ProtectedRoute>
-              }/>
-            </Route>
+                } />
+              </Route>
 
-            <Route element={<GeneralTabsLayout noTabs><Outlet /></GeneralTabsLayout>}>
-              <Route path='/oferta-academica/extension' element={
-                <ProtectedRoute>
-                  <Extension />
-                </ProtectedRoute>
-              } />
-            </Route>
+              <Route element={<GeneralTabsLayout noTabs><Outlet /></GeneralTabsLayout>}>
+                <Route path='/oferta-academica/extension' element={
+                    <Extension />
+                } />
+              </Route>
 
-            <Route element={<GeneralTabsLayout tabsName='oferta-academica-carrera'><Outlet /></GeneralTabsLayout>}>
-              <Route path='oferta-academica/carrera/nivel' element={
-                <ProtectedRoute>
+              <Route element={<GeneralTabsLayout tabsName='oferta-academica-carrera'><Outlet /></GeneralTabsLayout>}>
+                <Route path='oferta-academica/carrera/nivel' element={
                   <Nivel />
-                </ProtectedRoute>
-              } />
-              <Route path='oferta-academica/carrera/carrera' element={
-                <ProtectedRoute>
+                } />
+                <Route path='oferta-academica/carrera/carrera' element={
                   <Carrera />
-                </ProtectedRoute>
-              } />
-              <Route path='oferta-academica/carrera/tipo-recurso' element={
-                <ProtectedRoute>
+                } />
+                <Route path='oferta-academica/carrera/tipo-recurso' element={
                   <TipoRecurso />
-                </ProtectedRoute>
-              } />
-              <Route path='oferta-academica/carrera/recurso' element={
-                <ProtectedRoute>
+                } />
+                <Route path='oferta-academica/carrera/recurso' element={
                   <Recurso />
-                </ProtectedRoute>
-              } />
-            </Route>
+                } />
+              </Route>
 
+            </Route>
           </Route>
 
           <Route path='reportes' element={
             <GeneralLayout text={'Reportes'}>
-              <GeneralTabsLayout noTabs>
-                <ProtectedRoute>
-                  <Reportes />
-                </ProtectedRoute>
-              </GeneralTabsLayout>
+              <ProtectedRoute name={'REPORTES'}>
+                <GeneralTabsLayout noTabs>
+                    <Reportes />
+                </GeneralTabsLayout>
+              </ProtectedRoute>
             </GeneralLayout>
           } />
 
           <Route path='centros' element={
             <GeneralLayout text={'Centros Educativos'}>
-              <GeneralTabsLayout noTabs>
-                <ProtectedRoute>
-                  <CentrosEducativos />
-                </ProtectedRoute>
-              </GeneralTabsLayout>
+              <ProtectedRoute name={'CENTROS_EDUCATIVOS'}>
+                <GeneralTabsLayout noTabs>
+                    <CentrosEducativos />
+                </GeneralTabsLayout>
+              </ProtectedRoute>
             </GeneralLayout>
           } />
 
           <Route path='geografia' element={
             <GeneralLayout text={'Geografía'}>
-              <GeneralTabsLayout noTabs>
-                <ProtectedRoute>
-                  <Geografia />
-                </ProtectedRoute>
-              </GeneralTabsLayout>
+              <ProtectedRoute name={'GEOGRAFICO'}>
+                <GeneralTabsLayout noTabs>
+                    <Geografia />
+                </GeneralTabsLayout>
+              </ProtectedRoute>
             </GeneralLayout>
           } />
           <Route path='perfil' element={
             <GeneralLayout text={'Perfil de usuario'}>
               <GeneralTabsLayout noTabs>
-                <ProtectedRoute>
+                <ProtectedRoute isProfile>
                   <Perfil />
                 </ProtectedRoute>
               </GeneralTabsLayout>

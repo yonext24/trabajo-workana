@@ -16,7 +16,7 @@ import {
   update_tipo_recurso
 } from '@/store/oferta-academica/carreraThunks'
 import { add_extension, get_extension_data } from '@/store/oferta-academica/extensionThunks'
-import { set_extension_filtered, set_recurso_filtered, set_unidad_filtered } from '@/store/oferta-academica/slice'
+import { set_extension_filtered, set_recurso_filtered, set_unidad_filtered, set_carrera_carrera_filtered } from '@/store/oferta-academica/slice'
 import {
   add_unidad_academica_tipos,
   add_unidad_academica_unidad,
@@ -34,6 +34,7 @@ export function useOfertaAcademicaActions () {
   const setUnidadFiltered = (filteredData) => { dispatch(set_unidad_filtered({ filteredData })) }
   const setExtensionFiltered = (filteredData) => { dispatch(set_extension_filtered({ filteredData })) }
   const setRecursoFiltered = (filteredData) => { dispatch(set_recurso_filtered({ filteredData })) }
+  const setCarreraCarreraFiltered = (filteredData) => { dispatch(set_carrera_carrera_filtered({ filteredData })) }
 
   const getCarreraNivelData = async () => { return dispatch(get_carrera_nivel_data()) }
   const addCarreraNivel = async (newData) => { return dispatch(add_carrera_nivel({ newData })) }
@@ -79,6 +80,7 @@ export function useOfertaAcademicaActions () {
     setUnidadFiltered,
     setExtensionFiltered,
     setRecursoFiltered,
+    setCarreraCarreraFiltered,
     getOfertaAcademicaExtension,
     addOfertaAcademicaExtension,
     getCarreraNivelData,

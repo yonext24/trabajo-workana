@@ -5,31 +5,35 @@ import { RolePermissionsModal } from '@/components/modals/usuarios/roles/role-pe
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { UpdRolesModal } from '@/components/modals/usuarios/roles/upd-roles-modal'
 
-export function TableRolesRow ({ nombre, descripcion }) {
+export function TableRolesRow ({ nombre, descripcion, permissions }) {
   const { deleteRole } = useUsuariosActions()
   const { handleUpd, handleDel, handlePerm } = useTableDefaultModals({
     place: 'roles',
     perm: { el: RolePermissionsModal, nombre, descripcion },
-    update: { el: UpdRolesModal, nombre, descripcion },
+    update: { el: UpdRolesModal, nombre, descripcion, permissions },
     del: {
       onClick: () => {
         deleteRole({ nombre })
       },
-      title: 'Eliminar Rol',
-      sure: 'Realmente quiere eliminar este rol?'
+      title: 'Desactivar Rol',
+      sure: 'Realmente quiere desactivar este rol?'
     }
   })
+
+  const { UPDATE } = permissions
 
   const rows = [
     { id: 1, text: nombre },
     { id: 2, text: descripcion },
     {
       id: 3,
-      actions: [
-        { type: 'update', onClick: handleUpd },
-        { type: 'delete', onClick: handleDel },
-        { type: 'permisos', onClick: handlePerm }
-      ]
+      actions: UPDATE
+        ? [
+            { type: 'update', onClick: handleUpd },
+            { type: 'delete', onClick: handleDel },
+            { type: 'permisos', onClick: handlePerm }
+          ]
+        : []
     }
   ]
 

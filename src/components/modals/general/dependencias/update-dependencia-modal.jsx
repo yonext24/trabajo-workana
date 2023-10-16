@@ -11,7 +11,8 @@ import { useMemo } from 'react'
 
 export function UpdateDependenciaModal ({ closeModal, entryData }) {
   const { sector, nombre, abreviatura, unidad } = entryData
-  const { general: { sectores: { data: sectoresData }, dependencias: { data: { complete: dependenciasData } } } } = useSelector(s => s.data)
+  const sectoresData = useSelector(s => s.data.general.sectores.data)
+  const dependenciasData = useSelector(s => s.data.general.dependencias.data.complete)
 
   const allUnidades = useMemo(() => {
     return dependenciasData.map(el => el.unidad)
@@ -31,9 +32,9 @@ export function UpdateDependenciaModal ({ closeModal, entryData }) {
     onSubmit(data)
   }
 
-  return <ModalBackground onClick={closeModal} closeModal={closeModal} >
+  return <ModalBackground onClick={closeModal} closeModal={closeModal}>
 
-    <DefaultModalLayout title='Actualizar Dependencia' >
+    <DefaultModalLayout title='Actualizar Dependencia' closeModal={closeModal}>
       <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold flex flex-col gap-y-3'>
 
         <InputWLabel id='nombre' labelText='Nombre' type='text' autoFocus register={register} required defaultValue={nombre} />

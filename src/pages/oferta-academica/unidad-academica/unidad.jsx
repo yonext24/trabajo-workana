@@ -3,12 +3,16 @@ import { UnidadAddModal } from '@/components/modals/oferta-academica/unidad-acad
 import { UnidadFilter } from '@/components/ofertaAcademica/unidadFilter'
 import { TableUnidad } from '@/components/tables/oferta-academica/unidad-academica/table-unidad'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { usePermissions } from '@/hooks/usePermissions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 import { useEffect } from 'react'
 
 export function Unidad () {
   const { getUnidadAcademicaUnidad } = useOfertaAcademicaActions()
   const { handleAdd } = useTableDefaultModals({ add: { el: UnidadAddModal }, place: 'unidad' })
+
+  const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
+  const { CREATE } = permissions
 
   useEffect(() => {
     getUnidadAcademicaUnidad()
@@ -17,8 +21,11 @@ export function Unidad () {
   return <div id='page-content'>
     <div className='flex justify-between items-end'>
       <UnidadFilter />
-      <NuevoButton handleClick={handleAdd} />
+      {
+        CREATE &&
+        <NuevoButton handleClick={handleAdd} />
+      }
     </div>
-    <TableUnidad />
+    <TableUnidad permissions={permissions} />
   </div>
 }

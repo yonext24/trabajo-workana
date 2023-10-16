@@ -16,7 +16,7 @@ export function UserInfo () {
       <div id='user-image' className="rounded-full overflow-hidden">
         <UserIcon className='h-10 w-10' />
       </div>
-      <p className="font-semibold text-xl">{user?.username}</p>
+      <p className="font-semibold text-xl">{user?.usuario}</p>
       <div className='ml-5'>
         <DownArrowIcon className='h-4 w-4' />
       </div>

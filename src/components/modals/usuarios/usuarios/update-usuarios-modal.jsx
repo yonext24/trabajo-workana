@@ -42,7 +42,7 @@ export function UpdateUsuariosModal ({ closeModal }) {
 
   return <ModalBackground closeModal={closeModal} onClick={closeModal}>
 
-    <DefaultModalLayout className='!max-w-4xl !max-h-[95vh]' title='Agregar usuario'>
+    <DefaultModalLayout closeModal={closeModal} className='!max-w-4xl !max-h-[95vh]' title='Agregar usuario'>
 
       <form onSubmit={handleSubmit(handleUpdate)} className='p-6 grid grid-cols-2 gap-4 gap-x-12 font-semibold text-lg overflow-x-scroll'>
 

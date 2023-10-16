@@ -2,7 +2,7 @@ import { TableContainer } from '../../table-container'
 import { TableHeader } from '../../table-header'
 import { TableDependenciasRow } from './table-dependencias-row'
 
-export function TableDependencias ({ data }) {
+export function TableDependencias ({ data, permissions }) {
   if (data.length === 0) return null
 
   return <TableContainer>
@@ -10,7 +10,7 @@ export function TableDependencias ({ data }) {
       <TableHeader columns={['Sector', 'Nombre', 'Abreviatura', 'Unidad', 'Acciones'].map(el => ({ text: el }))} />
       <tbody className='[&>tr:last-of-type_td]:border-b-0'>
         {
-          data.map(row => <TableDependenciasRow {...row} key={row.nombre} />)
+          data.map(row => <TableDependenciasRow permissions={permissions} {...row} key={row.nombre} />)
         }
       </tbody>
     </table>

@@ -4,7 +4,7 @@ import { Row } from '../../row'
 import { UpdPermisosModal } from '@/components/modals/usuarios/permisos/upd-permisos-modal'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 
-export function TablePermisosRow ({ modulo, operacion, unidad, extension, nivel, id, withActions = true, selectFunction }) {
+export function TablePermisosRow ({ modulo, operacion, unidad, extension, nivel, id, withActions = true, selectFunction, permissions }) {
   const { deletePermission } = useUsuariosActions()
   const { handleUpd, handleDel } = useTableDefaultModals({
     place: 'roles',
@@ -21,18 +21,22 @@ export function TablePermisosRow ({ modulo, operacion, unidad, extension, nivel,
       onClick: () => {
         deletePermission({ id })
       },
-      title: 'Eliminar Permiso',
-      sure: 'Realmente quiere eliminar este permiso?'
+      title: 'Desactivar Permiso',
+      sure: 'Realmente quiere desactivar este permiso?'
     }
   })
+
+  const { UPDATE } = permissions
 
   const toConcat = withActions
     ? [
         {
-          actions: [
-            { type: 'update', onClick: handleUpd },
-            { type: 'delete', onClick: handleDel }
-          ]
+          actions: UPDATE
+            ? [
+                { type: 'update', onClick: handleUpd },
+                { type: 'delete', onClick: handleDel }
+              ]
+            : []
         }
       ]
     : []

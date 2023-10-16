@@ -4,13 +4,15 @@ import { Row } from '../../row'
 import { UnidadUpdateModal } from '@/components/modals/oferta-academica/unidad-academica/unidad-update-modal'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 
-export function TableUnidadRow ({ tipo, nombre, abreviatura, codigo }) {
+export function TableUnidadRow ({ tipo, nombre, abreviatura, codigo, permissions }) {
   const { deleteUnidadAcademicaUnidad } = useOfertaAcademicaActions()
   const { handleUpd, handleDel } = useTableDefaultModals({
     place: 'unidad',
     update: { el: UnidadUpdateModal, tipo, nombre, abreviatura, codigo },
-    del: { onClick: () => { deleteUnidadAcademicaUnidad(nombre) }, title: 'Borrar Unidad', sure: 'Realmente quieres borrar esta unidad?' }
+    del: { onClick: () => { deleteUnidadAcademicaUnidad(nombre) }, title: 'Desactivar Unidad', sure: 'Realmente quieres desactivar esta unidad?' }
   })
+
+  const { UPDATE } = permissions
 
   const rows = [
     { id: 1, text: tipo },
@@ -19,10 +21,13 @@ export function TableUnidadRow ({ tipo, nombre, abreviatura, codigo }) {
     { id: 4, text: abreviatura },
     {
       id: 5,
-      actions: [
-        { type: 'update', onClick: handleUpd },
-        { type: 'delete', onClick: handleDel }
-      ]
+      actions:
+      UPDATE
+        ? [
+            { type: 'update', onClick: handleUpd },
+            { type: 'delete', onClick: handleDel }
+          ]
+        : []
     }
   ]
 

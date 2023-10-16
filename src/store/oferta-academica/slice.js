@@ -72,6 +72,10 @@ export const ofertaAcademicaSlice = createSlice({
     set_recurso_filtered: (state, action) => {
       const { filteredData } = action.payload
       state.carrera.recurso.filtered = filteredData
+    },
+    set_carrera_carrera_filtered: (state, action) => {
+      const { filteredData } = action.payload
+      state.carrera.carrera.filtered = filteredData
     }
 
   },
@@ -82,5 +86,5 @@ export const ofertaAcademicaSlice = createSlice({
   }
 })
 
-export const { set_unidad_filtered, set_extension_filtered, set_recurso_filtered } = ofertaAcademicaSlice.actions
+export const { set_unidad_filtered, set_extension_filtered, set_recurso_filtered, set_carrera_carrera_filtered } = ofertaAcademicaSlice.actions
 export default ofertaAcademicaSlice.reducer

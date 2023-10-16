@@ -1,18 +1,29 @@
 import { useState, useMemo, useEffect } from 'react'
 import { DownArrowIcon } from '../icons'
 import { useNavigate } from 'react-router-dom'
+import { checkPermissions } from '@/utils/checkPermissions'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
-export function RawEntry ({ text, Icon, isSub, open, noArrow = false, setOpen, href, closeModal, isSelected, handleClick }) {
-  const navigate = useNavigate() // <- Not the best, i know
+export function RawEntry ({ text, Icon, isSub, open, noArrow = false, setOpen, href, closeModal, isSelected, handleClick, permissionName }) {
+  const navigate = useNavigate()
+  const { operacion, permissions } = useSelector(s => s.auth)
 
   const handleEntryClick = () => {
+    console.log({ permissionName })
+    if (href) {
+      const read = operacion?.read
+      const hasPermissions = checkPermissions({ operacion: read, permissions, nameOfModule: permissionName })
+      if (!hasPermissions) {
+        toast.error('No tienes permisos de lectura para acceder a esta ruta', { toastId: permissionName })
+      } else {
+        navigate(href)
+        closeModal && closeModal()
+      }
+    }
     if (handleClick) {
       handleClick()
       return
-    }
-    if (href) {
-      navigate(href)
-      closeModal && closeModal()
     }
     if (!isSub && !isSelected) {
       setOpen(prev => !prev)
@@ -31,7 +42,7 @@ export function RawEntry ({ text, Icon, isSub, open, noArrow = false, setOpen, h
   </button>
 }
 
-export function NavEntry ({ text, Icon, sub, href = false, closeModal = false, isSelected = false }) {
+export function NavEntry ({ text, Icon, sub, href = false, closeModal = false, isSelected = false, permissionName }) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -43,10 +54,10 @@ export function NavEntry ({ text, Icon, sub, href = false, closeModal = false, i
   const maxHeightValue = useMemo(() => sub ? sub.length * 64 : 0)
 
   return <div className="flex flex-col overflow-hidden">
-    <RawEntry text={text} Icon={Icon} open={open} setOpen={setOpen} href={href} closeModal={closeModal} isSelected={isSelected} />
+    <RawEntry text={text} Icon={Icon} open={open} setOpen={setOpen} href={href} closeModal={closeModal} isSelected={isSelected} permissionName={permissionName} />
     <div style={{ maxHeight: open ? `${maxHeightValue}px` : '0px' }} className={'transition-all duration-300 overflow-hidden'}>
       {
-        sub?.map(el => <RawEntry key={el.text} text={el.text} Icon={el.Icon} isSub={true} noArrow href={el.href} closeModal={closeModal}/>)
+        sub?.map(el => <RawEntry key={el.text} text={el.text} Icon={el.Icon} isSub={true} noArrow href={el.href} closeModal={closeModal} permissionName={permissionName}/>)
       }
     </div>
   </div>

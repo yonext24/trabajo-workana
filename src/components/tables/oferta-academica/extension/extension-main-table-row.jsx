@@ -7,13 +7,15 @@ import { useLayoutActions } from '@/hooks/useLayoutActions'
 import { ExtensionAddCarreraModal } from '@/components/modals/oferta-academica/extension/extension-add-carrera-modal'
 import { ExtensionCarreraModal } from '@/components/modals/oferta-academica/extension/extension-carrera-modal'
 
-export function ExtensionMainTableRow ({ ua, codigo, nombre, estado, fecha_de_creacion, abreviatura, ubicacion }) {
+export function ExtensionMainTableRow ({ permissions, ua, codigo, nombre, estado, fecha_de_creacion, abreviatura, ubicacion }) {
   const { handleUpd, handleDel, handleSee } = useTableDefaultModals({
     place: 'extension',
     update: { el: ExtensionUpdateModal, ua, codigo, nombre, estado, fecha_de_creacion, abreviatura, ubicacion },
     see: { el: ExtensionSeeModal, ua, codigo, nombre, estado, fecha_de_creacion, abreviatura, ubicacion }
   })
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
+
+  const { UPDATE } = permissions
 
   const handleCarreraAdd = () => {
     const modalId = 'add-carrera-extension-modal'
@@ -46,18 +48,21 @@ export function ExtensionMainTableRow ({ ua, codigo, nombre, estado, fecha_de_cr
     { id: 4, text: estado },
     {
       id: 5,
-      carreras: [
-        { type: 'add', onClick: handleCarreraUpd },
-        { type: 'see', onClick: handleCarreraAdd }
-      ]
+      carreras: UPDATE
+        ? [
+            { type: 'add', onClick: handleCarreraUpd },
+            { type: 'see', onClick: handleCarreraAdd }
+          ]
+        : []
     },
     {
       id: 6,
       actions: [
-        { type: 'see', onClick: handleSee },
-        { type: 'update', onClick: handleUpd },
-        { type: 'delete', onClick: handleDel }
-      ]
+        { type: 'see', onClick: handleSee }
+      ].concat(UPDATE
+        ? [{ type: 'update', onClick: handleUpd },
+            { type: 'delete', onClick: handleDel }]
+        : [])
     }
   ]
   return <RowLayout>

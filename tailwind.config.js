@@ -22,10 +22,12 @@ export default {
       },
 
       animation: {
-        appear: 'appear .14s ease-in'
+        appear: 'appear .14s ease-in',
+        fade: 'fade .14s ease-in'
       },
       keyframes: {
-        appear: { from: { opacity: 0 }, to: { opacity: 1 } }
+        appear: { from: { opacity: 0 }, to: { opacity: 1 } },
+        fade: { from: { opacity: 0, transform: 'translateY(3px)' }, to: { opacity: 1, transform: 'none' } }
       }
     }
   },

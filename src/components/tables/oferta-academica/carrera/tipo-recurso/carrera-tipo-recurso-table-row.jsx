@@ -4,22 +4,25 @@ import { RowLayout } from '@/components/tables/row-layout'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 
-export function CarreraTipoRecursoTableRow ({ nombre, descripcion }) {
+export function CarreraTipoRecursoTableRow ({ nombre, descripcion, permissions }) {
   const { deleteCarreraTipoRecurso } = useOfertaAcademicaActions()
   const { handleUpd, handleDel } = useTableDefaultModals({
     place: 'nivel',
     update: { el: UpdateTipoRecursoModal, nombre, descripcion },
     del: {
       onClick: () => deleteCarreraTipoRecurso(nombre),
-      title: 'Borrar Tipo de recurso',
-      sure: 'Realmente quieres borrar este tipo de recurso?'
+      title: 'Desactivar Tipo de recurso',
+      sure: 'Realmente quieres desactivar este tipo de recurso?'
     }
   })
+
+  const { UPDATE } = permissions
+  const actions = UPDATE ? [{ type: 'update', onClick: handleUpd }, { type: 'delete', onClick: handleDel }] : []
 
   return <RowLayout>
     <td className="border-r">{nombre}</td>
     <td className="border-r">{descripcion}</td>
-    <Row actions={[{ type: 'update', onClick: handleUpd }, { type: 'delete', onClick: handleDel }]} />
+    <Row actions={actions} />
 
   </RowLayout>
 }

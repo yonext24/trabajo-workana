@@ -9,21 +9,22 @@ const NavbarLazy = lazy(() => import('../navbar/navbar'))
 const MobileNavbarLazy = lazy(() => import('../navbar/mobile-navbar'))
 
 const navbarEntrys = [
-  { text: 'General', Icon: PersonIcon, href: '/general/sectores', includes: '/general/' },
-  { text: 'Usuarios', Icon: PersonsIcon, href: '/usuarios/roles', includes: '/usuarios/' },
+  { text: 'General', Icon: PersonIcon, href: '/general/sectores', includes: '/general/', permissionName: 'GENERAL' },
+  { text: 'Usuarios', Icon: PersonsIcon, href: '/usuarios/roles', includes: '/usuarios/', permissionName: 'USUARIOS' },
   {
     text: 'Oferta Academica',
     includes: 'oferta-academica',
     Icon: AcademyIcon,
+    permissionName: 'OFERTA_ACADEMICA',
     sub: [
       { text: 'Unidad Academica', Icon: GraduateIcon, href: '/oferta-academica/unidad/tipo' },
       { text: 'Extensión', Icon: HomeIcon, href: '/oferta-academica/extension' },
       { text: 'Carrera', Icon: VerifiedIcon, href: '/oferta-academica/carrera/nivel' }
     ]
   },
-  { text: 'Reportes', Icon: ReportsIcon, href: '/reportes', includes: '/reportes' },
-  { text: 'Centros Educativos', Icon: HomeIcon, href: '/centros', includes: '/centros' },
-  { text: 'Geografía', Icon: PlanetIcon, href: '/geografia', includes: '/geografia' }
+  { text: 'Reportes', Icon: ReportsIcon, href: '/reportes', includes: '/reportes', permissionName: 'REPORTES' },
+  { text: 'Centros Educativos', Icon: HomeIcon, href: '/centros', includes: '/centros', permissionName: 'CENTROS_EDUCATIVOS' },
+  { text: 'Geografía', Icon: PlanetIcon, href: '/geografia', includes: '/geografia', permissionName: 'GEOGRAFICO' }
 
 ]
 

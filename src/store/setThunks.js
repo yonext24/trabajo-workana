@@ -33,6 +33,7 @@ const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, d
       const data = dataExtractor(action.payload)
 
       if (type === 'get') {
+        console.log('data', data)
         setProperty({ property: 'data', state, value: data })
       }
       if (type === 'add') {
