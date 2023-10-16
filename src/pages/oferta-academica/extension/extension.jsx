@@ -36,10 +36,7 @@ export function Extension () {
           <SelectInput options={['1', '2']} firstOne/>
         </div>
       </div>
-      {
-        CREATE &&
-        <NuevoButton handleClick={handleAdd} />
-      }
+      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     </div>
     <ExtensionMainTable permissions={permissions} />
   </div>

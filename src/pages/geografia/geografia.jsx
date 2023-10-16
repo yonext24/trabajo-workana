@@ -1,8 +1,12 @@
 import { NuevoButton } from '@/components/common/nuevo-button'
 import { SelectInput } from '@/components/common/select-input'
 import { TableLayout } from '@/components/tables/table-layout'
+import { usePermissions } from '@/hooks/usePermissions'
 
 export function Geografia () {
+  const permissions = usePermissions({ nameOfModule: 'GEOGRAFICO' })
+  const { CREATE } = permissions
+
   return <div id='page-content'>
     <div className="flex justify-between items-end">
 
@@ -19,7 +23,7 @@ export function Geografia () {
 
       </div>
 
-      <NuevoButton content='Cargar Excel' />
+      <NuevoButton content='Cargar Excel' CREATE={CREATE} />
     </div>
 
     <TableLayout columns={[{ text: 'Departamento' }, { text: 'Municipio' }, { text: 'Código postal' }]}>

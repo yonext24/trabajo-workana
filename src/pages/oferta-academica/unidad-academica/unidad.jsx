@@ -21,10 +21,7 @@ export function Unidad () {
   return <div id='page-content'>
     <div className='flex justify-between items-end'>
       <UnidadFilter />
-      {
-        CREATE &&
-        <NuevoButton handleClick={handleAdd} />
-      }
+      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     </div>
     <TableUnidad permissions={permissions} />
   </div>

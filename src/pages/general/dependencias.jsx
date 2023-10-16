@@ -21,10 +21,7 @@ export function Dependencias () {
     <div className="w-full flex justify-between items-end">
 
       <Filter />
-
-      {
-        CREATE && <NuevoButton handleClick={handleAdd} />
-      }
+      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
 
     </div>
     <TableDependencias data={filtered} permissions={permissions} />

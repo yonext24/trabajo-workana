@@ -18,10 +18,7 @@ export function Permisos () {
   return <div id='page-content'>
     <div className='w-full flex justify-between items-end'>
       <PermisosFilter />
-      {
-        CREATE &&
-        <NuevoButton handleClick={handleAdd} />
-      }
+      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     </div>
     <TablePermisos permissions={permissions} columns={[{ text: 'Acciones' }]} />
   </div>

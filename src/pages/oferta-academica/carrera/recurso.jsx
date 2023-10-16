@@ -33,10 +33,7 @@ export function Recurso () {
         <label className='font-semibold text-lg'>Tipo</label>
         <SelectInput handleOptionClick={handleOptionClick} options={['Todas', ...tipoRecursoData.map(el => el.nombre)]} />
       </div>
-      {
-        CREATE &&
-        <NuevoButton handleClick={handleAdd}/>
-      }
+      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     </div>
     <RecursoTable permissions={permissions} />
   </div>

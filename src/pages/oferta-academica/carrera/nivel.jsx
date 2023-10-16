@@ -16,10 +16,7 @@ export function Nivel () {
   useEffect(() => { getCarreraNivelData() }, [])
 
   return <div id='page-content'>
-    {
-      CREATE &&
-      <NuevoButton handleClick={handleAdd} />
-    }
+    <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     <CarreraNivelTable permissions={permissions} />
   </div>
 }

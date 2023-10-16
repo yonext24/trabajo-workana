@@ -16,10 +16,7 @@ export function TipoRecurso () {
   useEffect(() => { getCarreraTipoRecursoData() }, [])
 
   return <div id='page-content'>
-    {
-      CREATE &&
-      <NuevoButton handleClick={handleAdd} />
-    }
+    <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     <CarreraTipoRecursoTable permissions={permissions} />
   </div>
 }

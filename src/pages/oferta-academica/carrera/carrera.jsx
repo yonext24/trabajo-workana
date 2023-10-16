@@ -22,10 +22,7 @@ export function Carrera () {
         <label className='text-lg font-semibold'>Nivel Carrera</label>
         <SelectInput options={[]} />
       </div>
-      {
-        CREATE &&
-        <NuevoButton handleClick={handleAdd} />
-      }
+      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     </div>
     <CarreraCarreraTable permissions={permissions} />
   </div>

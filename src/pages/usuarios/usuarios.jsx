@@ -74,10 +74,7 @@ export function Usuarios () {
   return <div id='page-content'>
 
     <div className='flex justify-between items-end gap-4'>
-      {
-        CREATE &&
-        <NuevoButton handleClick={handleAdd} />
-      }
+      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
       <form onSubmit={handleSubmit(onSubmit)} className='flex items-end gap-4 flex-col md:flex-row'>
 
         <div className='flex flex-col w-48'>

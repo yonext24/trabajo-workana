@@ -31,9 +31,7 @@ export function GeneralSectores () {
   }, [])
 
   return <div id='page-content'>
-    {
-      CREATE && <NuevoButton handleClick={handleAdd} />
-    }
+    <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     <TableGeneral permissions={permissions} />
     {
       revalidating && <Spinner className={'absolute top-6 right-6 !border-black !h-4 !w-4 !border-2 !border-b-white'} />

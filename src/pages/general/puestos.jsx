@@ -16,10 +16,7 @@ export function Puestos () {
   })
 
   return <div id='page-content'>
-    {
-      CREATE &&
-      <NuevoButton handleClick={handleAdd} />
-    }
+    <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     <TablePuestos permissions={permissions} />
   </div>
 }

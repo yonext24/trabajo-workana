@@ -11,8 +11,6 @@ export function CambiarContrasena () {
 
   const handleUpload = data => {
     toast('Esperando api')
-    console.log(data)
-    console.log(user)
   }
 
   return <div id='page-content'>
@@ -21,7 +19,7 @@ export function CambiarContrasena () {
     logged === USER_POSSIBLE_STATES.LOGGED &&
     <form onSubmit={handleSubmit(handleUpload)} className="grid grid-cols-[auto_1fr] py-6 gap-y-6 gap-x-2 lg:gap-x-12 [&>#input-w-label]:col-[2]">
       <label htmlFor={'username'} className='font-semibold text-2xl'>Usuario actual</label>
-      <InputWLabel noLabel name='username' register={register} disabled value={user?.username} labelText='Usuario actual' />
+      <InputWLabel noLabel name='username' register={register} disabled value={user?.usuario} labelText='Usuario actual' />
       <label htmlFor={'rol'} className='font-semibold text-2xl'>Contraseña Actual</label>
       <InputWLabel noLabel name='actual_password' autoFocus required register={register} />
       <label htmlFor={'puesto'} className='font-semibold text-2xl'>Nueva contraseña</label>

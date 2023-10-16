@@ -165,7 +165,7 @@ function App () {
           <Route path='cambiar-contraseña' element={
             <GeneralLayout text={'Cambiar contraseña'}>
               <GeneralTabsLayout noTabs>
-                <ProtectedRoute>
+                <ProtectedRoute isProfile>
                   <CambiarContrasena />
                 </ProtectedRoute>
               </GeneralTabsLayout>
