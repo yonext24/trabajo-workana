@@ -1,62 +1,61 @@
 import { useDispatch } from 'react-redux'
 import {
-  del_sectores_data,
-  set_general_dependencias_filtered,
-  set_sectores_data,
-  upd_sectores_data,
-  add_dependencias_data,
-  upd_dependencias_data,
-  del_dependencias_data,
-  add_puestos_data,
-  del_puestos_data,
-  upd_puestos_data,
-  add_modulos_data,
-  del_modulos_data,
-  upd_modulos_data
-} from '../store/data/slice'
-import { get_sectores_data } from '../store/data/thunks'
+  set_general_dependencias_filtered
+} from '../store/general/slice'
+
+import { add_sectores_data, delete_sectores_data, get_sectores_data, update_sectores_data } from '../store/general/sectoresThunks'
+import { add_dependencias, del_dependencias, get_dependencias, update_dependencias } from '@/store/general/dependenciasThunks'
+import { add_puestos, del_puestos, get_puestos, update_puestos } from '@/store/general/puestosThunks'
+import { add_modulos, del_modulos, get_modulos, update_modulos } from '@/store/general/modulosThunks'
 
 export function useDataActions () {
+  // TO DO?: Separar todas estas acciones en funciones que las creen dependiendo de un parámetro (la página)
+  // para evitar re-renderizados innecesarios y cargar todas las funciones en los componentes
+
   const dispatch = useDispatch()
 
-  const getSectoresData = async (args) => { dispatch(get_sectores_data({ args })) }
+  const getSectoresData = async (args) => dispatch(get_sectores_data({ args }))
+  const addSectoresData = async (newData) => dispatch(add_sectores_data({ newData }))
+  const delSectoresData = async (text) => dispatch(delete_sectores_data({ nombre: text }))
+  const updSectoresData = async ({ nombre, newData }) => dispatch(update_sectores_data({ nombre, newData }))
 
-  const setGeneralDependenciesFilteredData = (filteredData) => { dispatch(set_general_dependencias_filtered({ filteredData })) }
+  const setDependenciasFiltered = (filteredData) => dispatch(set_general_dependencias_filtered({ filteredData }))
+  const getDependencias = async () => dispatch(get_dependencias())
+  const addDependenciasData = async (newData) => dispatch(add_dependencias({ newData }))
+  const updDependenciasData = async ({ newData, nombre }) => dispatch(update_dependencias({ newData, nombre }))
+  const delDependenciesData = async (nombre) => dispatch(del_dependencias({ nombre }))
 
-  const setSectoresData = (data) => { dispatch(set_sectores_data({ data })) }
-  const delSectoresData = (text) => { dispatch(del_sectores_data({ text })) }
-  const updSectoresData = ({ text, newText }) => { dispatch(upd_sectores_data({ text, newText })) }
+  const getPuestos = async () => dispatch(get_puestos())
+  const addPuestosData = async (data) => dispatch(add_puestos({ data }))
+  const delPuestosData = async (nombre) => dispatch(del_puestos({ nombre }))
+  const updPuestosData = async ({ nombre, newData }) => dispatch(update_puestos({ nombre, newData }))
 
-  const addDependenciasData = (data) => { dispatch(add_dependencias_data({ data })) }
-  const updDependenciasData = ({ newData, nombre }) => { dispatch(upd_dependencias_data({ newData, nombre })) }
-  const delDependenciesData = (nombre) => { dispatch(del_dependencias_data({ nombre })) }
-
-  const addPuestosData = (data) => { dispatch(add_puestos_data({ data })) }
-  const delPuestosData = (nombre) => { dispatch(del_puestos_data({ nombre })) }
-  const updPuestosData = ({ nombre, newData }) => { dispatch(upd_puestos_data({ nombre, newData })) }
-
-  const addModulosData = (data) => { dispatch(add_modulos_data({ data })) }
-  const delModulosData = (nombre) => { dispatch(del_modulos_data({ nombre })) }
-  const updModulosData = ({ nombre, newData }) => { dispatch(upd_modulos_data({ nombre, newData })) }
+  const getModulos = async (props) => dispatch(get_modulos(props))
+  const addModulos = async (newData) => dispatch(add_modulos({ newData }))
+  const delModulos = async (nombre) => dispatch(del_modulos({ nombre }))
+  const updModulos = async ({ nombre, newData }) => dispatch(update_modulos({ nombre, newData }))
 
   return {
     getSectoresData,
-    setGeneralDependenciesFilteredData,
 
-    setSectoresData,
+    addSectoresData,
     delSectoresData,
     updSectoresData,
 
+    setDependenciasFiltered,
     addDependenciasData,
     updDependenciasData,
     delDependenciesData,
+    getDependencias,
 
+    getPuestos,
     addPuestosData,
     delPuestosData,
     updPuestosData,
 
-    addModulosData,
-    delModulosData,
-    updModulosData
+    getModulos,
+    addModulos,
+    delModulos,
+    updModulos
   }
 }

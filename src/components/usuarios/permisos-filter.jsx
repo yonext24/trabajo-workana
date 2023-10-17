@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux'
 import { SelectInput } from '../common/select-input'
 
 export function PermisosFilter ({ outsideFunc = false }) {
-  const { data: modulosData } = useSelector(s => s.data.general.modulos)
+  const { data: modulosData } = useSelector(s => s.data.modulos)
   const { data: permisosData } = useSelector(s => s.usuarios.permisos)
   const { setPermisosFiltered } = useUsuariosActions()
 
   const options = useMemo(() => {
-    return ['Todos'].concat(modulosData)
+    return ['Todos'].concat(modulosData.map(el => el.nombre))
   }, [modulosData])
 
   const handleChange = (value) => {

@@ -11,8 +11,8 @@ import { useMemo } from 'react'
 
 export function UpdateDependenciaModal ({ closeModal, entryData }) {
   const { sector, nombre, abreviatura, unidad } = entryData
-  const sectoresData = useSelector(s => s.data.general.sectores.data)
-  const dependenciasData = useSelector(s => s.data.general.dependencias.data.complete)
+  const sectoresData = useSelector(s => s.data.sectores.data)
+  const dependenciasData = useSelector(s => s.data.dependencias.data)
 
   const allUnidades = useMemo(() => {
     return dependenciasData.map(el => el.unidad)
@@ -23,6 +23,7 @@ export function UpdateDependenciaModal ({ closeModal, entryData }) {
 
   const onSubmit = (newData) => {
     updDependenciasData({ newData, nombre })
+    closeModal()
   }
 
   const handleUpdate = (data) => {

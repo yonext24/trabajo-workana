@@ -5,7 +5,7 @@ const ButtonWrapper = ({ children, hovering, text }) => {
   return <div className='relative'>
     {
       hovering &&
-      <div className='absolute -top-full left-1/2 -translate-x-1/2'>
+      <div className='absolute -top-full left-1/2 -translate-x-1/2 z-[100]'>
         <div className='bg-zinc-700 text-white text-xs px-2 py-1 rounded-md animate-fade whitespace-nowrap'>
           {text}
         </div>

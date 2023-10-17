@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 
 export function UpdatePuestosModal ({ closeModal, entry }) {
   const { updPuestosData } = useDataActions()
-  const { general: { puestos: { data: puestosData } } } = useSelector(s => s.data)
+  const puestosData = useSelector(s => s.data.puestos.data)
 
   const { register, handleSubmit } = useForm()
 
@@ -27,7 +27,7 @@ export function UpdatePuestosModal ({ closeModal, entry }) {
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal} >
 
-    <DefaultModalLayout title='Actualizar Puesto' >
+    <DefaultModalLayout title='Actualizar Puesto' closeModal={closeModal} >
       <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold'>
 
         <InputWLabel id='name' name='name' labelText='Nombre' type='text' autoFocus register={register} required defaultValue={entry} inputClassName='mb-12' />

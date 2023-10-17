@@ -44,14 +44,18 @@ export function SelectInput ({ options, defaultValue = null, firstOne = false, h
       open && <ul className='absolute z-10 w-full bottom-0 left-0 translate-y-[calc(100%+5px)] border border-black block rounded-md shadow-md
       overflow-hidden'>
         {
-          options.map((value) => (
-            <li
+          options.map((data) => {
+            const value = typeof data === 'string' ? data : data.text
+            console.log(value, data)
+
+            return <li
               className='bg-azulfondo text-white hover:bg-white hover:text-black py-1 px-3 transition-colors select-none capitalize'
               key={value}
-              onClick={() => handleChange(value)}
+              onClick={() => handleChange(data)}
             >
               {value}
-            </li>)
+            </li>
+          }
           )
         }
       </ul>

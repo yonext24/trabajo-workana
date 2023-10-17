@@ -4,13 +4,13 @@ import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 
 export function AddSectorModal ({ closeModal }) {
-  const { setSectoresData } = useDataActions()
+  const { addSectoresData } = useDataActions()
 
   const handleSubmit = e => {
     e.preventDefault()
     const { name } = Object.fromEntries(new FormData(e.target))
 
-    setSectoresData(name) // <----------- SACAR ESTO
+    addSectoresData(name)
   }
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal} >

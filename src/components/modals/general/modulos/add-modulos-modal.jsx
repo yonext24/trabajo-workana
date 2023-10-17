@@ -9,25 +9,26 @@ import { toast } from 'react-toastify'
 
 export function AddModulosModal ({ closeModal }) {
   const { register, handleSubmit } = useForm()
-  const { general: { modulos: { data: modulosData } } } = useSelector(s => s.data)
-  const { addModulosData } = useDataActions()
+  const modulosData = useSelector(s => s.data.modulos.data)
+  const { addModulos } = useDataActions()
 
   const handleUpdate = (data) => {
-    if (modulosData.some(el => el === data.name)) {
+    if (modulosData.some(el => el === data.nombre)) {
       toast.error('Ya existe un puesto de esas características.')
       return
     }
-    addModulosData(data.name)
+    addModulos(data)
   }
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal} >
 
     <DefaultModalLayout title='Agregar Modulo' >
-      <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold'>
+      <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold flex flex-col gap-4'>
 
-      <InputWLabel id='name' name='name' labelText='Nombre' type='text' inputClassName={'mb-12'} autoFocus register={register} required />
+      <InputWLabel id='tipo' name='tipo' labelText='Tipo' type='text' autoFocus register={register} required />
+      <InputWLabel id='nombre' name='nombre' labelText='Nombre' type='text' register={register} required />
 
-        <ButtonsContainer closeModal={closeModal}>
+        <ButtonsContainer closeModal={closeModal} className='mt-12'>
           <button type='submit'>Agregar</button>
         </ButtonsContainer>
 

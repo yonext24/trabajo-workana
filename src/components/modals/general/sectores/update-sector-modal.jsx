@@ -10,7 +10,7 @@ export function UpdateSectorModal ({ closeModal, entry }) {
     e.preventDefault()
     const { name } = Object.fromEntries(new FormData(e.target))
 
-    updSectoresData({ text: entry, newText: name })
+    updSectoresData({ nombre: entry, newData: name })
   }
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal} >

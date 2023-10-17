@@ -1,57 +1,35 @@
 import { useDataActions } from '@/hooks/useDataActions'
-import { useLayoutActions } from '@/hooks/useLayoutActions'
-import { PenIcon, TrashIcon } from '@/components/icons'
-import { DeleteModal } from '@/components/modals/delete-modal'
 import { UpdateModulosModal } from '@/components/modals/general/modulos/update-modulos-modal'
+import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
+import { DeactivateButton, UpdateButton } from '@/components/common/table-buttons'
 
-export function TableModulosRow ({ text }) {
-  const { openModal, closeModal: closeModalFunc } = useLayoutActions()
-  const { delModulosData } = useDataActions()
+export function TableModulosRow ({ nombre, tipo, permissions }) {
+  const { delModulos } = useDataActions()
 
-  const handleUpdateClick = () => {
-    const modalId = 'update-modulos-modal'
-    openModal({
-      Element: UpdateModulosModal,
-      id: modalId,
-      props: {
-        closeModal: () => {
-          closeModalFunc(modalId)
-        },
-        entry: text
-      }
-    })
-  }
+  const { handleDel, handleUpd } = useTableDefaultModals({
+    place: 'modulos',
+    update: { el: UpdateModulosModal, nombre, tipo },
+    del: {
+      onClick: () => { delModulos(nombre) },
+      title: 'Desactivar Modulo',
+      sure: 'Realmente quiere desactivar este modulo?'
+    }
+  })
 
-  const handleDeleteClick = () => {
-    const modalId = 'delete-modulos-modal'
-    openModal({
-      Element: DeleteModal,
-      id: modalId,
-      props: {
-        closeModal: () => {
-          closeModalFunc(modalId)
-        },
-        onClick: () => {
-          delModulosData(text)
-        },
-        title: 'Eliminar Modulo',
-        sure: 'Realmente quiere eliminar este modulo?'
-      }
-    })
-  }
+  const { CREATE } = permissions
 
   return <tr className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px]">
-    <td className="border-r">{text}</td>
+    <td className='border-r'>{tipo}</td>
+    <td className="border-r">{nombre}</td>
     <td>
       <div className="w-full h-full flex justify-center items-center gap-4">
 
-        <button onClick={handleUpdateClick} className="bg-verde text-white p-1 rounded-md">
-          <PenIcon className='h-5 w-5' />
-        </button>
-
-        <button onClick={handleDeleteClick} className="bg-red-500 text-white p-1 rounded-md">
-          <TrashIcon className='h-5 w-5' />
-        </button>
+        {
+          CREATE && <>
+            <UpdateButton handleClick={handleUpd} />
+            <DeactivateButton handleClick={handleDel} />
+          </>
+        }
 
       </div>
     </td>

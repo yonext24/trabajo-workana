@@ -9,10 +9,8 @@ import { toast } from 'react-toastify'
 
 export function AddPuestosModal ({ closeModal }) {
   const { register, handleSubmit } = useForm()
-  const { general: { puestos: { data: puestosData } } } = useSelector(s => s.data)
+  const puestosData = useSelector(s => s.data.puestos.data)
   const { addPuestosData } = useDataActions()
-
-  console.log({ puestosData })
 
   const handleUpdate = (data) => {
     if (puestosData.some(el => el === data.name)) {

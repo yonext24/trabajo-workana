@@ -57,7 +57,7 @@ export function Login () {
         }
 
         <div className='w-full border-t-2 border-gris flex'>
-          <button disabled={loading} onClick={handleRecoveryClick} type='button' className='underline text-blue-500 font-semibold mx-auto mt-1'>Recuperar contraseña</button>
+          <button disabled={loading} role='button' onClick={handleRecoveryClick} type='button' className='underline text-blue-500 font-semibold mx-auto mt-1'>Recuperar contraseña</button>
         </div>
 
       </form>

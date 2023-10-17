@@ -1,21 +1,19 @@
 import { useSelector } from 'react-redux'
-import { TableContainer } from '../../table-container'
-import { TableHeader } from '../../table-header'
 import { TablePuestosRow } from './table-puestos-row'
+import { TableLayout } from '../../table-layout'
+import { useDataActions } from '@/hooks/useDataActions'
+import { useEffect } from 'react'
 
 export function TablePuestos ({ permissions }) {
-  // eslint-disable-next-line no-unused-vars
-  const { loading, data, error } = useSelector(s => s.data.general.puestos)
+  const { getPuestos } = useDataActions()
 
-  return <TableContainer>
+  useEffect(() => { getPuestos() }, [])
 
-  <table className='w-full font-semibold'>
-      <TableHeader columns={[{ text: 'Nombre' }, { text: 'Acciones' }]} />
-      <tbody className='[&>tr:last-of-type_td]:border-b-0'>
-        {
-          data.map(el => <TablePuestosRow key={el} text={el} permissions={permissions} />)
-        }
-      </tbody>
-    </table>
-  </TableContainer>
+  const { loading, data, revalidating } = useSelector(s => s.data.puestos)
+
+  return <TableLayout columns={[{ text: 'Nombre' }, { text: 'Acciones' }]} loading={loading} revalidating={revalidating}>
+    {
+      data.map(el => <TablePuestosRow key={el} text={el} permissions={permissions} />)
+    }
+  </TableLayout>
 }

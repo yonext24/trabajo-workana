@@ -6,16 +6,44 @@
 
 */
 
+const addHandler = ({ state, getProperty, setProperty, data }) => {
+  const actualData = getProperty({ property: 'data', state })
+  const value = [...actualData]
+  value.push(data)
+  setProperty({ property: 'data', state, value })
+}
+
+const updateHandler = ({ update, state, data, placeName, name, getProperty, setProperty }) => {
+  const { filterBy, filterFunc } = update
+  const actualData = getProperty({ property: 'data', state, placeName, name })
+
+  const value = [...actualData].map(el => {
+    if (filterFunc) {
+      return filterFunc(data, el)
+    }
+
+    if (el[filterBy] === data[filterBy]) return data.newData
+    return el
+  })
+
+  setProperty({ property: 'data', state, value })
+}
+
+const deleteHandler = ({ state, data, del, getProperty, setProperty }) => {
+  const actualData = getProperty({ property: 'data', state })
+  const { filterBy, filterFunc } = del
+
+  const value = [...actualData].map(el => {
+    if (filterFunc) return filterFunc(data, el)
+
+    if (el[filterBy] === data) return undefined
+    return el
+  }).filter(el => el !== undefined)
+
+  setProperty({ property: 'data', state, value })
+}
+
 const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, del, customs = [] }) => {
-  // Se necesita hacer el getProperty para obtener los datos del estado actual
-  // ya que se necesita hacer un selector dinámico dependiendo de si existe [placeName] o no
-  // la misma lógica aplica a setProperty
-
-  // [placeName] se utiliza cuando el slice contiene sub-slices, por ejemplo:
-  // oferta_academica -> carrera -> nivel <== Este es un sub-slice
-  // oferta_academica -> extension <== Este no contiene sub-slices
-  // Y property corresponde al estado que se quiere setear, por ejemplo: data, loading, error, filtered etc.
-
   const getProperty = ({ property, state }) => {
     return placeName ? state[placeName][name][property] : state[name][property]
   }
@@ -27,36 +55,30 @@ const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, d
       state[name][property] = value
     }
   }
+  // Se necesita hacer el getProperty para obtener los datos del estado actual
+  // ya que se necesita hacer un selector dinámico dependiendo de si existe [placeName] o no
+  // la misma lógica aplica a setProperty
+
+  // [placeName] se utiliza cuando el slice contiene sub-slices, por ejemplo:
+  // oferta_academica -> carrera -> nivel <== Este es un sub-slice
+  // oferta_academica -> extension <== Este no contiene sub-slices
+  // Y property corresponde al estado que se quiere setear, por ejemplo: data, loading, error, filtered etc.
 
   const addActionCase = (actionType, dataExtractor, type, customFunc) => {
     builder.addCase(actionType.fulfilled, (state, action) => {
       const data = dataExtractor(action.payload)
 
       if (type === 'get') {
-        console.log('data', data)
         setProperty({ property: 'data', state, value: data })
       }
       if (type === 'add') {
-        const actualData = getProperty({ property: 'data', state })
-        const value = [...actualData]
-        value.push(data)
-        setProperty({ property: 'data', state, value })
+        addHandler({ state, data, add, getProperty, setProperty })
       }
       if (type === 'update') {
-        const actualData = getProperty({ property: 'data', state })
-        const value = [...actualData].map(el => {
-          if (el[update.filterBy] === data.id) return data.newData
-          return el
-        })
-        setProperty({ property: 'data', state, value })
+        updateHandler({ update, state, data, placeName, name, getProperty, setProperty })
       }
       if (type === 'del') {
-        const actualData = getProperty({ property: 'data', state })
-        const value = [...actualData].map(el => {
-          if (el[del.filterBy] === data) return undefined
-          return el
-        }).filter(el => el !== undefined)
-        setProperty({ property: 'data', state, value })
+        deleteHandler({ state, data, del, getProperty, setProperty })
       }
 
       if (type === 'custom') {
@@ -72,10 +94,17 @@ const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, d
       setProperty({ property: 'revalidating', state, value: false })
       setProperty({ property: 'error', state, value: null })
     })
-    builder.addCase(actionType.pending, (state) => {
-      setProperty({ property: 'loading', state, value: true })
+    builder.addCase(actionType.pending, (state, action) => {
       setProperty({ property: 'revalidating', state, value: true })
       setProperty({ property: 'error', state, value: null })
+
+      if (type === 'get') {
+        // Si la data ya existe, simplemente se revalida, pero no se agrega el estado de loading
+        const data = getProperty({ property: 'data', state })
+        if (data?.length !== 0 && data !== undefined) return
+
+        setProperty({ property: 'loading', state, value: true })
+      }
     })
     builder.addCase(actionType.rejected, (state, action) => {
       const data = dataExtractor(action.payload)
@@ -97,7 +126,7 @@ const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, d
   })
 }
 
-// payload => payload no sirve de nada, fue una idea del principio pero al final no la utilicé
+// dataExtractor no sirve de nada, fue una idea del principio pero al final no la utilicé
 
 export function setThunks ({ builder, toLoop, noLoopData, hasFiltered = false, placeName }) {
   noLoopData && (() => {

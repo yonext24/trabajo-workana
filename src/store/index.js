@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import layoutReducer from './layout/slice'
-import dataReducer from './data/slice'
+import dataReducer from './general/slice'
 import usuariosReducer from './usuarios/slice'
 import ofertaAcademicaReducer from './oferta-academica/slice'
 import authReducer from './auth/slice'
@@ -13,13 +13,18 @@ const rollbackerMiddleware = store => next => action => {
   next(action)
 }
 
-export const store = configureStore({
-  reducer: {
-    layout: layoutReducer,
-    data: dataReducer,
-    usuarios: usuariosReducer,
-    ofertaAcademica: ofertaAcademicaReducer,
-    auth: authReducer
-  },
-  middleware: [rollbackerMiddleware]
-})
+export const setupStore = preloadedState => {
+  return configureStore({
+    reducer: {
+      layout: layoutReducer,
+      data: dataReducer,
+      usuarios: usuariosReducer,
+      ofertaAcademica: ofertaAcademicaReducer,
+      auth: authReducer
+    },
+    middleware: [rollbackerMiddleware],
+    preloadedState
+  })
+}
+
+export const store = setupStore({})

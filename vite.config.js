@@ -5,6 +5,12 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  test: {
+    environment: 'jsdom',
+    setupFiles: ['./src/testing/setup.js'],
+    testMatch: ['./src/testing/**/*.test.jsx'],
+    globals: true
+  },
   server: {
     watch: {
       usePolling: true

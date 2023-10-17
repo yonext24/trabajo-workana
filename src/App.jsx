@@ -1,5 +1,5 @@
 import { MainLayout } from './components/layouts/main-layout'
-import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom'
 import { ProtectedRoute } from './components/layouts/protected-route'
 import { GeneralLayout } from './components/layouts/general-layout'
 import { AuthLayout } from './components/layouts/auth-layout'
@@ -25,6 +25,7 @@ import { Geografia } from './pages/geografia/geografia'
 import { Perfil } from './pages/perfil'
 import { CambiarContrasena } from './pages/cambiar-contraseña'
 import { useAuth } from './hooks/useAuth'
+import { Modulos } from './pages/general/modulos'
 
 function App () {
   useAuth()
@@ -35,6 +36,8 @@ function App () {
       <MainLayout>
 
         <Routes>
+
+          <Route exact path='/' element={<Navigate to='perfil' />} />
 
           <Route path='/login' element={
             <AuthLayout>
@@ -61,6 +64,9 @@ function App () {
               />
               <Route path='/general/puestos' element={
                 <Puestos />
+              } />
+              <Route path='/general/modulos' element={
+                <Modulos />
               } />
             </Route>
 

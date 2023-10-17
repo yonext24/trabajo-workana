@@ -1,5 +1,5 @@
-import { Loading } from '../common/loading'
-import { Spinner } from '../common/spinner'
+import { RevalidatingIndicator } from '../common/revalidating-indicator'
+import { TableLoading } from './general/table-loading'
 import { TableContainer } from './table-container'
 import { TableHeader } from './table-header'
 
@@ -14,12 +14,11 @@ export function TableLayout ({ children, loading, columns, revalidating }) {
         </tbody>
       </table>
 
-      {
-        loading && <Loading />
-      }
+      <TableLoading loading={loading} />
+
     </TableContainer>
     {
-      revalidating && <Spinner className={'absolute top-6 right-6 !border-black !h-4 !w-4 !border-2 !border-b-white'} />
+      revalidating && <RevalidatingIndicator />
     }
   </>
 }

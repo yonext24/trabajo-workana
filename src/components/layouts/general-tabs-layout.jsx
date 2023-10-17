@@ -6,7 +6,8 @@ const tabs = {
   general: [
     { text: 'Sectores', href: '/general/sectores' },
     { text: 'Dependencias', href: '/general/dependencias' },
-    { text: 'Puestos', href: '/general/puestos' }
+    { text: 'Puestos', href: '/general/puestos' },
+    { text: 'Modulos', href: '/general/modulos' }
   ],
   usuarios: [
     { text: 'Roles', href: '/usuarios/roles' },

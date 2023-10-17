@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux'
 import { TableDependencias } from '../../components/tables/general/table-dependencias/table-dependencias'
 import { NuevoButton } from '../../components/common/nuevo-button'
 import { Filter } from '../../components/general/filter'
@@ -10,8 +9,6 @@ import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 // y ahí esta estilado el div#page-content
 
 export function Dependencias () {
-  const { general: { dependencias: { data: { filtered } } } } = useSelector(s => s.data)
-
   const permissions = usePermissions({ nameOfModule: 'GENERAL' })
   const { CREATE } = permissions
 
@@ -24,6 +21,6 @@ export function Dependencias () {
       <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
 
     </div>
-    <TableDependencias data={filtered} permissions={permissions} />
+    <TableDependencias permissions={permissions} />
   </div>
 }
