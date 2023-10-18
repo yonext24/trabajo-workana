@@ -25,8 +25,8 @@ export function Extension () {
   console.log({ data })
 
   return <div id="page-content">
-    <div className="flex justify-between items-end">
-      <div className='flex gap-4 text-lg font-semibold w-full'>
+    <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
+      <div className='w-full flex flex-col gap-x-4 sm:justify-start sm:flex-row sm:items-end text-lg font-semibold'>
         <div className='flex flex-col w-full max-w-[190px]'>
           <label>Tipo unidad</label>
           <SelectInput options={['Escuela', 'Hospital']} firstOne/>

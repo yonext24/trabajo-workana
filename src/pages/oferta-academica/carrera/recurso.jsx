@@ -28,7 +28,7 @@ export function Recurso () {
   }
 
   return <div id='page-content'>
-    <div className='flex justify-between items-end'>
+    <div className='w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end'>
       <div className='flex flex-col w-full max-w-[200px]'>
         <label className='font-semibold text-lg'>Tipo</label>
         <SelectInput handleOptionClick={handleOptionClick} options={['Todas', ...tipoRecursoData.map(el => el.nombre)]} />

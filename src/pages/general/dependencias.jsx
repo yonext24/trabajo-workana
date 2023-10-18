@@ -15,7 +15,7 @@ export function Dependencias () {
   const { handleAdd } = useTableDefaultModals({ place: 'dependencias', add: { el: DependenciasAddModal } })
 
   return <div id='page-content'>
-    <div className="w-full flex justify-between items-end">
+    <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
 
       <Filter />
       <NuevoButton handleClick={handleAdd} CREATE={CREATE} />

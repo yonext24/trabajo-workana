@@ -9,7 +9,8 @@ export function TableLayout ({ children, loading, columns, revalidating }) {
 
       <table className='w-full font-semibold'>
         <TableHeader columns={columns} />
-        <tbody className='[&>tr:last-of-type_td]:border-b-0 [&>tr>td:last-of-type]:!border-r-0 [&>tr>td]:!px-2'>
+        <tbody className='[&>tr:last-of-type_td]:border-b-0 [&>tr>td:last-of-type]:!border-r-0 [&>tr>td]:!px-px md:[&>tr>td]:!px-2
+        [&>tr>td]:!text-center md:[&>tr>td]:!text-start text-xs sm:text-sm md:text-base'>
           {children}
         </tbody>
       </table>

@@ -16,7 +16,7 @@ export function Permisos () {
   const { CREATE } = permissions
 
   return <div id='page-content'>
-    <div className='w-full flex justify-between items-end'>
+    <div className='w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end'>
       <PermisosFilter />
       <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     </div>

@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 export default function Navbar ({ entrys }) {
   const location = useLocation().pathname
   const { Logout } = useAuthActions()
-  const { user } = useSelector(s => s.auth)
+  const user = useSelector(s => s.auth.user)
 
   return <>
     <div className='w-[250px] max-[850px]:w-[210px] h-full' />

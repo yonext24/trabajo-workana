@@ -8,7 +8,7 @@ export function Geografia () {
   const { CREATE } = permissions
 
   return <div id='page-content'>
-    <div className="flex justify-between items-end">
+    <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
 
       <div className='flex flex-1 gap-4 [&>div]:flex [&>div]:flex-col [&>div]:w-full [&>div]:max-w-[210px] [&_label]:text-lg [&_label]:font-semibold'>
 

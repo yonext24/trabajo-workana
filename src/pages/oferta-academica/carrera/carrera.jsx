@@ -17,7 +17,7 @@ export function Carrera () {
   useEffect(() => { getCarreraCarreraData() }, [])
 
   return <div id='page-content'>
-    <div className='flex justify-between gap-6 items-end'>
+    <div className='w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end'>
       <div className='flex flex-col w-full max-w-[210px]'>
         <label className='text-lg font-semibold'>Nivel Carrera</label>
         <SelectInput options={[]} />

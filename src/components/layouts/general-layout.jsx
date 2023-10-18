@@ -11,7 +11,7 @@ export function GeneralLayout ({ children, text }) {
         logged && <UserInfo />
       }
     </header>
-    <div className='p-3 bg-gris [&>main]:max-w-5xl [&>main]:mx-auto [&>main]:w-full [&>main]:flex-1 flex-1 flex flex-col'>
+    <div className='px-0 py-3 sm:px-3 bg-gris [&>main]:max-w-5xl [&>main]:mx-auto [&>main]:w-full [&>main]:flex-1 flex-1 flex flex-col'>
       {children}
     </div>
   </div>

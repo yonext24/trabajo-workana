@@ -73,9 +73,9 @@ export function Usuarios () {
 
   return <div id='page-content'>
 
-    <div className='flex justify-between items-end gap-4'>
+    <div className='w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end'>
       <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
-      <form onSubmit={handleSubmit(onSubmit)} className='flex items-end gap-4 flex-col md:flex-row'>
+      <form onSubmit={handleSubmit(onSubmit)} className='flex md:items-end gap-4 flex-col md:flex-row'>
 
         <div className='flex flex-col w-48'>
           <label className='font-semibold text-lg'>Buscar por</label>

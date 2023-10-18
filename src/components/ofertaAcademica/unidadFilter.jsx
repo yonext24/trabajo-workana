@@ -10,11 +10,11 @@ export function UnidadFilter () {
   const options = useMemo(() => {
     const rawTipos = completeData.map(el => el.tipo)
     const parsedTipos = Array.from(new Set(rawTipos))
-    return ['all'].concat(parsedTipos)
+    return ['Todos'].concat(parsedTipos)
   }, [completeData])
 
   const handleChange = (value) => {
-    if (value === 'all') setUnidadFiltered(completeData)
+    if (value === 'Todos') setUnidadFiltered(completeData)
     else setUnidadFiltered(completeData.filter(el => el.tipo.toLowerCase() === value.toLowerCase()))
   }
 

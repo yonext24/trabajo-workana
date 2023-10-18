@@ -19,7 +19,7 @@ export function Unidad () {
   }, [])
 
   return <div id='page-content'>
-    <div className='flex justify-between items-end'>
+    <div className='w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end'>
       <UnidadFilter />
       <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
     </div>
