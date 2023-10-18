@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { setupStore } from '@/store'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-export function renderWithProviders(
+export function renderWithProviders (
   ui,
   {
     preloadedState = {},
@@ -14,7 +14,7 @@ export function renderWithProviders(
     ...renderOptions
   } = {}
 ) {
-  function Wrapper({ children }) {
+  function Wrapper ({ children }) {
     return (
     <Provider store={store}>
       <Router>
