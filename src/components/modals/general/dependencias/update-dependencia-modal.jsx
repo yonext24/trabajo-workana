@@ -5,32 +5,42 @@ import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '../../../common/input-w-label'
 import { compareValues } from '../../../../utils/compareValues'
-import { SelectInputControlled } from '../../../common/select-input-controlled'
 import { useSelector } from 'react-redux'
-import { useMemo } from 'react'
+import { useEffect } from 'react'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 
 export function UpdateDependenciaModal ({ closeModal, entryData }) {
-  const { sector, nombre, abreviatura, unidad } = entryData
-  const sectoresData = useSelector(s => s.data.sectores.data)
-  const dependenciasData = useSelector(s => s.data.dependencias.data)
+  const { nombre, abreviatura, id_dependencia, id_sector, id_unidad } = entryData
 
-  const allUnidades = useMemo(() => {
-    return dependenciasData.map(el => el.unidad)
-  }, [dependenciasData])
+  const { data: sectoresData, error: sectoresError, loading: sectoresLoading } = useSelector(s => s.data.sectores)
+  const { data: unidadesData, error: unidadesError, loading: unidadesLoading } = useSelector(s => s.ofertaAcademica.unidadAcademica.unidad)
+
+  useEffect(() => {
+    getSectoresData()
+    getUnidadAcademicaUnidad()
+  }, [])
 
   const { register, handleSubmit, control } = useForm()
-  const { updDependenciasData } = useDataActions()
+  const { updDependenciasData, getSectoresData } = useDataActions()
+  const { getUnidadAcademicaUnidad } = useOfertaAcademicaActions()
 
   const onSubmit = (newData) => {
-    updDependenciasData({ newData, nombre })
+    updDependenciasData({ ...newData, id_dependencia })
     closeModal()
   }
 
   const handleUpdate = (data) => {
-    const newEntryData = { ...entryData }
-    delete newEntryData.id
-    if (compareValues(data, newEntryData)) return
-    onSubmit(data)
+    const id_sector = data.sector.id_sector
+    const id_unidad = data.unidad.id_unidad
+    const sector = data.sector.nombre
+    const unidad = 'placeholder'
+
+    const newEntryData = { ...entryData, ...data, id_sector, id_unidad, sector, unidad }
+    console.log({ entryData, newEntryData })
+    if (compareValues(entryData, newEntryData)) return
+
+    onSubmit(newEntryData)
   }
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal}>
@@ -38,25 +48,30 @@ export function UpdateDependenciaModal ({ closeModal, entryData }) {
     <DefaultModalLayout title='Actualizar Dependencia' closeModal={closeModal}>
       <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold flex flex-col gap-y-3'>
 
-        <InputWLabel id='nombre' labelText='Nombre' type='text' autoFocus register={register} required defaultValue={nombre} />
+        <InputWLabel readOnly required id='nombre' labelText='Nombre' type='text' autoFocus register={register} defaultValue={nombre} />
         <InputWLabel id='abreviatura' name='abreviatura' labelText='Abreviatura' type='text' register={register} required defaultValue={abreviatura} />
 
-        <label className='-mb-3 text-lg'>Sector</label>
-        <SelectInputControlled
-         name='sector'
-         control={control}
-         rules={{ required: true }}
-         defaultValue={sector}
-         options={sectoresData} />
-
-        <label className='-mb-3 text-lg'>Unidad</label>
-        <SelectInputControlled
+         <SelectInputControlledWithLabel
+          name='sector'
+          control={control}
+          rules={{ required: true }}
+          defaultValue={sectoresData.find(el => el.id_sector === id_sector)}
+          options={sectoresData}
+          loading={sectoresLoading}
+          error={sectoresError}
+          show='nombre'
+          labelText={'Sector'}
+         />
+        <SelectInputControlledWithLabel
          name='unidad'
          control={control}
          rules={{ required: true }}
-         defaultValue={unidad}
-         options={allUnidades} />
-         <div className='mb-4' />
+         defaultValue={unidadesData.find(el => el.id_unidad === id_unidad)}
+         show={'nombre'}
+         loading={unidadesLoading}
+         error={unidadesError}
+         options={unidadesData}
+        />
 
         <div className='mt-5' />
         <ButtonsContainer closeModal={closeModal}>

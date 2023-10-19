@@ -6,6 +6,8 @@ import { useEffect } from 'react'
 import { useDataActions } from '@/hooks/useDataActions'
 import { usePermissions } from '@/hooks/usePermissions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
+import { useSelector } from 'react-redux'
+import { ErrorWarning } from '@/components/common/error-warning'
 
 // Esta página y todas las de la carpeta /general tienen un layout ya integrado, en /components/layout/general-tabs-layout
 // y ahí esta estilado el div#page-content
@@ -21,12 +23,17 @@ export function GeneralSectores () {
     }
   })
 
+  const error = useSelector(s => s.data.sectores.error)
+
   useEffect(() => {
     getSectoresData()
   }, [])
 
   return <div id='page-content'>
-    <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+    <div className='flex justify-between'>
+      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+      <ErrorWarning err={error} />
+    </div>
     <TableGeneral permissions={permissions} />
   </div>
 }

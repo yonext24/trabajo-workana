@@ -3,20 +3,18 @@ import { useDataActions } from '../../../../hooks/useDataActions'
 import { UpdateDependenciaModal } from '../../../modals/general/dependencias/update-dependencia-modal'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 
-export function TableDependenciasRow ({ sector, nombre, abreviatura, unidad, id, permissions }) {
+export function TableDependenciasRow ({ sector, nombre, abreviatura, unidad, id, permissions, id_dependencia, id_sector, id_unidad }) {
   const { delDependenciesData } = useDataActions()
 
   const { UPDATE } = permissions
 
   const { handleDel, handleUpd } = useTableDefaultModals({
-    place: 'dependencias',
-    update: { el: UpdateDependenciaModal, entryData: { sector, nombre, abreviatura, unidad, id } },
+    place: 'dependencia',
+    update: { el: UpdateDependenciaModal, entryData: { sector, nombre, abreviatura, unidad, id_dependencia, id_sector, id_unidad } },
     del: {
       onClick: () => {
-        delDependenciesData(nombre)
-      },
-      title: 'Eliminar Dependencia',
-      sure: 'Realmente quiere eliminar esta dependencia?'
+        delDependenciesData({ id_dependencia, id_sector, id_unidad, abreviatura })
+      }
     }
   })
 

@@ -15,7 +15,7 @@ export function TableDependencias ({ permissions }) {
 
   return <TableLayout loading={loading} revalidating={revalidating} columns={['Sector', 'Nombre', 'Abreviatura', 'Unidad', 'Acciones'].map(el => ({ text: el }))}>
     {
-      filtered.map(row => <TableDependenciasRow permissions={permissions} {...row} key={row.nombre} />)
+      filtered.map(row => <TableDependenciasRow permissions={permissions} {...row} key={row.id_dependencia} />)
     }
   </TableLayout>
 }

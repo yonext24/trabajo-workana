@@ -1,25 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { setThunks } from '../setThunks'
+import { routes } from '@/utils/routes'
 
-export const get_dependencias = createAsyncThunk('general/get_dependencias_data', async () => {
-  const fakeInitialState = [
-    { sector: 'Central', nombre: 'Biblioteca', abreviatura: 'biblio', unidad: 'Abc' },
-    { sector: 'Externo', nombre: 'Contabilidad', abreviatura: 'conta', unidad: 'Abc2' },
-    { sector: 'Interno', nombre: 'Sección de cobros', abreviatura: 'cobros', unidad: 'Abc3' },
-    { sector: 'Unidad', nombre: 'Unidad Municipal', abreviatura: 'muni', unidad: 'Abc4' }
-  ]
-
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return fakeInitialState
+export const get_dependencias = createAsyncThunk('general/get_dependencias_data', async (_, api) => {
+  const { dependencias } = await routes.general.dependencias.get(api)
+  return dependencias
 })
 
-export const del_dependencias = createAsyncThunk('general/delete_dependencias_data', async ({ nombre }, api) => {
-  return nombre
+export const del_dependencias = createAsyncThunk('general/delete_dependencias_data', async (data, api) => {
+  await routes.general.dependencias.delete(api, data)
+
+  return data.id_dependencia
 })
 
-export const update_dependencias = createAsyncThunk('general/update_dependencias_data', async ({ newData, nombre }, api) => {
-  return { nombre, newData }
+export const update_dependencias = createAsyncThunk('general/update_dependencias_data', async (data, api) => {
+  const id_dependencia = data?.id_dependencia
+  await routes.general.dependencias.update(api, data)
+
+  return { id_dependencia, newData: data }
 })
 
 export const add_dependencias = createAsyncThunk('general/add_dependencias_data', async ({ newData }) => {
@@ -35,11 +33,11 @@ const noLoopData = {
   },
   del: {
     function: del_dependencias,
-    filterBy: 'nombre'
+    filterBy: 'id_dependencia'
   },
   update: {
     function: update_dependencias,
-    filterBy: 'nombre'
+    filterBy: 'id_dependencia'
   },
   add: {
     function: add_dependencias

@@ -1,23 +1,45 @@
-import { Controller } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { SelectInput } from './select-input'
+import { useEffect } from 'react'
 
-export function SelectInputControlled ({ control, name, handleOptionClick, defaultValue, options, rules, disabled, ...props }) {
+export function SelectInputControlled ({ control, error, loading, name, show, handleOptionClick, defaultValue, options, rules, disabled, validate, ...props }) {
+  const { setValue, watch } = useForm({
+    values: {
+      [name]: defaultValue
+    }
+  })
+  useEffect(() => {
+    setValue(name, defaultValue)
+  }, [setValue, defaultValue])
+
+  const validateSelect = (value) => {
+    console.log({ value })
+    const condition = value !== 'Cargando...' && value !== 'Seleccionar'
+    return condition
+  }
+
   return <Controller
     name={name}
     control={control}
-    rules={rules}
-    defaultValue={defaultValue}
-    render={({ field: { onChange, value } }) => (
-      <SelectInput
+    rules={{ validate: { validateSelect, ...validate }, ...rules }}
+    render={({ field: { onChange, value } }) => {
+      return (
+        <SelectInput
         options={options}
+        show={show}
+        error={error}
+        loading={loading}
         disabled={disabled}
-        defaultValue={value}
+        defaultValue={watch(value)[name]}
         handleOptionClick={(selected) => {
           handleOptionClick && handleOptionClick(selected)
           onChange(selected)
         }}
+        rawOnChange={onChange}
         {...props}
       />
-    )}
+      )
+    }
+    }
   />
 }

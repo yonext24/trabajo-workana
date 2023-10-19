@@ -16,6 +16,7 @@ const addHandler = ({ state, getProperty, setProperty, data }) => {
 const updateHandler = ({ update, state, data, placeName, name, getProperty, setProperty }) => {
   const { filterBy, filterFunc } = update
   const actualData = getProperty({ property: 'data', state, placeName, name })
+  console.log(data)
 
   const value = [...actualData].map(el => {
     if (filterFunc) {
@@ -107,7 +108,8 @@ const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, d
       }
     })
     builder.addCase(actionType.rejected, (state, action) => {
-      const data = dataExtractor(action.payload)
+      const data = action.error.message
+
       setProperty({ property: 'loading', state, value: false })
       setProperty({ property: 'revalidating', state, value: false })
       setProperty({ property: 'error', state, value: data })

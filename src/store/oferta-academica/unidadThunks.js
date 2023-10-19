@@ -34,11 +34,15 @@ export const update_unidad_academica_tipos = createAsyncThunk('oferta-academica/
 export const get_unidad_academica_unidad = createAsyncThunk('oferta-academica/unidad-academica/unidad/get', async (_, api) => {
   await new Promise(resolve => setTimeout(resolve, 1500))
 
-  const data = fakeData({ tipo: 6, codigo: 1, nombre: 12, abreviatura: 5 })
+  const data = [{
+    tipo: 'Escuela',
+    codigo: 1,
+    nombre: 'Escuela de Ingeniería',
+    abreviatura: 'EISI',
+    id_unidad: 0
+  }]
 
-  return data.map(el => {
-    return { ...el, codigo: Math.floor(Math.random() * 100), tipo: ['Escuela', 'Test'][Math.floor(Math.random() * 2)] }
-  })
+  return data
 })
 export const add_unidad_academica_unidad = createAsyncThunk('oferta-academica/unidad-academica/unidad/add', async ({ newData }, api) => {
   await new Promise(resolve => setTimeout(resolve, 1500))

@@ -8,9 +8,9 @@ export function AddSectorModal ({ closeModal }) {
 
   const handleSubmit = e => {
     e.preventDefault()
-    const { name } = Object.fromEntries(new FormData(e.target))
+    const { nombre } = Object.fromEntries(new FormData(e.target))
 
-    addSectoresData(name)
+    addSectoresData(nombre)
   }
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal} >
@@ -18,7 +18,7 @@ export function AddSectorModal ({ closeModal }) {
     <DefaultModalLayout title='Agregar Sector' >
       <form onSubmit={handleSubmit} className='py-8 px-4 font-semibold'>
         <p>Nombre</p>
-        <input type='text' autoFocus name='name' id='name' className='border-2 outline-none py-1 text-lg px-4 w-full border-gris rounded-md mb-12' />
+        <input type='text' autoFocus name='nombre' id='nombre' className='border-2 outline-none py-1 text-lg px-4 w-full border-gris rounded-md mb-12' />
 
         <ButtonsContainer closeModal={closeModal}>
           <button type='submit'>Agregar</button>

@@ -16,14 +16,14 @@ export function useDataActions () {
 
   const getSectoresData = async (args) => dispatch(get_sectores_data({ args }))
   const addSectoresData = async (newData) => dispatch(add_sectores_data({ newData }))
-  const delSectoresData = async (text) => dispatch(delete_sectores_data({ nombre: text }))
+  const delSectoresData = async (id_sector) => dispatch(delete_sectores_data({ id_sector }))
   const updSectoresData = async ({ nombre, newData }) => dispatch(update_sectores_data({ nombre, newData }))
 
   const setDependenciasFiltered = (filteredData) => dispatch(set_general_dependencias_filtered({ filteredData }))
   const getDependencias = async () => dispatch(get_dependencias())
   const addDependenciasData = async (newData) => dispatch(add_dependencias({ newData }))
-  const updDependenciasData = async ({ newData, nombre }) => dispatch(update_dependencias({ newData, nombre }))
-  const delDependenciesData = async (nombre) => dispatch(del_dependencias({ nombre }))
+  const updDependenciasData = async (data) => dispatch(update_dependencias(data))
+  const delDependenciesData = async (data) => dispatch(del_dependencias(data))
 
   const getPuestos = async () => dispatch(get_puestos())
   const addPuestosData = async (data) => dispatch(add_puestos({ data }))

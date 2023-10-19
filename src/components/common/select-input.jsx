@@ -1,9 +1,33 @@
 import { useEffect, useState } from 'react'
 import { DownArrowIcon } from '../icons'
 
-export function SelectInput ({ options, defaultValue = null, firstOne = false, handleOptionClick, disabled }) {
-  const [value, setValue] = useState(firstOne ? options[0] : defaultValue)
+export function SelectInput ({
+  options,
+  show,
+  defaultValue,
+  firstOne = false,
+  handleOptionClick,
+  disabled,
+  error,
+  loading,
+  rawOnChange
+}) {
+  const [value, setValue] = useState('Seleccionar')
   const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    if (loading) setValue('Cargando...')
+    else if (error) setValue('Error')
+    else if (defaultValue) {
+      const newValue = firstOne ? valueParser(options[0]) : valueParser(defaultValue) ?? 'Seleccionar'
+      rawOnChange(defaultValue) // No fui capaz de hacerlo sin esto, no creo que sea la mejor práctica
+      setValue(newValue)
+    } else setValue('Seleccionar')
+  }, [loading, error, defaultValue])
+
+  function valueParser (data) {
+    return typeof data === 'string' ? data : data[show]
+  }
 
   useEffect(() => {
     const handleClick = () => {
@@ -34,7 +58,7 @@ export function SelectInput ({ options, defaultValue = null, firstOne = false, h
     <div onClick={handleClick} id='fake-select' data-disabled={disabled} className="cursor-default text-lg pl-4
     border-2 border-gris rounded-md flex w-full overflow-hidden data-[disabled]:shadow-lg data-[disabled]:cursor-not-allowed">
       <div className='flex-1 text-left py-[2px]'>
-        <span className='block py-px capitalize'>{value || 'Seleccionar'}</span>
+        <span className='block py-px capitalize'>{valueParser(value) || 'Seleccionar'}</span>
       </div>
       <div className={`border-l-2 border-gris px-4 flex items-center transition-colors ${open ? 'bg-azulfondo  text-white' : 'bg-gris  text-black'}`}>
         <DownArrowIcon className='h-4 w-4' />
@@ -45,8 +69,7 @@ export function SelectInput ({ options, defaultValue = null, firstOne = false, h
       overflow-hidden'>
         {
           options.map((data) => {
-            const value = typeof data === 'string' ? data : data.text
-            console.log(value, data)
+            const value = valueParser(data)
 
             return <li
               className='bg-azulfondo text-white hover:bg-white hover:text-black py-1 px-3 transition-colors select-none capitalize'
