@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 export function SelectInputControlled ({ control, error, loading, name, show, handleOptionClick, defaultValue, options, rules, disabled, validate, ...props }) {
   const { setValue, watch } = useForm({
-    values: {
+    defaultValues: {
       [name]: defaultValue
     }
   })
@@ -13,7 +13,6 @@ export function SelectInputControlled ({ control, error, loading, name, show, ha
   }, [setValue, defaultValue])
 
   const validateSelect = (value) => {
-    console.log({ value })
     const condition = value !== 'Cargando...' && value !== 'Seleccionar'
     return condition
   }
@@ -30,7 +29,7 @@ export function SelectInputControlled ({ control, error, loading, name, show, ha
         error={error}
         loading={loading}
         disabled={disabled}
-        defaultValue={watch(value)[name]}
+        defaultValue={watch(value)?.[name]}
         handleOptionClick={(selected) => {
           handleOptionClick && handleOptionClick(selected)
           onChange(selected)

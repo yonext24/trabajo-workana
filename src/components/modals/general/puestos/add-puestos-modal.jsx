@@ -12,12 +12,13 @@ export function AddPuestosModal ({ closeModal }) {
   const puestosData = useSelector(s => s.data.puestos.data)
   const { addPuestosData } = useDataActions()
 
-  const handleUpdate = (data) => {
-    if (puestosData.some(el => el === data.name)) {
+  const handleUpdate = ({ descripcion }) => {
+    if (puestosData.some(el => el.descripcion === descripcion)) {
       toast.error('Ya existe un puesto de esas características.')
       return
     }
-    addPuestosData(data.name)
+
+    addPuestosData({ descripcion })
   }
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal} >
@@ -25,7 +26,7 @@ export function AddPuestosModal ({ closeModal }) {
     <DefaultModalLayout title='Agregar Puesto' >
       <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold'>
 
-      <InputWLabel id='name' name='name' labelText='Nombre' type='text' inputClassName={'mb-12'} autoFocus register={register} required />
+      <InputWLabel id='descripcion' name='descripcion' labelText='Nombre' type='text' inputClassName={'mb-12'} autoFocus register={register} required />
 
         <ButtonsContainer closeModal={closeModal}>
           <button type='submit'>Agregar</button>

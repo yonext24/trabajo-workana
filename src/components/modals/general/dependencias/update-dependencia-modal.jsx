@@ -37,7 +37,6 @@ export function UpdateDependenciaModal ({ closeModal, entryData }) {
     const unidad = 'placeholder'
 
     const newEntryData = { ...entryData, ...data, id_sector, id_unidad, sector, unidad }
-    console.log({ entryData, newEntryData })
     if (compareValues(entryData, newEntryData)) return
 
     onSubmit(newEntryData)

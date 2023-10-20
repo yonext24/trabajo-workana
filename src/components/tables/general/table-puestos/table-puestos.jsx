@@ -6,14 +6,13 @@ import { useEffect } from 'react'
 
 export function TablePuestos ({ permissions }) {
   const { getPuestos } = useDataActions()
-
   useEffect(() => { getPuestos() }, [])
 
   const { loading, data, revalidating } = useSelector(s => s.data.puestos)
 
   return <TableLayout columns={[{ text: 'Nombre' }, { text: 'Acciones' }]} loading={loading} revalidating={revalidating}>
     {
-      data.map(el => <TablePuestosRow key={el} text={el} permissions={permissions} />)
+      data.map(el => <TablePuestosRow key={el.id_puesto} {...el} permissions={permissions} />)
     }
   </TableLayout>
 }

@@ -37,7 +37,6 @@ export function UpdateUsuariosModal ({ closeModal }) {
 
   const handleUpdate = () => {
     toast('Este botón aún no hace nada, esperando a que me den la api para resolverlo.')
-    console.log('test')
   }
 
   return <ModalBackground closeModal={closeModal} onClick={closeModal}>

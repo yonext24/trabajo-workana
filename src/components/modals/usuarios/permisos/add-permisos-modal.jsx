@@ -12,7 +12,6 @@ export function AddPermisosModal ({ closeModal }) {
   const { data: { general: { modulos: { data: modulosData } } } } = useSelector(s => s)
 
   const handleUpload = (data) => {
-    console.log(data)
     addPermission(data)
   }
 

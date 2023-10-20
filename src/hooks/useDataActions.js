@@ -5,7 +5,7 @@ import {
 
 import { add_sectores_data, delete_sectores_data, get_sectores_data, update_sectores_data } from '../store/general/sectoresThunks'
 import { add_dependencias, del_dependencias, get_dependencias, update_dependencias } from '@/store/general/dependenciasThunks'
-import { add_puestos, del_puestos, get_puestos, update_puestos } from '@/store/general/puestosThunks'
+import { add_puestos, del_puestos, get_puestos } from '@/store/general/puestosThunks'
 import { add_modulos, del_modulos, get_modulos, update_modulos } from '@/store/general/modulosThunks'
 
 export function useDataActions () {
@@ -21,14 +21,13 @@ export function useDataActions () {
 
   const setDependenciasFiltered = (filteredData) => dispatch(set_general_dependencias_filtered({ filteredData }))
   const getDependencias = async () => dispatch(get_dependencias())
-  const addDependenciasData = async (newData) => dispatch(add_dependencias({ newData }))
+  const addDependenciasData = async (data) => dispatch(add_dependencias(data))
   const updDependenciasData = async (data) => dispatch(update_dependencias(data))
   const delDependenciesData = async (data) => dispatch(del_dependencias(data))
 
   const getPuestos = async () => dispatch(get_puestos())
-  const addPuestosData = async (data) => dispatch(add_puestos({ data }))
-  const delPuestosData = async (nombre) => dispatch(del_puestos({ nombre }))
-  const updPuestosData = async ({ nombre, newData }) => dispatch(update_puestos({ nombre, newData }))
+  const addPuestosData = async (data) => dispatch(add_puestos(data))
+  const delPuestosData = async (data) => dispatch(del_puestos(data))
 
   const getModulos = async (props) => dispatch(get_modulos(props))
   const addModulos = async (newData) => dispatch(add_modulos({ newData }))
@@ -51,7 +50,6 @@ export function useDataActions () {
     getPuestos,
     addPuestosData,
     delPuestosData,
-    updPuestosData,
 
     getModulos,
     addModulos,

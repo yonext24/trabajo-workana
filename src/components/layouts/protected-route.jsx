@@ -1,16 +1,16 @@
 import { USER_POSSIBLE_STATES } from '@/store/auth/slice'
 import { useState, useEffect } from 'react'
-
 import { useSelector } from 'react-redux'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { Spinner } from '../common/spinner'
-import { checkPermissions } from '@/utils/checkPermissions'
+import { usePermissions } from '@/hooks/usePermissions'
 
 export function ProtectedRoute ({ children, name, isProfile, parsedName }) {
   const [isChecking, setIsChecking] = useState(true)
 
-  const { logged, permissions, operacion } = useSelector(s => s.auth)
+  const logged = useSelector(s => s.auth.logged)
+  const { READ } = usePermissions({ nameOfModule: name })
 
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -20,7 +20,6 @@ export function ProtectedRoute ({ children, name, isProfile, parsedName }) {
       return
     }
     if (logged === USER_POSSIBLE_STATES.NOT_LOGGED) {
-      console.log('not logged')
       navigate('/login')
       return
     }
@@ -31,8 +30,7 @@ export function ProtectedRoute ({ children, name, isProfile, parsedName }) {
 
     setIsChecking(true)
 
-    const read = operacion.read
-    const hasPermission = checkPermissions({ operacion: read, permissions, nameOfModule: name })
+    const hasPermission = READ
 
     if (hasPermission) {
       setIsChecking(false)

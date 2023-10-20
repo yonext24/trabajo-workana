@@ -57,6 +57,31 @@ export const routes = {
         return await fetch(`${BASE_URL}/rye/dependencia/actualizar`,
           { headers, method: 'POST', body: JSON.stringify({ id_dependencia, id_unidad, id_sector, estado: true, abreviatura }) })
           .then(fetchHandler)
+      },
+      add: async (api, { id_unidad, id_sector, abreviatura, nombre }) => {
+        const { headers } = getToken(api)
+        return await fetch(`${BASE_URL}/rye/dependencia/nuevo`,
+          { headers, method: 'POST', body: JSON.stringify({ id_unidad, id_sector, estado: true, abreviatura, nombre }) })
+          .then(fetchHandler)
+      }
+    },
+    puestos: {
+      get: async (api) => {
+        const { headers } = getToken(api)
+        return await fetch(`${BASE_URL}/rye/puesto/puestos`, { headers })
+          .then(fetchHandler)
+      },
+      delete: async (api, { id_puesto }) => {
+        const { headers } = getToken(api)
+        return await fetch(`${BASE_URL}/rye/puesto/actualizar`,
+          { headers, method: 'POST', body: JSON.stringify({ id_puesto, estado: false }) })
+          .then(fetchHandler)
+      },
+      add: async (api, { descripcion }) => {
+        const { headers } = getToken(api)
+        return await fetch(`${BASE_URL}/rye/puesto/nuevo`,
+          { headers, method: 'POST', body: JSON.stringify({ estado: true, descripcion }) })
+          .then(fetchHandler)
       }
     }
   }

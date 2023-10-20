@@ -1,19 +1,17 @@
 import { useState, useMemo, useEffect } from 'react'
 import { DownArrowIcon } from '../icons'
 import { useNavigate } from 'react-router-dom'
-import { checkPermissions } from '@/utils/checkPermissions'
-import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { usePermissions } from '@/hooks/usePermissions'
 
 export function RawEntry ({ text, Icon, isSub, open, noArrow = false, setOpen, href, closeModal, isSelected, handleClick, permissionName }) {
   const navigate = useNavigate()
-  const { operacion, permissions } = useSelector(s => s.auth)
+  const { READ } = usePermissions({ nameOfModule: permissionName })
 
   const handleEntryClick = () => {
-    console.log({ permissionName })
     if (href) {
-      const read = operacion?.read
-      const hasPermissions = checkPermissions({ operacion: read, permissions, nameOfModule: permissionName })
+      const hasPermissions = READ
+
       if (!hasPermissions) {
         toast.error('No tienes permisos de lectura para acceder a esta ruta', { toastId: permissionName })
       } else {

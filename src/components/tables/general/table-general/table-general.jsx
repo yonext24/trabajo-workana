@@ -6,8 +6,6 @@ export function TableGeneral ({ permissions }) {
   // eslint-disable-next-line no-unused-vars
   const { loading, data, revalidating, error } = useSelector(s => s.data.sectores)
 
-  console.log({ error })
-
   return <TableLayout loading={loading} revalidating={revalidating} columns={[{ text: 'Nombre' }, { text: 'Acciones', className: 'max-w-[40%] w-full' }]}>
     {
       data.map(el => <TableGeneralRow permissions={permissions} key={el.nombre} {...el} />)

@@ -36,7 +36,6 @@ const noLoopData = {
   update: {
     function: update_sectores_data,
     filterFunc: (data, el) => {
-      console.log({ data, el })
       if (data.nombre === el) return data.newData
       return el
     }

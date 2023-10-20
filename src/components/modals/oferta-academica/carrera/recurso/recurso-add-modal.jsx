@@ -19,7 +19,6 @@ export function RecursoAddModal ({ closeModal }) {
       toast.error('Ya hay un recurso con ese nombre.')
       return
     }
-    console.log(data)
     addCarreraRecurso(data)
       .then(closeModal)
   }

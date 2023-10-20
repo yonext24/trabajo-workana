@@ -19,7 +19,6 @@ export function AddRolesModal ({ closeModal }) {
     }
     addRole(data)
   }
-  console.log(rolesData)
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal} >
 

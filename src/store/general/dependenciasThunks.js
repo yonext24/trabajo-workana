@@ -20,10 +20,10 @@ export const update_dependencias = createAsyncThunk('general/update_dependencias
   return { id_dependencia, newData: data }
 })
 
-export const add_dependencias = createAsyncThunk('general/add_dependencias_data', async ({ newData }) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
+export const add_dependencias = createAsyncThunk('general/add_dependencias_data', async (data, api) => {
+  const { id_dependencia } = await routes.general.dependencias.add(api, { ...data, id_unidad: 0 }) // <--- ID_UNIDAD = PLACEHOLDER
 
-  return newData
+  return { id_dependencia, ...data }
 })
 
 const noLoopData = {

@@ -16,7 +16,6 @@ const addHandler = ({ state, getProperty, setProperty, data }) => {
 const updateHandler = ({ update, state, data, placeName, name, getProperty, setProperty }) => {
   const { filterBy, filterFunc } = update
   const actualData = getProperty({ property: 'data', state, placeName, name })
-  console.log(data)
 
   const value = [...actualData].map(el => {
     if (filterFunc) {
@@ -118,7 +117,7 @@ const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, d
 
   addActionCase(get.function, payload => payload, 'get')
   addActionCase(add.function, payload => payload, 'add')
-  addActionCase(update.function, payload => payload, 'update')
+  update && addActionCase(update.function, payload => payload, 'update')
   addActionCase(del.function, payload => payload, 'del')
   customs.length >= 1 && customs.forEach(custom => {
     addActionCase(custom.function, payload => payload, 'custom', custom.fulfilled)

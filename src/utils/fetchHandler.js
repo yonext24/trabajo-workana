@@ -10,7 +10,6 @@ export const fetchHandler = async (res) => {
   const contentType = res.headers.get('content-type')
   const isJson = contentType && contentType.includes('application/json')
 
-  console.log(res.status)
   if (res.status === 422) {
     // Fastapi utiliza siempre el 422 para los error de validación
     throw new Error(errorParser['Unprocessable Entity'])

@@ -2,8 +2,16 @@ import { fetchHandler } from '@/utils/fetchHandler'
 import { routes } from '@/utils/routes'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
-const permissionParser = ({ userPermissions, modulos }) => {
-  return userPermissions.map(permission => {
+export const INITIAL_PERMISSIONS_STATE = {
+  READ: false,
+  CREATE: false,
+  UPDATE: false,
+  DELETE: false
+}
+
+const permissionParser = ({ userPermissions, modulos, operaciones }) => {
+  // Se fusionan los permisos de la api con los parámetros para agregar el nombre de los módulos
+  const rawPermissions = userPermissions.map(permission => {
     const nombre = modulos.find(modulo => modulo.codigo === permission.modulo).modulo
 
     return {
@@ -11,6 +19,29 @@ const permissionParser = ({ userPermissions, modulos }) => {
       nombre
     }
   })
+
+  const finalPermissions = {}
+
+  modulos.forEach(({ modulo }) => {
+    finalPermissions[modulo] = INITIAL_PERMISSIONS_STATE
+  })
+
+  modulos.forEach(({ modulo }) => {
+    const permissionsOfModule = rawPermissions.filter(permission => permission.nombre === modulo)
+    const parsedPermissionsOfModule = {}
+
+    // El formato de las operaciones que entrega la api esta en minúscula, por lo que se mapea a mayúscula
+    // para que coincida con el formato de las constantes
+    Object.entries(operaciones).forEach(([operation, value]) => {
+      const userHasCurrentPermission = permissionsOfModule.some(permission => permission.operacion === value)
+
+      parsedPermissionsOfModule[operation.toUpperCase()] = userHasCurrentPermission
+    })
+
+    finalPermissions[modulo] = parsedPermissionsOfModule
+  })
+
+  return finalPermissions
 }
 
 const getUserData = async ({ headers }) => {
@@ -26,7 +57,7 @@ const getUserData = async ({ headers }) => {
     headers
   }).then(fetchHandler)
 
-  const parsedPermissions = permissionParser({ userPermissions, modulos })
+  const parsedPermissions = permissionParser({ userPermissions, modulos, operaciones: operacion })
 
   return { user, permissions: parsedPermissions, operacion }
 }
