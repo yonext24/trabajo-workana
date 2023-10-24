@@ -1,16 +1,14 @@
 import { useDataActions } from '@/hooks/useDataActions'
-import { UpdateModulosModal } from '@/components/modals/general/modulos/update-modulos-modal'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
-import { DeactivateButton, UpdateButton } from '@/components/common/table-buttons'
+import { DeactivateButton } from '@/components/common/table-buttons'
 
-export function TableModulosRow ({ nombre, tipo, permissions }) {
+export function TableModulosRow ({ nombre, tipo, permissions, id }) {
   const { delModulos } = useDataActions()
 
-  const { handleDel, handleUpd } = useTableDefaultModals({
+  const { handleDel } = useTableDefaultModals({
     place: 'modulos',
-    update: { el: UpdateModulosModal, nombre, tipo },
     del: {
-      onClick: () => { delModulos(nombre) },
+      onClick: () => { delModulos({ id }) },
       title: 'Desactivar Modulo',
       sure: 'Realmente quiere desactivar este modulo?'
     }
@@ -26,7 +24,6 @@ export function TableModulosRow ({ nombre, tipo, permissions }) {
 
         {
           CREATE && <>
-            <UpdateButton handleClick={handleUpd} />
             <DeactivateButton handleClick={handleDel} />
           </>
         }

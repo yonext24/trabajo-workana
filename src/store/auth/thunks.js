@@ -9,10 +9,26 @@ export const INITIAL_PERMISSIONS_STATE = {
   DELETE: false
 }
 
+const nombreModulosMapper = {
+  General: 'GENERAL',
+  Usuarios: 'USUARIOS',
+  'Oferta Académica': 'OFERTA_ACADEMICA',
+  Reportes: 'REPORTES',
+  'Centros Educativos': 'CENTROS_EDUCATIVOS',
+  Geográfico: 'GEOGRAFICO'
+}
+const operacionesMapper = {
+  Leer: 'READ',
+  Crear: 'CREATE',
+  Actualizar: 'UPDATE',
+  Eliminar: 'DELETE'
+} // Esto está hecho así porque se le cambiaron el nombre a las operaciones y de los módulos después de que ya hardcodee muchas cosas
+
 const permissionParser = ({ userPermissions, modulos, operaciones }) => {
   // Se fusionan los permisos de la api con los parámetros para agregar el nombre de los módulos
   const rawPermissions = userPermissions.map(permission => {
-    const nombre = modulos.find(modulo => modulo.codigo === permission.modulo).modulo
+    const rawNombre = modulos.find(modulo => modulo.codigo === permission.id_modulo).nombre
+    const nombre = nombreModulosMapper[rawNombre] ?? rawNombre
 
     return {
       ...permission,
@@ -22,23 +38,26 @@ const permissionParser = ({ userPermissions, modulos, operaciones }) => {
 
   const finalPermissions = {}
 
-  modulos.forEach(({ modulo }) => {
-    finalPermissions[modulo] = INITIAL_PERMISSIONS_STATE
+  modulos.forEach((modulo) => {
+    const nombreModulo = nombreModulosMapper[modulo.nombre] ?? modulo.nombre
+    finalPermissions[nombreModulo] = INITIAL_PERMISSIONS_STATE
   })
 
-  modulos.forEach(({ modulo }) => {
-    const permissionsOfModule = rawPermissions.filter(permission => permission.nombre === modulo)
+  modulos.forEach(modulo => {
+    const nombreModulo = nombreModulosMapper[modulo.nombre] ?? modulo.nombre
+    const permissionsOfModule = rawPermissions.filter(permission => permission.nombre === nombreModulo)
     const parsedPermissionsOfModule = {}
 
     // El formato de las operaciones que entrega la api esta en minúscula, por lo que se mapea a mayúscula
     // para que coincida con el formato de las constantes
-    Object.entries(operaciones).forEach(([operation, value]) => {
-      const userHasCurrentPermission = permissionsOfModule.some(permission => permission.operacion === value)
+    operaciones.forEach((operacion) => {
+      const currentOperation = operacionesMapper[operacion.nombre] ?? operacion.nombre
+      const userHasCurrentPermission = permissionsOfModule.some(permission => permission.id_operacion === operacion.codigo)
 
-      parsedPermissionsOfModule[operation.toUpperCase()] = userHasCurrentPermission
+      parsedPermissionsOfModule[currentOperation] = userHasCurrentPermission
     })
 
-    finalPermissions[modulo] = parsedPermissionsOfModule
+    finalPermissions[nombreModulo] = parsedPermissionsOfModule
   })
 
   return finalPermissions
@@ -53,13 +72,13 @@ const getUserData = async ({ headers }) => {
     headers
   }).then(fetchHandler)
 
-  const { modulos, operacion } = await fetch(routes.permisos.parametros, {
+  const { modulos, operaciones } = await fetch(routes.permisos.parametros, {
     headers
   }).then(fetchHandler)
 
-  const parsedPermissions = permissionParser({ userPermissions, modulos, operaciones: operacion })
+  const parsedPermissions = permissionParser({ userPermissions, modulos, operaciones })
 
-  return { user, permissions: parsedPermissions, operacion }
+  return { user, permissions: parsedPermissions, operacion: operaciones }
 }
 
 // Acción asincrónica para verificar la sesión inicial

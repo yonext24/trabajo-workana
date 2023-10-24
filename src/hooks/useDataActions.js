@@ -30,9 +30,9 @@ export function useDataActions () {
   const delPuestosData = async (data) => dispatch(del_puestos(data))
 
   const getModulos = async (props) => dispatch(get_modulos(props))
-  const addModulos = async (newData) => dispatch(add_modulos({ newData }))
-  const delModulos = async (nombre) => dispatch(del_modulos({ nombre }))
-  const updModulos = async ({ nombre, newData }) => dispatch(update_modulos({ nombre, newData }))
+  const addModulos = async (data) => dispatch(add_modulos(data))
+  const delModulos = async (data) => dispatch(del_modulos(data))
+  const updModulos = async (data) => dispatch(update_modulos(data))
 
   return {
     getSectoresData,

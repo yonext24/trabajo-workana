@@ -1,34 +1,25 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { setThunks } from '../setThunks'
+import { routes } from '@/utils/routes'
 
-export const get_modulos = createAsyncThunk('general/get_modulos_data', async () => {
-  const fakeInitialState = [
-    { tipo: 'Operación', nombre: 'Crear', estado: 1 },
-    { tipo: 'Operación', nombre: 'Leer', estado: 1 },
-    { tipo: 'Operación', nombre: 'Actualizar', estado: 1 },
-    { tipo: 'Módulo', nombre: 'General', estado: 1 },
-    { tipo: 'Módulo', nombre: 'Usuarios', estado: 1 },
-    { tipo: 'Módulo', nombre: 'Unidad académica', estado: 1 },
-    { tipo: 'Módulo', nombre: 'Extensión', estado: 1 }
-  ]
-
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return fakeInitialState
+export const get_modulos = createAsyncThunk('general/get_modulos_data', async (_, api) => {
+  return await routes.general.modulos.get(api)
 })
 
-export const del_modulos = createAsyncThunk('general/delete_modulos_data', async ({ nombre }, api) => {
-  return nombre
+export const del_modulos = createAsyncThunk('general/delete_modulos_data', async ({ id }, api) => {
+  await routes.general.modulos.delete(api, { id })
+
+  return id
 })
 
 export const update_modulos = createAsyncThunk('general/update_modulos_data', async ({ newData, nombre }, api) => {
   return { nombre, newData }
 })
 
-export const add_modulos = createAsyncThunk('general/add_modulos_data', async ({ newData }) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
+export const add_modulos = createAsyncThunk('general/add_modulos_data', async (data, api) => {
+  const modulo = await routes.general.modulos.add(api, data)
 
-  return newData
+  return modulo
 })
 
 const noLoopData = {
@@ -38,7 +29,7 @@ const noLoopData = {
   },
   del: {
     function: del_modulos,
-    filterBy: 'nombre'
+    filterBy: 'id'
   },
   update: {
     function: update_modulos,

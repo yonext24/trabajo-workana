@@ -18,7 +18,7 @@ export const routes = {
   },
   permisos: {
     permisos: `${BASE_URL}/rye/permiso/permisos`,
-    parametros: `${BASE_URL}/rye/permiso/parametros`
+    parametros: `${BASE_URL}/rye/modulo/parametros`
   },
   general: {
     sectores: {
@@ -81,6 +81,25 @@ export const routes = {
         const { headers } = getToken(api)
         return await fetch(`${BASE_URL}/rye/puesto/nuevo`,
           { headers, method: 'POST', body: JSON.stringify({ estado: true, descripcion }) })
+          .then(fetchHandler)
+      }
+    },
+    modulos: {
+      get: async (api) => {
+        const { headers } = getToken(api)
+        return await fetch(`${BASE_URL}/rye/modulo/modulos`, { headers })
+          .then(fetchHandler)
+      },
+      add: async (api, { nombre, tipo }) => {
+        const { headers } = getToken(api)
+        return await fetch(`${BASE_URL}/rye/modulo/nuevo`,
+          { headers, method: 'POST', body: JSON.stringify({ estado: true, nombre, tipo }) })
+          .then(fetchHandler)
+      },
+      delete: async (api, { id }) => {
+        const { headers } = getToken(api)
+        return await fetch(`${BASE_URL}/rye/modulo/actualizar`,
+          { headers, method: 'POST', body: JSON.stringify({ id, estado: false }) })
           .then(fetchHandler)
       }
     }

@@ -3,7 +3,8 @@
 
 const errorParser = {
   'Not authenticated': 'No pudimos verificar tu sesión, porfavor vuelve a iniciar sesión. Si el problema persiste, contacta a soporte.',
-  'Unprocessable Entity': 'Hubo un error validando los datos, si el problema persiste porfavor contacta a soporte.'
+  'Unprocessable Entity': 'Hubo un error validando los datos, si el problema persiste porfavor contacta a soporte.',
+  'Not Found': 'Ocurrió un error inesperado, si el problema persiste porfavor contacta a soporte (NotFound).'
 }
 
 export const fetchHandler = async (res) => {

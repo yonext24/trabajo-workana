@@ -13,7 +13,7 @@ export function SelectInputControlled ({ control, error, loading, name, show, ha
   }, [setValue, defaultValue])
 
   const validateSelect = (value) => {
-    const condition = value !== 'Cargando...' && value !== 'Seleccionar'
+    const condition = value !== 'Cargando...' && value !== 'Seleccionar' && value !== undefined
     return condition
   }
 
