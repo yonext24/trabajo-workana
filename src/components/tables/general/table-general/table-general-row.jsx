@@ -5,12 +5,10 @@ import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 export function TableGeneralRow ({ nombre, estado, permissions, id_sector }) {
   const { delSectoresData } = useDataActions()
   const { handleDel } = useTableDefaultModals({
-    place: 'general',
+    place: 'sector',
     del: {
-      title: 'Desactivar usuario',
-      sure: 'Realmente quieres desactivar este usuario?',
-      onClick: () => {
-        delSectoresData(id_sector)
+      onClick: async () => {
+        await delSectoresData(id_sector)
       }
     }
   })

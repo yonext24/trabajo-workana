@@ -136,3 +136,7 @@ export const login = createAsyncThunk('auth/login', async ({ formData }, api) =>
     throw new Error(errMessage)
   }
 })
+
+export const changePassword = createAsyncThunk('auth/changePassword', async (data, api) => {
+  return await routes.auth.changePassword(api, data)
+})

@@ -1,5 +1,5 @@
 import { logout } from '@/store/auth/slice'
-import { checkSession, login } from '@/store/auth/thunks'
+import { changePassword, checkSession, login } from '@/store/auth/thunks'
 import { useDispatch } from 'react-redux'
 
 export function useAuthActions () {
@@ -8,6 +8,7 @@ export function useAuthActions () {
   const Login = async (data) => { return dispatch(login(data)) }
   const Logout = () => { dispatch(logout()) }
   const CheckSession = async () => { return dispatch(checkSession()) }
+  const ChangePassword = async (data) => dispatch(changePassword(data))
 
-  return { Login, Logout, CheckSession }
+  return { Login, Logout, CheckSession, ChangePassword }
 }

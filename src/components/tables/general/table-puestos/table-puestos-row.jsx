@@ -10,9 +10,7 @@ export function TablePuestosRow ({ descripcion, permissions, id_puesto }) {
   const { handleDel } = useTableDefaultModals({
     place: 'puesto',
     del: {
-      onClick: () => {
-        delPuestosData({ descripcion, id_puesto })
-      }
+      onClick: async () => delPuestosData({ descripcion, id_puesto })
     }
   })
 

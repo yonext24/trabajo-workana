@@ -5,34 +5,40 @@ import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '../../../common/input-w-label'
 import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
 import { compareValues } from '@/utils/compareValues'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { useFormCustom } from '@/hooks/useFormCustom'
+import { SubmitButton } from '@/components/common/submit-button'
 
 export function AddModulosModal ({ closeModal }) {
-  const { register, handleSubmit, control } = useForm()
+  const { register, handleSubmit, control, watch, formState: { errors } } = useForm()
+  const { handleLoading, loading } = useFormCustom()
+
   const modulosData = useSelector(s => s.data.modulos.data)
   const { addModulos } = useDataActions()
 
-  const handleUpdate = (data) => {
-    if (compareValues(data, modulosData)) {
-      toast.error('Ya existe un puesto de esas características.')
-      return
-    }
-    addModulos(data)
+  const handleUpdate = handleLoading(async (data) => {
+    await addModulos(data)
     closeModal()
-  }
+  })
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal} >
 
-    <DefaultModalLayout title='Agregar Modulo' closeModal={closeModal}>
+    <DefaultModalLayout title='Agregar Modulo' closeModal={closeModal} loading={loading} errors={errors}>
       <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold flex flex-col gap-4'>
 
-      <SelectInputControlledWithLabel labelText={'Tipo'} id='tipo' name='tipo' control={control} options={['Operación', 'Módulo']} />
-      <InputWLabel id='nombre' name='nombre' labelText='Nombre' type='text' register={register} required />
+        <InputWLabel id='nombre' name='nombre' labelText='Nombre' type='text' register={register} required registerProps={{
+          validate: nombre => {
+            const modulos = modulosData.filter(modulo => modulo.tipo === watch('tipo'))
+            if (modulos.some(modulo => compareValues(modulo.nombre, nombre))) {
+              return 'Este modulo ya existe'
+            }
+          }
+        }} />
+        <SelectInputControlledWithLabel labelText={'Tipo'} id='tipo' name='tipo' control={control} options={['Operación', 'Módulo']} />
 
-        <ButtonsContainer closeModal={closeModal} className='mt-12'>
-          <button type='submit'>Agregar</button>
+        <ButtonsContainer closeModal={closeModal} disabled={loading} className='mt-12'>
+          <SubmitButton loading={loading} />
         </ButtonsContainer>
 
       </form>

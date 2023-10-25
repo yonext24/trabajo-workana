@@ -9,11 +9,14 @@ import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { useFormCustom } from '@/hooks/useFormCustom'
+import { SubmitButton } from '@/components/common/submit-button'
 
 export function UpdateDependenciaModal ({ closeModal, entryData }) {
   const { nombre, abreviatura, id_dependencia, id_sector, id_unidad } = entryData
 
   const { data: sectoresData, error: sectoresError, loading: sectoresLoading } = useSelector(s => s.data.sectores)
+  const dependenciasData = useSelector(s => s.data.dependencias.data)
   const { data: unidadesData, error: unidadesError, loading: unidadesLoading } = useSelector(s => s.ofertaAcademica.unidadAcademica.unidad)
 
   useEffect(() => {
@@ -21,16 +24,13 @@ export function UpdateDependenciaModal ({ closeModal, entryData }) {
     getUnidadAcademicaUnidad()
   }, [])
 
-  const { register, handleSubmit, control } = useForm()
+  const { register, handleSubmit, control, formState: { errors } } = useForm()
+  const { loading, handleLoading } = useFormCustom()
+
   const { updDependenciasData, getSectoresData } = useDataActions()
   const { getUnidadAcademicaUnidad } = useOfertaAcademicaActions()
 
-  const onSubmit = (newData) => {
-    updDependenciasData({ ...newData, id_dependencia })
-    closeModal()
-  }
-
-  const handleUpdate = (data) => {
+  const handleUpdate = handleLoading(async (data) => {
     const id_sector = data.sector.id_sector
     const id_unidad = data.unidad.id_unidad
     const sector = data.sector.nombre
@@ -39,16 +39,21 @@ export function UpdateDependenciaModal ({ closeModal, entryData }) {
     const newEntryData = { ...entryData, ...data, id_sector, id_unidad, sector, unidad }
     if (compareValues(entryData, newEntryData)) return
 
-    onSubmit(newEntryData)
-  }
+    await updDependenciasData({ ...data, id_dependencia })
+    closeModal()
+  })
 
-  return <ModalBackground onClick={closeModal} closeModal={closeModal}>
+  return <ModalBackground onClick={closeModal} closeModal={closeModal} >
 
-    <DefaultModalLayout title='Actualizar Dependencia' closeModal={closeModal}>
+    <DefaultModalLayout title='Actualizar Dependencia' closeModal={closeModal} loading={loading} errors={errors}>
       <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold flex flex-col gap-y-3'>
 
         <InputWLabel readOnly required id='nombre' labelText='Nombre' type='text' autoFocus register={register} defaultValue={nombre} />
-        <InputWLabel id='abreviatura' name='abreviatura' labelText='Abreviatura' type='text' register={register} required defaultValue={abreviatura} />
+        <InputWLabel id='abreviatura' name='abreviatura' labelText='Abreviatura' type='text' register={register} required defaultValue={abreviatura} registerProps={{
+          validate: (abreviatura) => {
+            if (dependenciasData.some(d => d.abreviatura === abreviatura && d.id_dependencia !== id_dependencia)) return 'Ya existe una dependencia con esa abreviatura'
+          }
+        }} />
 
          <SelectInputControlledWithLabel
           name='sector'
@@ -73,8 +78,8 @@ export function UpdateDependenciaModal ({ closeModal, entryData }) {
         />
 
         <div className='mt-5' />
-        <ButtonsContainer closeModal={closeModal}>
-          <button type='submit'>Actualizar</button>
+        <ButtonsContainer closeModal={closeModal} disabled={loading}>
+          <SubmitButton loading={loading} text='Actualizar' />
         </ButtonsContainer>
 
       </form>

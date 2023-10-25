@@ -15,7 +15,7 @@ const ButtonWrapper = ({ children, hovering, text }) => {
   </div>
 }
 
-export function UpdateButton ({ handleClick, text = 'Crear', iconProps, ...props }) {
+export function UpdateButton ({ handleClick, text = 'Actualizar', iconProps, ...props }) {
   const { hovering, elementRef } = useHovering()
 
   return <ButtonWrapper hovering={hovering} text={text}>

@@ -5,31 +5,36 @@ import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '../../../common/input-w-label'
 import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
+import { useFormCustom } from '@/hooks/useFormCustom'
+import { SubmitButton } from '@/components/common/submit-button'
 
 export function AddPuestosModal ({ closeModal }) {
-  const { register, handleSubmit } = useForm()
+  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { loading, handleLoading } = useFormCustom()
+
   const puestosData = useSelector(s => s.data.puestos.data)
   const { addPuestosData } = useDataActions()
 
-  const handleUpdate = ({ descripcion }) => {
-    if (puestosData.some(el => el.descripcion === descripcion)) {
-      toast.error('Ya existe un puesto de esas características.')
-      return
-    }
-
-    addPuestosData({ descripcion })
-  }
+  const handleUpdate = handleLoading(async ({ descripcion }) => {
+    await addPuestosData({ descripcion })
+  })
 
   return <ModalBackground onClick={closeModal} closeModal={closeModal} >
 
-    <DefaultModalLayout title='Agregar Puesto' >
+    <DefaultModalLayout title='Agregar Puesto' closeModal={closeModal} loading={loading} errors={errors} >
       <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold'>
 
-      <InputWLabel id='descripcion' name='descripcion' labelText='Nombre' type='text' inputClassName={'mb-12'} autoFocus register={register} required />
+      <InputWLabel id='descripcion' name='descripcion' labelText='Nombre' type='text' inputClassName={'mb-12'} autoFocus register={register} required
+      registerProps={{
+        validate: nombre => {
+          if (puestosData.some(puesto => puesto.descripcion.toLowerCase() === nombre.toLowerCase())) {
+            return 'Este puesto ya existe'
+          }
+        }
+      }}/>
 
-        <ButtonsContainer closeModal={closeModal}>
-          <button type='submit'>Agregar</button>
+        <ButtonsContainer closeModal={closeModal} disabled={loading}>
+          <SubmitButton loading={loading} />
         </ButtonsContainer>
 
       </form>

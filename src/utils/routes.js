@@ -14,7 +14,13 @@ const getToken = api => {
 export const routes = {
   auth: {
     login: `${BASE_URL}/rye/usuario/token`,
-    perfil: `${BASE_URL}/rye/usuario/perfil`
+    perfil: `${BASE_URL}/rye/usuario/perfil`,
+    changePassword: async (api, data) => {
+      const { headers } = getToken(api)
+      return await fetch(`${BASE_URL}/rye/usuario/actualizar_contrasenia`,
+        { headers, method: 'POST', body: JSON.stringify(data) })
+        .then(fetchHandler)
+    }
   },
   permisos: {
     permisos: `${BASE_URL}/rye/permiso/permisos`,

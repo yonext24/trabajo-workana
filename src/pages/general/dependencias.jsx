@@ -18,7 +18,7 @@ export function Dependencias () {
   const error = useSelector(s => s.data.dependencias.error)
 
   return <div id='page-content'>
-    <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
+    <div className="w-full flex flex-col gap-4 items-start md:justify-between md:flex-row md:items-end">
 
       <Filter />
       <div className='flex justify-end gap-4 items-center'>

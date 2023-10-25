@@ -10,6 +10,7 @@ export function InputWLabel ({
   noLabel = false,
   required,
   disabled,
+  registerProps,
   ...props
 }) {
   return <div className={'flex flex-col'} id='input-w-label'>
@@ -25,8 +26,8 @@ export function InputWLabel ({
           name={name}
           type={type}
           readOnly={disabled} // Esto esta hecho porque me di cuenta muy tarde de que podía usar readOnly en vez de disabled
+          {...(register && register(id ?? name, { required, ...registerProps }))}
           {...props}
-          {...(register && register(id ?? name, { required }))}
         />
         : <input
           placeholder={placeholder ?? ''}
@@ -35,8 +36,8 @@ export function InputWLabel ({
           name={name}
           type={type}
           readOnly={disabled} // Esto esta hecho porque me di cuenta muy tarde de que podía usar readOnly en vez de disabled
+          {...(register && register(id ?? name, { required, ...registerProps }))}
           {...props}
-          {...(register && register(id ?? name, { required }))}
         />
     }
   </div>

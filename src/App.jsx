@@ -46,7 +46,7 @@ function App () {
           }
           />
 
-          <Route element={<GeneralLayout><Outlet /></GeneralLayout>}>
+          <Route element={<GeneralLayout text='General'><Outlet /></GeneralLayout>}>
             <Route element={
               <ProtectedRoute name='GENERAL' parsedName='General'>
                 <GeneralTabsLayout tabsName='general'>

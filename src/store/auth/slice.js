@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { checkSession, login } from './thunks'
+import { changePassword, checkSession, login } from './thunks'
 import { toast } from 'react-toastify'
 
 export const USER_POSSIBLE_STATES = {
@@ -23,6 +23,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
+      localStorage.removeItem('token')
       state.logged = USER_POSSIBLE_STATES.NOT_LOGGED
       state.user = null
     }
@@ -73,6 +74,9 @@ const authSlice = createSlice({
         state.user = null
         state.token = null
         state.permissions = null
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.user.temporal = false
       })
   }
 })

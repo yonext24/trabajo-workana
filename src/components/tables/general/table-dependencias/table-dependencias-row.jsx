@@ -12,8 +12,8 @@ export function TableDependenciasRow ({ sector, nombre, abreviatura, unidad, id,
     place: 'dependencia',
     update: { el: UpdateDependenciaModal, entryData: { sector, nombre, abreviatura, unidad, id_dependencia, id_sector, id_unidad } },
     del: {
-      onClick: () => {
-        delDependenciesData({ id_dependencia, id_sector, id_unidad, abreviatura })
+      onClick: async () => {
+        await delDependenciesData({ id_dependencia, id_sector, id_unidad, abreviatura })
       }
     }
   })
@@ -29,8 +29,8 @@ export function TableDependenciasRow ({ sector, nombre, abreviatura, unidad, id,
       {
         UPDATE &&
         <>
-          <UpdateButton handleClick={handleUpd} />
           <DeactivateButton handleClick={handleDel} />
+          <UpdateButton handleClick={handleUpd} />
         </>
       }
 
