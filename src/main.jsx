@@ -11,14 +11,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
       <App />
       <ToastContainer
-      position="top-right"
-      autoClose={4000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      draggable
-      theme="light"
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        theme="light"
       />
     </Provider>
   </React.StrictMode>

@@ -26,21 +26,23 @@ const tabs = {
   ]
 }
 
-export function GeneralTabsLayout ({ tabsName, children, noTabs = false }) {
+export function GeneralTabsLayout({ tabsName, children, noTabs = false }) {
   const { modals } = useSelector(s => s.layout)
 
-  return <>
-    <main className="flex flex-col bg-white rounded-2xl [&>#page-content]:pb-6 py-4 gap-y-6 [&>#page-content]:px-2 [&>#page-content]:md:px-8 [&>#page-content]:flex [&>#page-content]:flex-col
-    [&>#page-content]:gap-y-8 px-1 md:px-4 relative">
-      {
-        !noTabs && <PageTabs tabs={tabs[tabsName]} />
-      }
-      {children}
-    </main>
-    <ReactPortal wrapperId='general-portal-wrapper'>
-      {
-        modals.map(({ Element, id, props }) => <Element key={id} {...props} />)
-      }
-    </ReactPortal>
-  </>
+  return (
+    <>
+      <main
+        className="flex flex-col bg-white rounded-2xl [&>#page-content]:pb-6 py-4 gap-y-6 [&>#page-content]:px-2 [&>#page-content]:md:px-8 [&>#page-content]:flex [&>#page-content]:flex-col
+    [&>#page-content]:gap-y-8 px-1 md:px-4 relative"
+      >
+        {!noTabs && <PageTabs tabs={tabs[tabsName]} />}
+        {children}
+      </main>
+      <ReactPortal wrapperId="general-portal-wrapper">
+        {modals.map(({ Element, id, props }) => (
+          <Element key={id} {...props} />
+        ))}
+      </ReactPortal>
+    </>
+  )
 }

@@ -4,12 +4,24 @@ import { Row } from '../../row'
 import { UnidadUpdateModal } from '@/components/modals/oferta-academica/unidad-academica/unidad-update-modal'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 
-export function TableUnidadRow ({ tipo, nombre, abreviatura, codigo, permissions }) {
+export function TableUnidadRow({
+  tipo,
+  nombre,
+  abreviatura,
+  codigo,
+  permissions
+}) {
   const { deleteUnidadAcademicaUnidad } = useOfertaAcademicaActions()
   const { handleUpd, handleDel } = useTableDefaultModals({
     place: 'unidad',
     update: { el: UnidadUpdateModal, tipo, nombre, abreviatura, codigo },
-    del: { onClick: () => { deleteUnidadAcademicaUnidad(nombre) }, title: 'Desactivar Unidad', sure: 'Realmente quieres desactivar esta unidad?' }
+    del: {
+      onClick: () => {
+        deleteUnidadAcademicaUnidad(nombre)
+      },
+      title: 'Desactivar Unidad',
+      sure: 'Realmente quieres desactivar esta unidad?'
+    }
   })
 
   const { UPDATE } = permissions
@@ -21,8 +33,7 @@ export function TableUnidadRow ({ tipo, nombre, abreviatura, codigo, permissions
     { id: 4, text: abreviatura },
     {
       id: 5,
-      actions:
-      UPDATE
+      actions: UPDATE
         ? [
             { type: 'update', onClick: handleUpd },
             { type: 'delete', onClick: handleDel }
@@ -31,9 +42,11 @@ export function TableUnidadRow ({ tipo, nombre, abreviatura, codigo, permissions
     }
   ]
 
-  return <RowLayout>
-    {
-      rows.map(el => <Row key={el.id} {...el} />)
-    }
-  </RowLayout>
+  return (
+    <RowLayout>
+      {rows.map(el => (
+        <Row key={el.id} {...el} />
+      ))}
+    </RowLayout>
+  )
 }

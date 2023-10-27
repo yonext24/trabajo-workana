@@ -87,6 +87,7 @@ const fakeUsers = [
 const initialState = {
   roles: {
     data: [],
+    permissionsData: [],
     loading: false,
     revalidating: false,
     error: null
@@ -111,7 +112,6 @@ const usuariosSlice = createSlice({
   name: 'usuarios',
   initialState,
   reducers: {
-
     set_permisos_filtered: (state, action) => {
       const { data } = action.payload
       state.permisos.filtered = data
@@ -121,12 +121,12 @@ const usuariosSlice = createSlice({
       const { usuario } = action.payload
       state.usuarios.showing = usuario
     }
-
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     addUsuariosExtraReducers(builder)
   }
 })
 
 export default usuariosSlice.reducer
-export const { set_permisos_filtered, set_usuarios_showing } = usuariosSlice.actions
+export const { set_permisos_filtered, set_usuarios_showing } =
+  usuariosSlice.actions

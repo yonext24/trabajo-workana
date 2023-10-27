@@ -9,17 +9,21 @@ import { useEffect } from 'react'
 // Esta página y todas las de la carpeta /general tienen un layout ya integrado, en /components/layout/general-tabs-layout
 // y ahí esta estilado el div#page-content
 
-export function Modulos () {
+export function Modulos() {
   const { handleAdd } = useTableDefaultModals({ add: { el: AddModulosModal } })
   const { getModulos } = useDataActions()
 
-  useEffect(() => { getModulos() }, [])
+  useEffect(() => {
+    getModulos()
+  }, [])
 
   const permissions = usePermissions({ nameOfModule: 'GENERAL' })
   const { CREATE } = permissions
 
-  return <div id='page-content'>
-    <NuevoButton CREATE={CREATE} handleClick={handleAdd} />
-    <TableModulos permissions={permissions} />
-  </div>
+  return (
+    <div id="page-content">
+      <NuevoButton CREATE={CREATE} handleClick={handleAdd} />
+      <TableModulos permissions={permissions} />
+    </div>
+  )
 }

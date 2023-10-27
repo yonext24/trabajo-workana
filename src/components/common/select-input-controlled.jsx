@@ -2,7 +2,20 @@ import { Controller, useForm } from 'react-hook-form'
 import { SelectInput } from './select-input'
 import { useEffect } from 'react'
 
-export function SelectInputControlled ({ control, error, loading, name, show, handleOptionClick, defaultValue, options, rules, disabled, validate, ...props }) {
+export function SelectInputControlled({
+  control,
+  error,
+  loading,
+  name,
+  show,
+  handleOptionClick,
+  defaultValue,
+  options,
+  rules,
+  disabled,
+  validate,
+  ...props
+}) {
   const { setValue, watch } = useForm({
     defaultValues: {
       [name]: defaultValue
@@ -12,33 +25,35 @@ export function SelectInputControlled ({ control, error, loading, name, show, ha
     setValue(name, defaultValue)
   }, [setValue, defaultValue])
 
-  const validateSelect = (value) => {
-    const condition = value !== 'Cargando...' && value !== 'Seleccionar' && value !== undefined
+  const validateSelect = value => {
+    const condition =
+      value !== 'Cargando...' && value !== 'Seleccionar' && value !== undefined
     return condition
   }
 
-  return <Controller
-    name={name}
-    control={control}
-    rules={{ validate: { validateSelect, ...validate }, ...rules }}
-    render={({ field: { onChange, value } }) => {
-      return (
-        <SelectInput
-        options={options}
-        show={show}
-        error={error}
-        loading={loading}
-        disabled={disabled}
-        defaultValue={watch(value)?.[name]}
-        handleOptionClick={(selected) => {
-          handleOptionClick && handleOptionClick(selected)
-          onChange(selected)
-        }}
-        rawOnChange={onChange}
-        {...props}
-      />
-      )
-    }
-    }
-  />
+  return (
+    <Controller
+      name={name}
+      control={control}
+      rules={{ validate: { validateSelect, ...validate }, ...rules }}
+      render={({ field: { onChange, value } }) => {
+        return (
+          <SelectInput
+            options={options}
+            show={show}
+            error={error}
+            loading={loading}
+            disabled={disabled}
+            defaultValue={watch(value)?.[name]}
+            handleOptionClick={selected => {
+              handleOptionClick && handleOptionClick(selected)
+              onChange(selected)
+            }}
+            rawOnChange={onChange}
+            {...props}
+          />
+        )
+      }}
+    />
+  )
 }

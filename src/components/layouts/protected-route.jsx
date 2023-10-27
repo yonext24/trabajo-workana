@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import { Spinner } from '../common/spinner'
 import { usePermissions } from '@/hooks/usePermissions'
 
-export function ProtectedRoute ({ children, name, isProfile, parsedName }) {
+export function ProtectedRoute({ children, name, isProfile, parsedName }) {
   const [isChecking, setIsChecking] = useState(true)
 
   const logged = useSelector(s => s.auth.logged)
@@ -37,14 +37,19 @@ export function ProtectedRoute ({ children, name, isProfile, parsedName }) {
       return
     }
 
-    toast.error(`No tienes permisos de lectura para acceder a esta ruta: ${parsedName}`, { toastId: pathname })
+    toast.error(
+      `No tienes permisos de lectura para acceder a esta ruta: ${parsedName}`,
+      { toastId: pathname }
+    )
     navigate('/perfil')
   }, [pathname, logged])
 
   if (isChecking) {
-    return <div className='h-full w-full flex justify-center items-center bg-white text-black rounded-2xl|'>
-    <Spinner />
-  </div>
+    return (
+      <div className="h-full w-full flex justify-center items-center bg-white text-black rounded-2xl|">
+        <Spinner />
+      </div>
+    )
   }
 
   return children

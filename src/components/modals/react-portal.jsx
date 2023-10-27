@@ -2,7 +2,7 @@ import { createWrapper } from '../../utils/createWrapper'
 import { useLayoutEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-export function ReactPortal ({ children, wrapperId = 'portal-modal-wrapper' }) {
+export function ReactPortal({ children, wrapperId = 'portal-modal-wrapper' }) {
   const [wrapperElement, setWrapperElement] = useState(null)
 
   useLayoutEffect(() => {

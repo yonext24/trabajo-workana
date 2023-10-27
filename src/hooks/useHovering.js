@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export function useHovering () {
+export function useHovering() {
   const [hovering, setHovering] = useState(false)
 
   const elementRef = useRef(null)

@@ -4,22 +4,26 @@ import { TablePermisos } from '@/components/tables/usuarios/table-permisos/table
 import { PermisosFilter } from '@/components/usuarios/permisos-filter'
 import { usePermissions } from '@/hooks/usePermissions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
-import { useUsuariosActions } from '@/hooks/useUsuariosActions'
-import { useEffect } from 'react'
 
-export function Permisos () {
-  const { getPermisosData } = useUsuariosActions()
-  const { handleAdd } = useTableDefaultModals({ add: { el: AddPermisosModal }, place: 'permisos' })
+export function Permisos() {
+  const { handleAdd } = useTableDefaultModals({
+    add: { el: AddPermisosModal },
+    place: 'permisos'
+  })
 
-  useEffect(() => { getPermisosData() }, [])
   const permissions = usePermissions({ nameOfModule: 'USUARIOS' })
   const { CREATE } = permissions
 
-  return <div id='page-content'>
-    <div className='w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end'>
-      <PermisosFilter />
-      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+  return (
+    <div id="page-content">
+      <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
+        <PermisosFilter />
+        <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+      </div>
+      <TablePermisos
+        permissions={permissions}
+        columns={[{ text: 'Acciones' }]}
+      />
     </div>
-    <TablePermisos permissions={permissions} columns={[{ text: 'Acciones' }]} />
-  </div>
+  )
 }

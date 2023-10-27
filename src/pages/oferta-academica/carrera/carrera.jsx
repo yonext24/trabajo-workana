@@ -7,23 +7,27 @@ import { usePermissions } from '@/hooks/usePermissions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 import { useEffect } from 'react'
 
-export function Carrera () {
+export function Carrera() {
   const { getCarreraCarreraData } = useOfertaAcademicaActions()
   const { handleAdd } = useTableDefaultModals({ add: { el: CarreraAddModal } })
 
   const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
   const { CREATE } = permissions
 
-  useEffect(() => { getCarreraCarreraData() }, [])
+  useEffect(() => {
+    getCarreraCarreraData()
+  }, [])
 
-  return <div id='page-content'>
-    <div className='w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end'>
-      <div className='flex flex-col w-full max-w-[210px]'>
-        <label className='text-lg font-semibold'>Nivel Carrera</label>
-        <SelectInput options={[]} />
+  return (
+    <div id="page-content">
+      <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
+        <div className="flex flex-col w-full max-w-[210px]">
+          <label className="text-lg font-semibold">Nivel Carrera</label>
+          <SelectInput options={[]} />
+        </div>
+        <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
       </div>
-      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+      <CarreraCarreraTable permissions={permissions} />
     </div>
-    <CarreraCarreraTable permissions={permissions} />
-  </div>
+  )
 }

@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-empty-pattern */
-function generateRandomString (length) {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+function generateRandomString(length) {
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
   let result = ''
 
   for (let i = 0; i < length; i++) {
@@ -21,7 +22,7 @@ export const fakeData = (format, timesRandom = 10) => {
   for (let i = 0; i < amount; i++) {
     const dictToAppend = {}
     formatKeys.forEach(key => {
-      dictToAppend[key] = (generateRandomString(format[key] || 10))
+      dictToAppend[key] = generateRandomString(format[key] || 10)
     })
     dataToReturn.push(dictToAppend)
   }

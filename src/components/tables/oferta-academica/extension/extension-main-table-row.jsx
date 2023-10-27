@@ -7,11 +7,38 @@ import { useLayoutActions } from '@/hooks/useLayoutActions'
 import { ExtensionAddCarreraModal } from '@/components/modals/oferta-academica/extension/extension-add-carrera-modal'
 import { ExtensionCarreraModal } from '@/components/modals/oferta-academica/extension/extension-carrera-modal'
 
-export function ExtensionMainTableRow ({ permissions, ua, codigo, nombre, estado, fecha_de_creacion, abreviatura, ubicacion }) {
+export function ExtensionMainTableRow({
+  permissions,
+  ua,
+  codigo,
+  nombre,
+  estado,
+  fecha_de_creacion,
+  abreviatura,
+  ubicacion
+}) {
   const { handleUpd, handleDel, handleSee } = useTableDefaultModals({
     place: 'extension',
-    update: { el: ExtensionUpdateModal, ua, codigo, nombre, estado, fecha_de_creacion, abreviatura, ubicacion },
-    see: { el: ExtensionSeeModal, ua, codigo, nombre, estado, fecha_de_creacion, abreviatura, ubicacion }
+    update: {
+      el: ExtensionUpdateModal,
+      ua,
+      codigo,
+      nombre,
+      estado,
+      fecha_de_creacion,
+      abreviatura,
+      ubicacion
+    },
+    see: {
+      el: ExtensionSeeModal,
+      ua,
+      codigo,
+      nombre,
+      estado,
+      fecha_de_creacion,
+      abreviatura,
+      ubicacion
+    }
   })
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
 
@@ -57,17 +84,21 @@ export function ExtensionMainTableRow ({ permissions, ua, codigo, nombre, estado
     },
     {
       id: 6,
-      actions: [
-        { type: 'see', onClick: handleSee }
-      ].concat(UPDATE
-        ? [{ type: 'update', onClick: handleUpd },
-            { type: 'delete', onClick: handleDel }]
-        : [])
+      actions: [{ type: 'see', onClick: handleSee }].concat(
+        UPDATE
+          ? [
+              { type: 'update', onClick: handleUpd },
+              { type: 'delete', onClick: handleDel }
+            ]
+          : []
+      )
     }
   ]
-  return <RowLayout>
-    {
-      rows.map(el => <Row key={el.id} {...el}></Row>)
-    }
-  </RowLayout>
+  return (
+    <RowLayout>
+      {rows.map(el => (
+        <Row key={el.id} {...el}></Row>
+      ))}
+    </RowLayout>
+  )
 }

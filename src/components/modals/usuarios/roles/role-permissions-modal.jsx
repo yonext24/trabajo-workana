@@ -1,34 +1,56 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { useSelector } from 'react-redux'
 import { TablePermisos } from '@/components/tables/usuarios/table-permisos/table-permisos'
+import { usePermissions } from '@/hooks/usePermissions'
 
-export function RolePermissionsModal ({ closeModal, role }) {
-  const { data } = useSelector(s => s.usuarios).roles
-  const actualRole = data.find(el => el.nombre === role.nombre)
+export function RolePermissionsModal({
+  closeModal,
+  nombre,
+  id_rol,
+  descripcion,
+  estado
+}) {
+  const permissions = useSelector(s => s.usuarios.roles.permissionsData)
+
+  const pagePermissions = usePermissions('USUARIOS')
+
+  const rolePermissions = useMemo(() => {
+    return permissions.find(p => p.id_rol === id_rol)
+  }, [permissions, id_rol])
 
   const { getRolePermissions } = useUsuariosActions()
+
   useEffect(() => {
-    getRolePermissions(role.nombre)
+    getRolePermissions(id_rol)
   }, [])
 
-  return <ModalBackground closeModal={closeModal} onClick={closeModal}>
-    <DefaultModalLayout title='Lista de permisos' className={'!max-w-5xl h-[90vh]'}>
+  return (
+    <ModalBackground closeModal={closeModal} onClick={closeModal}>
+      <DefaultModalLayout
+        title="Lista de permisos"
+        className={'!max-w-5xl h-[90vh]'}
+      >
+        <div className="px-6 flex flex-col gap-y-5 py-4 justify-between h-full overflow-y-auto">
+          <h3 className="text-2xl font-bold">Rol: {nombre}</h3>
 
-      <div className='px-6 flex flex-col gap-y-5 py-4 justify-between h-full overflow-y-auto'>
+          {rolePermissions && (
+            <TablePermisos
+              outsideData={rolePermissions.permissions}
+              permissions={pagePermissions}
+            />
+          )}
 
-        <h3 className='text-2xl font-bold'>Rol: {role.nombre}</h3>
-
-        {
-          actualRole?.permissions && <TablePermisos outsideData={actualRole.permissions} />
-        }
-
-        <button onClick={closeModal} className='mx-auto mt-auto py-2 text-button bg-gris-oscuro text-white px-16 rounded-md'>Salir</button>
-
-      </div>
-
-    </DefaultModalLayout>
-  </ModalBackground>
+          <button
+            onClick={closeModal}
+            className="mx-auto mt-auto py-2 text-button bg-gris-oscuro text-white px-16 rounded-md"
+          >
+            Salir
+          </button>
+        </div>
+      </DefaultModalLayout>
+    </ModalBackground>
+  )
 }

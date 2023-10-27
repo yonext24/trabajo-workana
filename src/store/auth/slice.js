@@ -22,7 +22,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: (state) => {
+    logout: state => {
       localStorage.removeItem('token')
       state.logged = USER_POSSIBLE_STATES.NOT_LOGGED
       state.user = null
@@ -40,11 +40,12 @@ const authSlice = createSlice({
         state.error = null
         state.loading = false
       })
-      .addCase(login.pending, (state) => {
+      .addCase(login.pending, state => {
         state.loading = true
         state.error = null
       })
       .addCase(login.rejected, (state, action) => {
+        console.log(action.error)
         toast.error(action.error.message)
         state.logged = USER_POSSIBLE_STATES.NOT_LOGGED
         state.user = null

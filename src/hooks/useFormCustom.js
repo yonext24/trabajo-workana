@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export function useFormCustom () {
+export function useFormCustom() {
   const [loading, setLoading] = useState(false)
 
   const handleLoading = fn => async data => {

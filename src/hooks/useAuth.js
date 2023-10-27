@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useLayoutActions } from './useLayoutActions'
 import { ChangePasswordModal } from '@/components/modals/login/change-password-modal'
 
-export function useAuth () {
+export function useAuth() {
   const { CheckSession } = useAuthActions()
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
 

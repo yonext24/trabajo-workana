@@ -15,13 +15,11 @@ export default defineConfig({
     watch: {
       usePolling: true
     },
-    host: true, // needed for the Docker Container port mapping to work
+    host: true,
     strictPort: true,
-    port: 3000 // you can replace this port with any port
+    port: 3000
   },
   resolve: {
-    alias: [
-      { find: '@', replacement: path.resolve(__dirname, 'src') }
-    ]
+    alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }]
   }
 })

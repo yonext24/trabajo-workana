@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
-export function useModal () {
+export function useModal() {
   const [modalName, setModalName] = useState(null)
   const [open, setOpen] = useState(false)
 
-  const openModal = (name) => {
+  const openModal = name => {
     setOpen(true)
     setModalName(name)
   }

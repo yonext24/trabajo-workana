@@ -3,9 +3,13 @@ import { useSelector } from 'react-redux'
 import { SelectInput } from '../common/select-input'
 import { useDataActions } from '../../hooks/useDataActions'
 
-export function Filter () {
+export function Filter() {
   const complete = useSelector(s => s.data.dependencias.data)
-  const { data: sectoresData, loading, error } = useSelector(s => s.data.sectores)
+  const {
+    data: sectoresData,
+    loading,
+    error
+  } = useSelector(s => s.data.sectores)
 
   const { setDependenciasFiltered, getSectoresData } = useDataActions()
 
@@ -14,27 +18,36 @@ export function Filter () {
     return ['Todos'].concat(sectoresData)
   }, [complete])
 
-  const handleChange = (value) => {
+  const handleChange = value => {
     if (value === 'Todos') setDependenciasFiltered(complete)
-    else setDependenciasFiltered(complete.filter(el => el.sector.toLowerCase() === value.nombre.toLowerCase()))
+    else
+      setDependenciasFiltered(
+        complete.filter(
+          el => el.sector.toLowerCase() === value.nombre.toLowerCase()
+        )
+      )
   }
 
-  useEffect(() => { getSectoresData() }, [])
+  useEffect(() => {
+    getSectoresData()
+  }, [])
   useEffect(() => {
     setDependenciasFiltered(complete)
   }, [complete])
 
-  return <div className="flex flex-col gap-y-2 max-w-[200px] w-full">
-    <span className='font-semibold'>Sector</span>
-    <div className='w-full'>
-      <SelectInput
-        options={options}
-        show={'nombre'}
-        loading={loading}
-        error={error}
-        handleOptionClick={handleChange}
-        firstOne
-      />
+  return (
+    <div className="flex flex-col gap-y-2 max-w-[200px] w-full">
+      <span className="font-semibold">Sector</span>
+      <div className="w-full">
+        <SelectInput
+          options={options}
+          show={'nombre'}
+          loading={loading}
+          error={error}
+          handleOptionClick={handleChange}
+          firstOne
+        />
+      </div>
     </div>
-  </div>
+  )
 }

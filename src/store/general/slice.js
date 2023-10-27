@@ -36,14 +36,12 @@ const dataSlice = createSlice({
   name: 'data',
   initialState,
   reducers: {
-
     set_general_dependencias_filtered: (state, action) => {
       const { filteredData } = action.payload
       state.dependencias.filtered = filteredData
     }
-
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     setSectoresThunks(builder)
     setDependenciasThunks(builder)
     setPuestosThunks(builder)
@@ -52,7 +50,4 @@ const dataSlice = createSlice({
 })
 
 export default dataSlice.reducer
-export const {
-  set_general_dependencias_filtered
-
-} = dataSlice.actions
+export const { set_general_dependencias_filtered } = dataSlice.actions

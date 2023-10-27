@@ -3,7 +3,7 @@ import { useLayoutActions } from './useLayoutActions'
 import { DeleteModal } from '@/components/modals/delete-modal'
 import { useMemo } from 'react'
 
-export function useTableDefaultModals ({ place, add, update, del, perm, see }) {
+export function useTableDefaultModals({ place, add, update, del, perm, see }) {
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
 
   const handlers = useMemo(() => {
@@ -65,7 +65,10 @@ export function useTableDefaultModals ({ place, add, update, del, perm, see }) {
                 closeModal: () => {
                   closeModalFunc(modalId)
                 },
-                title: `Desactivar ${place.charAt(0).toUpperCase().concat(place.substring(1, place.length))}`,
+                title: `Desactivar ${place
+                  .charAt(0)
+                  .toUpperCase()
+                  .concat(place.substring(1, place.length))}`,
                 sure: `Realmente quiere desactivar este ${place}?`,
                 ...del
               }
@@ -73,8 +76,9 @@ export function useTableDefaultModals ({ place, add, update, del, perm, see }) {
           },
       handlePerm: !perm
         ? null
-        : (funcProps) => {
+        : funcProps => {
             const modalId = `permissions-${place}-modal`
+            console.log(perm)
             openModal({
               Element: perm?.el ?? DefaultComp,
               id: modalId,
@@ -82,8 +86,8 @@ export function useTableDefaultModals ({ place, add, update, del, perm, see }) {
                 closeModal: () => {
                   closeModalFunc(modalId)
                 },
-                ...perm,
-                ...funcProps
+                ...funcProps,
+                ...perm
               }
             })
           }

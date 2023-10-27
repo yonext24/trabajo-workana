@@ -5,16 +5,26 @@ import { RolePermissionsModal } from '@/components/modals/usuarios/roles/role-pe
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { UpdRolesModal } from '@/components/modals/usuarios/roles/upd-roles-modal'
 
-export function TableRolesRow ({ nombre, descripcion, permissions }) {
+export function TableRolesRow({
+  nombre,
+  descripcion,
+  estado,
+  id_rol,
+  permissions
+}) {
   const { deleteRole } = useUsuariosActions()
   const { handleUpd, handleDel, handlePerm } = useTableDefaultModals({
     place: 'roles',
-    perm: { el: RolePermissionsModal, nombre, descripcion },
-    update: { el: UpdRolesModal, nombre, descripcion, permissions },
+    perm: { el: RolePermissionsModal, nombre, descripcion, estado, id_rol },
+    update: {
+      el: UpdRolesModal,
+      nombre,
+      descripcion,
+      estado,
+      id_rol
+    },
     del: {
-      onClick: () => {
-        deleteRole({ nombre })
-      },
+      onClick: async () => await deleteRole({ nombre }),
       title: 'Desactivar Rol',
       sure: 'Realmente quiere desactivar este rol?'
     }
@@ -25,8 +35,9 @@ export function TableRolesRow ({ nombre, descripcion, permissions }) {
   const rows = [
     { id: 1, text: nombre },
     { id: 2, text: descripcion },
+    { id: 3, text: estado ? 'Activo' : 'Inactivo', className: '!text-center' },
     {
-      id: 3,
+      id: 4,
       actions: UPDATE
         ? [
             { type: 'update', onClick: handleUpd },
@@ -37,9 +48,15 @@ export function TableRolesRow ({ nombre, descripcion, permissions }) {
     }
   ]
 
-  return <RowLayout>
-    {
-      rows.map(el => <Row key={el.id} {...el} funcProps={{ role: { nombre, descripcion } }} ></Row>)
-    }
-  </RowLayout>
+  return (
+    <RowLayout>
+      {rows.map(el => (
+        <Row
+          key={el.id}
+          {...el}
+          funcProps={{ role: { nombre, descripcion } }}
+        ></Row>
+      ))}
+    </RowLayout>
+  )
 }

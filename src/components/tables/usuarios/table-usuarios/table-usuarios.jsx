@@ -1,27 +1,43 @@
 import { useSelector } from 'react-redux'
 
-const toShow = ['usuario', 'nombres', 'apellidos', 'telefono', 'celular', 'cui', 'registro_de_personal', 'correo', 'pais']
+const toShow = [
+  'usuario',
+  'nombres',
+  'apellidos',
+  'telefono',
+  'celular',
+  'cui',
+  'registro_de_personal',
+  'correo',
+  'pais'
+]
 
-export function TableUsuarios () {
+export function TableUsuarios() {
   const { showing } = useSelector(s => s.usuarios).usuarios
 
-  return <div className="border border-gris flex flex-col w-full font-bold
-  [&>#row]:grid [&>#row]:grid-cols-2 [&_#td]:py-[9px] [&_#row:not(:last-of-type)>#td]:border-b [&_#td]:px-2">
-    {
-      toShow.map(key => ({ [key]: showing[key] })).map((el) => {
-        const element = Object.entries(el)[0]
+  return (
+    <div
+      className="border border-gris flex flex-col w-full font-bold
+  [&>#row]:grid [&>#row]:grid-cols-2 [&_#td]:py-[9px] [&_#row:not(:last-of-type)>#td]:border-b [&_#td]:px-2"
+    >
+      {toShow
+        .map(key => ({ [key]: showing[key] }))
+        .map(el => {
+          const element = Object.entries(el)[0]
 
-        return (
-          <div id='row' key={element[0]}>
-
-            <div id='td' className='capitalize border-r'>{element[0].replace(/_/g, ' ')}</div>
-            <div id='td' className='text-center'>{element[1]}</div>
-
-          </div>
-        )
-      })
-    }
-  </div>
+          return (
+            <div id="row" key={element[0]}>
+              <div id="td" className="capitalize border-r">
+                {element[0].replace(/_/g, ' ')}
+              </div>
+              <div id="td" className="text-center">
+                {element[1]}
+              </div>
+            </div>
+          )
+        })}
+    </div>
+  )
 }
 
 // {

@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 
-export function useModalLogic ({ closeModal, noScroll = false }) {
+export function useModalLogic({ closeModal, noScroll = false }) {
   useEffect(() => {
     const html = document.querySelector('html')
     if (html == null) return
 
-    const onKeyDown = (e) => {
+    const onKeyDown = e => {
       if (e.key === 'Escape') closeModal()
     }
 

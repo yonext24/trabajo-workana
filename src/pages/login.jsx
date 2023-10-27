@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 import { USER_POSSIBLE_STATES } from '@/store/auth/slice'
 import { useNavigate } from 'react-router-dom'
 
-export function Login () {
+export function Login() {
   const { handleSubmit, register } = useForm()
   const { modals } = useSelector(s => s.layout)
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
@@ -27,7 +27,9 @@ export function Login () {
     openModal({
       Element: PasswordRecoveryModal,
       props: {
-        closeModal: () => { closeModalFunc(id) }
+        closeModal: () => {
+          closeModalFunc(id)
+        }
       },
       id
     })
@@ -37,36 +39,61 @@ export function Login () {
     const formData = new URLSearchParams()
     formData.append('username', username)
     formData.append('password', password)
-    Login({ formData })
-      .then(() => {
-        navigate('/perfil', { replace: true })
-      })
+    Login({ formData }).then(() => {
+      navigate('/perfil', { replace: true })
+    })
   }
 
-  return <>
-    <main className="bg-gris flex-1 py-8 px-4">
+  return (
+    <>
+      <main className="bg-gris flex-1 py-8 px-4">
+        <form
+          onSubmit={handleSubmit(handleUpdate)}
+          className="bg-white rounded-lg h-full w-full gap-y-3 flex flex-col max-w-lg mx-auto px-16 py-8"
+        >
+          <h1 className="text-3xl font-semibold text-center mb-2">
+            Iniciar Sesion
+          </h1>
+          <InputWLabel
+            autoFocus
+            labelText={'Nombre'}
+            register={register}
+            required
+            name="username"
+            inputClassName="mt-2"
+          />
+          <InputWLabel
+            type="password"
+            labelText={'Contraseña'}
+            register={register}
+            required
+            name="password"
+            inputClassName="mt-2"
+          />
+          <button className="text-button bg-gris-oscuro py-1 px-16 w-max text-white mx-auto rounded-md">
+            Entrar
+          </button>
 
-      <form onSubmit={handleSubmit(handleUpdate)} className="bg-white rounded-lg h-full w-full gap-y-3 flex flex-col max-w-lg mx-auto px-16 py-8">
-        <h1 className='text-3xl font-semibold text-center mb-2'>Iniciar Sesion</h1>
-        <InputWLabel autoFocus labelText={'Nombre'} register={register} required name='username' inputClassName='mt-2' />
-        <InputWLabel type='password' labelText={'Contraseña'} register={register} required name='password' inputClassName='mt-2' />
-        <button className='text-button bg-gris-oscuro py-1 px-16 w-max text-white mx-auto rounded-md'>Entrar</button>
+          {error && <p className="text-red-500">{error}</p>}
 
-        {
-          error && <p className='text-red-500'>{error}</p>
-        }
-
-        <div className='w-full border-t-2 border-gris flex'>
-          <button disabled={loading} role='button' onClick={handleRecoveryClick} type='button' className='underline text-blue-500 font-semibold mx-auto mt-1'>Recuperar contraseña</button>
-        </div>
-
-      </form>
-
-    </main>
-    <ReactPortal wrapperId='login-modals-wrapper'>
-      {
-        modals.map(({ Element, id, props }) => <Element key={id} {...props} />)
-      }
-    </ReactPortal>
-  </>
+          <div className="w-full border-t-2 border-gris flex">
+            <button
+              disabled={loading}
+              role="button"
+              onClick={handleRecoveryClick}
+              type="button"
+              className="underline text-blue-500 font-semibold mx-auto mt-1"
+            >
+              Recuperar contraseña
+            </button>
+          </div>
+        </form>
+      </main>
+      <ReactPortal wrapperId="login-modals-wrapper">
+        {modals.map(({ Element, id, props }) => (
+          <Element key={id} {...props} />
+        ))}
+      </ReactPortal>
+    </>
+  )
 }

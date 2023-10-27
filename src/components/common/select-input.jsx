@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { DownArrowIcon } from '../icons'
 
-export function SelectInput ({
+export function SelectInput({
   options,
   show,
   defaultValue,
@@ -19,13 +19,15 @@ export function SelectInput ({
     if (loading) setValue('Cargando...')
     else if (error) setValue('Error')
     else if (defaultValue) {
-      const newValue = firstOne ? valueParser(options[0]) : valueParser(defaultValue) ?? 'Seleccionar'
+      const newValue = firstOne
+        ? valueParser(options[0])
+        : valueParser(defaultValue) ?? 'Seleccionar'
       rawOnChange(defaultValue) // No fui capaz de hacerlo sin esto, no creo que sea la mejor práctica
       setValue(newValue)
     } else setValue('Seleccionar')
   }, [loading, error, defaultValue])
 
-  function valueParser (data) {
+  function valueParser(data) {
     return typeof data === 'string' ? data : data[show]
   }
 
@@ -41,47 +43,61 @@ export function SelectInput ({
     }
   }, [])
 
-  const handleChange = (selected) => {
+  const handleChange = selected => {
     if (disabled) return
     setValue(selected)
     setOpen(false)
     handleOptionClick(selected)
   }
 
-  const handleClick = (e) => {
+  const handleClick = e => {
     e.stopPropagation()
     if (disabled) return
     setOpen(!open)
   }
 
-  return <div className="relative w-full">
-    <div onClick={handleClick} id='fake-select' data-disabled={disabled} className="cursor-default text-lg pl-4
-    border-2 border-gris rounded-md flex w-full overflow-hidden data-[disabled]:shadow-lg data-[disabled]:cursor-not-allowed">
-      <div className='flex-1 text-left py-[2px]'>
-        <span className='block py-px capitalize'>{valueParser(value) || 'Seleccionar'}</span>
+  return (
+    <div className="relative w-full">
+      <div
+        onClick={handleClick}
+        id="fake-select"
+        data-disabled={disabled}
+        className="cursor-default text-lg pl-4
+    border-2 border-gris rounded-md flex w-full overflow-hidden data-[disabled=true]:shadow-lg data-[disabled=true]:cursor-not-allowed"
+      >
+        <div className="flex-1 text-left py-[2px]">
+          <span className="block py-px capitalize">
+            {valueParser(value) || 'Seleccionar'}
+          </span>
+        </div>
+        <div
+          className={`border-l-2 border-gris px-4 flex items-center transition-colors ${
+            open ? 'bg-azulfondo  text-white' : 'bg-gris  text-black'
+          }`}
+        >
+          <DownArrowIcon className="h-4 w-4" />
+        </div>
       </div>
-      <div className={`border-l-2 border-gris px-4 flex items-center transition-colors ${open ? 'bg-azulfondo  text-white' : 'bg-gris  text-black'}`}>
-        <DownArrowIcon className='h-4 w-4' />
-      </div>
-    </div>
-    {
-      open && <ul className='absolute z-10 w-full bottom-0 left-0 translate-y-[calc(100%+5px)] border border-black block rounded-md shadow-md
-      overflow-hidden'>
-        {
-          options.map((data) => {
+      {open && (
+        <ul
+          className="absolute z-10 w-full bottom-0 left-0 translate-y-[calc(100%+5px)] border border-black block rounded-md shadow-md
+      overflow-hidden"
+        >
+          {options.map(data => {
             const value = valueParser(data)
 
-            return <li
-              className='bg-azulfondo text-white hover:bg-white hover:text-black py-1 px-3 transition-colors select-none capitalize'
-              key={value}
-              onClick={() => handleChange(data)}
-            >
-              {value}
-            </li>
-          }
-          )
-        }
-      </ul>
-    }
-  </div>
+            return (
+              <li
+                className="bg-azulfondo text-white hover:bg-white hover:text-black py-1 px-3 transition-colors select-none capitalize"
+                key={value}
+                onClick={() => handleChange(data)}
+              >
+                {value}
+              </li>
+            )
+          })}
+        </ul>
+      )}
+    </div>
+  )
 }

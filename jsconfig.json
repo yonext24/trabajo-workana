@@ -4,18 +4,9 @@
     "target": "es6",
     "module": "commonjs",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
+      "@/*": ["./src/*"]
     }
   },
-  "exclude": [
-    "dist",
-    "node_modules"
-  ],
-  "include": [
-    "src/**/*",
-    "src/**/*.js",
-    "src/**/*.jsx"
-  ]
+  "exclude": ["dist", "node_modules"],
+  "include": ["src/**/*", "src/**/*.js", "src/**/*.jsx"]
 }

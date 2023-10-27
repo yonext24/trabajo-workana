@@ -7,7 +7,10 @@ import { TableDependencias } from '@/components/tables/general/table-dependencia
 
 describe('Testing de tabla de general/dependencias', async () => {
   const store = setupStore()
-  const { getByText } = renderWithProviders(<TableDependencias permissions={{ UPDATE: true }} />, { store })
+  const { getByText } = renderWithProviders(
+    <TableDependencias permissions={{ UPDATE: true }} />,
+    { store }
+  )
 
   test('Agregar un nuevo sector y verificar que se haya agregado', async () => {
     const newData = { nombre: 'testing' }

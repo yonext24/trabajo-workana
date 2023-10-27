@@ -1,4 +1,4 @@
-export function createWrapper (wrapperId) {
+export function createWrapper(wrapperId) {
   let modalsContainer = document.getElementById('modals-container')
   if (!modalsContainer) {
     modalsContainer = document.createElement('div')

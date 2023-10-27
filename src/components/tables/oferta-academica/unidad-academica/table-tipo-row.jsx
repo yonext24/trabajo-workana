@@ -4,7 +4,7 @@ import { RowLayout } from '../../row-layout'
 import { TipoUpdateModal } from '@/components/modals/oferta-academica/unidad-academica/tipo-update-modal'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 
-export function TableTipoRow ({ permissions, nombre, descripcion }) {
+export function TableTipoRow({ permissions, nombre, descripcion }) {
   const { UPDATE } = permissions
 
   const { deleteUnidadAcademicaTipos } = useOfertaAcademicaActions()
@@ -23,8 +23,7 @@ export function TableTipoRow ({ permissions, nombre, descripcion }) {
     { text: nombre },
     { text: descripcion },
     {
-      actions:
-      UPDATE
+      actions: UPDATE
         ? [
             { type: 'update', onClick: handleUpd },
             { type: 'delete', onClick: handleDel }
@@ -33,9 +32,11 @@ export function TableTipoRow ({ permissions, nombre, descripcion }) {
     }
   ]
 
-  return <RowLayout>
-    {
-      rows.map(el => <Row key={el.text || el.actions} {...el} />)
-    }
-  </RowLayout>
+  return (
+    <RowLayout>
+      {rows.map(el => (
+        <Row key={el.text || el.actions} {...el} />
+      ))}
+    </RowLayout>
+  )
 }

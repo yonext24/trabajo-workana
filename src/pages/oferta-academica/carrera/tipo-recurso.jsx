@@ -6,17 +6,24 @@ import { useEffect } from 'react'
 import { AddTipoRecursoModal } from '@/components/modals/oferta-academica/carrera/tipo-recurso/tipo-recurso-add-modal'
 import { usePermissions } from '@/hooks/usePermissions'
 
-export function TipoRecurso () {
-  const { handleAdd } = useTableDefaultModals({ add: { el: AddTipoRecursoModal }, place: 'tipo_nivel' })
+export function TipoRecurso() {
+  const { handleAdd } = useTableDefaultModals({
+    add: { el: AddTipoRecursoModal },
+    place: 'tipo_nivel'
+  })
   const { getCarreraTipoRecursoData } = useOfertaAcademicaActions()
 
   const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
   const { CREATE } = permissions
 
-  useEffect(() => { getCarreraTipoRecursoData() }, [])
+  useEffect(() => {
+    getCarreraTipoRecursoData()
+  }, [])
 
-  return <div id='page-content'>
-    <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
-    <CarreraTipoRecursoTable permissions={permissions} />
-  </div>
+  return (
+    <div id="page-content">
+      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+      <CarreraTipoRecursoTable permissions={permissions} />
+    </div>
+  )
 }

@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 // Esta página y todas las de la carpeta /general tienen un layout ya integrado, en /components/layout/general-tabs-layout
 // y ahí esta estilado el div#page-content
 
-export function Puestos () {
+export function Puestos() {
   const permissions = usePermissions({ nameOfModule: 'GENERAL' })
   const { CREATE } = permissions
 
@@ -20,13 +20,14 @@ export function Puestos () {
 
   const error = useSelector(s => s.data.puestos.error)
 
-  return <div id='page-content'>
+  return (
+    <div id="page-content">
+      <div className="flex justify-between">
+        <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+        <ErrorWarning err={error} />
+      </div>
 
-    <div className='flex justify-between'>
-      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
-      <ErrorWarning err={error} />
+      <TablePuestos permissions={permissions} />
     </div>
-
-    <TablePuestos permissions={permissions} />
-  </div>
+  )
 }

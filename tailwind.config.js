@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}'
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -27,7 +24,10 @@ export default {
       },
       keyframes: {
         appear: { from: { opacity: 0 }, to: { opacity: 1 } },
-        fade: { from: { opacity: 0, transform: 'translateY(3px)' }, to: { opacity: 1, transform: 'none' } }
+        fade: {
+          from: { opacity: 0, transform: 'translateY(3px)' },
+          to: { opacity: 1, transform: 'none' }
+        }
       }
     }
   },

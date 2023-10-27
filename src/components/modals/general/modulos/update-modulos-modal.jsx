@@ -8,13 +8,13 @@ import { InputWLabel } from '../../../common/input-w-label'
 import { toast } from 'react-toastify'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
 
-export function UpdateModulosModal ({ closeModal, nombre, tipo, estado }) {
+export function UpdateModulosModal({ closeModal, nombre, tipo, estado }) {
   const { updModulos } = useDataActions()
   const modulosData = useSelector(s => s.data.modulos.data)
 
   const { register, handleSubmit, control } = useForm()
 
-  const handleUpdate = (data) => {
+  const handleUpdate = data => {
     if (data.name === nombre) {
       return
     }
@@ -26,28 +26,50 @@ export function UpdateModulosModal ({ closeModal, nombre, tipo, estado }) {
     closeModal()
   }
 
-  return <ModalBackground onClick={closeModal} closeModal={closeModal} >
+  return (
+    <ModalBackground onClick={closeModal} closeModal={closeModal}>
+      <DefaultModalLayout title="Actualizar Modulo">
+        <form
+          onSubmit={handleSubmit(handleUpdate)}
+          className="py-8 px-4 font-semibold flex flex-col gap-4"
+        >
+          <InputWLabel
+            id="tipo"
+            name="tipo"
+            labelText="Tipo"
+            type="text"
+            autoFocus
+            register={register}
+            disabled
+            defaultValue={nombre}
+          />
+          <InputWLabel
+            id="name"
+            name="name"
+            labelText="Nombre"
+            type="text"
+            autoFocus
+            register={register}
+            disabled
+            defaultValue={tipo}
+          />
 
-    <DefaultModalLayout title='Actualizar Modulo' >
-      <form onSubmit={handleSubmit(handleUpdate)} className='py-8 px-4 font-semibold flex flex-col gap-4'>
+          <SelectInputControlledWithLabel
+            control={control}
+            name="estado"
+            defaultValue={estado}
+            rules={{ required: true }}
+            options={[
+              { text: 'Activado', value: 1 },
+              { text: 'Desactivado', value: 0 }
+            ]}
+          />
 
-        <InputWLabel id='tipo' name='tipo' labelText='Tipo' type='text' autoFocus register={register} disabled defaultValue={nombre} />
-        <InputWLabel id='name' name='name' labelText='Nombre' type='text' autoFocus register={register} disabled defaultValue={tipo} />
-
-        <SelectInputControlledWithLabel
-          control={control}
-          name='estado'
-          defaultValue={estado}
-          rules={{ required: true }}
-          options={[{ text: 'Activado', value: 1 }, { text: 'Desactivado', value: 0 }]}
-        />
-
-        <ButtonsContainer closeModal={closeModal} className={'mt-8'}>
-          <button type='submit'>Actualizar</button>
-        </ButtonsContainer>
-
-      </form>
-    </DefaultModalLayout>
-
-  </ModalBackground>
+          <ButtonsContainer closeModal={closeModal} className={'mt-8'}>
+            <button type="submit">Actualizar</button>
+          </ButtonsContainer>
+        </form>
+      </DefaultModalLayout>
+    </ModalBackground>
+  )
 }

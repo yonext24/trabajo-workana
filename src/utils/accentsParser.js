@@ -1,4 +1,4 @@
-export function accentParser (texto) {
+export function accentParser(texto) {
   const tildes = {
     á: 'a',
     é: 'e',
@@ -12,5 +12,5 @@ export function accentParser (texto) {
     Ú: 'U'
   }
 
-  return texto.replace(/[áéíóúÁÉÍÓÚ]/g, (letra) => tildes[letra])
+  return texto.replace(/[áéíóúÁÉÍÓÚ]/g, letra => tildes[letra])
 }

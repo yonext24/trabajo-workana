@@ -12,7 +12,7 @@ import { ErrorWarning } from '@/components/common/error-warning'
 // Esta página y todas las de la carpeta /general tienen un layout ya integrado, en /components/layout/general-tabs-layout
 // y ahí esta estilado el div#page-content
 
-export function GeneralSectores () {
+export function GeneralSectores() {
   const permissions = usePermissions({ nameOfModule: 'GENERAL' })
   const { CREATE } = permissions
   const { getSectoresData } = useDataActions()
@@ -29,11 +29,13 @@ export function GeneralSectores () {
     getSectoresData()
   }, [])
 
-  return <div id='page-content'>
-    <div className='flex justify-between'>
-      <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
-      <ErrorWarning err={error} />
+  return (
+    <div id="page-content">
+      <div className="flex justify-between">
+        <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+        <ErrorWarning err={error} />
+      </div>
+      <TableGeneral permissions={permissions} />
     </div>
-    <TableGeneral permissions={permissions} />
-  </div>
+  )
 }

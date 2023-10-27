@@ -13,7 +13,15 @@ const addHandler = ({ state, getProperty, setProperty, data }) => {
   setProperty({ property: 'data', state, value })
 }
 
-const updateHandler = ({ update, state, data, placeName, name, getProperty, setProperty }) => {
+const updateHandler = ({
+  update,
+  state,
+  data,
+  placeName,
+  name,
+  getProperty,
+  setProperty
+}) => {
   const { filterBy, filterFunc } = update
   const actualData = getProperty({ property: 'data', state, placeName, name })
 
@@ -33,17 +41,28 @@ const deleteHandler = ({ state, data, del, getProperty, setProperty }) => {
   const actualData = getProperty({ property: 'data', state })
   const { filterBy, filterFunc } = del
 
-  const value = [...actualData].map(el => {
-    if (filterFunc) return filterFunc(data, el)
+  const value = [...actualData]
+    .map(el => {
+      if (filterFunc) return filterFunc(data, el)
 
-    if (el[filterBy] === data) return undefined
-    return el
-  }).filter(el => el !== undefined)
+      if (el[filterBy] === data) return undefined
+      return el
+    })
+    .filter(el => el !== undefined)
 
   setProperty({ property: 'data', state, value })
 }
 
-const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, del, customs = [] }) => {
+const thunksSets = ({
+  builder,
+  placeName,
+  hasFiltered,
+  name,
+  get,
+  add,
+  update,
+  del
+}) => {
   const getProperty = ({ property, state }) => {
     return placeName ? state[placeName][name][property] : state[name][property]
   }
@@ -75,19 +94,26 @@ const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, d
         addHandler({ state, data, add, getProperty, setProperty })
       }
       if (type === 'update') {
-        updateHandler({ update, state, data, placeName, name, getProperty, setProperty })
+        updateHandler({
+          update,
+          state,
+          data,
+          placeName,
+          name,
+          getProperty,
+          setProperty
+        })
       }
       if (type === 'del') {
         deleteHandler({ state, data, del, getProperty, setProperty })
       }
 
-      if (type === 'custom') {
-        const actualData = getProperty({ property: 'data', state }).map(el => el)
-        customFunc({ actualData, setProperty, payload: data })
-      }
-
       if (hasFiltered) {
-        setProperty({ property: 'filtered', state, value: getProperty({ property: 'data', state }) })
+        setProperty({
+          property: 'filtered',
+          state,
+          value: getProperty({ property: 'data', state })
+        })
       }
 
       setProperty({ property: 'loading', state, value: false })
@@ -119,26 +145,46 @@ const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, d
   addActionCase(add.function, payload => payload, 'add')
   update && addActionCase(update.function, payload => payload, 'update')
   addActionCase(del.function, payload => payload, 'del')
-  customs.length >= 1 && customs.forEach(custom => {
-    addActionCase(custom.function, payload => payload, 'custom', custom.fulfilled)
-    // ^^^^ Esta es la manera de setear un custom
-    // custom.function corresponde al thunk, payload => payload es el dataExtractor (deprecated (xD))
-    // 'custom' es el type y custom.fulfilled es la función que se ejecuta cuando el thunk se resuelve
-  })
 }
 
 // dataExtractor no sirve de nada, fue una idea del principio pero al final no la utilicé
 
-export function setThunks ({ builder, toLoop, noLoopData, hasFiltered = false, placeName }) {
-  noLoopData && (() => {
-    const { name, get, add, update, del, customs } = noLoopData
-    thunksSets({ builder, add, get, update, del, name, customs, hasFiltered, placeName })
-  })()
-  toLoop && toLoop.forEach(el => {
-    const [name, datas] = Object.entries(el)[0]
-    const { update, del, get, add, hasFiltered, customs } = datas
-    thunksSets({ builder, placeName, name, add, del, get, customs, update, hasFiltered })
-  })
+export function setThunks({
+  builder,
+  toLoop,
+  noLoopData,
+  hasFiltered = false,
+  placeName
+}) {
+  noLoopData &&
+    (() => {
+      const { name, get, add, update, del } = noLoopData
+      thunksSets({
+        builder,
+        add,
+        get,
+        update,
+        del,
+        name,
+        hasFiltered,
+        placeName
+      })
+    })()
+  toLoop &&
+    toLoop.forEach(el => {
+      const [name, datas] = Object.entries(el)[0]
+      const { update, del, get, add, hasFiltered } = datas
+      thunksSets({
+        builder,
+        placeName,
+        name,
+        add,
+        del,
+        get,
+        update,
+        hasFiltered
+      })
+    })
 }
 
 /*

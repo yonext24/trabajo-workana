@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-
   navbar: {
     mobile: {
       open: false
@@ -12,14 +11,12 @@ const initialState = {
     isMobile: null
   },
   modals: []
-
 }
 
 const layoutSlice = createSlice({
   name: 'layout',
   initialState,
   reducers: {
-
     set_screen_width: (state, action) => {
       const { width } = action.payload
       state.screenWidth.width = width
@@ -39,9 +36,9 @@ const layoutSlice = createSlice({
       const newModals = state.modals.filter(modal => modal.id !== id)
       state.modals = newModals
     }
-
   }
 })
 
 export default layoutSlice.reducer
-export const { set_screen_width, set_navbar_mobile, open_modal, close_modal } = layoutSlice.actions
+export const { set_screen_width, set_navbar_mobile, open_modal, close_modal } =
+  layoutSlice.actions
