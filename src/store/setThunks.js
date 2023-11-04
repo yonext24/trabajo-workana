@@ -83,26 +83,42 @@ const thunksSets = ({
   // oferta_academica -> extension <== Este no contiene sub-slices
   // Y property corresponde al estado que se quiere setear, por ejemplo: data, loading, error, filtered etc.
 
-  const addActionCase = (actionType, dataExtractor, type, customFunc) => {
+  const addActionCase = (actionType, dataExtractor, type) => {
     builder.addCase(actionType.fulfilled, (state, action) => {
       const data = dataExtractor(action.payload)
 
       if (type === 'get') {
-        setProperty({ property: 'data', state, value: data })
+        if (get.customFunc) {
+          get.customFunc({ state, data, getProperty, setProperty })
+        } else {
+          setProperty({ property: 'data', state, value: data })
+        }
       }
       if (type === 'add') {
         addHandler({ state, data, add, getProperty, setProperty })
       }
       if (type === 'update') {
-        updateHandler({
-          update,
-          state,
-          data,
-          placeName,
-          name,
-          getProperty,
-          setProperty
-        })
+        if (update.customFunc) {
+          update.customFunc({
+            update,
+            state,
+            data,
+            placeName,
+            name,
+            getProperty,
+            setProperty
+          })
+        } else {
+          updateHandler({
+            update,
+            state,
+            data,
+            placeName,
+            name,
+            getProperty,
+            setProperty
+          })
+        }
       }
       if (type === 'del') {
         deleteHandler({ state, data, del, getProperty, setProperty })
@@ -120,7 +136,7 @@ const thunksSets = ({
       setProperty({ property: 'revalidating', state, value: false })
       setProperty({ property: 'error', state, value: null })
     })
-    builder.addCase(actionType.pending, (state, action) => {
+    builder.addCase(actionType.pending, state => {
       setProperty({ property: 'revalidating', state, value: true })
       setProperty({ property: 'error', state, value: null })
 
@@ -141,13 +157,46 @@ const thunksSets = ({
     })
   }
 
-  addActionCase(get.function, payload => payload, 'get')
-  addActionCase(add.function, payload => payload, 'add')
-  update && addActionCase(update.function, payload => payload, 'update')
-  addActionCase(del.function, payload => payload, 'del')
+  get &&
+    addActionCase(
+      get.function,
+      payload => {
+        if (get.dataExtractor) return get.dataExtractor(payload)
+        return payload
+      },
+      'get'
+    )
+  add &&
+    addActionCase(
+      add.function,
+      payload => {
+        // <-- DataExtractor
+        if (add.dataExtractor) return add.dataExtractor(payload)
+        return payload
+      },
+      'add'
+    )
+  update &&
+    addActionCase(
+      update.function,
+      payload => {
+        // <-- DataExtractor
+        if (update.dataExtractor) return update.dataExtractor(payload)
+        return payload
+      },
+      'update'
+    )
+  del &&
+    addActionCase(
+      del.function,
+      payload => {
+        // <-- DataExtractor
+        if (del.dataExtractor) return del.dataExtractor(payload)
+        return payload
+      },
+      'del'
+    )
 }
-
-// dataExtractor no sirve de nada, fue una idea del principio pero al final no la utilicé
 
 export function setThunks({
   builder,
@@ -186,25 +235,3 @@ export function setThunks({
       })
     })
 }
-
-/*
-{
-  unidad: {
-    get: {
-      function: get_unidad_academica_unidad
-    },
-    add: {
-      function: add_unidad_academica_unidad
-    },
-    update: {
-      function: update_unidad_academica_unidad,
-      filterBy: 'nombre'
-    },
-    del: {
-      function: delete_unidad_academica_unidad,
-      filterBy: 'nombre'
-    },
-    hasFiltered: true
-  }
-}
-*/

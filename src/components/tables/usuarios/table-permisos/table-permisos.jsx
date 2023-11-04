@@ -3,6 +3,7 @@ import { TableLayout } from '../../table-layout'
 import { useEffect } from 'react'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { TablePermisosRow } from './table-permisos-row'
+import { sortModules } from '@/utils/consts'
 
 export function TablePermisos({
   outsideData,
@@ -37,7 +38,7 @@ export function TablePermisos({
       ]}
     >
       {outsideData
-        ? outsideData.map((el, i) => (
+        ? sortModules(outsideData).map((el, i) => (
             <TablePermisosRow
               permissions={permissions}
               key={i}

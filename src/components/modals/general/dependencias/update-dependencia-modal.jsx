@@ -63,8 +63,6 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
     closeModal()
   })
 
-  console.log(dependenciasData)
-
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
       <DefaultModalLayout

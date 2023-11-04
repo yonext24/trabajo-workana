@@ -3,18 +3,21 @@ import { Row } from '../../row'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { SwitchButton } from '@/components/common/table-buttons'
 
-export function TablePermisosRow({
-  modulo,
-  operacion,
-  unidad,
-  extension,
-  nivel,
-  id_permiso,
-  estado,
-  withActions = true,
-  selectFunction,
-  permissions
-}) {
+export function TablePermisosRow(props) {
+  const {
+    modulo,
+    operacion,
+    unidad,
+    extension,
+    nivel,
+    checked,
+    id_permiso,
+    estado,
+    withActions = true,
+    selectFunction,
+    permissions
+  } = props
+
   const { switchPermissionState } = useUsuariosActions()
 
   const { UPDATE } = permissions
@@ -54,7 +57,13 @@ export function TablePermisosRow({
       {selectFunction && (
         <td>
           <div className="flex justify-center">
-            <SwitchButton text="Quitar/Agregar" handleClick={() => {}} />
+            <SwitchButton
+              text="Quitar/Agregar"
+              customState={checked}
+              handleClick={() => {
+                selectFunction(props)
+              }}
+            />
           </div>
         </td>
       )}

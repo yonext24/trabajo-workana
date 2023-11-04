@@ -70,13 +70,13 @@ const authSlice = createSlice({
           state.loading = false
         }
       })
-      .addCase(checkSession.rejected, (state, action) => {
+      .addCase(checkSession.rejected, state => {
         state.logged = USER_POSSIBLE_STATES.NOT_LOGGED
         state.user = null
         state.token = null
         state.permissions = null
       })
-      .addCase(changePassword.fulfilled, (state, action) => {
+      .addCase(changePassword.fulfilled, state => {
         state.user.temporal = false
       })
   }

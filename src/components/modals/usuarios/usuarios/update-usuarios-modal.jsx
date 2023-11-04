@@ -2,52 +2,57 @@ import { useForm } from 'react-hook-form'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '@/components/common/input-w-label'
-import { SelectInputControlled } from '@/components/common/select-input-controlled'
 import { useSelector } from 'react-redux'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
-import { useEffect } from 'react'
 import { ButtonsContainer } from '../../buttons-container'
 import { toast } from 'react-toastify'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SubmitButton } from '@/components/common/submit-button'
+import { useFormCustom } from '@/hooks/useFormCustom'
+import { useModalLogic } from '@/hooks/useModalLogic'
 
 export function UpdateUsuariosModal({ closeModal }) {
+  const showing = useSelector(s => s.usuarios.usuarios.showing)
+
   const {
-    dependencias: {
-      data: { complete: dependencias }
-    },
-    puestos: { data: puestos }
-  } = useSelector(s => s.data).general
-  const {
-    roles: { data: roles },
-    usuarios: { showing }
-  } = useSelector(s => s.usuarios)
-  const { register, control, handleSubmit } = useForm()
-  const { getRolesData } = useUsuariosActions()
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+    setError
+  } = useForm()
+  const { loading, handleLoading } = useFormCustom()
+  const { updateUsuario } = useUsuariosActions()
+  useModalLogic({ closeModal, noScroll: true })
 
   const {
     nombres,
     apellidos,
     telefono,
     celular,
-    cui,
-    registro_de_personal,
+    CUI,
+    registro_personal,
     correo,
-    pais,
     usuario,
-    rol,
-    dependencia,
-    puesto,
-    referencia_de_oficio
+    otros
   } = showing
+  const { rol } = otros
 
-  useEffect(() => {
-    getRolesData()
-  }, [])
+  const handleUpdate = handleLoading(async data => {
+    console.log({ data })
 
-  const handleUpdate = () => {
-    toast(
-      'Este botón aún no hace nada, esperando a que me den la api para resolverlo.'
-    )
-  }
+    const res = await updateUsuario(data)
+    if (res?.error) {
+      const message =
+        res.error?.message ??
+        'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
+      setError('root.fetchError', { type: 'to-not-invalidate', message })
+      return
+    }
+
+    toast.success('El usuario se creó correctamente.')
+    closeModal()
+  })
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
@@ -55,10 +60,12 @@ export function UpdateUsuariosModal({ closeModal }) {
         closeModal={closeModal}
         className="!max-w-4xl !max-h-[95vh]"
         title="Agregar usuario"
+        errors={errors}
+        loading={loading}
       >
         <form
           onSubmit={handleSubmit(handleUpdate)}
-          className="p-6 grid grid-cols-2 gap-4 gap-x-12 font-semibold text-lg overflow-x-scroll"
+          className="p-6 grid grid-cols-2 gap-2 gap-x-12 font-semibold text-lg "
         >
           <InputWLabel
             register={register}
@@ -68,17 +75,13 @@ export function UpdateUsuariosModal({ closeModal }) {
             disabled
             defaultValue={usuario}
           />
-          <div className="flex flex-col">
-            <label>Rol</label>
-            <SelectInputControlled
-              control={control}
-              options={roles.map(el => el.nombre)}
-              name="rol"
-              rules={{ required: true }}
-              disabled
-              defaultValue={rol}
-            />
-          </div>
+          <SelectInputControlledWithLabel
+            labelText="Rol"
+            control={control}
+            name="rol"
+            disabled
+            defaultValue={rol}
+          />
           <InputWLabel
             register={register}
             type="text"
@@ -114,18 +117,18 @@ export function UpdateUsuariosModal({ closeModal }) {
           <InputWLabel
             register={register}
             type="text"
-            id="cui"
-            name="cui"
-            defaultValue={cui}
+            id="CUI"
+            name="CUI"
+            defaultValue={CUI}
             disabled
           />
           <InputWLabel
             register={register}
             type="text"
-            id="registro_de_personal"
+            id="registro_personal"
             disabled
-            name="registro_de_personal"
-            defaultValue={registro_de_personal}
+            name="registro_personal"
+            defaultValue={registro_personal}
             labelText="Registro de personal"
           />
           <InputWLabel
@@ -136,55 +139,18 @@ export function UpdateUsuariosModal({ closeModal }) {
             defaultValue={correo}
             required
           />
-          <div className="flex flex-col">
-            <label>País</label>
-            <SelectInputControlled
-              control={control}
-              disabled
-              options={[
-                'Mexico',
-                'Guatemala',
-                'Argentina',
-                'Uruguay',
-                'El Salvador'
-              ]}
-              name="pais"
-              defaultValue={pais}
-              rules={{ required: true }}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label>Dependencia</label>
-            <SelectInputControlled
-              control={control}
-              options={dependencias.map(el => el.nombre)}
-              name="dependencia"
-              defaultValue={dependencia}
-              rules={{ required: true }}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label>Puesto</label>
-            <SelectInputControlled
-              control={control}
-              options={puestos}
-              name="puesto"
-              defaultValue={puesto}
-              rules={{ required: true }}
-            />
-          </div>
-          <InputWLabel
-            register={register}
-            type="text"
-            id="referencia_de_oficio"
-            labelText="Referencia de oficio"
-            name="referencia_de_oficio"
-            defaultValue={referencia_de_oficio}
+          <SelectInputControlledWithLabel
+            labelText={'País'}
+            control={control}
+            disabled
+            name="pais"
+            defaultValue={'Argentina'}
+            rules={{ required: true }}
           />
 
-          <div className="col-start-1 col-end-3">
+          <div className="col-start-1 col-end-3 mt-6">
             <ButtonsContainer closeModal={closeModal}>
-              <button type="submit">Guardar</button>
+              <SubmitButton text="Actualizar" loading={loading} />
             </ButtonsContainer>
           </div>
         </form>

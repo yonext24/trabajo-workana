@@ -9,6 +9,7 @@ export function SelectInput({
   handleOptionClick,
   disabled,
   error,
+  formError,
   loading,
   rawOnChange
 }) {
@@ -18,30 +19,21 @@ export function SelectInput({
   useEffect(() => {
     if (loading) setValue('Cargando...')
     else if (error) setValue('Error')
-    else if (defaultValue) {
+    else if (defaultValue || firstOne) {
       const newValue = firstOne
         ? valueParser(options[0])
         : valueParser(defaultValue) ?? 'Seleccionar'
-      rawOnChange(defaultValue) // No fui capaz de hacerlo sin esto, no creo que sea la mejor práctica
       setValue(newValue)
     } else setValue('Seleccionar')
   }, [loading, error, defaultValue])
 
+  useEffect(() => {
+    rawOnChange?.(value) // No fui capaz de hacerlo sin esto, no creo que sea la mejor práctica
+  }, [value])
+
   function valueParser(data) {
     return typeof data === 'string' ? data : data[show]
   }
-
-  useEffect(() => {
-    const handleClick = () => {
-      setOpen(false)
-    }
-
-    document.addEventListener('click', handleClick)
-
-    return () => {
-      document.removeEventListener('click', handleClick)
-    }
-  }, [])
 
   const handleChange = selected => {
     if (disabled) return
@@ -50,9 +42,8 @@ export function SelectInput({
     handleOptionClick(selected)
   }
 
-  const handleClick = e => {
-    e.stopPropagation()
-    if (disabled) return
+  const handleClick = () => {
+    if (disabled || loading) return
     setOpen(!open)
   }
 
@@ -62,11 +53,15 @@ export function SelectInput({
         onClick={handleClick}
         id="fake-select"
         data-disabled={disabled}
-        className="cursor-default text-lg pl-4
+        data-loading={loading}
+        className="cursor-default data-[loading=true]:cursor-not-allowed text-lg pl-4
     border-2 border-gris rounded-md flex w-full overflow-hidden data-[disabled=true]:shadow-lg data-[disabled=true]:cursor-not-allowed"
       >
         <div className="flex-1 text-left py-[2px]">
-          <span className="block py-px capitalize">
+          <span
+            className="block py-px capitalize transition-colors"
+            style={{ color: formError && 'red' }}
+          >
             {valueParser(value) || 'Seleccionar'}
           </span>
         </div>

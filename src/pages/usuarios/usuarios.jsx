@@ -1,92 +1,40 @@
 import { NuevoButton } from '@/components/common/nuevo-button'
 import { SelectInput } from '@/components/common/select-input'
+import { Spinner } from '@/components/common/spinner'
 import {
   ChangeRoleButton,
   DeactivateButton,
   UpdateButton
 } from '@/components/common/table-buttons'
 import { PlusRoundedIcon, SearchIcon } from '@/components/icons'
-import { AddUsuariosModal } from '@/components/modals/usuarios/usuarios/add-usuarios-modal'
-import { ChangeRoleModal } from '@/components/modals/usuarios/usuarios/change-role-modal'
-import { InfoUsuariosModal } from '@/components/modals/usuarios/usuarios/info-usuarios-modal'
-import { UpdateUsuariosModal } from '@/components/modals/usuarios/usuarios/update-usuarios-modal'
 import { TableUsuarios } from '@/components/tables/usuarios/table-usuarios/table-usuarios'
-import { useLayoutActions } from '@/hooks/useLayoutActions'
-import { usePermissions } from '@/hooks/usePermissions'
-import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
-import { useUsuariosActions } from '@/hooks/useUsuariosActions'
-import { accentParser } from '@/utils/accentsParser'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
+import { useUsuariosPage } from '@/hooks/useUsuariosPage'
 
 // Esta página y todas las de la carpeta /usuarios tienen un layout ya integrado, en /components/layout/general-tabs-layout
 // y ahí esta estilado el div#page-content
 
 export function Usuarios() {
-  const [searchFor, setSearchFor] = useState('correo')
-  const { register, handleSubmit } = useForm()
-  const { setUsuariosShowing } = useUsuariosActions()
-  const { data: usuariosData } = useSelector(s => s.usuarios).usuarios
-  const { handleAdd, handleUpd, handleDel } = useTableDefaultModals({
-    place: 'usuarios',
-    add: { el: AddUsuariosModal },
-    update: { el: UpdateUsuariosModal },
-    del: {
-      onClick: () => {
-        toast('Aún no funciona, esperando que me entreguen api.')
-      },
-      title: 'Desactivar usuario',
-      sure: 'Realmente quieres desactivar este usuario?'
-    }
-  })
-  const { openModal, closeModal: closeModalFunc } = useLayoutActions()
-  const { CREATE, UPDATE } = usePermissions({ nameOfModule: 'USUARIOS' })
-
-  const handleInfo = () => {
-    const modalId = 'info-usuarios-modal'
-    openModal({
-      Element: InfoUsuariosModal,
-      id: modalId,
-      props: {
-        closeModal: () => {
-          closeModalFunc(modalId)
-        }
-      }
-    })
-  }
-  const handleRole = () => {
-    const modalId = 'role-usuarios-modal'
-    openModal({
-      Element: ChangeRoleModal,
-      id: modalId,
-      props: {
-        closeModal: () => {
-          closeModalFunc(modalId)
-        }
-      }
-    })
-  }
-
-  const onSubmit = data => {
-    const { search } = data
-    const usuario = usuariosData.find(el => {
-      return accentParser(String(el[searchFor]).toLowerCase()).includes(
-        accentParser(search.toLowerCase())
-      )
-    })
-    if (!usuario) {
-      toast.error('No se econtró ningún usuario con esas características.')
-      return
-    }
-    setUsuariosShowing(usuario)
-  }
+  const {
+    onSubmit,
+    handleRole,
+    handleInfo,
+    handleDel,
+    handleUpd,
+    handleAdd,
+    register,
+    handleSubmit,
+    setSearchFor,
+    canShow,
+    usuariosLoading,
+    UPDATE,
+    CREATE
+  } = useUsuariosPage()
 
   return (
     <div id="page-content">
       <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
         <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex md:items-end gap-4 flex-col md:flex-row"
@@ -94,10 +42,13 @@ export function Usuarios() {
           <div className="flex flex-col w-48">
             <label className="font-semibold text-lg">Buscar por</label>
             <SelectInput
-              options={['correo', 'nombres', 'apellidos', 'pais', 'telefono']}
-              defaultValue={'correo'}
+              options={['correo', 'cui']}
               handleOptionClick={setSearchFor}
+              firstOne
             />
+          </div>
+          <div className="h-9 w-4 flex justify-center items-center">
+            {usuariosLoading && <Spinner className={'h-4 w-4'} />}
           </div>
 
           <div className="flex">
@@ -124,15 +75,21 @@ export function Usuarios() {
       {UPDATE && (
         <div className="w-full flex gap-3 justify-center">
           <UpdateButton
-            handleClick={handleUpd}
+            handleClick={() => {
+              canShow && handleUpd()
+            }}
             iconProps={{ className: '!h-10 !w-10' }}
           />
           <ChangeRoleButton
-            handleClick={handleRole}
+            handleClick={() => {
+              canShow && handleRole()
+            }}
             iconProps={{ className: 'h-10 w-10' }}
           />
           <DeactivateButton
-            handleClick={handleDel}
+            handleClick={() => {
+              canShow && handleDel()
+            }}
             iconProps={{ className: 'h-10 w-10' }}
           />
         </div>

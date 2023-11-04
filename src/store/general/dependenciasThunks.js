@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { setThunks } from '../setThunks'
 import { general } from '@/utils/routes'
+import { get_usuarios_parametros } from '../usuarios/thunks'
 
 export const get_dependencias = createAsyncThunk(
   'general/get_dependencias_data',
@@ -72,5 +73,39 @@ const noLoopData = {
 }
 
 export const setDependenciasThunks = builder => {
+  builder.addCase(get_usuarios_parametros.fulfilled, (state, action) => {
+    const { dependencias, puestos } = action.payload
+
+    state.dependencias.data = dependencias
+    state.puestos.data = puestos
+
+    state.dependencias.loading = false
+    state.dependencias.revalidating = false
+
+    state.puestos.loading = false
+    state.puestos.revalidating = false
+  })
+
+  builder.addCase(get_usuarios_parametros.pending, state => {
+    state.dependencias.loading = true
+    state.dependencias.revalidating = true
+
+    state.puestos.loading = true
+    state.puestos.revalidating = true
+  })
+
+  builder.addCase(get_usuarios_parametros.rejected, (state, action) => {
+    const data = action.payload
+
+    state.dependencias.loading = false
+    state.dependencias.revalidating = false
+
+    state.puestos.loading = false
+    state.puestos.revalidating = false
+
+    state.dependencias.error = data
+    state.puestos.error = data
+  })
+
   setThunks({ noLoopData, builder, hasFiltered: true })
 }

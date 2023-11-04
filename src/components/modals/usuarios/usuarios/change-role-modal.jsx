@@ -1,81 +1,152 @@
 import { useForm } from 'react-hook-form'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
-import { SelectInputControlled } from '@/components/common/select-input-controlled'
 import { useSelector } from 'react-redux'
 import { InputWLabel } from '@/components/common/input-w-label'
 import { ButtonsContainer } from '../../buttons-container'
 import { toast } from 'react-toastify'
+import { useUsuariosActions } from '@/hooks/useUsuariosActions'
+import { useEffect } from 'react'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { useFormCustom } from '@/hooks/useFormCustom'
+import { SubmitButton } from '@/components/common/submit-button'
 
 export function ChangeRoleModal({ closeModal }) {
   const {
-    roles: { data: rolesData },
-    usuarios: { showing }
-  } = useSelector(s => s.usuarios)
-  const {
-    dependencias: {
-      data: { complete: dependenciasData }
-    },
-    puestos: { data: puestosData }
-  } = useSelector(s => s.data).general
-  const { handleSubmit, register, control } = useForm()
+    handleSubmit,
+    register,
+    control,
+    formState: { errors },
+    setError
+  } = useForm()
+  const { loading, handleLoading } = useFormCustom()
 
-  const { rol, dependencia, puesto, referencia_de_oficio } = showing
+  const showing = useSelector(s => s.usuarios.usuarios.showing)
+  const rolesData = useSelector(s => s.usuarios.roles.data)
+  const rolesLoading = useSelector(s => s.usuarios.roles.revalidating)
+  const rolesError = useSelector(s => s.usuarios.roles.error)
+  const dependenciasData = useSelector(s => s.data.dependencias.data)
+  const dependenciasLoading = useSelector(s => s.data.dependencias.revalidating)
+  const dependenciasError = useSelector(s => s.data.dependencias.error)
+  const puestosData = useSelector(s => s.data.puestos.data)
+  const puestosLoading = useSelector(s => s.data.puestos.revalidating)
+  const puestosError = useSelector(s => s.data.puestos.error)
 
-  const handleUpdate = data => {
-    toast(
-      'Este botón aún no funciona, esperando que me entreguen la api para resolver.'
-    )
-  }
+  const { otros, usuario } = showing
+  const { rol, dependencia, puesto, ref_oficio, fecha_desactivacion } = otros
+  const { getCreateUsuarioParametros, updateUsuario } = useUsuariosActions()
+
+  const handleUpdate = handleLoading(async data => {
+    const { dependencia, puesto, rol, ...rest } = data
+
+    const dataToUpdate = { ...rest, usuario }
+
+    if (typeof dependencia !== 'string') {
+      dataToUpdate.id_dependencia = dependencia.id
+      dataToUpdate.dependencia = dependencia.nombre
+    }
+    if (typeof puesto !== 'string') {
+      dataToUpdate.id_puesto = puesto.id
+      dataToUpdate.puesto = puesto.nombre
+    }
+    if (typeof rol !== 'string') {
+      dataToUpdate.id_rol = rol.id
+      dataToUpdate.rol = rol.nombre
+    }
+
+    console.log({ data, dataToUpdate })
+
+    const res = await updateUsuario(dataToUpdate)
+    if (res?.error) {
+      const message =
+        res.error?.message ??
+        'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
+      setError('root.fetchError', { type: 'to-not-invalidate', message })
+      return
+    }
+
+    toast.success('El usuario se actualizó correctamente.')
+    closeModal()
+  })
+
+  useEffect(() => {
+    getCreateUsuarioParametros()
+  }, [])
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Cambiar rol de usuario">
+      <DefaultModalLayout
+        title="Cambiar rol de usuario"
+        className={'!max-h-[95vh]'}
+        loading={loading}
+        errors={errors}
+      >
         <form
-          className="p-6 [&_label]:font-semibold [&_label]:text-lg flex flex-col gap-3"
+          className="p-6 [&_label]:font-semibold [&_label]:text-lg flex flex-col gap-3 overflow-y-scroll"
           onSubmit={handleSubmit(handleUpdate)}
         >
-          <div className="flex flex-col">
-            <label>Rol</label>
-            <SelectInputControlled
-              control={control}
-              name="rol"
-              rules={{ required: true }}
-              options={rolesData.map(el => el.nombre)}
-              defaultValue={rol}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label>Dependencia</label>
-            <SelectInputControlled
-              control={control}
-              name="dependencia"
-              rules={{ required: true }}
-              options={dependenciasData.map(el => el.nombre)}
-              defaultValue={dependencia}
-            />
-          </div>
-          <div className="flex flex-col">
-            <label>Puesto</label>
-            <SelectInputControlled
-              control={control}
-              name="puesto"
-              rules={{ required: true }}
-              options={puestosData}
-              defaultValue={puesto}
-            />
-          </div>
+          <SelectInputControlledWithLabel
+            labelText={'Rol'}
+            control={control}
+            name="rol"
+            rules={{ required: true }}
+            options={rolesData}
+            show="nombre"
+            defaultValue={rol}
+            loading={rolesLoading}
+            error={rolesError}
+          />
+          <SelectInputControlledWithLabel
+            labelText={'Dependencia'}
+            control={control}
+            name="dependencia"
+            rules={{ required: true }}
+            options={dependenciasData}
+            show="nombre"
+            defaultValue={dependencia}
+            loading={dependenciasLoading}
+            error={dependenciasError}
+          />
+          <SelectInputControlledWithLabel
+            labelText={'Puesto'}
+            control={control}
+            name="puesto"
+            rules={{ required: true }}
+            options={puestosData}
+            show="nombre"
+            defaultValue={puesto}
+            loading={puestosLoading}
+            error={puestosError}
+          />
           <InputWLabel
             register={register}
             type="text"
-            id="referencia_de_oficio"
+            id="ref_oficio"
             labelText="Referencia de oficio"
-            name="referencia_de_oficio"
-            defaultValue={referencia_de_oficio}
+            name="ref_oficio"
+            defaultValue={ref_oficio}
+          />
+          <InputWLabel
+            register={register}
+            type="date"
+            id="fecha_desactivacion"
+            labelText="Fecha de desactivación"
+            name="fecha_desactivacion"
+            defaultValue={fecha_desactivacion}
+            registerProps={{
+              validate: date => {
+                if (new Date(date) < new Date()) {
+                  return 'La fecha de desactivación no puede ser menor a la fecha actual.'
+                }
+              }
+            }}
           />
 
-          <ButtonsContainer className="[&>button]:!py-2 mt-6">
-            <button type="submit">Guardar</button>
+          <ButtonsContainer
+            className="[&>button]:!py-2 mt-6"
+            disabled={loading}
+          >
+            <SubmitButton text="Actualizar" loading={loading} />
           </ButtonsContainer>
         </form>
       </DefaultModalLayout>

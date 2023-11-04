@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux'
 export function Perfil() {
   const { register, handleSubmit } = useForm()
   const { user, logged } = useSelector(s => s.auth)
-  console.log(user)
 
   const {
     usuario,

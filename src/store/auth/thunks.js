@@ -95,6 +95,7 @@ const getUserData = async ({ headers }) => {
 // Acción asincrónica para verificar la sesión inicial
 export const checkSession = createAsyncThunk(auth.login, async () => {
   const token = localStorage.getItem('token')
+  console.log({ token })
   if (!token) return false
 
   try {
@@ -120,44 +121,39 @@ export const checkSession = createAsyncThunk(auth.login, async () => {
   }
 })
 
-export const login = createAsyncThunk(
-  'auth/login',
-  async ({ formData }, api) => {
-    console.log(auth)
+export const login = createAsyncThunk('auth/login', async ({ formData }) => {
+  try {
+    const { access_token: token } = await fetch(auth.login, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      credentials: 'include',
+      body: formData.toString()
+    }).then(fetchHandler)
 
-    try {
-      const { access_token: token } = await fetch(auth.login, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        credentials: 'include',
-        body: formData.toString()
-      }).then(fetchHandler)
-
-      const headers = {
-        Authorization: `Bearer ${token}`
-      }
-
-      const { user, permissions, operacion } = await getUserData({ headers })
-
-      localStorage.setItem('token', token)
-
-      return {
-        token,
-        user,
-        permissions,
-        operacion
-      }
-    } catch (err) {
-      const errMessage =
-        err instanceof Error
-          ? err.message
-          : 'Ocurrió un error inesperado, porfavor contacta a soporte. (From not expected catch)'
-      throw new Error(errMessage)
+    const headers = {
+      Authorization: `Bearer ${token}`
     }
+
+    const { user, permissions, operacion } = await getUserData({ headers })
+
+    localStorage.setItem('token', token)
+
+    return {
+      token,
+      user,
+      permissions,
+      operacion
+    }
+  } catch (err) {
+    const errMessage =
+      err instanceof Error
+        ? err.message
+        : 'Ocurrió un error inesperado, porfavor contacta a soporte. (From not expected catch)'
+    throw new Error(errMessage)
   }
-)
+})
 
 export const changePassword = createAsyncThunk(
   'auth/changePassword',

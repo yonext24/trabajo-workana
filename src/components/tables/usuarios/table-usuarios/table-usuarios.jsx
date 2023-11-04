@@ -6,14 +6,16 @@ const toShow = [
   'apellidos',
   'telefono',
   'celular',
-  'cui',
-  'registro_de_personal',
+  'CUI',
+  'registro_personal',
   'correo',
-  'pais'
+  'nacionalidad'
 ]
 
 export function TableUsuarios() {
-  const { showing } = useSelector(s => s.usuarios).usuarios
+  const showing = useSelector(s => s.usuarios.usuarios.showing)
+
+  console.log({ showing })
 
   return (
     <div

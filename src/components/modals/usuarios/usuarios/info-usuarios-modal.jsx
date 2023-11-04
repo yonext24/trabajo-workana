@@ -4,15 +4,15 @@ import { useSelector } from 'react-redux'
 import { ButtonsContainer } from '../../buttons-container'
 
 const toShow = [
-  'rol',
-  'puesto',
-  'dependencia',
-  'referencia_de_oficio',
-  'fecha_de_desactivacion'
+  { text: 'Rol', key: 'rol' },
+  { text: 'Puesto', key: 'puesto' },
+  { text: 'Dependencia', key: 'dependencia' },
+  { text: 'Referencia de Oficio', key: 'ref_oficio' },
+  { text: 'Fecha de desactivación', key: 'fecha_desactivacion' }
 ]
 
 export function InfoUsuariosModal({ closeModal }) {
-  const { showing } = useSelector(s => s.usuarios).usuarios
+  const showing = useSelector(s => s.usuarios.usuarios.showing)
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
@@ -23,17 +23,18 @@ export function InfoUsuariosModal({ closeModal }) {
         [&>#row]:grid [&>#row]:grid-cols-2 [&_#td]:py-[9px] [&_#row:not(:last-of-type)>#td]:border-b [&_#td]:px-2"
           >
             {toShow
-              .map(key => ({ [key]: showing[key] }))
+              .map(({ key, text }) => ({ [key]: showing?.otros?.[key], text }))
               .map(el => {
-                const element = Object.entries(el)[0]
-
+                const entries = Object.entries(el)
+                const value = entries[0][1]
+                const text = entries[1][1]
                 return (
-                  <div id="row" key={element[0]}>
+                  <div id="row" key={text}>
                     <div id="td" className="capitalize border-r">
-                      {element[0].replace(/_/g, ' ')}
+                      {text}
                     </div>
                     <div id="td" className="text-center">
-                      {element[1]}
+                      {value}
                     </div>
                   </div>
                 )

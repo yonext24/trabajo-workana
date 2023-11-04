@@ -123,13 +123,18 @@ export function SwitchButton({
   handleClick,
   text = 'Desactivado/Activado',
   estado,
+  customState, // CustomState se utiliza para setear el estado del switch desde afuera sin depender de "estado",
+  // se utiliza en la modal de actualizar permisos de rol.
   ...props
 }) {
   const { hovering, elementRef } = useHovering()
 
+  const FState = customState !== undefined ? customState : estado
+
   return (
     <ButtonWrapper hovering={hovering} text={text}>
       <button
+        type="button"
         ref={elementRef}
         onClick={handleClick}
         className="bg-black rounded-full p-1 w-[45px] h-[25px]"
@@ -138,7 +143,7 @@ export function SwitchButton({
         <div className="relative w-full h-full">
           <div
             className={`absolute top-0 h-full aspect-square rounded-full transition-[left] bg-white ${
-              estado ? 'left-[20px]' : 'left-0'
+              FState ? 'left-[20px]' : 'left-0'
             }`}
           />
         </div>

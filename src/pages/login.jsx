@@ -35,13 +35,14 @@ export function Login() {
     })
   }
 
-  const handleUpdate = ({ username, password }) => {
+  const handleUpdate = async ({ username, password }) => {
     const formData = new URLSearchParams()
     formData.append('username', username)
     formData.append('password', password)
-    Login({ formData }).then(() => {
+    const res = await Login({ formData })
+    if (!res.error) {
       navigate('/perfil', { replace: true })
-    })
+    }
   }
 
   return (

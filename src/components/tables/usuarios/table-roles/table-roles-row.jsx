@@ -18,13 +18,13 @@ export function TableRolesRow({
     perm: { el: RolePermissionsModal, nombre, descripcion, estado, id_rol },
     update: {
       el: UpdRolesModal,
+      id_rol,
       nombre,
-      descripcion,
       estado,
-      id_rol
+      descripcion
     },
     del: {
-      onClick: async () => await deleteRole({ nombre }),
+      onClick: async () => await deleteRole(id_rol),
       title: 'Desactivar Rol',
       sure: 'Realmente quiere desactivar este rol?'
     }

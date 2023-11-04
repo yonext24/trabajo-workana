@@ -6,13 +6,7 @@ import { useSelector } from 'react-redux'
 import { TablePermisos } from '@/components/tables/usuarios/table-permisos/table-permisos'
 import { usePermissions } from '@/hooks/usePermissions'
 
-export function RolePermissionsModal({
-  closeModal,
-  nombre,
-  id_rol,
-  descripcion,
-  estado
-}) {
+export function RolePermissionsModal({ closeModal, nombre, id_rol }) {
   const permissions = useSelector(s => s.usuarios.roles.permissionsData)
 
   const pagePermissions = usePermissions('USUARIOS')
