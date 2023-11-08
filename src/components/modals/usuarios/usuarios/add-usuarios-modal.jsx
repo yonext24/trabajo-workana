@@ -74,8 +74,6 @@ export function AddUsuariosModal({ closeModal }) {
     getCreateUsuarioParametros()
   }, [])
 
-  register('', { minLength: 7 })
-
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout

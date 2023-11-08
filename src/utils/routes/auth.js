@@ -12,6 +12,14 @@ export const auth = {
       body: JSON.stringify(data)
     }).then(fetchHandler)
   },
+  recoverPassword: async (api, data) => {
+    const { headers } = getToken(api)
+    return await fetch(`${BASE_URL}/rye/usuario/recuperar_contrasenia`, {
+      headers,
+      method: 'POST',
+      body: JSON.stringify(data)
+    }).then(fetchHandler)
+  },
   permisos: `${BASE_URL}/rye/permiso/permisos_usuario`,
   parametros: `${BASE_URL}/rye/modulo/parametros`
 }

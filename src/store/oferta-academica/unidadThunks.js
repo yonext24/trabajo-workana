@@ -1,37 +1,33 @@
-import { fakeData } from '@/assets/fake-api-call'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { setThunks } from '../setThunks'
+import { unidad } from '@/utils/routes'
 
 export const get_unidad_academica_tipos = createAsyncThunk(
   'oferta-academica/unidad-academica/tipo/get',
   async (_, api) => {
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    return fakeData({ nombre: 8, descripcion: 12 })
+    return await unidad.tipo.get(api)
   }
 )
 export const add_unidad_academica_tipos = createAsyncThunk(
   'oferta-academica/unidad-academica/tipo/add',
-  async ({ newData }, api) => {
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    return newData
+  async (data, api) => {
+    return await unidad.tipo.add(api, data)
   }
 )
 export const delete_unidad_academica_tipos = createAsyncThunk(
   'oferta-academica/unidad-academica/tipos/delete',
-  async ({ nombre }, api) => {
-    await new Promise(resolve => setTimeout(resolve, 1500))
+  async (data, api) => {
+    await unidad.tipo.delete(api, data)
 
-    return nombre
+    return data.id_tipo_ua
   }
 )
 export const update_unidad_academica_tipos = createAsyncThunk(
   'oferta-academica/unidad-academica/tipos/update',
-  async ({ nombre, newData }, api) => {
-    await new Promise(resolve => setTimeout(resolve, 1500))
+  async (data, api) => {
+    await unidad.tipo.update(api, data)
 
-    return { id: nombre, newData }
+    return data
   }
 )
 
@@ -98,11 +94,22 @@ export const setUnidadAcademicaExtraReducers = builder => {
         },
         update: {
           function: update_unidad_academica_tipos,
-          filterBy: 'nombre'
+          customFunc: ({ state, data }) => {
+            const { id_tipo_ua, descripcion } = data
+
+            state.unidadAcademica.tipo.data =
+              state.unidadAcademica.tipo.data.map(unidad => {
+                if (unidad.id_tipo_ua === id_tipo_ua) {
+                  unidad.descripcion = descripcion
+                }
+
+                return unidad
+              })
+          }
         },
         del: {
           function: delete_unidad_academica_tipos,
-          filterBy: 'nombre'
+          filterBy: 'id_tipo_ua'
         },
         hasFiltered: true
       }
@@ -116,12 +123,11 @@ export const setUnidadAcademicaExtraReducers = builder => {
           function: add_unidad_academica_unidad
         },
         update: {
-          function: update_unidad_academica_unidad,
-          filterBy: 'nombre'
+          function: update_unidad_academica_unidad
         },
         del: {
           function: delete_unidad_academica_unidad,
-          filterBy: 'nombre'
+          filterBy: 'id_tipo_ua'
         },
         hasFiltered: true
       }

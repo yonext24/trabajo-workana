@@ -190,7 +190,13 @@ export const addUsuariosExtraReducers = builder => {
       function: add_permission
     },
     update: {
-      function: switch_permission_state
+      function: switch_permission_state,
+      filterFunc: (data, el) => {
+        if (el.id_permiso === data.id_permiso) {
+          return { ...el, estado: !data.estado }
+        }
+        return el
+      }
     },
     del: {
       function: delete_permission,

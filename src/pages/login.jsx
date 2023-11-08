@@ -8,13 +8,17 @@ import { useAuthActions } from '@/hooks/useAuthActions'
 import { useEffect } from 'react'
 import { USER_POSSIBLE_STATES } from '@/store/auth/slice'
 import { useNavigate } from 'react-router-dom'
+import { useFormCustom } from '@/hooks/useFormCustom'
+import { SubmitButton } from '@/components/common/submit-button'
+import { ButtonsContainer } from '@/components/modals/buttons-container'
 
 export function Login() {
   const { handleSubmit, register } = useForm()
+  const { loading, handleLoading } = useFormCustom()
   const { modals } = useSelector(s => s.layout)
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
   const { Login } = useAuthActions()
-  const { logged, error, loading } = useSelector(s => s.auth)
+  const { logged, error } = useSelector(s => s.auth)
 
   const navigate = useNavigate()
 
@@ -35,7 +39,7 @@ export function Login() {
     })
   }
 
-  const handleUpdate = async ({ username, password }) => {
+  const handleUpdate = handleLoading(async ({ username, password }) => {
     const formData = new URLSearchParams()
     formData.append('username', username)
     formData.append('password', password)
@@ -43,7 +47,7 @@ export function Login() {
     if (!res.error) {
       navigate('/perfil', { replace: true })
     }
-  }
+  })
 
   return (
     <>
@@ -71,9 +75,9 @@ export function Login() {
             name="password"
             inputClassName="mt-2"
           />
-          <button className="text-button bg-gris-oscuro py-1 px-16 w-max text-white mx-auto rounded-md">
-            Entrar
-          </button>
+          <ButtonsContainer alone>
+            <SubmitButton text="Entrar" loading={loading} className="!py-2" />
+          </ButtonsContainer>
 
           {error && <p className="text-red-500">{error}</p>}
 

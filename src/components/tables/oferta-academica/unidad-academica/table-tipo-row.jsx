@@ -3,25 +3,29 @@ import { Row } from '../../row'
 import { RowLayout } from '../../row-layout'
 import { TipoUpdateModal } from '@/components/modals/oferta-academica/unidad-academica/tipo-update-modal'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { parseEstado } from '@/utils/consts'
 
-export function TableTipoRow({ permissions, nombre, descripcion }) {
+export function TableTipoRow({
+  permissions,
+  nombre,
+  descripcion,
+  estado,
+  id_tipo_ua
+}) {
   const { UPDATE } = permissions
 
   const { deleteUnidadAcademicaTipos } = useOfertaAcademicaActions()
   const { handleUpd, handleDel } = useTableDefaultModals({
     del: {
-      onClick: () => {
-        deleteUnidadAcademicaTipos(nombre)
-      },
-      title: 'Desactivar Tipo',
-      sure: 'Realmente quiere desactivar este tipo?'
+      onClick: async () => deleteUnidadAcademicaTipos({ id_tipo_ua })
     },
-    update: { el: TipoUpdateModal, nombre, descripcion },
+    update: { el: TipoUpdateModal, nombre, descripcion, id_tipo_ua },
     place: 'tipo'
   })
   const rows = [
     { text: nombre },
     { text: descripcion },
+    { text: parseEstado(estado), className: '!text-center' },
     {
       actions: UPDATE
         ? [

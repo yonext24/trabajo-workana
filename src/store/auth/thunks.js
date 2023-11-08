@@ -161,3 +161,10 @@ export const changePassword = createAsyncThunk(
     return await auth.changePassword(api, data)
   }
 )
+
+export const recoverPassword = createAsyncThunk(
+  'auth/recoverPassword',
+  async (data, api) => {
+    return await auth.recoverPassword(api, data)
+  }
+)

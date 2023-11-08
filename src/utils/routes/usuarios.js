@@ -99,11 +99,13 @@ export const usuarios = {
     },
     switchStates: async (api, { id_permiso, estado }) => {
       const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/permiso/actualizar`, {
-        headers,
-        method: 'POST',
-        body: JSON.stringify({ id_permiso, estado: !estado })
-      }).then(fetchHandler)
+      return await fetch(
+        `${BASE_URL}/rye/permiso/actualizar?id_permiso=${id_permiso}&estado=${!estado}`,
+        {
+          headers,
+          method: 'POST'
+        }
+      ).then(fetchHandler)
     }
   }
 }
