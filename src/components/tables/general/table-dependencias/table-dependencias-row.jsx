@@ -5,17 +5,18 @@ import {
 import { useDataActions } from '../../../../hooks/useDataActions'
 import { UpdateDependenciaModal } from '../../../modals/general/dependencias/update-dependencia-modal'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
+import { parseEstado } from '@/utils/consts'
 
 export function TableDependenciasRow({
   sector,
   nombre,
   abreviatura,
   unidad,
-  id,
   permissions,
   id_dependencia,
   id_sector,
-  id_unidad
+  id_unidad,
+  estado
 }) {
   const { delDependenciesData } = useDataActions()
 
@@ -48,11 +49,15 @@ export function TableDependenciasRow({
   })
 
   return (
-    <tr className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px] [&>td]:border-r [&>td]:text-center [&>td:last-of-type]:border-r-0">
+    <tr
+      data-disabled={!estado}
+      className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px] [&>td]:border-r [&>td]:text-center [&>td:last-of-type]:border-r-0"
+    >
       <td>{sector}</td>
       <td>{nombre}</td>
       <td>{abreviatura}</td>
       <td>{unidad}</td>
+      <td className="!text-center">{parseEstado(estado)}</td>
       <td>
         <div className="w-full h-full flex justify-center items-center gap-4">
           {UPDATE && (

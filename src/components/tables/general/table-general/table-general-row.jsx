@@ -1,6 +1,7 @@
 import { useDataActions } from '@/hooks/useDataActions'
 import { DeactivateButton } from '@/components/common/table-buttons'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
+import { parseEstado } from '@/utils/consts'
 
 export function TableGeneralRow({ nombre, estado, permissions, id_sector }) {
   const { delSectoresData } = useDataActions()
@@ -16,8 +17,12 @@ export function TableGeneralRow({ nombre, estado, permissions, id_sector }) {
   const { UPDATE } = permissions
 
   return (
-    <tr className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px]">
+    <tr
+      data-disabled={!estado}
+      className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px]"
+    >
       <td className="border-r">{nombre}</td>
+      <td className="border-r !w-max !text-center">{parseEstado(estado)}</td>
       <td>
         <div className="w-full h-full flex justify-center items-center gap-4">
           {UPDATE ? (

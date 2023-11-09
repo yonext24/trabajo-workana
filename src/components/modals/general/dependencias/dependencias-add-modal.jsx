@@ -75,6 +75,7 @@ export function DependenciasAddModal({ closeModal }) {
             register={register}
             required
             registerProps={{
+              maxLength: { value: 20, message: 'Máximo 20 caracteres' },
               validate: abreviatura => {
                 if (dependenciasData.some(d => d.abreviatura === abreviatura))
                   return 'Ya existe una dependencia con esa abreviatura'

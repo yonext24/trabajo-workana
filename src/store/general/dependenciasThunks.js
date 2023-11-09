@@ -45,12 +45,14 @@ export const update_dependencias = createAsyncThunk(
 export const add_dependencias = createAsyncThunk(
   'general/add_dependencias_data',
   async (data, api) => {
-    const { id_dependencia } = await general.dependencias.add(api, {
+    const { sector, unidad } = data
+
+    const res = await general.dependencias.add(api, {
       ...data,
       id_unidad: 0
     }) // <--- ID_UNIDAD = PLACEHOLDER
 
-    return { id_dependencia, ...data }
+    return { ...res, sector, unidad }
   }
 )
 

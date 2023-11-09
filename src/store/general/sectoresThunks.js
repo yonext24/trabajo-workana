@@ -5,9 +5,7 @@ import { general } from '@/utils/routes'
 export const get_sectores_data = createAsyncThunk(
   'general/get_sectores_data',
   async (_, api) => {
-    const response = await general.sectores.get(api)
-
-    return response
+    return await general.sectores.get(api)
   }
 )
 

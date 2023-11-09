@@ -19,9 +19,14 @@ export function TableDependencias({ permissions }) {
     <TableLayout
       loading={loading}
       revalidating={revalidating}
-      columns={['Sector', 'Nombre', 'Abreviatura', 'Unidad', 'Acciones'].map(
-        el => ({ text: el })
-      )}
+      columns={[
+        'Sector',
+        'Nombre',
+        'Abreviatura',
+        'Unidad',
+        'Estado',
+        'Acciones'
+      ].map(el => ({ text: el }))}
     >
       {filtered.map(row => (
         <TableDependenciasRow

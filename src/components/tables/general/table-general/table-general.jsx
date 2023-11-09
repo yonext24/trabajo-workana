@@ -2,11 +2,10 @@ import { useSelector } from 'react-redux'
 import { TableGeneralRow } from './table-general-row'
 import { TableLayout } from '../../table-layout'
 
+// Esta tabla no debería llamarse general, debería llamarse sectores
+
 export function TableGeneral({ permissions }) {
-  // eslint-disable-next-line no-unused-vars
-  const { loading, data, revalidating, error } = useSelector(
-    s => s.data.sectores
-  )
+  const { loading, data, revalidating } = useSelector(s => s.data.sectores)
 
   return (
     <TableLayout
@@ -14,6 +13,7 @@ export function TableGeneral({ permissions }) {
       revalidating={revalidating}
       columns={[
         { text: 'Nombre' },
+        { text: 'Estado' },
         { text: 'Acciones', className: 'max-w-[40%] w-full' }
       ]}
     >

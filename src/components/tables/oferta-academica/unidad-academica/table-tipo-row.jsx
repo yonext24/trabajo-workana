@@ -37,7 +37,7 @@ export function TableTipoRow({
   ]
 
   return (
-    <RowLayout>
+    <RowLayout data-disabled={!estado}>
       {rows.map(el => (
         <Row key={el.text || el.actions} {...el} />
       ))}

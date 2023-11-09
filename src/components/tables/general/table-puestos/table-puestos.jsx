@@ -14,7 +14,7 @@ export function TablePuestos({ permissions }) {
 
   return (
     <TableLayout
-      columns={[{ text: 'Nombre' }, { text: 'Acciones' }]}
+      columns={[{ text: 'Nombre' }, { text: 'Estado' }, { text: 'Acciones' }]}
       loading={loading}
       revalidating={revalidating}
     >

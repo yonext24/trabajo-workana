@@ -37,7 +37,14 @@ const updateHandler = ({
   setProperty({ property: 'data', state, value })
 }
 
-const deleteHandler = ({ state, data, del, getProperty, setProperty }) => {
+const deleteHandler = ({
+  state,
+  data,
+  del,
+  getProperty,
+  setProperty,
+  realDelete
+}) => {
   const actualData = getProperty({ property: 'data', state })
   const { filterBy, filterFunc } = del
 
@@ -45,7 +52,8 @@ const deleteHandler = ({ state, data, del, getProperty, setProperty }) => {
     .map(el => {
       if (filterFunc) return filterFunc(data, el)
 
-      if (el[filterBy] === data) return undefined
+      if (el[filterBy] === data)
+        return realDelete ? undefined : { ...el, estado: false }
       return el
     })
     .filter(el => el !== undefined)
@@ -61,7 +69,8 @@ const thunksSets = ({
   get,
   add,
   update,
-  del
+  del,
+  realDelete = false
 }) => {
   const getProperty = ({ property, state }) => {
     return placeName ? state[placeName][name][property] : state[name][property]
@@ -121,7 +130,14 @@ const thunksSets = ({
         }
       }
       if (type === 'del') {
-        deleteHandler({ state, data, del, getProperty, setProperty })
+        deleteHandler({
+          state,
+          data,
+          del,
+          getProperty,
+          setProperty,
+          realDelete
+        })
       }
 
       if (hasFiltered) {

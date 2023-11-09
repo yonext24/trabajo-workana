@@ -25,6 +25,7 @@ export const delete_role = createAsyncThunk(
     return id_rol
   }
 )
+
 export const add_role = createAsyncThunk(
   'usuarios/roles/add',
   async (data, api) => {
@@ -178,7 +179,7 @@ export const addUsuariosExtraReducers = builder => {
     },
     del: {
       function: delete_role,
-      filterBy: 'nombre'
+      filterBy: 'id_rol'
     }
   }
   const permisosExtraReducers = {

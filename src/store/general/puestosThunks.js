@@ -24,10 +24,8 @@ export const del_puestos = createAsyncThunk(
 
 export const add_puestos = createAsyncThunk(
   'general/add_puestos_data',
-  async ({ descripcion }, api) => {
-    const { id_puesto } = await general.puestos.add(api, { descripcion })
-
-    return { descripcion, id_puesto }
+  async (data, api) => {
+    return await general.puestos.add(api, data)
   }
 )
 

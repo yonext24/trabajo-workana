@@ -4,6 +4,7 @@ import { RowLayout } from '../../row-layout'
 import { RolePermissionsModal } from '@/components/modals/usuarios/roles/role-permissions-modal'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { UpdRolesModal } from '@/components/modals/usuarios/roles/upd-roles-modal'
+import { parseEstado } from '@/utils/consts'
 
 export function TableRolesRow({
   nombre,
@@ -35,7 +36,7 @@ export function TableRolesRow({
   const rows = [
     { id: 1, text: nombre },
     { id: 2, text: descripcion },
-    { id: 3, text: estado ? 'Activo' : 'Inactivo', className: '!text-center' },
+    { id: 3, text: parseEstado(estado), className: '!text-center' },
     {
       id: 4,
       actions: UPDATE
@@ -49,7 +50,7 @@ export function TableRolesRow({
   ]
 
   return (
-    <RowLayout>
+    <RowLayout data-disabled={!estado}>
       {rows.map(el => (
         <Row
           key={el.id}

@@ -50,7 +50,7 @@ export function TablePermisosRow(props) {
   ].concat(toConcat)
 
   return (
-    <RowLayout>
+    <RowLayout data-disabled={!estado}>
       {rows.map(el => (
         <Row key={el.id} {...el}></Row>
       ))}
