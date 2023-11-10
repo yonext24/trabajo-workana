@@ -64,12 +64,12 @@ export const usuarios = {
         body: JSON.stringify(data)
       }).then(fetchHandler)
     },
-    delete: async (api, { id_rol }) => {
+    switch_state: async (api, { id_rol, estado }) => {
       const { headers } = getToken(api)
       return await fetch(`${BASE_URL}/rye/rol/actualizar`, {
         headers,
         method: 'POST',
-        body: JSON.stringify({ rol: { id_rol, estado: false }, actualizar: [] })
+        body: JSON.stringify({ rol: { id_rol, estado: !estado }, actualizar: [] })
       }) // "actualizar" es necesario
         .then(fetchHandler)
     },

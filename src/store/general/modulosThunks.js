@@ -6,13 +6,13 @@ export const get_modulos = createAsyncThunk('general/get_modulos_data', async (_
   return await general.modulos.get(api)
 })
 
-export const del_modulos = createAsyncThunk('general/delete_modulos_data', async ({ id }, api) => {
-  await general.modulos.delete(api, { id })
+export const switch_state_modulos = createAsyncThunk('general/delete_modulos_data', async (data, api) => {
+  await general.modulos.switch_state(api, data)
 
-  return id
+  return data
 })
 
-export const update_modulos = createAsyncThunk('general/update_modulos_data', async ({ newData, nombre }, api) => {
+export const update_modulos = createAsyncThunk('general/update_modulos_data', async ({ newData, nombre }) => {
   return { nombre, newData }
 })
 
@@ -27,8 +27,8 @@ const noLoopData = {
   get: {
     function: get_modulos
   },
-  del: {
-    function: del_modulos,
+  switch_state: {
+    function: switch_state_modulos,
     filterBy: 'id'
   },
   update: {

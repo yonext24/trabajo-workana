@@ -25,12 +25,12 @@ import {
 import {
   add_unidad_academica_tipos,
   add_unidad_academica_unidad,
-  delete_unidad_academica_tipos,
-  delete_unidad_academica_unidad,
+  switch_state_unidad_academica_unidad,
   get_unidad_academica_tipos,
   get_unidad_academica_unidad,
   update_unidad_academica_tipos,
-  update_unidad_academica_unidad
+  update_unidad_academica_unidad,
+  switch_state_unidad_academica_tipos
 } from '@/store/oferta-academica/unidadThunks'
 import { useDispatch } from 'react-redux'
 
@@ -66,23 +66,23 @@ export function useOfertaAcademicaActions() {
 
   const getUnidadAcademicaTipos = async () => dispatch(get_unidad_academica_tipos())
   const addUnidadAcademicaTipos = async data => dispatch(add_unidad_academica_tipos(data))
-  const deleteUnidadAcademicaTipos = async data => dispatch(delete_unidad_academica_tipos(data))
+  const switchUnidadAcademicaTipos = async data => dispatch(switch_state_unidad_academica_tipos(data))
   const updateUnidadAcademicaTipos = async data => dispatch(update_unidad_academica_tipos(data))
 
   const getUnidadAcademicaUnidad = async () => dispatch(get_unidad_academica_unidad())
   const addUnidadAcademicaUnidad = async data => dispatch(add_unidad_academica_unidad(data))
-  const deleteUnidadAcademicaUnidad = async data => dispatch(delete_unidad_academica_unidad(data))
+  const switchUnidadAcademicaUnidad = async data => dispatch(switch_state_unidad_academica_unidad(data))
   const updateUnidadAcademicaUnidad = async data => dispatch(update_unidad_academica_unidad(data))
 
   return {
     getUnidadAcademicaTipos,
     addUnidadAcademicaTipos,
-    deleteUnidadAcademicaTipos,
+    switchUnidadAcademicaTipos,
     updateUnidadAcademicaTipos,
     getUnidadAcademicaUnidad,
     addUnidadAcademicaUnidad,
     updateUnidadAcademicaUnidad,
-    deleteUnidadAcademicaUnidad,
+    switchUnidadAcademicaUnidad,
     setUnidadFiltered,
     setExtensionFiltered,
     setRecursoFiltered,

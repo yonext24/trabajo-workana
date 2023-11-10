@@ -6,18 +6,15 @@ export const get_sectores_data = createAsyncThunk('general/get_sectores_data', a
   return await general.sectores.get(api)
 })
 
-export const delete_sectores_data = createAsyncThunk('general/delete_sectores_data', async ({ id_sector }, api) => {
-  await general.sectores.delete(api, { id_sector })
+export const switch_sectores_data = createAsyncThunk('general/delete_sectores_data', async (data, api) => {
+  await general.sectores.switch(api, data)
 
-  return id_sector
+  return data
 })
 
-export const update_sectores_data = createAsyncThunk(
-  'general/update_sectores_data',
-  async ({ newData, nombre }, api) => {
-    return { nombre, newData }
-  }
-)
+export const update_sectores_data = createAsyncThunk('general/update_sectores_data', async ({ newData, nombre }) => {
+  return { nombre, newData }
+})
 
 export const add_sectores_data = createAsyncThunk('general/add', async ({ newData }, api) => {
   const sector = await general.sectores.add(api, { nombre: newData })
@@ -30,8 +27,8 @@ const noLoopData = {
   get: {
     function: get_sectores_data
   },
-  del: {
-    function: delete_sectores_data,
+  switch_state: {
+    function: switch_sectores_data,
     filterBy: 'id_sector'
   },
   update: {

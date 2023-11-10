@@ -7,16 +7,13 @@ import { parseEstado } from '@/utils/consts'
 
 export function TableUnidadRow(props) {
   const { tipo_ua, nombre, abreviatura, id_unidad, codigo, permissions, estado } = props
-  const { deleteUnidadAcademicaUnidad } = useOfertaAcademicaActions()
-  const { handleUpd, handleDel } = useTableDefaultModals({
+  const { switchUnidadAcademicaUnidad } = useOfertaAcademicaActions()
+  const { handleUpd } = useTableDefaultModals({
     place: 'unidad',
-    update: { el: UnidadUpdateModal, ...props },
-    del: {
-      onClick: async () => deleteUnidadAcademicaUnidad(id_unidad),
-      title: 'Desactivar Unidad',
-      sure: 'Realmente quieres desactivar esta unidad?'
-    }
+    update: { el: UnidadUpdateModal, ...props }
   })
+
+  const handleDel = async () => switchUnidadAcademicaUnidad({ id_unidad, estado })
 
   const { UPDATE } = permissions
 
@@ -30,8 +27,8 @@ export function TableUnidadRow(props) {
       id: 6,
       actions: UPDATE
         ? [
-            { type: 'update', onClick: handleUpd },
-            { type: 'delete', onClick: handleDel }
+            { type: 'switch', onClick: handleDel, estado },
+            { type: 'update', onClick: handleUpd }
           ]
         : []
     }

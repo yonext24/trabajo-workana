@@ -25,12 +25,12 @@ export const unidad = {
         body: JSON.stringify(data)
       }).then(fetchHandler)
     },
-    delete: async (api, { id_tipo_ua }) => {
+    switch_state: async (api, { id_tipo_ua, estado }) => {
       const { headers } = getToken(api)
       return await fetch(`${BASE_OFERTA_URL}/rye/tipo_ua/actualizar`, {
         headers,
         method: 'POST',
-        body: JSON.stringify({ id_tipo_ua, estado: false })
+        body: JSON.stringify({ id_tipo_ua, estado: !estado })
       }).then(fetchHandler)
     }
   },
@@ -49,12 +49,12 @@ export const unidad = {
         body: JSON.stringify(data)
       }).then(fetchHandler)
     },
-    delete: async (api, id_unidad) => {
+    switch_state: async (api, { id_unidad, estado }) => {
       const { headers } = getToken(api)
       return await fetch(`${BASE_OFERTA_URL}/rye/unidad/actualizar`, {
         headers,
         method: 'POST',
-        body: JSON.stringify({ id_unidad, estado: false })
+        body: JSON.stringify({ id_unidad, estado: !estado })
       }).then(fetchHandler)
     },
     update: async (api, data) => {

@@ -14,10 +14,10 @@ export const get_roles_data = createAsyncThunk('usuarios/roles/get_data', async 
   return await usuarios.roles.get(api)
 })
 
-export const delete_role = createAsyncThunk('usuarios/roles/delete', async (id_rol, api) => {
-  await usuarios.roles.delete(api, { id_rol })
+export const switch_state_role = createAsyncThunk('usuarios/roles/delete', async (data, api) => {
+  await usuarios.roles.switch_state(api, data)
 
-  return id_rol
+  return data
 })
 
 export const add_role = createAsyncThunk('usuarios/roles/add', async (data, api) => {
@@ -136,8 +136,8 @@ export const addUsuariosExtraReducers = builder => {
         return el
       }
     },
-    del: {
-      function: delete_role,
+    switch_state: {
+      function: switch_state_role,
       filterBy: 'id_rol'
     }
   }

@@ -7,8 +7,8 @@ import { UpdRolesModal } from '@/components/modals/usuarios/roles/upd-roles-moda
 import { parseEstado } from '@/utils/consts'
 
 export function TableRolesRow({ nombre, descripcion, estado, id_rol, permissions }) {
-  const { deleteRole } = useUsuariosActions()
-  const { handleUpd, handleDel, handlePerm } = useTableDefaultModals({
+  const { switchRole } = useUsuariosActions()
+  const { handleUpd, handlePerm } = useTableDefaultModals({
     place: 'roles',
     perm: { el: RolePermissionsModal, nombre, descripcion, estado, id_rol },
     update: {
@@ -17,13 +17,10 @@ export function TableRolesRow({ nombre, descripcion, estado, id_rol, permissions
       nombre,
       estado,
       descripcion
-    },
-    del: {
-      onClick: async () => await deleteRole(id_rol),
-      title: 'Desactivar Rol',
-      sure: 'Realmente quiere desactivar este rol?'
     }
   })
+
+  const handleDel = async () => await switchRole({ id_rol, estado })
 
   const { UPDATE } = permissions
 
@@ -36,7 +33,7 @@ export function TableRolesRow({ nombre, descripcion, estado, id_rol, permissions
       actions: UPDATE
         ? [
             { type: 'update', onClick: handleUpd },
-            { type: 'delete', onClick: handleDel },
+            { type: 'switch', onClick: handleDel, estado },
             { type: 'permisos', onClick: handlePerm }
           ]
         : []

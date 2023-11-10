@@ -1,19 +1,13 @@
+import { SwitchButton } from '@/components/common/table-buttons'
 import { useDataActions } from '@/hooks/useDataActions'
-import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
-import { DeactivateButton } from '@/components/common/table-buttons'
 import { parseEstado } from '@/utils/consts'
 
 export function TablePuestosRow({ descripcion, permissions, id_puesto, estado }) {
-  const { delPuestosData } = useDataActions()
+  const { switchPuestosData } = useDataActions()
 
   const { UPDATE } = permissions
 
-  const { handleDel } = useTableDefaultModals({
-    place: 'puesto',
-    del: {
-      onClick: async () => delPuestosData({ descripcion, id_puesto })
-    }
-  })
+  const handleDel = async () => switchPuestosData({ descripcion, id_puesto, estado })
 
   return (
     <tr data-disabled={!estado} className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px]">
@@ -23,7 +17,7 @@ export function TablePuestosRow({ descripcion, permissions, id_puesto, estado })
         <div className="w-full h-full flex justify-center items-center gap-4">
           {UPDATE && (
             <>
-              <DeactivateButton handleClick={handleDel} />
+              <SwitchButton estado={estado} handleClick={handleDel} />
             </>
           )}
         </div>

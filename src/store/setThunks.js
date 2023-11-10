@@ -45,7 +45,31 @@ const deleteHandler = ({ state, data, del, getProperty, setProperty, realDelete 
   setProperty({ property: 'data', state, value })
 }
 
-const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, del, realDelete = false }) => {
+const switchStateHandler = ({ state, data, switch_state, getProperty, setProperty }) => {
+  const { filterBy, filterFunc } = switch_state
+  const actualData = getProperty({ property: 'data', state })
+  const value = [...actualData].map(el => {
+    if (filterFunc) return filterFunc(data, el)
+
+    if (el[filterBy] === data[filterBy]) return { ...el, estado: !el.estado }
+    return el
+  })
+
+  setProperty({ property: 'data', state, value })
+}
+
+const thunksSets = ({
+  builder,
+  placeName,
+  hasFiltered,
+  name,
+  get,
+  add,
+  update,
+  del,
+  switch_state,
+  realDelete = false
+}) => {
   const getProperty = ({ property, state }) => {
     return placeName ? state[placeName][name][property] : state[name][property]
   }
@@ -79,6 +103,13 @@ const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, d
       }
       if (type === 'add') {
         addHandler({ state, data, add, getProperty, setProperty })
+      }
+      if (type === 'switch_state') {
+        if (switch_state.customFunc) {
+          switch_state.customFunc({ state, data, getProperty, setProperty })
+        } else {
+          switchStateHandler({ state, data, switch_state, getProperty, setProperty })
+        }
       }
       if (type === 'update') {
         if (update.customFunc) {
@@ -186,17 +217,28 @@ const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, d
       },
       'del'
     )
+  switch_state &&
+    addActionCase(
+      switch_state.function,
+      payload => {
+        // <-- DataExtractor
+        if (switch_state.dataExtractor) return switch_state.dataExtractor(payload)
+        return payload
+      },
+      'switch_state'
+    )
 }
 
 export function setThunks({ builder, toLoop, noLoopData, hasFiltered = false, placeName }) {
   noLoopData &&
     (() => {
-      const { name, get, add, update, del } = noLoopData
+      const { name, get, add, update, del, switch_state } = noLoopData
       thunksSets({
         builder,
         add,
         get,
         update,
+        switch_state,
         del,
         name,
         hasFiltered,
@@ -206,7 +248,8 @@ export function setThunks({ builder, toLoop, noLoopData, hasFiltered = false, pl
   toLoop &&
     toLoop.forEach(el => {
       const [name, datas] = Object.entries(el)[0]
-      const { update, del, get, add, hasFiltered } = datas
+
+      const { update, del, get, add, hasFiltered, switch_state } = datas
       thunksSets({
         builder,
         placeName,
@@ -215,6 +258,7 @@ export function setThunks({ builder, toLoop, noLoopData, hasFiltered = false, pl
         del,
         get,
         update,
+        switch_state,
         hasFiltered
       })
     })

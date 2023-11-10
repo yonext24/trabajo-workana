@@ -1,19 +1,11 @@
 import { useDataActions } from '@/hooks/useDataActions'
-import { DeactivateButton } from '@/components/common/table-buttons'
-import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
+import { SwitchButton } from '@/components/common/table-buttons'
 import { parseEstado } from '@/utils/consts'
 
 export function TableGeneralRow({ nombre, estado, permissions, id_sector }) {
-  const { delSectoresData } = useDataActions()
-  const { handleDel } = useTableDefaultModals({
-    place: 'sector',
-    del: {
-      onClick: async () => {
-        await delSectoresData(id_sector)
-      }
-    }
-  })
+  const { switchSectoresData } = useDataActions()
 
+  const handleDel = async () => switchSectoresData({ id_sector, estado })
   const { UPDATE } = permissions
 
   return (
@@ -24,7 +16,7 @@ export function TableGeneralRow({ nombre, estado, permissions, id_sector }) {
         <div className="w-full h-full flex justify-center items-center gap-4">
           {UPDATE ? (
             <>
-              <DeactivateButton handleClick={handleDel} />
+              <SwitchButton estado={estado} handleClick={handleDel} />
             </>
           ) : (
             <div></div>

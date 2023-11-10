@@ -1,20 +1,11 @@
 import { useDataActions } from '@/hooks/useDataActions'
-import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
-import { DeactivateButton } from '@/components/common/table-buttons'
+import { SwitchButton } from '@/components/common/table-buttons'
 import { parseEstado } from '@/utils/consts'
 
 export function TableModulosRow({ nombre, tipo, permissions, id, estado }) {
-  const { delModulos } = useDataActions()
+  const { switchModulos } = useDataActions()
 
-  const { handleDel } = useTableDefaultModals({
-    place: 'modulos',
-    del: {
-      onClick: async () => delModulos({ id }),
-      title: 'Desactivar Modulo',
-      sure: 'Realmente quiere desactivar este modulo?'
-    }
-  })
-
+  const handleDel = async () => await switchModulos({ id, estado })
   const { CREATE } = permissions
 
   return (
@@ -26,7 +17,7 @@ export function TableModulosRow({ nombre, tipo, permissions, id, estado }) {
         <div className="w-full h-full flex justify-center items-center gap-4">
           {CREATE && (
             <>
-              <DeactivateButton handleClick={handleDel} />
+              <SwitchButton estado={estado} handleClick={handleDel} />
             </>
           )}
         </div>

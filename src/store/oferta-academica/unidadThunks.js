@@ -14,12 +14,12 @@ export const add_unidad_academica_tipos = createAsyncThunk(
     return await unidad.tipo.add(api, data)
   }
 )
-export const delete_unidad_academica_tipos = createAsyncThunk(
+export const switch_state_unidad_academica_tipos = createAsyncThunk(
   'oferta-academica/unidad-academica/tipos/delete',
   async (data, api) => {
-    await unidad.tipo.delete(api, data)
+    await unidad.tipo.switch_state(api, data)
 
-    return data.id_tipo_ua
+    return data
   }
 )
 export const update_unidad_academica_tipos = createAsyncThunk(
@@ -52,11 +52,11 @@ export const add_unidad_academica_unidad = createAsyncThunk(
     return { ...res, tipo_ua: data.tipo_ua }
   }
 )
-export const delete_unidad_academica_unidad = createAsyncThunk(
+export const switch_state_unidad_academica_unidad = createAsyncThunk(
   'oferta-academica/unidad-academica/unidad/delete',
-  async (id_unidad, api) => {
-    await unidad.unidad.delete(api, id_unidad)
-    return id_unidad
+  async (data, api) => {
+    await unidad.unidad.switch_state(api, data)
+    return data
   }
 )
 export const update_unidad_academica_unidad = createAsyncThunk(
@@ -91,8 +91,8 @@ export const setUnidadAcademicaExtraReducers = builder => {
             })
           }
         },
-        del: {
-          function: delete_unidad_academica_tipos,
+        switch_state: {
+          function: switch_state_unidad_academica_tipos,
           filterBy: 'id_tipo_ua'
         },
         hasFiltered: true
@@ -117,8 +117,8 @@ export const setUnidadAcademicaExtraReducers = builder => {
             })
           }
         },
-        del: {
-          function: delete_unidad_academica_unidad,
+        switch_state: {
+          function: switch_state_unidad_academica_unidad,
           filterBy: 'id_unidad'
         },
         hasFiltered: true

@@ -8,14 +8,13 @@ import { parseEstado } from '@/utils/consts'
 export function TableTipoRow({ permissions, nombre, descripcion, estado, id_tipo_ua }) {
   const { UPDATE } = permissions
 
-  const { deleteUnidadAcademicaTipos } = useOfertaAcademicaActions()
-  const { handleUpd, handleDel } = useTableDefaultModals({
-    del: {
-      onClick: async () => deleteUnidadAcademicaTipos({ id_tipo_ua })
-    },
+  const { switchUnidadAcademicaTipos } = useOfertaAcademicaActions()
+  const { handleUpd } = useTableDefaultModals({
     update: { el: TipoUpdateModal, nombre, descripcion, id_tipo_ua },
     place: 'tipo'
   })
+  const handleDel = async () => switchUnidadAcademicaTipos({ id_tipo_ua, estado })
+
   const rows = [
     { id: 1, text: nombre },
     { id: 2, text: descripcion },
@@ -24,8 +23,8 @@ export function TableTipoRow({ permissions, nombre, descripcion, estado, id_tipo
       id: 4,
       actions: UPDATE
         ? [
-            { type: 'update', onClick: handleUpd },
-            { type: 'delete', onClick: handleDel }
+            { type: 'switch', onClick: handleDel, estado },
+            { type: 'update', onClick: handleUpd }
           ]
         : []
     }

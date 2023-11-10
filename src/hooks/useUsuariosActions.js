@@ -4,7 +4,7 @@ import {
   add_role,
   create_user,
   delete_permission,
-  delete_role,
+  switch_state_role,
   delete_user,
   find_user,
   get_mapped_role_permissions,
@@ -24,7 +24,7 @@ export function useUsuariosActions() {
   const getRolesData = async () => dispatch(get_roles_data())
   const getRolePermissions = async id_rol => dispatch(get_role_permissions({ id_rol }))
   const getMappedRolePermissions = async id_rol => dispatch(get_mapped_role_permissions({ id_rol }))
-  const deleteRole = async data => dispatch(delete_role(data))
+  const switchRole = async data => dispatch(switch_state_role(data))
   const addRole = async data => dispatch(add_role(data))
   const updateRole = async data => dispatch(update_role(data))
 
@@ -52,7 +52,7 @@ export function useUsuariosActions() {
     getPermisos,
     addRole,
     updateRole,
-    deleteRole,
+    switchRole,
     setPermisosFiltered,
     deletePermission,
     addPermission,

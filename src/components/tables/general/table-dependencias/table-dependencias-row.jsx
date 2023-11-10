@@ -1,4 +1,4 @@
-import { DeactivateButton, UpdateButton } from '@/components/common/table-buttons'
+import { SwitchButton, UpdateButton } from '@/components/common/table-buttons'
 import { useDataActions } from '../../../../hooks/useDataActions'
 import { UpdateDependenciaModal } from '../../../modals/general/dependencias/update-dependencia-modal'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
@@ -15,11 +15,11 @@ export function TableDependenciasRow({
   id_unidad,
   estado
 }) {
-  const { delDependenciesData } = useDataActions()
+  const { switchStateDependencias } = useDataActions()
 
   const { UPDATE } = permissions
 
-  const { handleDel, handleUpd } = useTableDefaultModals({
+  const { handleUpd } = useTableDefaultModals({
     place: 'dependencia',
     update: {
       el: UpdateDependenciaModal,
@@ -32,18 +32,17 @@ export function TableDependenciasRow({
         id_sector,
         id_unidad
       }
-    },
-    del: {
-      onClick: async () => {
-        await delDependenciesData({
-          id_dependencia,
-          id_sector,
-          id_unidad,
-          abreviatura
-        })
-      }
     }
   })
+
+  const handleDel = async () => {
+    await switchStateDependencias({
+      id_dependencia,
+      id_sector,
+      id_unidad,
+      abreviatura
+    })
+  }
 
   return (
     <tr
@@ -59,7 +58,7 @@ export function TableDependenciasRow({
         <div className="w-full h-full flex justify-center items-center gap-4">
           {UPDATE && (
             <>
-              <DeactivateButton handleClick={handleDel} />
+              <SwitchButton estado={estado} handleClick={handleDel} />
               <UpdateButton handleClick={handleUpd} />
             </>
           )}

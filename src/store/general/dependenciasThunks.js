@@ -8,10 +8,10 @@ export const get_dependencias = createAsyncThunk('general/get_dependencias_data'
   return dependencias
 })
 
-export const del_dependencias = createAsyncThunk('general/delete_dependencias_data', async (data, api) => {
-  await general.dependencias.delete(api, data)
+export const switch_state_dependencias = createAsyncThunk('general/delete_dependencias_data', async (data, api) => {
+  await general.dependencias.switch(api, data)
 
-  return data.id_dependencia
+  return data
 })
 
 export const update_dependencias = createAsyncThunk('general/update_dependencias_data', async (data, api) => {
@@ -49,8 +49,8 @@ const noLoopData = {
   get: {
     function: get_dependencias
   },
-  del: {
-    function: del_dependencias,
+  switch_state: {
+    function: switch_state_dependencias,
     filterBy: 'id_dependencia'
   },
   update: {

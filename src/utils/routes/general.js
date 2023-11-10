@@ -7,12 +7,12 @@ export const general = {
       const { headers } = getToken(api)
       return await fetch(`${BASE_URL}/rye/sector/sectores`, { headers }).then(fetchHandler)
     },
-    delete: async (api, { id_sector }) => {
+    switch: async (api, { id_sector, estado }) => {
       const { headers } = getToken(api)
       return await fetch(`${BASE_URL}/rye/sector/actualizar`, {
         headers,
         method: 'POST',
-        body: JSON.stringify({ id_sector, estado: false })
+        body: JSON.stringify({ id_sector, estado: !estado })
       }).then(fetchHandler)
     },
     add: async (api, { nombre }) => {
@@ -31,7 +31,7 @@ export const general = {
         headers
       }).then(fetchHandler)
     },
-    delete: async (api, { id_dependencia, id_unidad, id_sector, abreviatura }) => {
+    switch: async (api, { id_dependencia, id_unidad, id_sector, abreviatura, estado }) => {
       const { headers } = getToken(api)
       return await fetch(`${BASE_URL}/rye/dependencia/actualizar`, {
         headers,
@@ -40,7 +40,7 @@ export const general = {
           id_dependencia,
           id_unidad,
           id_sector,
-          estado: false,
+          estado: !estado,
           abreviatura
         })
       }).then(fetchHandler)
@@ -109,12 +109,12 @@ export const general = {
         body: JSON.stringify({ estado: true, nombre, tipo })
       }).then(fetchHandler)
     },
-    delete: async (api, { id }) => {
+    switch_state: async (api, { id, estado }) => {
       const { headers } = getToken(api)
       return await fetch(`${BASE_URL}/rye/modulo/actualizar`, {
         headers,
         method: 'POST',
-        body: JSON.stringify({ id, estado: false })
+        body: JSON.stringify({ id, estado: !estado })
       }).then(fetchHandler)
     }
   }
