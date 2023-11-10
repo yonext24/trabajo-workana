@@ -11,6 +11,7 @@ export function InputWLabel({
   required,
   disabled,
   registerProps,
+  rows = 3,
   ...props
 }) {
   return (
@@ -23,10 +24,13 @@ export function InputWLabel({
       {isTextArea ? (
         <textarea
           placeholder={placeholder ?? ''}
-          className={`py-1 px-2 border-2 border-gris rounded-md w-full read-only:shadow-lg read-only:cursor-not-allowed ${inputClassName}`}
+          className={`py-1 px-2 border-2 border-gris rounded-md w-full resize-none read-only:shadow-lg read-only:cursor-not-allowed ${
+            inputClassName ?? ''
+          }`}
           id={id ?? name}
           name={name}
           type={type}
+          rows={rows}
           readOnly={disabled} // Esto esta hecho porque me di cuenta muy tarde de que podía usar readOnly en vez de disabled
           {...(register && register(id ?? name, { required, ...registerProps }))}
           {...props}
@@ -34,7 +38,9 @@ export function InputWLabel({
       ) : (
         <input
           placeholder={placeholder ?? ''}
-          className={`py-1 px-2 border-2 border-gris rounded-md w-full read-only:shadow-lg read-only:cursor-not-allowed ${inputClassName}`}
+          className={`py-1 px-2 border-2 border-gris rounded-md w-full read-only:shadow-lg read-only:cursor-not-allowed ${
+            inputClassName ?? ''
+          }`}
           id={id ?? name}
           name={name}
           type={type}

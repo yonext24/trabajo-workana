@@ -22,7 +22,9 @@ const updateHandler = ({ update, state, data, placeName, name, getProperty, setP
       return filterFunc(data, el)
     }
 
-    if (el[filterBy] === data[filterBy]) return data.newData
+    if (el[filterBy] === data[filterBy]) {
+      return { ...el, ...data }
+    }
     return el
   })
 

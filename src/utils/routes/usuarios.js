@@ -20,7 +20,7 @@ export const usuarios = {
     search: async (api, { cui, correo }) => {
       const { headers } = getToken(api)
       return await fetch(
-        `${BASE_URL}/rye/usuario/buscar${correo ? `?correo=${correo}` : ''}&${cui ? `cui=${cui}` : ''}`,
+        `${BASE_URL}/rye/usuario/buscar?${correo ? `correo=${correo}` : ''}&${cui ? `cui=${cui}` : ''}`,
         {
           headers
         }

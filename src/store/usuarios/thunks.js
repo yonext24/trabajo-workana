@@ -95,6 +95,7 @@ export const get_usuarios_parametros = createAsyncThunk('usuarios/usuarios/get_p
 
 export const update_user = createAsyncThunk('usuarios/usuarios/update', async (data, api) => {
   await usuarios.usuarios.update(api, data)
+
   return data
   // Este modus operandi no es el óptimo, pero no depende de mi lo que sale de la api
 })

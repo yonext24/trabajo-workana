@@ -82,7 +82,6 @@ export function UpdateUsuariosModal({ closeModal }) {
           <SelectInputControlledWithLabel
             labelText={'País'}
             control={control}
-            disabled
             name="pais"
             defaultValue={'Argentina'}
             rules={{ required: true }}

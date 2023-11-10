@@ -23,13 +23,11 @@ export const update_dependencias = createAsyncThunk('general/update_dependencias
 
   return {
     id_dependencia,
-    newData: {
-      ...data,
-      id_sector,
-      id_unidad,
-      sector: nombreSector,
-      unidad: nombreUnidad
-    }
+    ...data,
+    id_sector,
+    id_unidad,
+    sector: nombreSector,
+    unidad: nombreUnidad
   }
 })
 

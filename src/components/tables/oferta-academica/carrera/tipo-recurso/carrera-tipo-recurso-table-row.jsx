@@ -3,31 +3,32 @@ import { Row } from '@/components/tables/row'
 import { RowLayout } from '@/components/tables/row-layout'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
+import { parseEstado } from '@/utils/consts'
 
-export function CarreraTipoRecursoTableRow({ nombre, descripcion, permissions }) {
-  const { deleteCarreraTipoRecurso } = useOfertaAcademicaActions()
-  const { handleUpd, handleDel } = useTableDefaultModals({
+export function CarreraTipoRecursoTableRow(props) {
+  const { nombre, descripcion, permissions, id_tipo_recurso, estado } = props
+
+  const { switchCarreraTipoRecurso } = useOfertaAcademicaActions()
+  const { handleUpd } = useTableDefaultModals({
     place: 'nivel',
-    update: { el: UpdateTipoRecursoModal, nombre, descripcion },
-    del: {
-      onClick: () => deleteCarreraTipoRecurso(nombre),
-      title: 'Desactivar Tipo de recurso',
-      sure: 'Realmente quieres desactivar este tipo de recurso?'
-    }
+    update: { el: UpdateTipoRecursoModal, ...props }
   })
+
+  const handleDel = async () => switchCarreraTipoRecurso({ id_tipo_recurso, estado })
 
   const { UPDATE } = permissions
   const actions = UPDATE
     ? [
-        { type: 'update', onClick: handleUpd },
-        { type: 'delete', onClick: handleDel }
+        { type: 'switch', onClick: handleDel, estado },
+        { type: 'update', onClick: handleUpd }
       ]
     : []
 
   return (
-    <RowLayout>
+    <RowLayout data-disabled={!estado}>
       <td className="border-r">{nombre}</td>
       <td className="border-r">{descripcion}</td>
+      <td className="border-r !text-center">{parseEstado(estado)}</td>
       <Row actions={actions} />
     </RowLayout>
   )

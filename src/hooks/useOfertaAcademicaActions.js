@@ -4,9 +4,9 @@ import {
   add_recurso,
   add_tipo_recurso,
   delete_carrera_carrera,
-  delete_carrera_nivel,
+  switch_state_carrera_nivel,
   delete_recurso,
-  delete_tipo_recurso,
+  switch_state_tipo_recurso,
   get_carrera_carrera_data,
   get_carrera_nivel_data,
   get_recurso_data,
@@ -43,14 +43,14 @@ export function useOfertaAcademicaActions() {
   const setCarreraCarreraFiltered = async filteredData => dispatch(set_carrera_carrera_filtered({ filteredData }))
 
   const getCarreraNivelData = async () => dispatch(get_carrera_nivel_data())
-  const addCarreraNivel = async newData => dispatch(add_carrera_nivel({ newData }))
-  const deleteCarreraNivel = async nombre => dispatch(delete_carrera_nivel({ nombre }))
-  const updateCarreraNivel = async ({ nombre, newData }) => dispatch(update_carrera_nivel({ nombre, newData }))
+  const addCarreraNivel = async data => dispatch(add_carrera_nivel(data))
+  const switchCarreraNivel = async data => dispatch(switch_state_carrera_nivel(data))
+  const updateCarreraNivel = async data => dispatch(update_carrera_nivel(data))
 
   const getCarreraTipoRecursoData = async () => dispatch(get_tipo_recurso_data())
-  const addCarreraTipoRecurso = async newData => dispatch(add_tipo_recurso({ newData }))
-  const deleteCarreraTipoRecurso = async nombre => dispatch(delete_tipo_recurso({ nombre }))
-  const updateCarreraTipoRecurso = async ({ nombre, newData }) => dispatch(update_tipo_recurso({ nombre, newData }))
+  const addCarreraTipoRecurso = async data => dispatch(add_tipo_recurso(data))
+  const switchCarreraTipoRecurso = async data => dispatch(switch_state_tipo_recurso(data))
+  const updateCarreraTipoRecurso = async data => dispatch(update_tipo_recurso(data))
 
   const getCarreraRecursoData = async () => dispatch(get_recurso_data())
   const addCarreraRecurso = async newData => dispatch(add_recurso({ newData }))
@@ -92,12 +92,12 @@ export function useOfertaAcademicaActions() {
     getCarreraNivelData,
     addCarreraNivel,
     updateCarreraNivel,
-    deleteCarreraNivel,
+    switchCarreraNivel,
     getCarreraCarreraData,
     addCarreraCarrera,
     deleteCarreraCarrera,
     getCarreraTipoRecursoData,
-    deleteCarreraTipoRecurso,
+    switchCarreraTipoRecurso,
     addCarreraTipoRecurso,
     updateCarreraTipoRecurso,
     getCarreraRecursoData,

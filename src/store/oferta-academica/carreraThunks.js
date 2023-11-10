@@ -1,33 +1,30 @@
 import { fakeData } from '@/assets/fake-api-call'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { setThunks } from '../setThunks'
+import { carrera } from '@/utils/routes/oferta/carrera'
 
-export const get_carrera_nivel_data = createAsyncThunk('oferta-academica/carrera/nivel/get', async () => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return fakeData({ nombre: 8, descripcion: 15 })
+export const get_carrera_nivel_data = createAsyncThunk('oferta-academica/carrera/nivel/get', async (_, api) => {
+  return await carrera.nivel.get(api)
 })
 
-export const add_carrera_nivel = createAsyncThunk('oferta-academica/carrera/nivel/add', async ({ newData }) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return newData
+export const add_carrera_nivel = createAsyncThunk('oferta-academica/carrera/nivel/add', async (data, api) => {
+  return await carrera.nivel.add(api, data)
 })
 
-export const update_carrera_nivel = createAsyncThunk(
-  'oferta-academica/carrera/nivel/update',
-  async ({ nombre, newData }) => {
-    await new Promise(resolve => setTimeout(resolve, 2000))
+export const update_carrera_nivel = createAsyncThunk('oferta-academica/carrera/nivel/update', async (data, api) => {
+  await carrera.nivel.update(api, data)
 
-    return { id: nombre, newData }
+  return data
+})
+
+export const switch_state_carrera_nivel = createAsyncThunk(
+  'oferta-academica/carrera/nivel/delete',
+  async (data, api) => {
+    await carrera.nivel.switch_state(api, data)
+
+    return data
   }
 )
-
-export const delete_carrera_nivel = createAsyncThunk('oferta-academica/carrera/nivel/delete', async ({ nombre }) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return nombre
-})
 
 /* *********************************************************************************************
 
@@ -71,33 +68,29 @@ export const delete_carrera_carrera = createAsyncThunk(
 
 ********************************************************************************************* */
 
-export const get_tipo_recurso_data = createAsyncThunk('oferta-academica/carrera/tipo_recurso/get', async () => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return fakeData({ nombre: 8, descripcion: 15 })
+export const get_tipo_recurso_data = createAsyncThunk('oferta-academica/carrera/tipo_recurso/get', async (_, api) => {
+  return await carrera.tipo_recurso.get(api)
 })
 
-export const add_tipo_recurso = createAsyncThunk('oferta-academica/carrera/tipo_recurso/add', async ({ newData }) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return newData
+export const add_tipo_recurso = createAsyncThunk('oferta-academica/carrera/tipo_recurso/add', async (data, api) => {
+  return await carrera.tipo_recurso.add(api, data)
 })
 
-export const delete_tipo_recurso = createAsyncThunk(
+export const switch_state_tipo_recurso = createAsyncThunk(
   'oferta-academica/carrera/tipo_recurso/delete',
-  async ({ nombre }) => {
-    await new Promise(resolve => setTimeout(resolve, 2000))
+  async (data, api) => {
+    await carrera.tipo_recurso.switch_state(api, data)
 
-    return nombre
+    return data
   }
 )
 
 export const update_tipo_recurso = createAsyncThunk(
   'oferta-academica/carrera/tipo_recurso/update',
-  async ({ nombre, newData }) => {
-    await new Promise(resolve => setTimeout(resolve, 2000))
+  async (data, api) => {
+    await carrera.tipo_recurso.update(api, data)
 
-    return { id: nombre, newData }
+    return data
   }
 )
 /* *********************************************************************************************
@@ -162,11 +155,11 @@ const toLoop = [
       },
       update: {
         function: update_tipo_recurso,
-        filterBy: 'nombre'
+        filterBy: 'id_tipo_recurso'
       },
-      del: {
-        function: delete_tipo_recurso,
-        filterBy: 'nombre'
+      switch_state: {
+        function: switch_state_tipo_recurso,
+        filterBy: 'id_tipo_recurso'
       }
     }
   },
@@ -180,11 +173,11 @@ const toLoop = [
       },
       update: {
         function: update_carrera_nivel,
-        filterBy: 'nombre'
+        filterBy: 'id_nivel'
       },
-      del: {
-        function: delete_carrera_nivel,
-        filterBy: 'nombre'
+      switch_state: {
+        function: switch_state_carrera_nivel,
+        filterBy: 'id_nivel'
       }
     }
   },
