@@ -9,18 +9,10 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 export function Recurso() {
-  const { data: tipoRecursoData } = useSelector(
-    s => s.ofertaAcademica.carrera.tipo_recurso
-  )
-  const { data: recursoData } = useSelector(
-    s => s.ofertaAcademica.carrera.recurso
-  )
+  const { data: tipoRecursoData } = useSelector(s => s.ofertaAcademica.carrera.tipo_recurso)
+  const { data: recursoData } = useSelector(s => s.ofertaAcademica.carrera.recurso)
   const { handleAdd } = useTableDefaultModals({ add: { el: RecursoAddModal } })
-  const {
-    getCarreraRecursoData,
-    getCarreraTipoRecursoData,
-    setRecursoFiltered
-  } = useOfertaAcademicaActions()
+  const { getCarreraRecursoData, getCarreraTipoRecursoData, setRecursoFiltered } = useOfertaAcademicaActions()
 
   const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
   const { CREATE } = permissions
@@ -31,10 +23,7 @@ export function Recurso() {
   }, [])
 
   const handleOptionClick = data => {
-    const filtered =
-      data === 'Todas'
-        ? recursoData
-        : recursoData.filter(el => el.tipo === data)
+    const filtered = data === 'Todas' ? recursoData : recursoData.filter(el => el.tipo === data)
     setRecursoFiltered(filtered)
   }
 

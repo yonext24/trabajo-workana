@@ -2,44 +2,46 @@ import { useForm } from 'react-hook-form'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '@/components/common/input-w-label'
-import { SelectInputControlled } from '@/components/common/select-input-controlled'
 import { ButtonsContainer } from '../../buttons-container'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { useFormCustom } from '@/hooks/useFormCustom'
+import { handleErrorInFormResponse } from '@/utils/consts'
+import { SubmitButton } from '@/components/common/submit-button'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { useSelector } from 'react-redux'
 
-export function UnidadUpdateModal({
-  closeModal,
-  tipo,
-  abreviatura,
-  nombre,
-  codigo
-}) {
-  const { register, handleSubmit, control } = useForm()
+export function UnidadUpdateModal({ closeModal, tipo_ua, abreviatura, nombre, codigo, id_unidad }) {
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    setError
+  } = useForm()
+  const { loading, handleLoading } = useFormCustom()
   const { updateUnidadAcademicaUnidad } = useOfertaAcademicaActions()
 
-  const handleUpdate = newData => {
-    updateUnidadAcademicaUnidad({
-      nombre,
-      newData: { ...newData, nombre }
-    }).then(closeModal)
-  }
+  const handleUpdate = handleLoading(async data => {
+    // eslint-disable-next-line no-unused-vars
+    const { tipo_ua, ...rest } = data
+    console.log({ rest })
+    const res = await updateUnidadAcademicaUnidad({ ...rest, id_unidad })
+    handleErrorInFormResponse(res, setError, closeModal)
+  })
+
+  const data = useSelector(s => s.ofertaAcademica.unidadAcademica.unidad.data)
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Actualizar Unidad">
-        <form
-          onSubmit={handleSubmit(handleUpdate)}
-          className="px-8 py-4 pb-12 flex flex-col gap-y-3"
-        >
-          <div className="flex flex-col">
-            <label className="font-semibold text-lg">Tipo UA</label>
-            <SelectInputControlled
-              defaultValue={tipo}
-              control={control}
-              name="tipo"
-              rules={{ required: true }}
-              options={['Escuela', 'Test']}
-            />
-          </div>
+      <DefaultModalLayout title="Actualizar Unidad" errors={errors} loading={loading}>
+        <form onSubmit={handleSubmit(handleUpdate)} className="px-8 py-4 pb-12 flex flex-col gap-y-3">
+          <SelectInputControlledWithLabel
+            labelText="Tipo UA"
+            defaultValue={tipo_ua}
+            disabled
+            control={control}
+            name="tipo_ua"
+          />
           <InputWLabel
             name="codigo"
             id="codigo"
@@ -47,6 +49,13 @@ export function UnidadUpdateModal({
             required
             register={register}
             defaultValue={codigo}
+            registerProps={{
+              validate: codigo => {
+                if (data.find(el => el.codigo === parseInt(codigo) && el.id_unidad !== id_unidad)) {
+                  return 'El código ya existe'
+                }
+              }
+            }}
           />
           <InputWLabel
             name="nombre"
@@ -62,11 +71,18 @@ export function UnidadUpdateModal({
             id="abreviatura"
             required
             register={register}
+            registerProps={{
+              validate: abreviatura => {
+                if (data.find(el => el.abreviatura === abreviatura && el.id_unidad !== id_unidad)) {
+                  return 'La abreviatura ya existe'
+                }
+              }
+            }}
             defaultValue={abreviatura}
           />
 
-          <ButtonsContainer closeModal={closeModal}>
-            <button type="submit">Actualizar</button>
+          <ButtonsContainer closeModal={closeModal} disabled={loading}>
+            <SubmitButton text="Actualizar" loading={loading} />
           </ButtonsContainer>
         </form>
       </DefaultModalLayout>

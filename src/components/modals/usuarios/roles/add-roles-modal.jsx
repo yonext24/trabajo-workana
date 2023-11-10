@@ -25,16 +25,8 @@ export function AddRolesModal({ closeModal }) {
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout
-        title="Agregar Rol"
-        loading={loading}
-        errors={errors}
-        closeModal={closeModal}
-      >
-        <form
-          onSubmit={handleSubmit(handleUpdate)}
-          className="py-8 px-4 font-semibold"
-        >
+      <DefaultModalLayout title="Agregar Rol" loading={loading} errors={errors} closeModal={closeModal}>
+        <form onSubmit={handleSubmit(handleUpdate)} className="py-8 px-4 font-semibold">
           <InputWLabel
             id="nombre"
             name="nombre"

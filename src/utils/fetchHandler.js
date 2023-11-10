@@ -6,10 +6,8 @@ import { BASE_URL } from './consts'
 const errorParser = {
   'Not authenticated':
     'No pudimos verificar tu sesión, porfavor vuelve a iniciar sesión. Si el problema persiste, contacta a soporte.',
-  'Unprocessable Entity':
-    'Hubo un error validando los datos, si el problema persiste porfavor contacta a soporte.',
-  'Not Found':
-    'Ocurrió un error inesperado, si el problema persiste porfavor contacta a soporte (NotFound).',
+  'Unprocessable Entity': 'Hubo un error validando los datos, si el problema persiste porfavor contacta a soporte.',
+  'Not Found': 'Ocurrió un error inesperado, si el problema persiste porfavor contacta a soporte (NotFound).',
   'Failed to fetch':
     'No pudimos conectarnos al servidor, porfavor intentalo denuevo. Si el problema persiste contacta con soporte.'
 }
@@ -29,9 +27,7 @@ export const fetchHandler = async res => {
       const parsedError = errorParser[detail] ?? detail
       throw new Error(parsedError)
     } else {
-      throw new Error(
-        'Ocurrió un error inesperado, porfavor contacta a soporte. (from fHandler)'
-      )
+      throw new Error('Ocurrió un error inesperado, porfavor contacta a soporte. (from fHandler)')
     }
   }
 
@@ -40,9 +36,7 @@ export const fetchHandler = async res => {
     return data
   }
 
-  const service = res.url.startsWith(BASE_URL)
-    ? 'Autenticación'
-    : 'Oferta Académica'
+  const service = res.url.startsWith(BASE_URL) ? 'Autenticación' : 'Oferta Académica'
 
   console.log({ res })
   return `Hubo un error accediendo al servicio de ${service}, porfavor contacta a soporte.`

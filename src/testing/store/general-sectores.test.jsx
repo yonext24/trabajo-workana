@@ -7,10 +7,7 @@ import { add_sectores_data } from '@/store/general/sectoresThunks'
 
 describe('Testing de tabla de general/sectores', async () => {
   const store = setupStore()
-  const { getByText } = renderWithProviders(
-    <TableGeneral permissions={{ UPDATE: true }} />,
-    { store }
-  )
+  const { getByText } = renderWithProviders(<TableGeneral permissions={{ UPDATE: true }} />, { store })
 
   test('Agregar un nuevo sector y verificar que se haya agregado', async () => {
     const newData = 'testing'

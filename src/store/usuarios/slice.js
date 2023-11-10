@@ -43,5 +43,4 @@ const usuariosSlice = createSlice({
 })
 
 export default usuariosSlice.reducer
-export const { set_permisos_filtered, set_usuarios_showing } =
-  usuariosSlice.actions
+export const { set_permisos_filtered, set_usuarios_showing } = usuariosSlice.actions

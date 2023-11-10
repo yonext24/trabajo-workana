@@ -13,32 +13,18 @@ export function Geografia() {
         <div className="flex flex-1 gap-4 [&>div]:flex [&>div]:flex-col [&>div]:w-full [&>div]:max-w-[210px] [&_label]:text-lg [&_label]:font-semibold">
           <div>
             <label>País</label>
-            <SelectInput
-              options={['El Salvador']}
-              firstOne
-              handleOptionClick={() => {}}
-            />
+            <SelectInput options={['El Salvador']} firstOne handleOptionClick={() => {}} />
           </div>
           <div>
             <label>Departamento</label>
-            <SelectInput
-              options={['Todos']}
-              firstOne
-              handleOptionClick={() => {}}
-            />
+            <SelectInput options={['Todos']} firstOne handleOptionClick={() => {}} />
           </div>
         </div>
 
         <NuevoButton content="Cargar Excel" CREATE={CREATE} />
       </div>
 
-      <TableLayout
-        columns={[
-          { text: 'Departamento' },
-          { text: 'Municipio' },
-          { text: 'Código postal' }
-        ]}
-      ></TableLayout>
+      <TableLayout columns={[{ text: 'Departamento' }, { text: 'Municipio' }, { text: 'Código postal' }]}></TableLayout>
     </div>
   )
 }

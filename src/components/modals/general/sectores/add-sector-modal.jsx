@@ -28,16 +28,8 @@ export function AddSectorModal({ closeModal }) {
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout
-        title="Agregar Sector"
-        errors={errors}
-        closeModal={closeModal}
-        loading={loading}
-      >
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="py-8 px-4 font-semibold flex flex-col gap-12"
-        >
+      <DefaultModalLayout title="Agregar Sector" errors={errors} closeModal={closeModal} loading={loading}>
+        <form onSubmit={handleSubmit(onSubmit)} className="py-8 px-4 font-semibold flex flex-col gap-12">
           <InputWLabel
             name="nombre"
             autoFocus

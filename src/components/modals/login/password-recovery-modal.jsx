@@ -28,29 +28,20 @@ export function PasswordRecoveryModal({ closeModal }) {
 
     handleErrorInFormResponse(res, setError, res => {
       console.log({ res })
-      toast.success(
-        res.payload.result ?? 'Se ha enviado un correo de recuperación'
-      )
+      toast.success(res.payload.result ?? 'Se ha enviado un correo de recuperación')
       closeModal()
     })
   })
 
   return (
     <ModalBackground onClick={closeModal}>
-      <DefaultModalLayout
-        closeModal={closeModal}
-        title="Recuperar Contraseña"
-        loading={loading}
-        errors={errors}
-      >
+      <DefaultModalLayout closeModal={closeModal} title="Recuperar Contraseña" loading={loading} errors={errors}>
         <form
           onClick={e => e.stopPropagation()}
           onSubmit={handleSubmit(onSubmit)}
           className="bg-white rounded-lg w-full h-[60vh] gap-y-3 flex flex-col max-w-lg mx-auto px-16 py-8"
         >
-          <h1 className="text-2xl font-semibold text-center mb-2">
-            Recuperar contraseña
-          </h1>
+          <h1 className="text-2xl font-semibold text-center mb-2">Recuperar contraseña</h1>
           <InputWLabel
             labelText={'Correo'}
             register={register}

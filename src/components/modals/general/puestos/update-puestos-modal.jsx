@@ -28,10 +28,7 @@ export function UpdatePuestosModal({ closeModal, entry }) {
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
       <DefaultModalLayout title="Actualizar Puesto" closeModal={closeModal}>
-        <form
-          onSubmit={handleSubmit(handleUpdate)}
-          className="py-8 px-4 font-semibold"
-        >
+        <form onSubmit={handleSubmit(handleUpdate)} className="py-8 px-4 font-semibold">
           <InputWLabel
             id="name"
             name="name"

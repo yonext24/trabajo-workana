@@ -11,10 +11,7 @@ export default function MobileNavbar({ entrys }) {
 
   return (
     <>
-      <div
-        className="fixed top-0 left-0 p-1 flex text-white"
-        id="button-nav-container"
-      >
+      <div className="fixed top-0 left-0 p-1 flex text-white" id="button-nav-container">
         <div
           className={`w-full h-full relative before:bg-azulfondo before:rounded-full before:aspect-square before:absolute
       before:top-[-50px] before:left-[-50px] before:w-[100px] before:h-[100px] be
@@ -55,27 +52,15 @@ function MobileNav({ entrys, closeModal }) {
         <XIcon className="text-white h-8 w-8" />
       </button>
 
-      <h4 className="font-bold text-xl text-white text-center">
-        Registro y Estadística
-      </h4>
-      <div
-        id="custom-scroll"
-        className="flex-1 overflow-auto pt-6 pr-8 mt-10 max-w-xs mx-auto w-full"
-      >
+      <h4 className="font-bold text-xl text-white text-center">Registro y Estadística</h4>
+      <div id="custom-scroll" className="flex-1 overflow-auto pt-6 pr-8 mt-10 max-w-xs mx-auto w-full">
         {entrys.map(el => (
           <NavEntry key={el.text} {...el} closeModal={closeModal} />
         ))}
       </div>
       <div className="py-5 border-t-2 border-neutral-400 max-w-xs mx-auto w-full">
-        <span className="text-center font-bold text-white">
-          {user?.usuario}
-        </span>
-        <RawEntry
-          Icon={LogoutIcon}
-          text={'Salir'}
-          handleClick={Logout}
-          noArrow
-        />
+        <span className="text-center font-bold text-white">{user?.usuario}</span>
+        <RawEntry Icon={LogoutIcon} text={'Salir'} handleClick={Logout} noArrow />
       </div>
     </nav>
   )

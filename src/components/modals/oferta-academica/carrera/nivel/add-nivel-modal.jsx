@@ -23,17 +23,9 @@ export function AddNivelModal({ closeModal }) {
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout title="Agregar Nivel" closeModal={closeModal}>
-        <form
-          className="p-6 flex flex-col"
-          onSubmit={handleSubmit(handleUpload)}
-        >
+        <form className="p-6 flex flex-col" onSubmit={handleSubmit(handleUpload)}>
           <InputWLabel name="nombre" required register={register} />
-          <InputWLabel
-            name="descripcion"
-            required
-            register={register}
-            isTextArea
-          />
+          <InputWLabel name="descripcion" required register={register} isTextArea />
 
           <ButtonsContainer className={'mt-6'}>
             <button type="submit">Agregar</button>

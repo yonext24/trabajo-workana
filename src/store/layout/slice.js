@@ -40,5 +40,4 @@ const layoutSlice = createSlice({
 })
 
 export default layoutSlice.reducer
-export const { set_screen_width, set_navbar_mobile, open_modal, close_modal } =
-  layoutSlice.actions
+export const { set_screen_width, set_navbar_mobile, open_modal, close_modal } = layoutSlice.actions

@@ -16,11 +16,7 @@ export function ExtensionMainTable({ permissions }) {
       ]}
     >
       {filtered.map(el => (
-        <ExtensionMainTableRow
-          permissions={permissions}
-          key={el.nombre}
-          {...el}
-        />
+        <ExtensionMainTableRow permissions={permissions} key={el.nombre} {...el} />
       ))}
     </TableLayout>
   )

@@ -23,19 +23,11 @@ export function RolePermissionsModal({ closeModal, nombre, id_rol }) {
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout
-        title="Lista de permisos"
-        className={'!max-w-5xl h-[90vh]'}
-      >
+      <DefaultModalLayout title="Lista de permisos" className={'!max-w-5xl h-[90vh]'}>
         <div className="px-6 flex flex-col gap-y-5 py-4 justify-between h-full overflow-y-auto">
           <h3 className="text-2xl font-bold">Rol: {nombre}</h3>
 
-          {rolePermissions && (
-            <TablePermisos
-              outsideData={rolePermissions.permissions}
-              permissions={pagePermissions}
-            />
-          )}
+          {rolePermissions && <TablePermisos outsideData={rolePermissions.permissions} permissions={pagePermissions} />}
 
           <button
             onClick={closeModal}

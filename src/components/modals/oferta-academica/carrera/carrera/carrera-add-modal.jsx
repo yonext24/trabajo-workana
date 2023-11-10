@@ -15,10 +15,7 @@ export function CarreraAddModal({ closeModal }) {
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout title="Agregar Carrera">
-        <form
-          onSubmit={handleSubmit(handleUpdate)}
-          className="p-6 flex flex-col gap-4"
-        >
+        <form onSubmit={handleSubmit(handleUpdate)} className="p-6 flex flex-col gap-4">
           <div className="flex w-full [&>*]:flex-1 gap-4 items-end">
             <div className="flex flex-col">
               <label className="font-semibold text-lg">Nivel carrera</label>
@@ -30,24 +27,12 @@ export function CarreraAddModal({ closeModal }) {
               />
             </div>
             <div className="flex">
-              <label className="font-semibold text-lg">
-                Prerrequisito técnico
-              </label>
+              <label className="font-semibold text-lg">Prerrequisito técnico</label>
             </div>
           </div>
           <InputWLabel name="nombre" register={register} required />
-          <InputWLabel
-            name="titulo_femenino"
-            labelText="Título femenino"
-            register={register}
-            required
-          />
-          <InputWLabel
-            name="titulo_masculino"
-            labelText="Título masculino"
-            register={register}
-            required
-          />
+          <InputWLabel name="titulo_femenino" labelText="Título femenino" register={register} required />
+          <InputWLabel name="titulo_masculino" labelText="Título masculino" register={register} required />
           <InputWLabel
             name="fecha_de_creacion"
             labelText="Fecha de creación"

@@ -6,15 +6,7 @@ import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 
-export function UpdPermisosModal({
-  closeModal,
-  id,
-  modulo,
-  operacion,
-  unidad,
-  extension,
-  nivel
-}) {
+export function UpdPermisosModal({ closeModal, id, modulo, operacion, unidad, extension, nivel }) {
   const { control, handleSubmit } = useForm()
   const {
     data: {
@@ -26,10 +18,7 @@ export function UpdPermisosModal({
   const { updatePermission } = useUsuariosActions()
 
   const handleUpload = data => {
-    if (
-      JSON.stringify(data) ===
-      JSON.stringify({ modulo, operacion, unidad, extension, nivel })
-    ) {
+    if (JSON.stringify(data) === JSON.stringify({ modulo, operacion, unidad, extension, nivel })) {
       return
     }
     updatePermission({ ...data, id })

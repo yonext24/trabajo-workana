@@ -13,14 +13,9 @@ import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
 
 export function UpdateDependenciaModal({ closeModal, entryData }) {
-  const { nombre, abreviatura, id_dependencia, id_sector, id_unidad } =
-    entryData
+  const { nombre, abreviatura, id_dependencia, id_sector, id_unidad } = entryData
 
-  const {
-    data: sectoresData,
-    error: sectoresError,
-    loading: sectoresLoading
-  } = useSelector(s => s.data.sectores)
+  const { data: sectoresData, error: sectoresError, loading: sectoresLoading } = useSelector(s => s.data.sectores)
   const dependenciasData = useSelector(s => s.data.dependencias.data)
   const {
     data: unidadesData,
@@ -65,16 +60,8 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout
-        title="Actualizar Dependencia"
-        closeModal={closeModal}
-        loading={loading}
-        errors={errors}
-      >
-        <form
-          onSubmit={handleSubmit(handleUpdate)}
-          className="py-8 px-4 font-semibold flex flex-col gap-y-3"
-        >
+      <DefaultModalLayout title="Actualizar Dependencia" closeModal={closeModal} loading={loading} errors={errors}>
+        <form onSubmit={handleSubmit(handleUpdate)} className="py-8 px-4 font-semibold flex flex-col gap-y-3">
           <InputWLabel
             readOnly
             required
@@ -95,13 +82,7 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
             defaultValue={abreviatura}
             registerProps={{
               validate: abreviatura => {
-                if (
-                  dependenciasData.some(
-                    d =>
-                      d.abreviatura === abreviatura &&
-                      d.id_dependencia !== id_dependencia
-                  )
-                )
+                if (dependenciasData.some(d => d.abreviatura === abreviatura && d.id_dependencia !== id_dependencia))
                   return 'Ya existe una dependencia con esa abreviatura'
               }
             }}

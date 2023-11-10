@@ -112,9 +112,7 @@ export function MainLayout({ children }) {
         {screenWidth.isMobile === false && <NavbarLazy entrys={navbarEntrys} />}
       </Suspense>
       <Suspense fallback={<></>}>
-        {screenWidth.isMobile === true && (
-          <MobileNavbarLazy entrys={navbarEntrys} />
-        )}
+        {screenWidth.isMobile === true && <MobileNavbarLazy entrys={navbarEntrys} />}
       </Suspense>
     </div>
   )

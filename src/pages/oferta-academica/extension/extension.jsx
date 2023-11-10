@@ -9,8 +9,7 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 export function Extension() {
-  const { getOfertaAcademicaExtension, setExtensionFiltered } =
-    useOfertaAcademicaActions()
+  const { getOfertaAcademicaExtension, setExtensionFiltered } = useOfertaAcademicaActions()
   const { handleAdd } = useTableDefaultModals({
     place: 'extension',
     add: { el: ExtensionAddModal }

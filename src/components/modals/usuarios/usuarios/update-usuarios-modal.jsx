@@ -25,17 +25,7 @@ export function UpdateUsuariosModal({ closeModal }) {
   const { updateUsuario } = useUsuariosActions()
   useModalLogic({ closeModal, noScroll: true })
 
-  const {
-    nombres,
-    apellidos,
-    telefono,
-    celular,
-    CUI,
-    registro_personal,
-    correo,
-    usuario,
-    otros
-  } = showing
+  const { nombres, apellidos, telefono, celular, CUI, registro_personal, correo, usuario, otros } = showing
   const { rol } = otros
 
   const handleUpdate = handleLoading(async data => {
@@ -43,9 +33,7 @@ export function UpdateUsuariosModal({ closeModal }) {
 
     const res = await updateUsuario(data)
     if (res?.error) {
-      const message =
-        res.error?.message ??
-        'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
+      const message = res.error?.message ?? 'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
       setError('root.fetchError', { type: 'to-not-invalidate', message })
       return
     }
@@ -67,29 +55,9 @@ export function UpdateUsuariosModal({ closeModal }) {
           onSubmit={handleSubmit(handleUpdate)}
           className="p-6 grid grid-cols-2 gap-2 gap-x-12 font-semibold text-lg "
         >
-          <InputWLabel
-            register={register}
-            type="text"
-            id="usuario"
-            name="usuario"
-            disabled
-            defaultValue={usuario}
-          />
-          <SelectInputControlledWithLabel
-            labelText="Rol"
-            control={control}
-            name="rol"
-            disabled
-            defaultValue={rol}
-          />
-          <InputWLabel
-            register={register}
-            type="text"
-            id="nombres"
-            name="nombres"
-            defaultValue={nombres}
-            required
-          />
+          <InputWLabel register={register} type="text" id="usuario" name="usuario" disabled defaultValue={usuario} />
+          <SelectInputControlledWithLabel labelText="Rol" control={control} name="rol" disabled defaultValue={rol} />
+          <InputWLabel register={register} type="text" id="nombres" name="nombres" defaultValue={nombres} required />
           <InputWLabel
             register={register}
             type="text"
@@ -98,30 +66,9 @@ export function UpdateUsuariosModal({ closeModal }) {
             defaultValue={apellidos}
             required
           />
-          <InputWLabel
-            register={register}
-            type="text"
-            id="telefono"
-            name="telefono"
-            defaultValue={telefono}
-            required
-          />
-          <InputWLabel
-            register={register}
-            type="text"
-            id="celular"
-            name="celular"
-            defaultValue={celular}
-            required
-          />
-          <InputWLabel
-            register={register}
-            type="text"
-            id="CUI"
-            name="CUI"
-            defaultValue={CUI}
-            disabled
-          />
+          <InputWLabel register={register} type="text" id="telefono" name="telefono" defaultValue={telefono} required />
+          <InputWLabel register={register} type="text" id="celular" name="celular" defaultValue={celular} required />
+          <InputWLabel register={register} type="text" id="CUI" name="CUI" defaultValue={CUI} disabled />
           <InputWLabel
             register={register}
             type="text"
@@ -131,14 +78,7 @@ export function UpdateUsuariosModal({ closeModal }) {
             defaultValue={registro_personal}
             labelText="Registro de personal"
           />
-          <InputWLabel
-            register={register}
-            type="text"
-            id="correo"
-            name="correo"
-            defaultValue={correo}
-            required
-          />
+          <InputWLabel register={register} type="text" id="correo" name="correo" defaultValue={correo} required />
           <SelectInputControlledWithLabel
             labelText={'País'}
             control={control}

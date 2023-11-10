@@ -6,13 +6,7 @@ import { ModalBackground } from '@/components/modals/modal-background'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 
-export function CarreraUpdateModal({
-  closeModal,
-  nivel,
-  carrera,
-  titulo_femenino,
-  titulo_masculino
-}) {
+export function CarreraUpdateModal({ closeModal, nivel, carrera, titulo_femenino, titulo_masculino }) {
   const { handleSubmit, control, register } = useForm()
   const { data } = useSelector(s => s.ofertaAcademica.carrera.nivel)
 
@@ -20,15 +14,8 @@ export function CarreraUpdateModal({
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout
-        title="Actualizar Carrera"
-        className="!max-w-3xl"
-        closeModal={closeModal}
-      >
-        <form
-          onSubmit={handleSubmit(handleUpdate)}
-          className="p-6 flex flex-col gap-4"
-        >
+      <DefaultModalLayout title="Actualizar Carrera" className="!max-w-3xl" closeModal={closeModal}>
+        <form onSubmit={handleSubmit(handleUpdate)} className="p-6 flex flex-col gap-4">
           <div className="flex w-full [&>*]:flex-1 gap-4 items-end">
             <div className="flex flex-col">
               <label className="font-semibold text-lg">Nivel carrera</label>
@@ -41,9 +28,7 @@ export function CarreraUpdateModal({
               />
             </div>
             <div className="flex">
-              <label className="font-semibold text-lg">
-                Prerrequisito técnico
-              </label>
+              <label className="font-semibold text-lg">Prerrequisito técnico</label>
             </div>
           </div>
           <InputWLabel
@@ -86,11 +71,7 @@ export function CarreraUpdateModal({
               />
               <div className="flex flex-col">
                 <label className="font-semibold text-lg">Estado</label>
-                <SelectInputControlled
-                  name="estado"
-                  control={control}
-                  options={['Activo', 'Desactivado']}
-                />
+                <SelectInputControlled name="estado" control={control} options={['Activo', 'Desactivado']} />
               </div>
             </div>
           </div>

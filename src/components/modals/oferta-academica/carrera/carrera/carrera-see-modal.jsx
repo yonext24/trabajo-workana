@@ -4,44 +4,21 @@ import { ButtonsContainer } from '@/components/modals/buttons-container'
 import { DefaultModalLayout } from '@/components/modals/default-modal-layout'
 import { ModalBackground } from '@/components/modals/modal-background'
 
-export function CarreraSeeModal({
-  closeModal,
-  nivel,
-  carrera,
-  titulo_femenino,
-  titulo_masculino
-}) {
+export function CarreraSeeModal({ closeModal, nivel, carrera, titulo_femenino, titulo_masculino }) {
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout
-        title="Ver Carrera"
-        className="!max-w-3xl"
-        closeModal={closeModal}
-      >
+      <DefaultModalLayout title="Ver Carrera" className="!max-w-3xl" closeModal={closeModal}>
         <div className="p-6 flex flex-col gap-4">
           <div className="flex w-full [&>*]:flex-1 gap-4 items-end">
             <div className="flex flex-col">
               <label className="font-semibold text-lg">Nivel carrera</label>
-              <SelectInput
-                options={[]}
-                disabled
-                defaultValue={nivel}
-                name="nivel"
-              />
+              <SelectInput options={[]} disabled defaultValue={nivel} name="nivel" />
             </div>
             <div className="flex">
-              <label className="font-semibold text-lg">
-                Prerrequisito técnico
-              </label>
+              <label className="font-semibold text-lg">Prerrequisito técnico</label>
             </div>
           </div>
-          <InputWLabel
-            name="carrera"
-            labelText={'Nombre'}
-            disabled
-            defaultValue={carrera}
-            required
-          />
+          <InputWLabel name="carrera" labelText={'Nombre'} disabled defaultValue={carrera} required />
           <InputWLabel
             name="titulo_femenino"
             disabled
@@ -74,11 +51,7 @@ export function CarreraSeeModal({
                 <label disabled className="font-semibold text-lg">
                   Estado
                 </label>
-                <SelectInput
-                  control={() => {}}
-                  name="estado"
-                  options={['Activo', 'Desactivado']}
-                />
+                <SelectInput control={() => {}} name="estado" options={['Activo', 'Desactivado']} />
               </div>
             </div>
           </div>

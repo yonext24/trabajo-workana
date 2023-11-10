@@ -1,7 +1,4 @@
-import {
-  DeactivateButton,
-  UpdateButton
-} from '@/components/common/table-buttons'
+import { DeactivateButton, UpdateButton } from '@/components/common/table-buttons'
 import { useDataActions } from '../../../../hooks/useDataActions'
 import { UpdateDependenciaModal } from '../../../modals/general/dependencias/update-dependencia-modal'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'

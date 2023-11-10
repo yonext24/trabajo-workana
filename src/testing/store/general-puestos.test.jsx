@@ -7,10 +7,7 @@ import { add_puestos } from '@/store/general/puestosThunks'
 
 describe('Testing de tabla de general/puestos', async () => {
   const store = setupStore()
-  const { getByText } = renderWithProviders(
-    <TablePuestos permissions={{ UPDATE: true }} />,
-    { store }
-  )
+  const { getByText } = renderWithProviders(<TablePuestos permissions={{ UPDATE: true }} />, { store })
 
   test('Agregar un nuevo sector y verificar que se haya agregado', async () => {
     const newData = 'testing'

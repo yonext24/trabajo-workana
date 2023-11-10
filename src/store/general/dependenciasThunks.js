@@ -3,58 +3,46 @@ import { setThunks } from '../setThunks'
 import { general } from '@/utils/routes'
 import { get_usuarios_parametros } from '../usuarios/thunks'
 
-export const get_dependencias = createAsyncThunk(
-  'general/get_dependencias_data',
-  async (_, api) => {
-    const { dependencias } = await general.dependencias.get(api)
-    return dependencias
-  }
-)
+export const get_dependencias = createAsyncThunk('general/get_dependencias_data', async (_, api) => {
+  const { dependencias } = await general.dependencias.get(api)
+  return dependencias
+})
 
-export const del_dependencias = createAsyncThunk(
-  'general/delete_dependencias_data',
-  async (data, api) => {
-    await general.dependencias.delete(api, data)
+export const del_dependencias = createAsyncThunk('general/delete_dependencias_data', async (data, api) => {
+  await general.dependencias.delete(api, data)
 
-    return data.id_dependencia
-  }
-)
+  return data.id_dependencia
+})
 
-export const update_dependencias = createAsyncThunk(
-  'general/update_dependencias_data',
-  async (data, api) => {
-    const id_dependencia = data?.id_dependencia
-    const { unidad, sector } = data
-    const { id_sector, nombre: nombreSector } = sector
-    const { id_unidad, nombre: nombreUnidad } = unidad
-    await general.dependencias.update(api, data)
+export const update_dependencias = createAsyncThunk('general/update_dependencias_data', async (data, api) => {
+  const id_dependencia = data?.id_dependencia
+  const { unidad, sector } = data
+  const { id_sector, nombre: nombreSector } = sector
+  const { id_unidad, nombre: nombreUnidad } = unidad
+  await general.dependencias.update(api, data)
 
-    return {
-      id_dependencia,
-      newData: {
-        ...data,
-        id_sector,
-        id_unidad,
-        sector: nombreSector,
-        unidad: nombreUnidad
-      }
+  return {
+    id_dependencia,
+    newData: {
+      ...data,
+      id_sector,
+      id_unidad,
+      sector: nombreSector,
+      unidad: nombreUnidad
     }
   }
-)
+})
 
-export const add_dependencias = createAsyncThunk(
-  'general/add_dependencias_data',
-  async (data, api) => {
-    const { sector, unidad } = data
+export const add_dependencias = createAsyncThunk('general/add_dependencias_data', async (data, api) => {
+  const { sector, unidad } = data
 
-    const res = await general.dependencias.add(api, {
-      ...data,
-      id_unidad: 0
-    }) // <--- ID_UNIDAD = PLACEHOLDER
+  const res = await general.dependencias.add(api, {
+    ...data,
+    id_unidad: 0
+  }) // <--- ID_UNIDAD = PLACEHOLDER
 
-    return { ...res, sector, unidad }
-  }
-)
+  return { ...res, sector, unidad }
+})
 
 const noLoopData = {
   name: 'dependencias',

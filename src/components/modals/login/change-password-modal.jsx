@@ -32,18 +32,9 @@ export function ChangePasswordModal({ closeModal }) {
 
   return (
     <ModalBackground closeModal={() => {}}>
-      <DefaultModalLayout
-        noButton
-        className="max-w-lg"
-        title="Cambiar Contraseña"
-      >
-        <form
-          onSubmit={handleSubmit(handleUpdate)}
-          className="flex flex-col px-12 gap-4 py-4"
-        >
-          <h5 className="font-semibold text-xl text-center">
-            Deberás cambiar tu contraseña para poder seguir
-          </h5>
+      <DefaultModalLayout noButton className="max-w-lg" title="Cambiar Contraseña">
+        <form onSubmit={handleSubmit(handleUpdate)} className="flex flex-col px-12 gap-4 py-4">
+          <h5 className="font-semibold text-xl text-center">Deberás cambiar tu contraseña para poder seguir</h5>
 
           <InputWLabel
             type="password"
@@ -86,10 +77,7 @@ export function ChangePasswordModal({ closeModal }) {
             }}
           />
 
-          <ButtonsContainer
-            alone
-            className={'[&>button]:w-auto [&>button]:px-4 mt-4'}
-          >
+          <ButtonsContainer alone className={'[&>button]:w-auto [&>button]:px-4 mt-4'}>
             <button type="submit" disabled={loading}>
               Cambiar Contraseña
             </button>

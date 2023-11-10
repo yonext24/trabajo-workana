@@ -10,49 +10,34 @@ import { mergeValues } from '@/utils/consts'
 
 ************************************************************************************** */
 
-export const get_roles_data = createAsyncThunk(
-  'usuarios/roles/get_data',
-  async (_, api) => {
-    return await usuarios.roles.get(api)
-  }
-)
+export const get_roles_data = createAsyncThunk('usuarios/roles/get_data', async (_, api) => {
+  return await usuarios.roles.get(api)
+})
 
-export const delete_role = createAsyncThunk(
-  'usuarios/roles/delete',
-  async (id_rol, api) => {
-    await usuarios.roles.delete(api, { id_rol })
+export const delete_role = createAsyncThunk('usuarios/roles/delete', async (id_rol, api) => {
+  await usuarios.roles.delete(api, { id_rol })
 
-    return id_rol
-  }
-)
+  return id_rol
+})
 
-export const add_role = createAsyncThunk(
-  'usuarios/roles/add',
-  async (data, api) => {
-    const { id_rol, estado } = await usuarios.roles.add(api, data)
+export const add_role = createAsyncThunk('usuarios/roles/add', async (data, api) => {
+  const { id_rol, estado } = await usuarios.roles.add(api, data)
 
-    return { id_rol, ...data, estado }
-  }
-)
-export const update_role = createAsyncThunk(
-  'usuarios/roles/update',
-  async (data, api) => {
-    const rol = data
-    const { id_rol } = rol
+  return { id_rol, ...data, estado }
+})
+export const update_role = createAsyncThunk('usuarios/roles/update', async (data, api) => {
+  const rol = data
+  const { id_rol } = rol
 
-    await usuarios.roles.update(api, data)
+  await usuarios.roles.update(api, data)
 
-    return { id_rol, ...data }
-  }
-)
-export const get_role_permissions = createAsyncThunk(
-  'usuarios/roles/get_permissions',
-  async ({ id_rol }, api) => {
-    const permissions = await usuarios.roles.getPermissions(api, id_rol)
+  return { id_rol, ...data }
+})
+export const get_role_permissions = createAsyncThunk('usuarios/roles/get_permissions', async ({ id_rol }, api) => {
+  const permissions = await usuarios.roles.getPermissions(api, id_rol)
 
-    return { id_rol, permissions }
-  }
-)
+  return { id_rol, permissions }
+})
 export const get_mapped_role_permissions = createAsyncThunk(
   'usuarios/roles/get_mapped_permissions',
   async ({ id_rol }, api) => {
@@ -67,29 +52,20 @@ export const get_mapped_role_permissions = createAsyncThunk(
 
   ************************************************************************************** */
 
-export const get_permissions = createAsyncThunk(
-  'usuarios/permisos/get',
-  async (_, api) => {
-    return await usuarios.permisos.get(api)
-  }
-)
+export const get_permissions = createAsyncThunk('usuarios/permisos/get', async (_, api) => {
+  return await usuarios.permisos.get(api)
+})
 
-export const delete_permission = createAsyncThunk(
-  'usuarios/permisos/delete',
-  async (permission, api) => {
-    await new Promise(resolve => setTimeout(resolve, 1200))
+export const delete_permission = createAsyncThunk('usuarios/permisos/delete', async (permission, api) => {
+  await new Promise(resolve => setTimeout(resolve, 1200))
 
-    return permission
-  }
-)
-export const add_permission = createAsyncThunk(
-  'usuarios/permisos/create',
-  async (permission, api) => {
-    await new Promise(resolve => setTimeout(resolve, 1200))
+  return permission
+})
+export const add_permission = createAsyncThunk('usuarios/permisos/create', async (permission, api) => {
+  await new Promise(resolve => setTimeout(resolve, 1200))
 
-    return permission
-  }
-)
+  return permission
+})
 
 export const switch_permission_state = createAsyncThunk(
   'usuarios/permisos/switch_state',
@@ -105,43 +81,28 @@ export const switch_permission_state = createAsyncThunk(
 
     ************************************************************************************** */
 
-export const find_user = createAsyncThunk(
-  'usuarios/usuarios/find',
-  async (data, api) => {
-    return await usuarios.usuarios.search(api, data)
-  }
-)
+export const find_user = createAsyncThunk('usuarios/usuarios/find', async (data, api) => {
+  return await usuarios.usuarios.search(api, data)
+})
 
-export const create_user = createAsyncThunk(
-  'usuarios/usuarios/create',
-  async (data, api) => {
-    return await usuarios.usuarios.create(api, data)
-  }
-)
+export const create_user = createAsyncThunk('usuarios/usuarios/create', async (data, api) => {
+  return await usuarios.usuarios.create(api, data)
+})
 
-export const get_usuarios_parametros = createAsyncThunk(
-  'usuarios/usuarios/get_parametros',
-  async (_, api) => {
-    return await usuarios.usuarios.getParameters(api)
-  }
-)
+export const get_usuarios_parametros = createAsyncThunk('usuarios/usuarios/get_parametros', async (_, api) => {
+  return await usuarios.usuarios.getParameters(api)
+})
 
-export const update_user = createAsyncThunk(
-  'usuarios/usuarios/update',
-  async (data, api) => {
-    await usuarios.usuarios.update(api, data)
-    return data
-    // Este modus operandi no es el óptimo, pero no depende de mi lo que sale de la api
-  }
-)
+export const update_user = createAsyncThunk('usuarios/usuarios/update', async (data, api) => {
+  await usuarios.usuarios.update(api, data)
+  return data
+  // Este modus operandi no es el óptimo, pero no depende de mi lo que sale de la api
+})
 
-export const delete_user = createAsyncThunk(
-  'usuarios/usuarios/delete',
-  async (data, api) => {
-    await usuarios.usuarios.delete(api, data)
-    return data.usuario
-  }
-)
+export const delete_user = createAsyncThunk('usuarios/usuarios/delete', async (data, api) => {
+  await usuarios.usuarios.delete(api, data)
+  return data.usuario
+})
 
 /* ***************************************************************************************
 
@@ -164,9 +125,7 @@ export const addUsuariosExtraReducers = builder => {
         const { actualizar, rol } = data
         if (rol?.id_rol === el.id_rol) {
           actualizar.forEach(({ id_permiso, estado }) => {
-            const permisoIndex = el.permisos.findIndex(
-              permiso => permiso.id_permiso === id_permiso
-            )
+            const permisoIndex = el.permisos.findIndex(permiso => permiso.id_permiso === id_permiso)
             if (permisoIndex !== -1) {
               el.permisos[permisoIndex].estado = estado
             }
@@ -226,16 +185,7 @@ export const addUsuariosExtraReducers = builder => {
       customFunc: ({ state, data, setProperty, getProperty }) => {
         const actualData = getProperty({ property: 'showing', state })
 
-        const {
-          dependencia,
-          id_dependencia,
-          puesto,
-          id_puesto,
-          rol,
-          id_rol,
-          ref_oficio,
-          fecha_desactivacion
-        } = data
+        const { dependencia, id_dependencia, puesto, id_puesto, rol, id_rol, ref_oficio, fecha_desactivacion } = data
         const mergedOtros = mergeValues(
           {
             dependencia,
@@ -285,9 +235,7 @@ export const addUsuariosExtraReducers = builder => {
     state.roles.revalidating = false
     state.roles.error = null
 
-    const existingPermisoIndex = state.roles.data.findIndex(
-      permiso => permiso.id_rol === id_rol
-    )
+    const existingPermisoIndex = state.roles.data.findIndex(permiso => permiso.id_rol === id_rol)
 
     if (existingPermisoIndex !== -1) {
       state.roles.data[existingPermisoIndex].permisos = permissions
@@ -302,9 +250,7 @@ export const addUsuariosExtraReducers = builder => {
     state.roles.loading = false
     state.roles.revalidating = false
     state.roles.error = null
-    const existingPermisoIndex = state.roles.permissionsData.findIndex(
-      permiso => permiso.id_rol === id_rol
-    )
+    const existingPermisoIndex = state.roles.permissionsData.findIndex(permiso => permiso.id_rol === id_rol)
     if (existingPermisoIndex !== -1) {
       state.roles.permissionsData[existingPermisoIndex] = {
         permissions,

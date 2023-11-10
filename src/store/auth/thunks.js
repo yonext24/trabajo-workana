@@ -27,9 +27,7 @@ const operacionesMapper = {
 const permissionParser = ({ userPermissions, modulos, operaciones }) => {
   // Se fusionan los permisos de la api con los parámetros para agregar el nombre de los módulos
   const rawPermissions = userPermissions.map(permission => {
-    const rawNombre = modulos.find(
-      modulo => modulo.codigo === permission.id_modulo
-    ).nombre
+    const rawNombre = modulos.find(modulo => modulo.codigo === permission.id_modulo).nombre
     const nombre = nombreModulosMapper[rawNombre] ?? rawNombre
 
     return {
@@ -47,16 +45,13 @@ const permissionParser = ({ userPermissions, modulos, operaciones }) => {
 
   modulos.forEach(modulo => {
     const nombreModulo = nombreModulosMapper[modulo.nombre] ?? modulo.nombre
-    const permissionsOfModule = rawPermissions.filter(
-      permission => permission.nombre === nombreModulo
-    )
+    const permissionsOfModule = rawPermissions.filter(permission => permission.nombre === nombreModulo)
     const parsedPermissionsOfModule = {}
 
     // El formato de las operaciones que entrega la api esta en minúscula, por lo que se mapea a mayúscula
     // para que coincida con el formato de las constantes
     operaciones.forEach(operacion => {
-      const currentOperation =
-        operacionesMapper[operacion.nombre] ?? operacion.nombre
+      const currentOperation = operacionesMapper[operacion.nombre] ?? operacion.nombre
       const userHasCurrentPermission = permissionsOfModule.some(
         permission => permission.id_operacion === operacion.codigo
       )
@@ -155,16 +150,10 @@ export const login = createAsyncThunk('auth/login', async ({ formData }) => {
   }
 })
 
-export const changePassword = createAsyncThunk(
-  'auth/changePassword',
-  async (data, api) => {
-    return await auth.changePassword(api, data)
-  }
-)
+export const changePassword = createAsyncThunk('auth/changePassword', async (data, api) => {
+  return await auth.changePassword(api, data)
+})
 
-export const recoverPassword = createAsyncThunk(
-  'auth/recoverPassword',
-  async (data, api) => {
-    return await auth.recoverPassword(api, data)
-  }
-)
+export const recoverPassword = createAsyncThunk('auth/recoverPassword', async (data, api) => {
+  return await auth.recoverPassword(api, data)
+})

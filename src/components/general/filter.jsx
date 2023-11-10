@@ -5,11 +5,7 @@ import { useDataActions } from '../../hooks/useDataActions'
 
 export function Filter() {
   const complete = useSelector(s => s.data.dependencias.data)
-  const {
-    data: sectoresData,
-    loading,
-    error
-  } = useSelector(s => s.data.sectores)
+  const { data: sectoresData, loading, error } = useSelector(s => s.data.sectores)
 
   const { setDependenciasFiltered, getSectoresData } = useDataActions()
 
@@ -20,12 +16,7 @@ export function Filter() {
 
   const handleChange = value => {
     if (value === 'Todos') setDependenciasFiltered(complete)
-    else
-      setDependenciasFiltered(
-        complete.filter(
-          el => el.sector.toLowerCase() === value.nombre.toLowerCase()
-        )
-      )
+    else setDependenciasFiltered(complete.filter(el => el.sector.toLowerCase() === value.nombre.toLowerCase()))
   }
 
   useEffect(() => {

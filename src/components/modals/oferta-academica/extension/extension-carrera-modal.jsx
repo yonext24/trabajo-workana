@@ -10,11 +10,7 @@ export function ExtensionCarreraModal({ closeModal }) {
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout
-        title={'Carreras de extensión'}
-        className={'!max-w-3xl'}
-        closeModal={closeModal}
-      >
+      <DefaultModalLayout title={'Carreras de extensión'} className={'!max-w-3xl'} closeModal={closeModal}>
         <form className="p-6 w-full flex gap-4 flex-col [&_label]:text-lg [&_label]:font-semibold">
           <div className="flex [&>*]:flex-1 gap-4">
             <InputWLabel name="unidad" disabled />

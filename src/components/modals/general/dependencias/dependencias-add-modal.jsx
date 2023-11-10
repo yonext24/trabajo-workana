@@ -19,11 +19,7 @@ export function DependenciasAddModal({ closeModal }) {
   const { addDependenciasData } = useDataActions()
   const { loading, handleLoading } = useFormCustom()
 
-  const {
-    data: sectoresData,
-    loading: sectoresLoading,
-    error: sectoresError
-  } = useSelector(s => s.data.sectores)
+  const { data: sectoresData, loading: sectoresLoading, error: sectoresError } = useSelector(s => s.data.sectores)
   const dependenciasData = useSelector(s => s.data.dependencias.data)
 
   const onSubmit = handleLoading(async data => {
@@ -43,16 +39,8 @@ export function DependenciasAddModal({ closeModal }) {
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout
-        title="Agregar Sector"
-        closeModal={closeModal}
-        loading={loading}
-        errors={errors}
-      >
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="py-8 px-4 font-semibold flex flex-col gap-y-4"
-        >
+      <DefaultModalLayout title="Agregar Sector" closeModal={closeModal} loading={loading} errors={errors}>
+        <form onSubmit={handleSubmit(onSubmit)} className="py-8 px-4 font-semibold flex flex-col gap-y-4">
           <InputWLabel
             id="nombre"
             labelText="Nombre"
@@ -62,8 +50,7 @@ export function DependenciasAddModal({ closeModal }) {
             required
             registerProps={{
               validate: nombre => {
-                if (dependenciasData.some(d => d.nombre === nombre))
-                  return 'Ya existe una dependencia con ese nombre'
+                if (dependenciasData.some(d => d.nombre === nombre)) return 'Ya existe una dependencia con ese nombre'
               }
             }}
           />

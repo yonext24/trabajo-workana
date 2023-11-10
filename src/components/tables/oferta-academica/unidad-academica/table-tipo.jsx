@@ -5,25 +5,17 @@ import { useEffect } from 'react'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 
 export function TableTipo({ permissions }) {
-  const { data, loading, revalidating } = useSelector(
-    s => s.ofertaAcademica.unidadAcademica.tipo
-  )
+  const { data, loading, revalidating } = useSelector(s => s.ofertaAcademica.unidadAcademica.tipo)
 
   const { getUnidadAcademicaTipos } = useOfertaAcademicaActions()
 
   useEffect(() => {
-    const res = getUnidadAcademicaTipos()
-    console.log({ responseFromEffect: res })
+    getUnidadAcademicaTipos()
   }, [])
 
   return (
     <TableLayout
-      columns={[
-        { text: 'Nombre' },
-        { text: 'Descripción' },
-        { text: 'Estado' },
-        { text: 'Acciones' }
-      ]}
+      columns={[{ text: 'Nombre' }, { text: 'Descripción' }, { text: 'Estado' }, { text: 'Acciones' }]}
       loading={loading}
       revalidating={revalidating}
     >

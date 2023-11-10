@@ -18,10 +18,7 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
 
   const roles = useSelector(s => s.usuarios.roles.data) // En esta modal se recuperan los datos de esta forma
   // porque se actualizan dinámicamente después de que la modal es invocada, y las props no se actualizan
-  const currentRole = useMemo(
-    () => roles.find(r => r.id_rol === id_rol),
-    [roles]
-  )
+  const currentRole = useMemo(() => roles.find(r => r.id_rol === id_rol), [roles])
 
   // ***************** CUSTOM HOOKS *****************
 
@@ -34,12 +31,7 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
   const { loading, handleLoading } = useFormCustom()
   const permissions = usePermissions('USUARIOS')
   useModalLogic({ closeModal, noScroll: true })
-  const {
-    getPermisos,
-    getRolePermissions,
-    getMappedRolePermissions,
-    updateRole
-  } = useUsuariosActions()
+  const { getPermisos, getRolePermissions, getMappedRolePermissions, updateRole } = useUsuariosActions()
 
   // **************** STATES *******************
 
@@ -51,14 +43,9 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
 
   const uncheckPermission = useCallback(
     ({ id_permiso, actionInUpdateState /*: 'remove' | 'add' */ }) => {
-      if (actionInUpdateState === 'add')
-        setUpdatedPermissions(prev =>
-          prev.concat({ id_permiso, estado: false })
-        )
+      if (actionInUpdateState === 'add') setUpdatedPermissions(prev => prev.concat({ id_permiso, estado: false }))
       else if (actionInUpdateState === 'remove')
-        setUpdatedPermissions(prev =>
-          prev.filter(p => p.id_permiso !== id_permiso)
-        )
+        setUpdatedPermissions(prev => prev.filter(p => p.id_permiso !== id_permiso))
 
       setParsedRows(prev =>
         prev.map(p => {
@@ -70,23 +57,18 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
     [setUpdatedPermissions]
   )
 
-  const checkPermission = useCallback(
-    ({ id_permiso, actionInUpdateState /*: 'remove' | 'add' */ }) => {
-      if (actionInUpdateState === 'add')
-        setUpdatedPermissions(prev => prev.concat({ id_permiso, estado: true }))
-      else if (actionInUpdateState === 'remove')
-        setUpdatedPermissions(prev =>
-          prev.filter(p => p.id_permiso !== id_permiso)
-        )
+  const checkPermission = useCallback(({ id_permiso, actionInUpdateState /*: 'remove' | 'add' */ }) => {
+    if (actionInUpdateState === 'add') setUpdatedPermissions(prev => prev.concat({ id_permiso, estado: true }))
+    else if (actionInUpdateState === 'remove')
+      setUpdatedPermissions(prev => prev.filter(p => p.id_permiso !== id_permiso))
 
-      setParsedRows(prev =>
-        prev.map(p => {
-          if (p.id_permiso === id_permiso) return { ...p, checked: true }
-          return p
-        })
-      )
-    }
-  )
+    setParsedRows(prev =>
+      prev.map(p => {
+        if (p.id_permiso === id_permiso) return { ...p, checked: true }
+        return p
+      })
+    )
+  })
 
   const selectFunction = useCallback(
     ({ checked, wasOriginallyInRole, id_permiso }) => {
@@ -110,8 +92,7 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
   const onSubmit = useCallback(
     handleLoading(async value => {
       const { descripcion } = value
-      if (descripcion === currentRole.descripcion && !updatedPermissions.length)
-        return
+      if (descripcion === currentRole.descripcion && !updatedPermissions.length) return
 
       const rol = {
         id_rol,
@@ -170,14 +151,7 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
           className="p-6 px-8 flex flex-col gap-y-3 overflow-y-auto [&>#table-container]:!min-h-[auto]"
         >
           <div className="grid gap-3 grid-cols-[.7fr_1fr]">
-            <InputWLabel
-              register={register}
-              name="nombre"
-              value={nombre}
-              labelText="Nombre"
-              disabled
-              type="text"
-            />
+            <InputWLabel register={register} name="nombre" value={nombre} labelText="Nombre" disabled type="text" />
             <InputWLabel
               register={register}
               name="descripcion"
@@ -196,15 +170,9 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
           </div>
           <h4 className="text-2xl">Agregar Permisos</h4>
           <div className="flex justify-between items-end">
-            <PermisosFilter
-              sort
-              outsideFunc={setFilteredRows}
-              outsideData={parsedRows}
-            />
+            <PermisosFilter sort outsideFunc={setFilteredRows} outsideData={parsedRows} />
             {updatedPermissions.length > 0 && (
-              <span className="text-xl font-semibold">
-                Permisos a actualizar: {updatedPermissions.length}
-              </span>
+              <span className="text-xl font-semibold">Permisos a actualizar: {updatedPermissions.length}</span>
             )}
           </div>
           <div className="h-full overflow-y-scroll">
@@ -216,11 +184,7 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
               columns={[{ text: 'Agregar', className: 'flex justify-center' }]}
             />
           </div>
-          <ButtonsContainer
-            className={'[&>button]:py-[6px]'}
-            closeModal={closeModal}
-            disabled={loading}
-          >
+          <ButtonsContainer className={'[&>button]:py-[6px]'} closeModal={closeModal} disabled={loading}>
             <SubmitButton text="Actualizar" loading={loading} />
           </ButtonsContainer>
         </form>

@@ -65,10 +65,7 @@ export function useTableDefaultModals({ place, add, update, del, perm, see }) {
                 closeModal: () => {
                   closeModalFunc(modalId)
                 },
-                title: `Desactivar ${place
-                  .charAt(0)
-                  .toUpperCase()
-                  .concat(place.substring(1, place.length))}`,
+                title: `Desactivar ${place.charAt(0).toUpperCase().concat(place.substring(1, place.length))}`,
                 sure: `Realmente quiere desactivar este ${place}?`,
                 ...del
               }

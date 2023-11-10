@@ -11,11 +11,7 @@ export function TableGeneral({ permissions }) {
     <TableLayout
       loading={loading}
       revalidating={revalidating}
-      columns={[
-        { text: 'Nombre' },
-        { text: 'Estado' },
-        { text: 'Acciones', className: 'max-w-[40%] w-full' }
-      ]}
+      columns={[{ text: 'Nombre' }, { text: 'Estado' }, { text: 'Acciones', className: 'max-w-[40%] w-full' }]}
     >
       {data.map(el => (
         <TableGeneralRow permissions={permissions} key={el.nombre} {...el} />

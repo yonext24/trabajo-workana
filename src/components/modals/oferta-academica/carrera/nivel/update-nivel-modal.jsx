@@ -10,26 +10,15 @@ export function UpdateNivelModal({ closeModal, nombre, descripcion }) {
   const { updateCarreraNivel } = useOfertaAcademicaActions()
 
   const handleUpload = data => {
-    updateCarreraNivel({ newData: { ...data, nombre }, nombre }).then(
-      closeModal
-    )
+    updateCarreraNivel({ newData: { ...data, nombre }, nombre }).then(closeModal)
   }
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout title="Modificar Nivel" closeModal={closeModal}>
-        <form
-          className="p-6 flex flex-col"
-          onSubmit={handleSubmit(handleUpload)}
-        >
+        <form className="p-6 flex flex-col" onSubmit={handleSubmit(handleUpload)}>
           <InputWLabel name="nombre" disabled defaultValue={nombre} />
-          <InputWLabel
-            name="descripcion"
-            required
-            register={register}
-            isTextArea
-            defaultValue={descripcion}
-          />
+          <InputWLabel name="descripcion" required register={register} isTextArea defaultValue={descripcion} />
 
           <ButtonsContainer className={'mt-6'}>
             <button type="submit">Actualizar</button>

@@ -1,11 +1,5 @@
 import { MainLayout } from './components/layouts/main-layout'
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Outlet,
-  Navigate
-} from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom'
 import { ProtectedRoute } from './components/layouts/protected-route'
 import { GeneralLayout } from './components/layouts/general-layout'
 import { AuthLayout } from './components/layouts/auth-layout'
@@ -89,10 +83,7 @@ function App() {
 
             <Route
               element={
-                <ProtectedRoute
-                  name="OFERTA_ACADEMICA"
-                  parsedName={'Oferta Académica'}
-                >
+                <ProtectedRoute name="OFERTA_ACADEMICA" parsedName={'Oferta Académica'}>
                   <Outlet />
                 </ProtectedRoute>
               }
@@ -104,14 +95,8 @@ function App() {
                   </GeneralTabsLayout>
                 }
               >
-                <Route
-                  path="/oferta-academica/unidad/tipo"
-                  element={<Tipo />}
-                />
-                <Route
-                  path="/oferta-academica/unidad/unidad"
-                  element={<Unidad />}
-                />
+                <Route path="/oferta-academica/unidad/tipo" element={<Tipo />} />
+                <Route path="/oferta-academica/unidad/unidad" element={<Unidad />} />
               </Route>
 
               <Route
@@ -121,10 +106,7 @@ function App() {
                   </GeneralTabsLayout>
                 }
               >
-                <Route
-                  path="/oferta-academica/extension"
-                  element={<Extension />}
-                />
+                <Route path="/oferta-academica/extension" element={<Extension />} />
               </Route>
 
               <Route
@@ -134,22 +116,10 @@ function App() {
                   </GeneralTabsLayout>
                 }
               >
-                <Route
-                  path="oferta-academica/carrera/nivel"
-                  element={<Nivel />}
-                />
-                <Route
-                  path="oferta-academica/carrera/carrera"
-                  element={<Carrera />}
-                />
-                <Route
-                  path="oferta-academica/carrera/tipo-recurso"
-                  element={<TipoRecurso />}
-                />
-                <Route
-                  path="oferta-academica/carrera/recurso"
-                  element={<Recurso />}
-                />
+                <Route path="oferta-academica/carrera/nivel" element={<Nivel />} />
+                <Route path="oferta-academica/carrera/carrera" element={<Carrera />} />
+                <Route path="oferta-academica/carrera/tipo-recurso" element={<TipoRecurso />} />
+                <Route path="oferta-academica/carrera/recurso" element={<Recurso />} />
               </Route>
             </Route>
           </Route>

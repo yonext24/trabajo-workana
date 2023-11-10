@@ -84,10 +84,6 @@ export const ofertaAcademicaSlice = createSlice({
   }
 })
 
-export const {
-  set_unidad_filtered,
-  set_extension_filtered,
-  set_recurso_filtered,
-  set_carrera_carrera_filtered
-} = ofertaAcademicaSlice.actions
+export const { set_unidad_filtered, set_extension_filtered, set_recurso_filtered, set_carrera_carrera_filtered } =
+  ofertaAcademicaSlice.actions
 export default ofertaAcademicaSlice.reducer

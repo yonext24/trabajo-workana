@@ -17,9 +17,7 @@ export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
   }, [outsideData, permisosData])
 
   const options = useMemo(() => {
-    return ['Todos'].concat(
-      modulosData.filter(el => el.tipo === 'Módulo').map(el => el.nombre)
-    )
+    return ['Todos'].concat(modulosData.filter(el => el.tipo === 'Módulo').map(el => el.nombre))
   }, [modulosData])
 
   const currentOption = useRef('Todos')
@@ -28,10 +26,7 @@ export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
     currentOption.current = value
     const funcToUse = outsideFunc || setPermisosFiltered
     if (value === 'Todos') funcToUse(dataToUse)
-    else
-      funcToUse(
-        dataToUse.filter(el => el.modulo.toLowerCase() === value.toLowerCase())
-      )
+    else funcToUse(dataToUse.filter(el => el.modulo.toLowerCase() === value.toLowerCase()))
   }
 
   useEffect(() => {
@@ -54,11 +49,7 @@ export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
     >
       <span className="font-semibold">Modulo</span>
       <div className="w-full">
-        <SelectInput
-          options={options}
-          handleOptionClick={handleChange}
-          firstOne
-        />
+        <SelectInput options={options} handleOptionClick={handleChange} firstOne />
       </div>
     </div>
   )

@@ -7,12 +7,7 @@ export function TableModulos({ permissions }) {
 
   return (
     <TableLayout
-      columns={[
-        { text: 'Tipo' },
-        { text: 'Nombre' },
-        { text: 'Estado' },
-        { text: 'Acciones' }
-      ]}
+      columns={[{ text: 'Tipo' }, { text: 'Nombre' }, { text: 'Estado' }, { text: 'Acciones' }]}
       loading={loading}
       revalidating={revalidating}
     >

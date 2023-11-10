@@ -10,9 +10,7 @@ import { handleErrorInFormResponse } from '@/utils/consts'
 import { SubmitButton } from '@/components/common/submit-button'
 
 export function TipoAddModal({ closeModal }) {
-  const tiposData = useSelector(
-    s => s.ofertaAcademica.unidadAcademica.tipo.data
-  )
+  const tiposData = useSelector(s => s.ofertaAcademica.unidadAcademica.tipo.data)
   const {
     register,
     handleSubmit,
@@ -31,26 +29,15 @@ export function TipoAddModal({ closeModal }) {
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout
-        title="Agregar Tipo"
-        closeModal={closeModal}
-        errors={errors}
-        loading={loading}
-      >
-        <form
-          className="p-6 flex flex-col gap-3"
-          onSubmit={handleSubmit(handleUpdate)}
-        >
+      <DefaultModalLayout title="Agregar Tipo" closeModal={closeModal} errors={errors} loading={loading}>
+        <form className="p-6 flex flex-col gap-3" onSubmit={handleSubmit(handleUpdate)}>
           <InputWLabel
             name="nombre"
             id="nombre"
             register={register}
             registerProps={{
               validate: nombre => {
-                return (
-                  !tiposData.some(el => el.nombre === nombre) ||
-                  'Ya existe un tipo con ese nombre'
-                )
+                return !tiposData.some(el => el.nombre === nombre) || 'Ya existe un tipo con ese nombre'
               },
               minLength: {
                 value: 2,

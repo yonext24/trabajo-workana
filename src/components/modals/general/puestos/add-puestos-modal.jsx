@@ -25,16 +25,8 @@ export function AddPuestosModal({ closeModal }) {
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout
-        title="Agregar Puesto"
-        closeModal={closeModal}
-        loading={loading}
-        errors={errors}
-      >
-        <form
-          onSubmit={handleSubmit(handleUpdate)}
-          className="py-8 px-4 font-semibold"
-        >
+      <DefaultModalLayout title="Agregar Puesto" closeModal={closeModal} loading={loading} errors={errors}>
+        <form onSubmit={handleSubmit(handleUpdate)} className="py-8 px-4 font-semibold">
           <InputWLabel
             id="descripcion"
             name="descripcion"
@@ -46,12 +38,7 @@ export function AddPuestosModal({ closeModal }) {
             required
             registerProps={{
               validate: nombre => {
-                if (
-                  puestosData.some(
-                    puesto =>
-                      puesto.descripcion.toLowerCase() === nombre.toLowerCase()
-                  )
-                ) {
+                if (puestosData.some(puesto => puesto.descripcion.toLowerCase() === nombre.toLowerCase())) {
                   return 'Este puesto ya existe'
                 }
               }

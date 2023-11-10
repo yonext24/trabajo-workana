@@ -42,43 +42,28 @@ export const update_unidad_academica_tipos = createAsyncThunk(
 export const get_unidad_academica_unidad = createAsyncThunk(
   'oferta-academica/unidad-academica/unidad/get',
   async (_, api) => {
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    const data = [
-      {
-        tipo: 'Escuela',
-        codigo: 1,
-        nombre: 'Escuela de Ingeniería',
-        abreviatura: 'EISI',
-        id_unidad: 0
-      }
-    ]
-
-    return data
+    return await unidad.unidad.get(api)
   }
 )
 export const add_unidad_academica_unidad = createAsyncThunk(
   'oferta-academica/unidad-academica/unidad/add',
-  async ({ newData }, api) => {
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    return newData
+  async (data, api) => {
+    const res = await unidad.unidad.add(api, data)
+    return { ...res, tipo_ua: data.tipo_ua }
   }
 )
 export const delete_unidad_academica_unidad = createAsyncThunk(
   'oferta-academica/unidad-academica/unidad/delete',
-  async ({ nombre }, api) => {
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    return nombre
+  async (id_unidad, api) => {
+    await unidad.unidad.delete(api, id_unidad)
+    return id_unidad
   }
 )
 export const update_unidad_academica_unidad = createAsyncThunk(
   'oferta-academica/unidad-academica/unidad/update',
-  async ({ nombre, newData }, api) => {
-    await new Promise(resolve => setTimeout(resolve, 1500))
-
-    return { id: nombre, newData }
+  async (data, api) => {
+    await unidad.unidad.update(api, data)
+    return data
   }
 )
 
@@ -97,14 +82,13 @@ export const setUnidadAcademicaExtraReducers = builder => {
           customFunc: ({ state, data }) => {
             const { id_tipo_ua, descripcion } = data
 
-            state.unidadAcademica.tipo.data =
-              state.unidadAcademica.tipo.data.map(unidad => {
-                if (unidad.id_tipo_ua === id_tipo_ua) {
-                  unidad.descripcion = descripcion
-                }
+            state.unidadAcademica.tipo.data = state.unidadAcademica.tipo.data.map(unidad => {
+              if (unidad.id_tipo_ua === id_tipo_ua) {
+                unidad.descripcion = descripcion
+              }
 
-                return unidad
-              })
+              return unidad
+            })
           }
         },
         del: {
@@ -123,11 +107,19 @@ export const setUnidadAcademicaExtraReducers = builder => {
           function: add_unidad_academica_unidad
         },
         update: {
-          function: update_unidad_academica_unidad
+          function: update_unidad_academica_unidad,
+          customFunc: ({ state, data }) => {
+            state.unidadAcademica.unidad.data = state.unidadAcademica.unidad.data.map(unidad => {
+              if (unidad.id_unidad === data.id_unidad) {
+                return { ...unidad, ...data }
+              }
+              return unidad
+            })
+          }
         },
         del: {
           function: delete_unidad_academica_unidad,
-          filterBy: 'id_tipo_ua'
+          filterBy: 'id_unidad'
         },
         hasFiltered: true
       }

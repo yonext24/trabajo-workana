@@ -5,12 +5,7 @@ import { RowLayout } from '@/components/tables/row-layout'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 
-export function CarreraCarreraTableRow({
-  permissions,
-  carrera,
-  nivel,
-  estado
-}) {
+export function CarreraCarreraTableRow({ permissions, carrera, nivel, estado }) {
   const { deleteCarreraCarrera } = useOfertaAcademicaActions()
   const { handleUpd, handleSee, handleDel } = useTableDefaultModals({
     update: { el: CarreraUpdateModal, nivel, carrera, estado },
@@ -26,9 +21,7 @@ export function CarreraCarreraTableRow({
   })
 
   const { UPDATE } = permissions
-  const actions = [
-    { type: 'see', onClick: handleSee, text: 'Ver Carrera' }
-  ].concat(
+  const actions = [{ type: 'see', onClick: handleSee, text: 'Ver Carrera' }].concat(
     UPDATE
       ? [
           { type: 'delete', onClick: handleDel },

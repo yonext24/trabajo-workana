@@ -13,15 +13,7 @@ const addHandler = ({ state, getProperty, setProperty, data }) => {
   setProperty({ property: 'data', state, value })
 }
 
-const updateHandler = ({
-  update,
-  state,
-  data,
-  placeName,
-  name,
-  getProperty,
-  setProperty
-}) => {
+const updateHandler = ({ update, state, data, placeName, name, getProperty, setProperty }) => {
   const { filterBy, filterFunc } = update
   const actualData = getProperty({ property: 'data', state, placeName, name })
 
@@ -37,14 +29,7 @@ const updateHandler = ({
   setProperty({ property: 'data', state, value })
 }
 
-const deleteHandler = ({
-  state,
-  data,
-  del,
-  getProperty,
-  setProperty,
-  realDelete
-}) => {
+const deleteHandler = ({ state, data, del, getProperty, setProperty, realDelete }) => {
   const actualData = getProperty({ property: 'data', state })
   const { filterBy, filterFunc } = del
 
@@ -52,8 +37,7 @@ const deleteHandler = ({
     .map(el => {
       if (filterFunc) return filterFunc(data, el)
 
-      if (el[filterBy] === data)
-        return realDelete ? undefined : { ...el, estado: false }
+      if (el[filterBy] === data) return realDelete ? undefined : { ...el, estado: false }
       return el
     })
     .filter(el => el !== undefined)
@@ -61,17 +45,7 @@ const deleteHandler = ({
   setProperty({ property: 'data', state, value })
 }
 
-const thunksSets = ({
-  builder,
-  placeName,
-  hasFiltered,
-  name,
-  get,
-  add,
-  update,
-  del,
-  realDelete = false
-}) => {
+const thunksSets = ({ builder, placeName, hasFiltered, name, get, add, update, del, realDelete = false }) => {
   const getProperty = ({ property, state }) => {
     return placeName ? state[placeName][name][property] : state[name][property]
   }
@@ -214,13 +188,7 @@ const thunksSets = ({
     )
 }
 
-export function setThunks({
-  builder,
-  toLoop,
-  noLoopData,
-  hasFiltered = false,
-  placeName
-}) {
+export function setThunks({ builder, toLoop, noLoopData, hasFiltered = false, placeName }) {
   noLoopData &&
     (() => {
       const { name, get, add, update, del } = noLoopData

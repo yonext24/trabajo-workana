@@ -33,5 +33,37 @@ export const unidad = {
         body: JSON.stringify({ id_tipo_ua, estado: false })
       }).then(fetchHandler)
     }
+  },
+  unidad: {
+    get: async api => {
+      const { headers } = getToken(api)
+      return await fetch(`${BASE_OFERTA_URL}/rye/unidad/unidades`, {
+        headers
+      }).then(fetchHandler)
+    },
+    add: async (api, data) => {
+      const { headers } = getToken(api)
+      return await fetch(`${BASE_OFERTA_URL}/rye/unidad/nuevo`, {
+        headers,
+        method: 'POST',
+        body: JSON.stringify(data)
+      }).then(fetchHandler)
+    },
+    delete: async (api, id_unidad) => {
+      const { headers } = getToken(api)
+      return await fetch(`${BASE_OFERTA_URL}/rye/unidad/actualizar`, {
+        headers,
+        method: 'POST',
+        body: JSON.stringify({ id_unidad, estado: false })
+      }).then(fetchHandler)
+    },
+    update: async (api, data) => {
+      const { headers } = getToken(api)
+      return await fetch(`${BASE_OFERTA_URL}/rye/unidad/actualizar`, {
+        headers,
+        method: 'POST',
+        body: JSON.stringify(data)
+      }).then(fetchHandler)
+    }
   }
 }

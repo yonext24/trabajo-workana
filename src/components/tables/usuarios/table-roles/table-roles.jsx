@@ -17,19 +17,10 @@ export function TableRoles({ permissions }) {
     <TableLayout
       loading={loading}
       revalidating={revalidating}
-      columns={[
-        { text: 'Nombre' },
-        { text: 'Descripcion' },
-        { text: 'Estado' },
-        { text: 'Acciones' }
-      ]}
+      columns={[{ text: 'Nombre' }, { text: 'Descripcion' }, { text: 'Estado' }, { text: 'Acciones' }]}
     >
       {data.map(el => (
-        <TableRolesRow
-          key={el.nombre}
-          {...el}
-          permissions={permissions}
-        ></TableRolesRow>
+        <TableRolesRow key={el.nombre} {...el} permissions={permissions}></TableRolesRow>
       ))}
     </TableLayout>
   )

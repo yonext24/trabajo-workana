@@ -46,9 +46,9 @@ export function RawEntry({
     <button
       onClick={handleEntryClick}
       className={`h-16 ${isSub ? 'ml-4' : ''} w-full hover:text-white
-  transition-colors flex items-center justify-between text-gray-400 font-semibold ${
-    isSelected ? 'text-white' : ''
-  } ${isSub ? '' : ''}`}
+  transition-colors flex items-center justify-between text-gray-400 font-semibold ${isSelected ? 'text-white' : ''} ${
+    isSub ? '' : ''
+  }`}
     >
       <Icon className="h-6 w-6 mr-3" strokeWidth={2} />
       <div id="text-container" className="flex-1 text-start">
@@ -56,24 +56,14 @@ export function RawEntry({
       </div>
       {!noArrow && (
         <DownArrowIcon
-          className={`h-5 w-5 ${
-            open ? '-rotate-90' : isSelected ? '-rotate-90' : ''
-          } transition-transform`}
+          className={`h-5 w-5 ${open ? '-rotate-90' : isSelected ? '-rotate-90' : ''} transition-transform`}
         />
       )}
     </button>
   )
 }
 
-export function NavEntry({
-  text,
-  Icon,
-  sub,
-  href = false,
-  closeModal = false,
-  isSelected = false,
-  permissionName
-}) {
+export function NavEntry({ text, Icon, sub, href = false, closeModal = false, isSelected = false, permissionName }) {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {

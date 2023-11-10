@@ -49,12 +49,7 @@ export function AddPermisosModal({ closeModal }) {
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout
-        title="Agregar Permiso"
-        closeModal={closeModal}
-        errors={errors}
-        loading={loading}
-      >
+      <DefaultModalLayout title="Agregar Permiso" closeModal={closeModal} errors={errors} loading={loading}>
         <form
           onSubmit={handleSubmit(handleUpload)}
           className="flex flex-col gap-y-4 p-6 [&_label]:font-semibold [&>label]:text-lg [&>label]:-mb-4 [&>label]:block"

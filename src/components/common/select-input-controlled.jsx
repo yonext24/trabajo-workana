@@ -25,14 +25,13 @@ export function SelectInputControlled({
   })
 
   useEffect(() => {
-    setValue(name, defaultValue)
+    !disabled && setValue(name, defaultValue)
   }, [setValue, defaultValue])
 
   const validateSelect = value => {
-    if (value === 'Cargando...')
-      return 'Debes esperar a que las opciones terminen de cargar.'
+    if (value === 'Cargando...') return 'Debes esperar a que las opciones terminen de cargar.'
     if (value === 'Seleccionar') return 'Debes seleccionar una opción'
-    if (value === undefined) return false
+    if (value === undefined && !disabled) return false
   }
 
   return (

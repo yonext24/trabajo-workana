@@ -16,87 +16,47 @@ const ButtonWrapper = ({ children, hovering, text }) => {
   )
 }
 
-export function UpdateButton({
-  handleClick,
-  text = 'Actualizar',
-  iconProps,
-  ...props
-}) {
+export function UpdateButton({ handleClick, text = 'Actualizar', iconProps, ...props }) {
   const { hovering, elementRef } = useHovering()
 
   return (
     <ButtonWrapper hovering={hovering} text={text}>
-      <button
-        ref={elementRef}
-        onClick={handleClick}
-        className="bg-verde text-white p-1 rounded-md"
-        {...props}
-      >
+      <button ref={elementRef} onClick={handleClick} className="bg-verde text-white p-1 rounded-md" {...props}>
         <PenIcon className="h-5 w-5" {...iconProps} />
       </button>
     </ButtonWrapper>
   )
 }
 
-export function DeactivateButton({
-  handleClick,
-  text = 'Desactivar',
-  iconProps,
-  ...props
-}) {
+export function DeactivateButton({ handleClick, text = 'Desactivar', iconProps, ...props }) {
   const { hovering, elementRef } = useHovering()
 
   return (
     <ButtonWrapper hovering={hovering} text={text}>
-      <button
-        ref={elementRef}
-        onClick={handleClick}
-        className="bg-orange-600 text-white p-1 rounded-md"
-        {...props}
-      >
+      <button ref={elementRef} onClick={handleClick} className="bg-orange-600 text-white p-1 rounded-md" {...props}>
         <Warn className="h-5 w-5" {...iconProps} />
       </button>
     </ButtonWrapper>
   )
 }
 
-export function PermissionsButton({
-  handleClick,
-  text = 'Permisos',
-  iconProps,
-  ...props
-}) {
+export function PermissionsButton({ handleClick, text = 'Permisos', iconProps, ...props }) {
   const { hovering, elementRef } = useHovering()
 
   return (
     <ButtonWrapper hovering={hovering} text={text}>
-      <button
-        ref={elementRef}
-        onClick={handleClick}
-        className="bg-neutral-800 text-white p-1 rounded-md"
-        {...props}
-      >
+      <button ref={elementRef} onClick={handleClick} className="bg-neutral-800 text-white p-1 rounded-md" {...props}>
         <KeyIcon className="h-5 w-5" {...iconProps} />
       </button>
     </ButtonWrapper>
   )
 }
-export function ChangeRoleButton({
-  handleClick,
-  text = 'Cambiar Rol',
-  iconProps,
-  ...props
-}) {
+export function ChangeRoleButton({ handleClick, text = 'Cambiar Rol', iconProps, ...props }) {
   const { hovering, elementRef } = useHovering()
 
   return (
     <ButtonWrapper hovering={hovering} text={text}>
-      <button
-        ref={elementRef}
-        onClick={handleClick}
-        className="bg-neutral-800 text-white p-1 rounded-md"
-        {...props}
-      >
+      <button ref={elementRef} onClick={handleClick} className="bg-neutral-800 text-white p-1 rounded-md" {...props}>
         <PersonsIcon className="h-5 w-5" {...iconProps} />
       </button>
     </ButtonWrapper>
@@ -107,12 +67,7 @@ export function SeeButton({ handleClick, text = 'Ver', iconProps, ...props }) {
 
   return (
     <ButtonWrapper hovering={hovering} text={text}>
-      <button
-        ref={elementRef}
-        onClick={handleClick}
-        className="bg-neutral-800 text-white p-1 rounded-md"
-        {...props}
-      >
+      <button ref={elementRef} onClick={handleClick} className="bg-neutral-800 text-white p-1 rounded-md" {...props}>
         <EyeIcon className="h-5 w-5" {...iconProps} />
       </button>
     </ButtonWrapper>

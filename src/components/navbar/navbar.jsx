@@ -19,22 +19,13 @@ export default function Navbar({ entrys }) {
             <NavEntry
               key={el.text}
               {...el}
-              isSelected={
-                el.includes
-                  ? location.includes(el.includes)
-                  : el?.href?.includes(location)
-              }
+              isSelected={el.includes ? location.includes(el.includes) : el?.href?.includes(location)}
             />
           ))}
         </div>
         <div className="py-5 border-t-2 mr-8 border-neutral-400">
           <span className="text-center font-bold">{user?.usuario}</span>
-          <RawEntry
-            Icon={LogoutIcon}
-            text={'Salir'}
-            handleClick={Logout}
-            noArrow
-          />
+          <RawEntry Icon={LogoutIcon} text={'Salir'} handleClick={Logout} noArrow />
         </div>
       </nav>
     </>

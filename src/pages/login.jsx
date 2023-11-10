@@ -56,9 +56,7 @@ export function Login() {
           onSubmit={handleSubmit(handleUpdate)}
           className="bg-white rounded-lg h-full w-full gap-y-3 flex flex-col max-w-lg mx-auto px-16 py-8"
         >
-          <h1 className="text-3xl font-semibold text-center mb-2">
-            Iniciar Sesion
-          </h1>
+          <h1 className="text-3xl font-semibold text-center mb-2">Iniciar Sesion</h1>
           <InputWLabel
             autoFocus
             labelText={'Nombre'}

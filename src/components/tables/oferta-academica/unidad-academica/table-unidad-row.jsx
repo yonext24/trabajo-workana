@@ -3,22 +3,16 @@ import { RowLayout } from '../../row-layout'
 import { Row } from '../../row'
 import { UnidadUpdateModal } from '@/components/modals/oferta-academica/unidad-academica/unidad-update-modal'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { parseEstado } from '@/utils/consts'
 
-export function TableUnidadRow({
-  tipo,
-  nombre,
-  abreviatura,
-  codigo,
-  permissions
-}) {
+export function TableUnidadRow(props) {
+  const { tipo_ua, nombre, abreviatura, id_unidad, codigo, permissions, estado } = props
   const { deleteUnidadAcademicaUnidad } = useOfertaAcademicaActions()
   const { handleUpd, handleDel } = useTableDefaultModals({
     place: 'unidad',
-    update: { el: UnidadUpdateModal, tipo, nombre, abreviatura, codigo },
+    update: { el: UnidadUpdateModal, ...props },
     del: {
-      onClick: () => {
-        deleteUnidadAcademicaUnidad(nombre)
-      },
+      onClick: async () => deleteUnidadAcademicaUnidad(id_unidad),
       title: 'Desactivar Unidad',
       sure: 'Realmente quieres desactivar esta unidad?'
     }
@@ -27,12 +21,13 @@ export function TableUnidadRow({
   const { UPDATE } = permissions
 
   const rows = [
-    { id: 1, text: tipo },
-    { id: 2, text: codigo, className: 'text-center' },
-    { id: 3, text: nombre, className: 'text-center' },
+    { id: 1, text: tipo_ua },
+    { id: 2, text: codigo, className: '!text-center' },
+    { id: 3, text: nombre, className: '' },
     { id: 4, text: abreviatura },
+    { id: 5, text: parseEstado(estado) },
     {
-      id: 5,
+      id: 6,
       actions: UPDATE
         ? [
             { type: 'update', onClick: handleUpd },
@@ -43,7 +38,7 @@ export function TableUnidadRow({
   ]
 
   return (
-    <RowLayout>
+    <RowLayout data-disabled={!estado}>
       {rows.map(el => (
         <Row key={el.id} {...el} />
       ))}

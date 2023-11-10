@@ -34,31 +34,15 @@ export function CambiarContrasena() {
           <label htmlFor={'rol'} className="font-semibold text-2xl">
             Contraseña Actual
           </label>
-          <InputWLabel
-            noLabel
-            name="actual_password"
-            autoFocus
-            required
-            register={register}
-          />
+          <InputWLabel noLabel name="actual_password" autoFocus required register={register} />
           <label htmlFor={'puesto'} className="font-semibold text-2xl">
             Nueva contraseña
           </label>
-          <InputWLabel
-            noLabel
-            name="new_password"
-            required
-            register={register}
-          />
+          <InputWLabel noLabel name="new_password" required register={register} />
           <label htmlFor={'nombre'} className="font-semibold text-2xl">
             Confirmar nueva contraseña
           </label>
-          <InputWLabel
-            noLabel
-            name="confirm_new_password"
-            register={register}
-            required
-          />
+          <InputWLabel noLabel name="confirm_new_password" register={register} required />
 
           <button
             type="submit"

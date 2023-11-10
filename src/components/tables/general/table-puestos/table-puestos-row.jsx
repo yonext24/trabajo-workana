@@ -3,12 +3,7 @@ import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 import { DeactivateButton } from '@/components/common/table-buttons'
 import { parseEstado } from '@/utils/consts'
 
-export function TablePuestosRow({
-  descripcion,
-  permissions,
-  id_puesto,
-  estado
-}) {
+export function TablePuestosRow({ descripcion, permissions, id_puesto, estado }) {
   const { delPuestosData } = useDataActions()
 
   const { UPDATE } = permissions
@@ -21,10 +16,7 @@ export function TablePuestosRow({
   })
 
   return (
-    <tr
-      data-disabled={!estado}
-      className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px]"
-    >
+    <tr data-disabled={!estado} className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px]">
       <td className="border-r">{descripcion}</td>
       <td className="border-r !text-center">{parseEstado(estado)}</td>
       <td>

@@ -13,11 +13,7 @@ export function UserInfo() {
 
   return (
     <div className="relative">
-      <button
-        id="user-info"
-        className="flex gap-3 items-center cursor-pointer"
-        onClick={() => setOpen(prev => !prev)}
-      >
+      <button id="user-info" className="flex gap-3 items-center cursor-pointer" onClick={() => setOpen(prev => !prev)}>
         <div id="user-image" className="rounded-full overflow-hidden">
           <UserIcon className="h-10 w-10" />
         </div>
@@ -38,10 +34,7 @@ export function UserInfo() {
             Cambiar Contraseña
           </Link>
 
-          <button
-            onClick={Logout}
-            className="border-t border-black hover:bg-gris text-start mt-2"
-          >
+          <button onClick={Logout} className="border-t border-black hover:bg-gris text-start mt-2">
             Salir
           </button>
         </div>

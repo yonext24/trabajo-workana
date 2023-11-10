@@ -13,32 +13,18 @@ export function CentrosEducativos() {
         <div className="flex flex-1 gap-4 [&>div]:flex [&>div]:flex-col [&>div]:w-full [&>div]:max-w-[210px] [&_label]:text-lg [&_label]:font-semibold">
           <div>
             <label>Sector</label>
-            <SelectInput
-              options={['Privado', 'Público']}
-              firstOne
-              handleOptionClick={() => {}}
-            />
+            <SelectInput options={['Privado', 'Público']} firstOne handleOptionClick={() => {}} />
           </div>
           <div>
             <label>Establecimiento</label>
-            <SelectInput
-              options={['Todos']}
-              firstOne
-              handleOptionClick={() => {}}
-            />
+            <SelectInput options={['Todos']} firstOne handleOptionClick={() => {}} />
           </div>
         </div>
 
         <NuevoButton handleClick={() => {}} CREATE={CREATE} />
       </div>
 
-      <TableLayout
-        columns={[
-          { text: 'Establecimiento' },
-          { text: 'Tipo título' },
-          { text: 'Título' }
-        ]}
-      ></TableLayout>
+      <TableLayout columns={[{ text: 'Establecimiento' }, { text: 'Tipo título' }, { text: 'Título' }]}></TableLayout>
     </div>
   )
 }

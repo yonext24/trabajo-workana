@@ -8,12 +8,7 @@ import { useFormCustom } from '@/hooks/useFormCustom'
 import { handleErrorInFormResponse } from '@/utils/consts'
 import { SubmitButton } from '@/components/common/submit-button'
 
-export function TipoUpdateModal({
-  closeModal,
-  nombre,
-  descripcion,
-  id_tipo_ua
-}) {
+export function TipoUpdateModal({ closeModal, nombre, descripcion, id_tipo_ua }) {
   const {
     register,
     handleSubmit,
@@ -31,16 +26,8 @@ export function TipoUpdateModal({
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout
-        title="Agregar Tipo"
-        closeModal={closeModal}
-        loading={loading}
-        errors={errors}
-      >
-        <form
-          className="p-6 flex flex-col gap-3"
-          onSubmit={handleSubmit(handleUpdate)}
-        >
+      <DefaultModalLayout title="Agregar Tipo" closeModal={closeModal} loading={loading} errors={errors}>
+        <form className="p-6 flex flex-col gap-3" onSubmit={handleSubmit(handleUpdate)}>
           <InputWLabel
             defaultValue={nombre}
             name="nombre"

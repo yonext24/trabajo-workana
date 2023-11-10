@@ -33,14 +33,7 @@ export function AddUsuariosModal({ closeModal }) {
 
   const onSubmit = useCallback(
     handleLoading(async data => {
-      const {
-        rol,
-        dependencia,
-        puesto,
-        ref_oficio,
-        fecha_desactivacion,
-        ...restOfUser
-      } = data
+      const { rol, dependencia, puesto, ref_oficio, fecha_desactivacion, ...restOfUser } = data
       const { id: id_dependencia } = dependencia
       const { id: id_rol } = rol
       const { id: id_puesto } = puesto
@@ -57,9 +50,7 @@ export function AddUsuariosModal({ closeModal }) {
 
       const res = await createUsuario(parsedUserToSend)
       if (res?.error) {
-        const message =
-          res.error?.message ??
-          'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
+        const message = res.error?.message ?? 'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
         setError('root.fetchError', { type: 'to-not-invalidate', message })
         return
       }
@@ -87,41 +78,11 @@ export function AddUsuariosModal({ closeModal }) {
           onSubmit={handleSubmit(onSubmit)}
           className="p-6 grid grid-cols-2 gap-2 gap-x-12 font-semibold text-lg overflow-y-scroll"
         >
-          <InputWLabel
-            register={register}
-            type="text"
-            id="nombres"
-            name="nombres"
-            required
-          />
-          <InputWLabel
-            register={register}
-            type="text"
-            id="apellidos"
-            name="apellidos"
-            required
-          />
-          <InputWLabel
-            register={register}
-            type="text"
-            id="telefono"
-            name="telefono"
-            required
-          />
-          <InputWLabel
-            register={register}
-            type="text"
-            id="celular"
-            name="celular"
-            required
-          />
-          <InputWLabel
-            register={register}
-            type="text"
-            id="CUI"
-            name="CUI"
-            required
-          />
+          <InputWLabel register={register} type="text" id="nombres" name="nombres" required />
+          <InputWLabel register={register} type="text" id="apellidos" name="apellidos" required />
+          <InputWLabel register={register} type="text" id="telefono" name="telefono" required />
+          <InputWLabel register={register} type="text" id="celular" name="celular" required />
+          <InputWLabel register={register} type="text" id="CUI" name="CUI" required />
           <InputWLabel
             register={register}
             type="text"
@@ -130,23 +91,11 @@ export function AddUsuariosModal({ closeModal }) {
             labelText="Registro de personal"
             required
           />
-          <InputWLabel
-            register={register}
-            type="email"
-            id="correo"
-            name="correo"
-            required
-          />
+          <InputWLabel register={register} type="email" id="correo" name="correo" required />
           <SelectInputControlledWithLabel
             labelText={'País'}
             control={control}
-            options={[
-              'Mexico',
-              'Guatemala',
-              'Argentina',
-              'Uruguay',
-              'El Salvador'
-            ]}
+            options={['Mexico', 'Guatemala', 'Argentina', 'Uruguay', 'El Salvador']}
             name="pais"
             rules={{ required: true }}
           />

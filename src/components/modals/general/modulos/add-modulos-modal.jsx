@@ -30,16 +30,8 @@ export function AddModulosModal({ closeModal }) {
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout
-        title="Agregar Modulo"
-        closeModal={closeModal}
-        loading={loading}
-        errors={errors}
-      >
-        <form
-          onSubmit={handleSubmit(handleUpdate)}
-          className="py-8 px-4 font-semibold flex flex-col gap-4"
-        >
+      <DefaultModalLayout title="Agregar Modulo" closeModal={closeModal} loading={loading} errors={errors}>
+        <form onSubmit={handleSubmit(handleUpdate)} className="py-8 px-4 font-semibold flex flex-col gap-4">
           <InputWLabel
             id="nombre"
             name="nombre"
@@ -49,12 +41,8 @@ export function AddModulosModal({ closeModal }) {
             required
             registerProps={{
               validate: nombre => {
-                const modulos = modulosData.filter(
-                  modulo => modulo.tipo === watch('tipo')
-                )
-                if (
-                  modulos.some(modulo => compareValues(modulo.nombre, nombre))
-                ) {
+                const modulos = modulosData.filter(modulo => modulo.tipo === watch('tipo'))
+                if (modulos.some(modulo => compareValues(modulo.nombre, nombre))) {
                   return 'Este modulo ya existe'
                 }
               }
@@ -68,11 +56,7 @@ export function AddModulosModal({ closeModal }) {
             options={['Operación', 'Módulo']}
           />
 
-          <ButtonsContainer
-            closeModal={closeModal}
-            disabled={loading}
-            className="mt-12"
-          >
+          <ButtonsContainer closeModal={closeModal} disabled={loading} className="mt-12">
             <SubmitButton loading={loading} />
           </ButtonsContainer>
         </form>

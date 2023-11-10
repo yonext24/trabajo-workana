@@ -16,15 +16,8 @@ export function DeleteModal({ closeModal, onClick, title, sure }) {
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout
-        title={title}
-        closeModal={closeModal}
-        loading={loading}
-      >
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="py-8 px-4 font-semibold text-center"
-        >
+      <DefaultModalLayout title={title} closeModal={closeModal} loading={loading}>
+        <form onSubmit={handleSubmit(onSubmit)} className="py-8 px-4 font-semibold text-center">
           <h6 className="text-2xl">{title}</h6>
           <p className="mb-12">{sure}</p>
 

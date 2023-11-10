@@ -1,10 +1,5 @@
 import { useDispatch } from 'react-redux'
-import {
-  set_screen_width,
-  set_navbar_mobile,
-  open_modal,
-  close_modal
-} from '../store/layout/slice'
+import { set_screen_width, set_navbar_mobile, open_modal, close_modal } from '../store/layout/slice'
 
 export function useLayoutActions() {
   const dispatch = useDispatch()

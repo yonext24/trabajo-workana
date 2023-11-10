@@ -20,15 +20,13 @@ export function SelectInput({
     if (loading) setValue('Cargando...')
     else if (error) setValue('Error')
     else if (defaultValue || firstOne) {
-      const newValue = firstOne
-        ? valueParser(options[0])
-        : valueParser(defaultValue) ?? 'Seleccionar'
+      const newValue = firstOne ? valueParser(options[0]) : valueParser(defaultValue) ?? 'Seleccionar'
       setValue(newValue)
     } else setValue('Seleccionar')
   }, [loading, error, defaultValue])
 
   useEffect(() => {
-    rawOnChange?.(value) // No fui capaz de hacerlo sin esto, no creo que sea la mejor práctica
+    !disabled && rawOnChange?.(value) // No fui capaz de hacerlo sin esto, no creo que sea la mejor práctica
   }, [value])
 
   function valueParser(data) {
@@ -58,10 +56,7 @@ export function SelectInput({
     border-2 border-gris rounded-md flex w-full overflow-hidden data-[disabled=true]:shadow-lg data-[disabled=true]:cursor-not-allowed"
       >
         <div className="flex-1 text-left py-[2px]">
-          <span
-            className="block py-px capitalize transition-colors"
-            style={{ color: formError && 'red' }}
-          >
+          <span className="block py-px capitalize transition-colors" style={{ color: formError && 'red' }}>
             {valueParser(value) || 'Seleccionar'}
           </span>
         </div>

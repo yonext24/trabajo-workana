@@ -8,14 +8,7 @@ import { ButtonsContainer } from '../../buttons-container'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
-export function ExtensionUpdateModal({
-  closeModal,
-  codigo,
-  nombre,
-  abreviatura,
-  fecha_de_creacion,
-  estado
-}) {
+export function ExtensionUpdateModal({ closeModal, codigo, nombre, abreviatura, fecha_de_creacion, estado }) {
   const { register, control, handleSubmit } = useForm()
   const { data: extensionData } = useSelector(s => s.ofertaAcademica.extension)
   // const { addOfertaAcademicaExtension } = useOfertaAcademicaActions()
@@ -30,10 +23,7 @@ export function ExtensionUpdateModal({
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout
-        title={'Agregar extensión'}
-        className={'!max-h-[calc(100vh_-_5px)]'}
-      >
+      <DefaultModalLayout title={'Agregar extensión'} className={'!max-h-[calc(100vh_-_5px)]'}>
         <form
           className="p-6 gap-4 flex flex-col [&_label]:text-lg [&_label]:font-semibold overflow-y-auto"
           onSubmit={handleSubmit(handleUpdate)}
@@ -46,21 +36,8 @@ export function ExtensionUpdateModal({
             labelText={'Código'}
             required
           />
-          <InputWLabel
-            defaultValue={nombre}
-            id={'nombre'}
-            disabled
-            name="nombre"
-            register={register}
-            required
-          />
-          <InputWLabel
-            defaultValue={abreviatura}
-            id={'abreviatura'}
-            name="abreviatura"
-            register={register}
-            required
-          />
+          <InputWLabel defaultValue={nombre} id={'nombre'} disabled name="nombre" register={register} required />
+          <InputWLabel defaultValue={abreviatura} id={'abreviatura'} name="abreviatura" register={register} required />
 
           <div className="flex flex-col w-full">
             <label>Ubicación</label>

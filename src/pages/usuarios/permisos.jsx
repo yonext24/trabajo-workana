@@ -20,10 +20,7 @@ export function Permisos() {
         <PermisosFilter />
         <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
       </div>
-      <TablePermisos
-        permissions={permissions}
-        columns={[{ text: 'Acciones' }]}
-      />
+      <TablePermisos permissions={permissions} columns={[{ text: 'Acciones' }]} />
     </div>
   )
 }

@@ -58,9 +58,7 @@ export function ChangeRoleModal({ closeModal }) {
 
     const res = await updateUsuario(dataToUpdate)
     if (res?.error) {
-      const message =
-        res.error?.message ??
-        'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
+      const message = res.error?.message ?? 'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
       setError('root.fetchError', { type: 'to-not-invalidate', message })
       return
     }
@@ -75,12 +73,7 @@ export function ChangeRoleModal({ closeModal }) {
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout
-        title="Cambiar rol de usuario"
-        className={'!max-h-[95vh]'}
-        loading={loading}
-        errors={errors}
-      >
+      <DefaultModalLayout title="Cambiar rol de usuario" className={'!max-h-[95vh]'} loading={loading} errors={errors}>
         <form
           className="p-6 [&_label]:font-semibold [&_label]:text-lg flex flex-col gap-3 overflow-y-scroll"
           onSubmit={handleSubmit(handleUpdate)}
@@ -142,10 +135,7 @@ export function ChangeRoleModal({ closeModal }) {
             }}
           />
 
-          <ButtonsContainer
-            className="[&>button]:!py-2 mt-6"
-            disabled={loading}
-          >
+          <ButtonsContainer className="[&>button]:!py-2 mt-6" disabled={loading}>
             <SubmitButton text="Actualizar" loading={loading} />
           </ButtonsContainer>
         </form>

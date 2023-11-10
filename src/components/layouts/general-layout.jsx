@@ -5,10 +5,7 @@ export function GeneralLayout({ children, text }) {
   const { logged } = useSelector(s => s.auth)
 
   return (
-    <div
-      id="page-container"
-      className="flex flex-col flex-1 gap-y-4 w-full max-w-full overflow-x-hidden"
-    >
+    <div id="page-container" className="flex flex-col flex-1 gap-y-4 w-full max-w-full overflow-x-hidden">
       <header className="w-full flex justify-between px-2 py-3 pl-12 md:py-8 md:pl-16 md:px-8">
         <h1 className="text-4xl">{text}</h1>
         {logged && <UserInfo />}

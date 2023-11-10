@@ -23,10 +23,7 @@ export function ExtensionAddModal({ closeModal }) {
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout
-        title={'Agregar extensión'}
-        className={'!max-h-[calc(100vh_-_5px)]'}
-      >
+      <DefaultModalLayout title={'Agregar extensión'} className={'!max-h-[calc(100vh_-_5px)]'}>
         <form
           className="p-6 gap-4 flex flex-col [&_label]:text-lg [&_label]:font-semibold overflow-y-auto"
           onSubmit={handleSubmit(handleUpdate)}
@@ -52,25 +49,9 @@ export function ExtensionAddModal({ closeModal }) {
               />
             </div>
           </div>
-          <InputWLabel
-            id={'codigo'}
-            name="codigo"
-            register={register}
-            labelText={'Código'}
-            required
-          />
-          <InputWLabel
-            id={'nombre'}
-            name="nombre"
-            register={register}
-            required
-          />
-          <InputWLabel
-            id={'abreviatura'}
-            name="abreviatura"
-            register={register}
-            required
-          />
+          <InputWLabel id={'codigo'} name="codigo" register={register} labelText={'Código'} required />
+          <InputWLabel id={'nombre'} name="nombre" register={register} required />
+          <InputWLabel id={'abreviatura'} name="abreviatura" register={register} required />
 
           <div className="flex flex-col w-full">
             <label>Ubicación</label>

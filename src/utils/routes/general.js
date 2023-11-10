@@ -5,9 +5,7 @@ export const general = {
   sectores: {
     get: async api => {
       const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/sector/sectores`, { headers }).then(
-        fetchHandler
-      )
+      return await fetch(`${BASE_URL}/rye/sector/sectores`, { headers }).then(fetchHandler)
     },
     delete: async (api, { id_sector }) => {
       const { headers } = getToken(api)
@@ -33,10 +31,7 @@ export const general = {
         headers
       }).then(fetchHandler)
     },
-    delete: async (
-      api,
-      { id_dependencia, id_unidad, id_sector, abreviatura }
-    ) => {
+    delete: async (api, { id_dependencia, id_unidad, id_sector, abreviatura }) => {
       const { headers } = getToken(api)
       return await fetch(`${BASE_URL}/rye/dependencia/actualizar`, {
         headers,
@@ -50,10 +45,7 @@ export const general = {
         })
       }).then(fetchHandler)
     },
-    update: async (
-      api,
-      { id_dependencia, id_unidad, id_sector, abreviatura }
-    ) => {
+    update: async (api, { id_dependencia, id_unidad, id_sector, abreviatura }) => {
       const { headers } = getToken(api)
       return await fetch(`${BASE_URL}/rye/dependencia/actualizar`, {
         headers,
@@ -85,9 +77,7 @@ export const general = {
   puestos: {
     get: async api => {
       const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/puesto/puestos`, { headers }).then(
-        fetchHandler
-      )
+      return await fetch(`${BASE_URL}/rye/puesto/puestos`, { headers }).then(fetchHandler)
     },
     delete: async (api, { id_puesto }) => {
       const { headers } = getToken(api)
@@ -109,9 +99,7 @@ export const general = {
   modulos: {
     get: async api => {
       const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/modulo/modulos`, { headers }).then(
-        fetchHandler
-      )
+      return await fetch(`${BASE_URL}/rye/modulo/modulos`, { headers }).then(fetchHandler)
     },
     add: async (api, { nombre, tipo }) => {
       const { headers } = getToken(api)

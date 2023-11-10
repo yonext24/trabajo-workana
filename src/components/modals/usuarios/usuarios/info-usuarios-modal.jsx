@@ -40,11 +40,7 @@ export function InfoUsuariosModal({ closeModal }) {
                 )
               })}
           </div>
-          <ButtonsContainer
-            alone
-            className="mt-6 w-max [&>button]:px-12 mx-auto"
-            closeModal={closeModal}
-          />
+          <ButtonsContainer alone className="mt-6 w-max [&>button]:px-12 mx-auto" closeModal={closeModal} />
         </div>
       </DefaultModalLayout>
     </ModalBackground>

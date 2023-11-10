@@ -9,9 +9,7 @@ import { toast } from 'react-toastify'
 
 export function AddTipoRecursoModal({ closeModal }) {
   const { handleSubmit, register } = useForm()
-  const { data: tipoRecursoData } = useSelector(
-    s => s.ofertaAcademica.carrera.tipo_recurso
-  )
+  const { data: tipoRecursoData } = useSelector(s => s.ofertaAcademica.carrera.tipo_recurso)
   const { addCarreraTipoRecurso } = useOfertaAcademicaActions()
 
   const handleUpload = data => {
@@ -24,21 +22,10 @@ export function AddTipoRecursoModal({ closeModal }) {
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout
-        title="Agregar Tipo de Recurso"
-        closeModal={closeModal}
-      >
-        <form
-          className="p-6 flex flex-col"
-          onSubmit={handleSubmit(handleUpload)}
-        >
+      <DefaultModalLayout title="Agregar Tipo de Recurso" closeModal={closeModal}>
+        <form className="p-6 flex flex-col" onSubmit={handleSubmit(handleUpload)}>
           <InputWLabel name="nombre" required register={register} />
-          <InputWLabel
-            name="descripcion"
-            required
-            register={register}
-            isTextArea
-          />
+          <InputWLabel name="descripcion" required register={register} isTextArea />
 
           <ButtonsContainer className={'mt-6'}>
             <button type="submit">Agregar</button>

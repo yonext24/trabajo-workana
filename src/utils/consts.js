@@ -1,13 +1,7 @@
 /* eslint-disable no-undef */
-export const BASE_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'http://localhost:8000'
-    : 'http://localhost:8000'
+export const BASE_URL = process.env.NODE_ENV === 'production' ? 'http://localhost:8000' : 'http://localhost:8000'
 
-export const BASE_OFERTA_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'http://localhost:8001'
-    : 'http://localhost:8001'
+export const BASE_OFERTA_URL = process.env.NODE_ENV === 'production' ? 'http://localhost:8001' : 'http://localhost:8001'
 
 export const getToken = api => {
   const token = api.getState().auth.token
@@ -77,9 +71,7 @@ export const parseEstado = estado => {
 
 export const handleErrorInFormResponse = (response, setError, successFunc) => {
   if (response?.error) {
-    const message =
-      res.error?.message ??
-      'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
+    const message = response.error?.message ?? 'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
     setError('root.fetchError', { type: 'to-not-invalidate', message })
   } else successFunc(response)
 }

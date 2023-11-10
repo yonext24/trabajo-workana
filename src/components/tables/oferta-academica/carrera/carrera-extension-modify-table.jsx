@@ -3,13 +3,7 @@ import { TableLayout } from '../../table-layout'
 
 export function CarreraExtensionModifyTable({ data }) {
   return (
-    <TableLayout
-      columns={[
-        { text: 'Código' },
-        { text: 'Carrera', className: 'text-center' },
-        { text: 'Estado' }
-      ]}
-    >
+    <TableLayout columns={[{ text: 'Código' }, { text: 'Carrera', className: 'text-center' }, { text: 'Estado' }]}>
       {data.map(el => (
         <RowLayout key={el.codigo}>
           <td className="border-r">{el.codigo}</td>

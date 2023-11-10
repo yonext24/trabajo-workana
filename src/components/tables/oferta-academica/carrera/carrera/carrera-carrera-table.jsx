@@ -14,19 +14,10 @@ export function CarreraCarreraTable({ permissions }) {
 
   return (
     <TableLayout
-      columns={[
-        { text: 'Nivel' },
-        { text: 'Carrera', className: 'w-full' },
-        { text: 'Estado' },
-        { text: 'Acciones' }
-      ]}
+      columns={[{ text: 'Nivel' }, { text: 'Carrera', className: 'w-full' }, { text: 'Estado' }, { text: 'Acciones' }]}
     >
       {filtered.map(el => (
-        <CarreraCarreraTableRow
-          permissions={permissions}
-          key={el.carrera}
-          {...el}
-        />
+        <CarreraCarreraTableRow permissions={permissions} key={el.carrera} {...el} />
       ))}
     </TableLayout>
   )

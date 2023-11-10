@@ -12,8 +12,6 @@ export function ProtectedRoute({ children, name, isProfile, parsedName }) {
   const logged = useSelector(s => s.auth.logged)
   const { READ } = usePermissions({ nameOfModule: name })
 
-  console.log({ logged })
-
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
@@ -39,10 +37,7 @@ export function ProtectedRoute({ children, name, isProfile, parsedName }) {
       return
     }
 
-    toast.error(
-      `No tienes permisos de lectura para acceder a esta ruta: ${parsedName}`,
-      { toastId: pathname }
-    )
+    toast.error(`No tienes permisos de lectura para acceder a esta ruta: ${parsedName}`, { toastId: pathname })
     navigate('/perfil')
   }, [pathname, logged])
 

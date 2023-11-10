@@ -29,10 +29,7 @@ export function UpdateModulosModal({ closeModal, nombre, tipo, estado }) {
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
       <DefaultModalLayout title="Actualizar Modulo">
-        <form
-          onSubmit={handleSubmit(handleUpdate)}
-          className="py-8 px-4 font-semibold flex flex-col gap-4"
-        >
+        <form onSubmit={handleSubmit(handleUpdate)} className="py-8 px-4 font-semibold flex flex-col gap-4">
           <InputWLabel
             id="tipo"
             name="tipo"

@@ -6,13 +6,7 @@ import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { UpdRolesModal } from '@/components/modals/usuarios/roles/upd-roles-modal'
 import { parseEstado } from '@/utils/consts'
 
-export function TableRolesRow({
-  nombre,
-  descripcion,
-  estado,
-  id_rol,
-  permissions
-}) {
+export function TableRolesRow({ nombre, descripcion, estado, id_rol, permissions }) {
   const { deleteRole } = useUsuariosActions()
   const { handleUpd, handleDel, handlePerm } = useTableDefaultModals({
     place: 'roles',
@@ -52,11 +46,7 @@ export function TableRolesRow({
   return (
     <RowLayout data-disabled={!estado}>
       {rows.map(el => (
-        <Row
-          key={el.id}
-          {...el}
-          funcProps={{ role: { nombre, descripcion } }}
-        ></Row>
+        <Row key={el.id} {...el} funcProps={{ role: { nombre, descripcion } }}></Row>
       ))}
     </RowLayout>
   )

@@ -4,11 +4,7 @@ import { RowLayout } from '@/components/tables/row-layout'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 
-export function CarreraTipoRecursoTableRow({
-  nombre,
-  descripcion,
-  permissions
-}) {
+export function CarreraTipoRecursoTableRow({ nombre, descripcion, permissions }) {
   const { deleteCarreraTipoRecurso } = useOfertaAcademicaActions()
   const { handleUpd, handleDel } = useTableDefaultModals({
     place: 'nivel',

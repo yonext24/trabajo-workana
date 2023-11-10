@@ -10,12 +10,8 @@ import { toast } from 'react-toastify'
 
 export function RecursoAddModal({ closeModal }) {
   const { handleSubmit, register, control } = useForm()
-  const { data: recursoData } = useSelector(
-    s => s.ofertaAcademica.carrera.recurso
-  )
-  const { data: tipoRecursoData } = useSelector(
-    s => s.ofertaAcademica.carrera.tipo_recurso
-  )
+  const { data: recursoData } = useSelector(s => s.ofertaAcademica.carrera.recurso)
+  const { data: tipoRecursoData } = useSelector(s => s.ofertaAcademica.carrera.tipo_recurso)
   const { addCarreraRecurso } = useOfertaAcademicaActions()
 
   const handleUpload = data => {
@@ -29,10 +25,7 @@ export function RecursoAddModal({ closeModal }) {
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout title="Agregar Recurso" closeModal={closeModal}>
-        <form
-          className="p-6 flex flex-col gap-3"
-          onSubmit={handleSubmit(handleUpload)}
-        >
+        <form className="p-6 flex flex-col gap-3" onSubmit={handleSubmit(handleUpload)}>
           <div className="flex flex-col">
             <label className="font-semibold text-lg">Tipo</label>
             <SelectInputControlled
@@ -44,12 +37,7 @@ export function RecursoAddModal({ closeModal }) {
           </div>
 
           <InputWLabel name="nombre" required register={register} />
-          <InputWLabel
-            name="descripcion"
-            required
-            register={register}
-            isTextArea
-          />
+          <InputWLabel name="descripcion" required register={register} isTextArea />
 
           <ButtonsContainer className={'mt-6'}>
             <button type="submit">Agregar</button>

@@ -20,9 +20,7 @@ export const usuarios = {
     search: async (api, { cui, correo }) => {
       const { headers } = getToken(api)
       return await fetch(
-        `${BASE_URL}/rye/usuario/buscar${correo ? `?correo=${correo}` : ''}&${
-          cui ? `cui=${cui}` : ''
-        }`,
+        `${BASE_URL}/rye/usuario/buscar${correo ? `?correo=${correo}` : ''}&${cui ? `cui=${cui}` : ''}`,
         {
           headers
         }
@@ -48,9 +46,7 @@ export const usuarios = {
   roles: {
     get: async api => {
       const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/rol/roles`, { headers }).then(
-        fetchHandler
-      )
+      return await fetch(`${BASE_URL}/rye/rol/roles`, { headers }).then(fetchHandler)
     },
     add: async (api, data) => {
       const { headers } = getToken(api)
@@ -93,19 +89,14 @@ export const usuarios = {
   permisos: {
     get: async api => {
       const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/permiso/permisos`, { headers }).then(
-        fetchHandler
-      )
+      return await fetch(`${BASE_URL}/rye/permiso/permisos`, { headers }).then(fetchHandler)
     },
     switchStates: async (api, { id_permiso, estado }) => {
       const { headers } = getToken(api)
-      return await fetch(
-        `${BASE_URL}/rye/permiso/actualizar?id_permiso=${id_permiso}&estado=${!estado}`,
-        {
-          headers,
-          method: 'POST'
-        }
-      ).then(fetchHandler)
+      return await fetch(`${BASE_URL}/rye/permiso/actualizar?id_permiso=${id_permiso}&estado=${!estado}`, {
+        headers,
+        method: 'POST'
+      }).then(fetchHandler)
     }
   }
 }

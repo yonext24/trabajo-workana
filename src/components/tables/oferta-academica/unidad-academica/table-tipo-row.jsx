@@ -5,13 +5,7 @@ import { TipoUpdateModal } from '@/components/modals/oferta-academica/unidad-aca
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { parseEstado } from '@/utils/consts'
 
-export function TableTipoRow({
-  permissions,
-  nombre,
-  descripcion,
-  estado,
-  id_tipo_ua
-}) {
+export function TableTipoRow({ permissions, nombre, descripcion, estado, id_tipo_ua }) {
   const { UPDATE } = permissions
 
   const { deleteUnidadAcademicaTipos } = useOfertaAcademicaActions()
@@ -23,10 +17,11 @@ export function TableTipoRow({
     place: 'tipo'
   })
   const rows = [
-    { text: nombre },
-    { text: descripcion },
-    { text: parseEstado(estado), className: '!text-center' },
+    { id: 1, text: nombre },
+    { id: 2, text: descripcion },
+    { id: 3, text: parseEstado(estado), className: '!text-center' },
     {
+      id: 4,
       actions: UPDATE
         ? [
             { type: 'update', onClick: handleUpd },
@@ -39,7 +34,7 @@ export function TableTipoRow({
   return (
     <RowLayout data-disabled={!estado}>
       {rows.map(el => (
-        <Row key={el.text || el.actions} {...el} />
+        <Row key={el.id} {...el} />
       ))}
     </RowLayout>
   )

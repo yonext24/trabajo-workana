@@ -17,10 +17,7 @@ export function TableGeneralRow({ nombre, estado, permissions, id_sector }) {
   const { UPDATE } = permissions
 
   return (
-    <tr
-      data-disabled={!estado}
-      className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px]"
-    >
+    <tr data-disabled={!estado} className="[&_td]:border-b [&_td]:py-3 [padding-inline:20px]">
       <td className="border-r">{nombre}</td>
       <td className="border-r !w-max !text-center">{parseEstado(estado)}</td>
       <td>

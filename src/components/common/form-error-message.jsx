@@ -11,13 +11,5 @@ export function FormErrorMessage({ errors, className }) {
     message = error[1].fetchError.message
   }
 
-  return (
-    <>
-      {message && (
-        <span className={`text-red-500 text-center ${className ?? ''}`}>
-          {message}
-        </span>
-      )}
-    </>
-  )
+  return <>{message && <span className={`text-red-500 text-center ${className ?? ''}`}>{message}</span>}</>
 }

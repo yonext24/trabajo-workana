@@ -11,29 +11,16 @@ export function TableDependencias({ permissions }) {
     getDependencias()
   }, [])
 
-  const { filtered, revalidating, loading } = useSelector(
-    s => s.data.dependencias
-  )
+  const { filtered, revalidating, loading } = useSelector(s => s.data.dependencias)
 
   return (
     <TableLayout
       loading={loading}
       revalidating={revalidating}
-      columns={[
-        'Sector',
-        'Nombre',
-        'Abreviatura',
-        'Unidad',
-        'Estado',
-        'Acciones'
-      ].map(el => ({ text: el }))}
+      columns={['Sector', 'Nombre', 'Abreviatura', 'Unidad', 'Estado', 'Acciones'].map(el => ({ text: el }))}
     >
       {filtered.map(row => (
-        <TableDependenciasRow
-          permissions={permissions}
-          {...row}
-          key={row.id_dependencia}
-        />
+        <TableDependenciasRow permissions={permissions} {...row} key={row.id_dependencia} />
       ))}
     </TableLayout>
   )
