@@ -62,9 +62,7 @@ export const delete_permission = createAsyncThunk('usuarios/permisos/delete', as
   return permission
 })
 export const add_permission = createAsyncThunk('usuarios/permisos/create', async (permission, api) => {
-  await new Promise(resolve => setTimeout(resolve, 1200))
-
-  return permission
+  return await usuarios.permisos.create(api, permission)
 })
 
 export const switch_permission_state = createAsyncThunk(

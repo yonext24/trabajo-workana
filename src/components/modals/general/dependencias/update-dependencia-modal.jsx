@@ -15,7 +15,7 @@ import { SubmitButton } from '@/components/common/submit-button'
 export function UpdateDependenciaModal({ closeModal, entryData }) {
   const { nombre, abreviatura, id_dependencia, id_sector, id_unidad } = entryData
 
-  const { data: sectoresData, error: sectoresError, loading: sectoresLoading } = useSelector(s => s.data.sectores)
+  const { data: sectoresData, error: sectoresError, revalidating: sectoresLoading } = useSelector(s => s.data.sectores)
   const dependenciasData = useSelector(s => s.data.dependencias.data)
   const {
     data: unidadesData,

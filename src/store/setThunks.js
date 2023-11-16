@@ -2,7 +2,7 @@
 
   Esta funcion es la que se encarga de setear los thunks en los reducers, es decir, es la que se encarga de setear los estados de loading, error, data, etc.
   también acepta la posibilidad de setear los estados de manera custom, es decir, si se quiere hacer algo diferente a lo que hace el thunk por defecto, se puede hacer.
-  al final del archivo hay un ejemplo de un noLoopData con un custom.
+  al final del archivo hay un ejemplo de un noLoopData.
 
 */
 

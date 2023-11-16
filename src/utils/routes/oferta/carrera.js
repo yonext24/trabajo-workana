@@ -1,69 +1,60 @@
-import { BASE_OFERTA_URL, getToken } from '@/utils/consts'
-import { fetchHandler } from '@/utils/fetchHandler'
+import { BASE_OFERTA_URL } from '@/utils/consts'
+import { appFetch } from '@/utils/fetchHandler'
 
 export const carrera = {
+  carrera: {
+    get: async (_, { nivel, page, size }) => {
+      return await appFetch(
+        `${BASE_OFERTA_URL}/rye/carrera/carreras?nivel=${nivel}${page ? `&page=${page}` : ''}${
+          size ? `&size=${size}` : ''
+        }`
+      )
+    }
+  },
   nivel: {
-    switch_state: async (api, { id_nivel, estado }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_OFERTA_URL}/rye/nivel/actualizar`, {
-        headers,
+    switch_state: async (_, { id_nivel, estado }) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/nivel/actualizar`, {
         method: 'POST',
         body: JSON.stringify({ id_nivel, estado: !estado })
-      }).then(fetchHandler)
+      })
     },
-    get: async api => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_OFERTA_URL}/rye/nivel/niveles`, {
-        headers
-      }).then(fetchHandler)
+    get: async () => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/nivel/niveles`)
     },
-    update: async (api, { id_nivel, ...data }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_OFERTA_URL}/rye/nivel/actualizar`, {
-        headers,
+    update: async (_, { id_nivel, ...data }) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/nivel/actualizar`, {
         method: 'POST',
         body: JSON.stringify({ id_nivel, ...data })
-      }).then(fetchHandler)
+      })
     },
-    add: async (api, data) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_OFERTA_URL}/rye/nivel/nuevo`, {
-        headers,
+    add: async (_, data) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/nivel/nuevo`, {
         method: 'POST',
         body: JSON.stringify(data)
-      }).then(fetchHandler)
+      })
     }
   },
   tipo_recurso: {
-    get: async api => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_OFERTA_URL}/rye/tipo_recurso/tipos_recurso`, {
-        headers
-      }).then(fetchHandler)
+    get: async () => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/tipo_recurso/tipos_recurso`)
     },
-    switch_state: async (api, { id_tipo_recurso, estado }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_OFERTA_URL}/rye/tipo_recurso/actualizar`, {
-        headers,
+    switch_state: async (_, { id_tipo_recurso, estado }) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/tipo_recurso/actualizar`, {
         method: 'POST',
         body: JSON.stringify({ id_tipo_recurso, estado: !estado })
-      }).then(fetchHandler)
+      })
     },
-    update: async (api, data) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_OFERTA_URL}/rye/tipo_recurso/actualizar`, {
-        headers,
+    update: async (_, data) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/tipo_recurso/actualizar`, {
         method: 'POST',
         body: JSON.stringify(data)
-      }).then(fetchHandler)
+      })
     },
-    add: async (api, data) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_OFERTA_URL}/rye/tipo_recurso/nuevo`, {
-        headers,
+    add: async (_, data) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/tipo_recurso/nuevo`, {
         method: 'POST',
         body: JSON.stringify(data)
-      }).then(fetchHandler)
+      })
     }
   }
 }

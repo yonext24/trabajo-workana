@@ -8,7 +8,15 @@ export function Perfil() {
   const { register, handleSubmit } = useForm()
   const { user, logged } = useSelector(s => s.auth)
 
-  const { usuario, rol, puesto, apellidos, CUI, celular, correo, nombres, telefono } = user
+  const usuario = user?.usuario
+  const rol = user?.rol
+  const puesto = user?.puesto
+  const apellidos = user?.apellidos
+  const CUI = user?.CUI
+  const celular = user?.celular
+  const correo = user?.correo
+  const nombres = user?.nombres
+  const telefono = user?.telefono
 
   const handleUpload = data => {
     console.log(data)

@@ -34,7 +34,7 @@ export function useUsuariosActions() {
 
   const getPermisos = async revalidate => dispatch(get_permissions(revalidate))
   const deletePermission = async permission => dispatch(delete_permission({ permission }))
-  const addPermission = async permission => dispatch(add_permission({ permission }))
+  const addPermission = async permission => dispatch(add_permission(permission))
   const switchPermissionState = async data => dispatch(switch_permission_state(data))
 
   const setUsuariosShowing = async usuario => dispatch(set_usuarios_showing({ usuario }))

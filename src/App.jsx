@@ -66,7 +66,15 @@ function App() {
               <Route path="/general/puestos" element={<Puestos />} />
               <Route path="/general/modulos" element={<Modulos />} />
             </Route>
+          </Route>
 
+          <Route
+            element={
+              <GeneralLayout text="Usuarios">
+                <Outlet />
+              </GeneralLayout>
+            }
+          >
             <Route
               element={
                 <ProtectedRoute name="USUARIOS" parsedName={'Usuarios'}>
@@ -80,7 +88,15 @@ function App() {
               <Route path="/usuarios/permisos" element={<Permisos />} />
               <Route path="/usuarios/usuarios" element={<Usuarios />} />
             </Route>
+          </Route>
 
+          <Route
+            element={
+              <GeneralLayout text="Oferta Académica">
+                <Outlet />
+              </GeneralLayout>
+            }
+          >
             <Route
               element={
                 <ProtectedRoute name="OFERTA_ACADEMICA" parsedName={'Oferta Académica'}>

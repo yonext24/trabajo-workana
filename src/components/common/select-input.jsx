@@ -1,37 +1,64 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { DownArrowIcon } from '../icons'
+
+function valueParser(data, show) {
+  if (data === undefined) return 'Seleccionar'
+  return typeof data === 'string' ? data : data[show]
+}
 
 export function SelectInput({
   options,
   show,
   defaultValue,
+  externalValue,
   firstOne = false,
   handleOptionClick,
+  ligatedToExternalChange = false,
   disabled,
   error,
   formError,
   loading,
-  rawOnChange
+  rawOnChange,
+  onFirstChange = false
 }) {
-  const [value, setValue] = useState('Seleccionar')
+  const [value, setValue] = useState(loading ? 'Cargando...' : 'Seleccionar')
   const [open, setOpen] = useState(false)
+
+  const firstChangeHasOcurred = useRef(false)
+
+  useEffect(() => {
+    if (!ligatedToExternalChange) return
+
+    const newValue = valueParser(externalValue, show)
+    setValue(newValue)
+  }, [externalValue])
 
   useEffect(() => {
     if (loading) setValue('Cargando...')
     else if (error) setValue('Error')
-    else if (defaultValue || firstOne) {
-      const newValue = firstOne ? valueParser(options[0]) : valueParser(defaultValue) ?? 'Seleccionar'
+    else if (firstOne) {
+      const value = options[0]
+      setValue(value)
+    } else if (defaultValue) {
+      const newValue = valueParser(defaultValue, show) ?? 'Seleccionar'
       setValue(newValue)
     } else setValue('Seleccionar')
   }, [loading, error, defaultValue])
 
   useEffect(() => {
     !disabled && rawOnChange?.(value) // No fui capaz de hacerlo sin esto, no creo que sea la mejor práctica
-  }, [value])
 
-  function valueParser(data) {
-    return typeof data === 'string' ? data : data[show]
-  }
+    if (!onFirstChange) return
+
+    if (firstChangeHasOcurred.current) return
+    /* 
+      Se utiliza el valor del primer cambio para capturarlo externamente en algunos filtros,
+      y así saber cual es el valor que hay que fetchear, ya que el valor por defecto es 'Seleccionar'
+    */
+    if (value === 'Seleccionar' || value === 'Cargando...' || value === 'Error') return
+    firstChangeHasOcurred.current = true
+    onFirstChange(value)
+  }, [value])
 
   const handleChange = selected => {
     if (disabled) return
@@ -39,7 +66,6 @@ export function SelectInput({
     setOpen(false)
     handleOptionClick(selected)
   }
-
   const handleClick = () => {
     if (disabled || loading) return
     setOpen(!open)
@@ -57,7 +83,7 @@ export function SelectInput({
       >
         <div className="flex-1 text-left py-[2px]">
           <span className="block py-px capitalize transition-colors" style={{ color: formError && 'red' }}>
-            {valueParser(value) || 'Seleccionar'}
+            {valueParser(value, show) || 'Seleccionar'}
           </span>
         </div>
         <div
@@ -74,7 +100,7 @@ export function SelectInput({
       overflow-hidden"
         >
           {options.map(data => {
-            const value = valueParser(data)
+            const value = valueParser(data, show)
 
             return (
               <li

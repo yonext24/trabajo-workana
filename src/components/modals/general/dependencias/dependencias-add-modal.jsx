@@ -19,7 +19,7 @@ export function DependenciasAddModal({ closeModal }) {
   const { addDependenciasData } = useDataActions()
   const { loading, handleLoading } = useFormCustom()
 
-  const { data: sectoresData, loading: sectoresLoading, error: sectoresError } = useSelector(s => s.data.sectores)
+  const { data: sectoresData, revalidating: sectoresLoading, error: sectoresError } = useSelector(s => s.data.sectores)
   const dependenciasData = useSelector(s => s.data.dependencias.data)
 
   const onSubmit = handleLoading(async data => {

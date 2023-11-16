@@ -3,6 +3,12 @@ import { Row } from '../../row'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { SwitchButton } from '@/components/common/table-buttons'
 
+const parsePermisoText = permiso => {
+  if (permiso === -2) return '---'
+  if (permiso === -1) return 'Todos'
+  return permiso
+}
+
 export function TablePermisosRow(props) {
   const {
     modulo,
@@ -44,9 +50,9 @@ export function TablePermisosRow(props) {
   const rows = [
     { text: modulo, id: 1 },
     { text: operacion, id: 2 },
-    { text: unidad === 0 ? '-' : unidad, id: 3 },
-    { text: extension === 0 ? '-' : extension, id: 4 },
-    { text: nivel === 0 ? '-' : nivel, id: 5 }
+    { text: parsePermisoText(unidad), id: 3 },
+    { text: parsePermisoText(extension), id: 4 },
+    { text: parsePermisoText(nivel), id: 5 }
   ].concat(toConcat)
 
   return (

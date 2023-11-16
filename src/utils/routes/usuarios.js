@@ -1,102 +1,78 @@
-import { BASE_URL, getToken } from '../consts'
-import { fetchHandler } from '../fetchHandler'
+import { BASE_URL } from '../consts'
+import { appFetch } from '../fetchHandler'
 
 export const usuarios = {
   usuarios: {
-    create: async (api, data) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/usuario/nuevo`, {
-        headers,
+    create: async (_, data) => {
+      return await appFetch(`${BASE_URL}/rye/usuario/nuevo`, {
         method: 'POST',
         body: JSON.stringify(data)
-      }).then(fetchHandler)
+      })
     },
-    getParameters: async api => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/usuario/parametros`, {
-        headers
-      }).then(fetchHandler)
+    getParameters: async () => {
+      return await appFetch(`${BASE_URL}/rye/usuario/parametros`)
     },
-    search: async (api, { cui, correo }) => {
-      const { headers } = getToken(api)
-      return await fetch(
-        `${BASE_URL}/rye/usuario/buscar?${correo ? `correo=${correo}` : ''}&${cui ? `cui=${cui}` : ''}`,
-        {
-          headers
-        }
-      ).then(fetchHandler)
+    search: async (_, { cui, correo }) => {
+      return await appFetch(
+        `${BASE_URL}/rye/usuario/buscar?${correo ? `correo=${correo}` : ''}&${cui ? `cui=${cui}` : ''}`
+      )
     },
-    update: async (api, data) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/usuario/actualizar`, {
-        headers,
+    update: async (_, data) => {
+      return await appFetch(`${BASE_URL}/rye/usuario/actualizar`, {
         method: 'POST',
         body: JSON.stringify(data)
-      }).then(fetchHandler)
+      })
     },
-    delete: async (api, { usuario }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/usuario/actualizar`, {
-        headers,
+    delete: async (_, { usuario }) => {
+      return await appFetch(`${BASE_URL}/rye/usuario/actualizar`, {
         method: 'POST',
         body: JSON.stringify({ usuario, estado: false })
-      }).then(fetchHandler)
+      })
     }
   },
   roles: {
-    get: async api => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/rol/roles`, { headers }).then(fetchHandler)
+    get: async () => {
+      return await appFetch(`${BASE_URL}/rye/rol/roles`)
     },
-    add: async (api, data) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/rol/nuevo`, {
-        headers,
+    add: async (_, data) => {
+      return await appFetch(`${BASE_URL}/rye/rol/nuevo`, {
         method: 'POST',
         body: JSON.stringify(data)
-      }).then(fetchHandler)
+      })
     },
-    update: async (api, data) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/rol/actualizar`, {
-        headers,
+    update: async (_, data) => {
+      return await appFetch(`${BASE_URL}/rye/rol/actualizar`, {
         method: 'POST',
         body: JSON.stringify(data)
-      }).then(fetchHandler)
+      })
     },
-    switch_state: async (api, { id_rol, estado }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/rol/actualizar`, {
-        headers,
+    switch_state: async (_, { id_rol, estado }) => {
+      return await appFetch(`${BASE_URL}/rye/rol/actualizar`, {
         method: 'POST',
         body: JSON.stringify({ rol: { id_rol, estado: !estado }, actualizar: [] })
       }) // "actualizar" es necesario
-        .then(fetchHandler)
     },
-    getPermissions: async (api, id_rol) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/permiso/rol?rol=${id_rol}`, {
-        headers
-      }).then(fetchHandler)
+    getPermissions: async (_, id_rol) => {
+      return await appFetch(`${BASE_URL}/rye/permiso/rol?rol=${id_rol}`)
     },
-    getMappedPermissions: async (api, id_rol) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/permiso/modulo?id_rol=${id_rol}`, {
-        headers
-      }).then(fetchHandler)
+    getMappedPermissions: async (_, id_rol) => {
+      return await appFetch(`${BASE_URL}/rye/permiso/modulo?id_rol=${id_rol}`)
     }
   },
   permisos: {
-    get: async api => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/permiso/permisos`, { headers }).then(fetchHandler)
+    get: async () => {
+      return await appFetch(`${BASE_URL}/rye/permiso/permisos`)
     },
-    switchStates: async (api, { id_permiso, estado }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/permiso/actualizar?id_permiso=${id_permiso}&estado=${!estado}`, {
-        headers,
+    create: async (_, data) => {
+      return await appFetch(`${BASE_URL}/rye/permiso/nuevo`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+    },
+    switchStates: async (_, { id_permiso, estado }) => {
+      return await appFetch(`${BASE_URL}/rye/permiso/actualizar?id_permiso=${id_permiso}&estado=${!estado}`, {
         method: 'POST'
-      }).then(fetchHandler)
+      })
     }
   }
 }

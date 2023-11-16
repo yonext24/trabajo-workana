@@ -1,40 +1,30 @@
-import { BASE_URL, getToken } from '@/utils/consts'
-import { fetchHandler } from '../fetchHandler'
+import { BASE_URL } from '@/utils/consts'
+import { appFetch } from '../fetchHandler'
 
 export const general = {
   sectores: {
-    get: async api => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/sector/sectores`, { headers }).then(fetchHandler)
+    get: async () => {
+      return await appFetch(`${BASE_URL}/rye/sector/sectores`)
     },
-    switch: async (api, { id_sector, estado }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/sector/actualizar`, {
-        headers,
+    switch: async (_, { id_sector, estado }) => {
+      return await appFetch(`${BASE_URL}/rye/sector/actualizar`, {
         method: 'POST',
         body: JSON.stringify({ id_sector, estado: !estado })
-      }).then(fetchHandler)
+      })
     },
-    add: async (api, { nombre }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/sector/nuevo`, {
-        headers,
+    add: async (_, { nombre }) => {
+      return await appFetch(`${BASE_URL}/rye/sector/nuevo`, {
         method: 'POST',
         body: JSON.stringify({ estado: true, nombre })
-      }).then(fetchHandler)
+      })
     }
   },
   dependencias: {
-    get: async api => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/dependencia/dependencias`, {
-        headers
-      }).then(fetchHandler)
+    get: async () => {
+      return await appFetch(`${BASE_URL}/rye/dependencia/dependencias`)
     },
-    switch: async (api, { id_dependencia, id_unidad, id_sector, abreviatura, estado }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/dependencia/actualizar`, {
-        headers,
+    switch: async (_, { id_dependencia, id_unidad, id_sector, abreviatura, estado }) => {
+      return await appFetch(`${BASE_URL}/rye/dependencia/actualizar`, {
         method: 'POST',
         body: JSON.stringify({
           id_dependencia,
@@ -43,12 +33,10 @@ export const general = {
           estado: !estado,
           abreviatura
         })
-      }).then(fetchHandler)
+      })
     },
-    update: async (api, { id_dependencia, id_unidad, id_sector, abreviatura }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/dependencia/actualizar`, {
-        headers,
+    update: async (_, { id_dependencia, id_unidad, id_sector, abreviatura }) => {
+      return await appFetch(`${BASE_URL}/rye/dependencia/actualizar`, {
         method: 'POST',
         body: JSON.stringify({
           id_dependencia,
@@ -57,12 +45,10 @@ export const general = {
           estado: true,
           abreviatura
         })
-      }).then(fetchHandler)
+      })
     },
-    add: async (api, { id_unidad, id_sector, abreviatura, nombre }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/dependencia/nuevo`, {
-        headers,
+    add: async (_, { id_unidad, id_sector, abreviatura, nombre }) => {
+      return await appFetch(`${BASE_URL}/rye/dependencia/nuevo`, {
         method: 'POST',
         body: JSON.stringify({
           id_unidad,
@@ -71,51 +57,41 @@ export const general = {
           abreviatura,
           nombre
         })
-      }).then(fetchHandler)
+      })
     }
   },
   puestos: {
-    get: async api => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/puesto/puestos`, { headers }).then(fetchHandler)
+    get: async () => {
+      return await appFetch(`${BASE_URL}/rye/puesto/puestos`)
     },
-    delete: async (api, { id_puesto }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/puesto/actualizar`, {
-        headers,
+    delete: async (_, { id_puesto }) => {
+      return await appFetch(`${BASE_URL}/rye/puesto/actualizar`, {
         method: 'POST',
         body: JSON.stringify({ id_puesto, estado: false })
-      }).then(fetchHandler)
+      })
     },
-    add: async (api, { descripcion }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/puesto/nuevo`, {
-        headers,
+    add: async (_, { descripcion }) => {
+      return await appFetch(`${BASE_URL}/rye/puesto/nuevo`, {
         method: 'POST',
         body: JSON.stringify({ estado: true, descripcion })
-      }).then(fetchHandler)
+      })
     }
   },
   modulos: {
-    get: async api => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/modulo/modulos`, { headers }).then(fetchHandler)
+    get: async () => {
+      return await appFetch(`${BASE_URL}/rye/modulo/modulos`)
     },
-    add: async (api, { nombre, tipo }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/modulo/nuevo`, {
-        headers,
+    add: async (_, { nombre, tipo }) => {
+      return await appFetch(`${BASE_URL}/rye/modulo/nuevo`, {
         method: 'POST',
         body: JSON.stringify({ estado: true, nombre, tipo })
-      }).then(fetchHandler)
+      })
     },
-    switch_state: async (api, { id, estado }) => {
-      const { headers } = getToken(api)
-      return await fetch(`${BASE_URL}/rye/modulo/actualizar`, {
-        headers,
+    switch_state: async (_, { id, estado }) => {
+      return await appFetch(`${BASE_URL}/rye/modulo/actualizar`, {
         method: 'POST',
         body: JSON.stringify({ id, estado: !estado })
-      }).then(fetchHandler)
+      })
     }
   }
 }

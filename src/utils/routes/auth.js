@@ -1,24 +1,20 @@
-import { BASE_URL, getToken } from '@/utils/consts'
-import { fetchHandler } from '../fetchHandler'
+import { BASE_URL } from '@/utils/consts'
+import { appFetch } from '../fetchHandler'
 
 export const auth = {
   login: `${BASE_URL}/rye/usuario/token`,
   perfil: `${BASE_URL}/rye/usuario/perfil`,
   changePassword: async (api, data) => {
-    const { headers } = getToken(api)
-    return await fetch(`${BASE_URL}/rye/usuario/actualizar_contrasenia`, {
-      headers,
+    return await appFetch(`${BASE_URL}/rye/usuario/actualizar_contrasenia`, {
       method: 'POST',
       body: JSON.stringify(data)
-    }).then(fetchHandler)
+    })
   },
   recoverPassword: async (api, data) => {
-    const { headers } = getToken(api)
-    return await fetch(`${BASE_URL}/rye/usuario/recuperar_contrasenia`, {
-      headers,
+    return await appFetch(`${BASE_URL}/rye/usuario/recuperar_contrasenia`, {
       method: 'POST',
       body: JSON.stringify(data)
-    }).then(fetchHandler)
+    })
   },
   permisos: `${BASE_URL}/rye/permiso/permisos_usuario`,
   parametros: `${BASE_URL}/rye/modulo/parametros`

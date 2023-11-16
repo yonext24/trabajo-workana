@@ -1,23 +1,29 @@
 import { TableLayout } from '@/components/tables/table-layout'
 import { useSelector } from 'react-redux'
 import { CarreraCarreraTableRow } from './carrera-carrera-table-row'
-import { useEffect } from 'react'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { useEffect } from 'react'
 
 export function CarreraCarreraTable({ permissions }) {
-  const { filtered, data } = useSelector(s => s.ofertaAcademica.carrera.carrera)
-  const { setCarreraCarreraFiltered } = useOfertaAcademicaActions()
+  const { getCarreraCarreraData } = useOfertaAcademicaActions()
+
+  const { data, loading, revalidating, paginationData } = useSelector(s => s.ofertaAcademica.carrera.carrera)
+  const { size, pages, page, nivel } = paginationData
 
   useEffect(() => {
-    setCarreraCarreraFiltered(data)
-  }, [data])
+    if (!nivel) return
+
+    getCarreraCarreraData(paginationData)
+  }, [size, pages, page, nivel])
 
   return (
     <TableLayout
+      loading={loading}
+      revalidating={revalidating}
       columns={[{ text: 'Nivel' }, { text: 'Carrera', className: 'w-full' }, { text: 'Estado' }, { text: 'Acciones' }]}
     >
-      {filtered.map(el => (
-        <CarreraCarreraTableRow permissions={permissions} key={el.carrera} {...el} />
+      {data.map(el => (
+        <CarreraCarreraTableRow permissions={permissions} key={el.id_carrera} {...el} />
       ))}
     </TableLayout>
   )

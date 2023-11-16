@@ -1,4 +1,4 @@
-import { fetchHandler } from '@/utils/fetchHandler'
+import { appFetch } from '@/utils/fetchHandler'
 import { auth } from '@/utils/routes'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 
@@ -65,18 +65,10 @@ const permissionParser = ({ userPermissions, modulos, operaciones }) => {
   return finalPermissions
 }
 
-const getUserData = async ({ headers }) => {
-  const user = await fetch(auth.perfil, {
-    headers
-  }).then(fetchHandler)
-
-  const userPermissions = await fetch(auth.permisos, {
-    headers
-  }).then(fetchHandler)
-
-  const { modulos, operaciones } = await fetch(auth.parametros, {
-    headers
-  }).then(fetchHandler)
+const getUserData = async ({ token }) => {
+  const user = await appFetch(auth.perfil, { externalToken: token })
+  const userPermissions = await appFetch(auth.permisos, { externalToken: token })
+  const { modulos, operaciones } = await appFetch(auth.parametros, { externalToken: token })
 
   const parsedPermissions = permissionParser({
     userPermissions,
@@ -90,15 +82,10 @@ const getUserData = async ({ headers }) => {
 // Acción asincrónica para verificar la sesión inicial
 export const checkSession = createAsyncThunk(auth.login, async () => {
   const token = localStorage.getItem('token')
-  console.log({ token })
   if (!token) return false
 
   try {
-    const headers = {
-      Authorization: `Bearer ${token}`
-    }
-
-    const { user, permissions, operacion } = await getUserData({ headers })
+    const { user, permissions, operacion } = await getUserData({ token })
 
     return {
       token,
@@ -118,20 +105,17 @@ export const checkSession = createAsyncThunk(auth.login, async () => {
 
 export const login = createAsyncThunk('auth/login', async ({ formData }) => {
   try {
-    const { access_token: token } = await fetch(auth.login, {
+    const { access_token: token } = await appFetch(auth.login, {
+      withoutToken: true,
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       credentials: 'include',
       body: formData.toString()
-    }).then(fetchHandler)
+    })
 
-    const headers = {
-      Authorization: `Bearer ${token}`
-    }
-
-    const { user, permissions, operacion } = await getUserData({ headers })
+    const { user, permissions, operacion } = await getUserData({ token })
 
     localStorage.setItem('token', token)
 

@@ -4,7 +4,7 @@ import { ButtonsContainer } from '@/components/modals/buttons-container'
 import { DefaultModalLayout } from '@/components/modals/default-modal-layout'
 import { ModalBackground } from '@/components/modals/modal-background'
 
-export function CarreraSeeModal({ closeModal, nivel, carrera, titulo_femenino, titulo_masculino }) {
+export function CarreraSeeModal({ closeModal, nivel, nombre, titulo_femenino, titulo_masculino }) {
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout title="Ver Carrera" className="!max-w-3xl" closeModal={closeModal}>
@@ -18,7 +18,7 @@ export function CarreraSeeModal({ closeModal, nivel, carrera, titulo_femenino, t
               <label className="font-semibold text-lg">Prerrequisito técnico</label>
             </div>
           </div>
-          <InputWLabel name="carrera" labelText={'Nombre'} disabled defaultValue={carrera} required />
+          <InputWLabel name="carrera" labelText={'Nombre'} disabled defaultValue={nombre} required />
           <InputWLabel
             name="titulo_femenino"
             disabled

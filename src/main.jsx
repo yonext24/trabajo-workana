@@ -5,6 +5,9 @@ import './index.css'
 import { Provider } from 'react-redux'
 import { store } from './store/index.js'
 import { ToastContainer } from 'react-toastify'
+import { injectStore } from './utils/fetchHandler.js'
+
+injectStore(store)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

@@ -11,15 +11,15 @@ export function useTableDefaultModals({ place, add, update, del, perm, see }) {
       handleSee: !see
         ? null
         : () => {
-            const modalId = `add-${place}-modal`
+            const modalId = `see-${place}-modal`
             openModal({
-              Element: add?.el || DefaultComp,
+              Element: see?.el || DefaultComp,
               id: modalId,
               props: {
                 closeModal: () => {
                   closeModalFunc(modalId)
                 },
-                ...add
+                ...see
               }
             })
           },

@@ -37,8 +37,13 @@ const initialState = {
       loading: false,
       revalidating: false,
       data: [],
-      filtered: [],
-      error: null
+      error: null,
+      paginationData: {
+        nivel: null,
+        size: 25,
+        page: 1,
+        pages: null
+      }
     },
     tipo_recurso: {
       loading: false,
@@ -72,9 +77,12 @@ export const ofertaAcademicaSlice = createSlice({
       const { filteredData } = action.payload
       state.carrera.recurso.filtered = filteredData
     },
-    set_carrera_carrera_filtered: (state, action) => {
-      const { filteredData } = action.payload
-      state.carrera.carrera.filtered = filteredData
+    set_carrera_carrera_pagination_data: (state, action) => {
+      const { size, page, nivel } = action.payload
+
+      if (size) state.carrera.carrera.paginationData.size = size
+      if (page) state.carrera.carrera.paginationData.page = page
+      if (nivel) state.carrera.carrera.paginationData.nivel = nivel
     }
   },
   extraReducers: builder => {
@@ -84,6 +92,10 @@ export const ofertaAcademicaSlice = createSlice({
   }
 })
 
-export const { set_unidad_filtered, set_extension_filtered, set_recurso_filtered, set_carrera_carrera_filtered } =
-  ofertaAcademicaSlice.actions
+export const {
+  set_unidad_filtered,
+  set_extension_filtered,
+  set_recurso_filtered,
+  set_carrera_carrera_pagination_data
+} = ofertaAcademicaSlice.actions
 export default ofertaAcademicaSlice.reducer

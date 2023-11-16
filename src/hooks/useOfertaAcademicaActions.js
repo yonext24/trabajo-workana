@@ -20,7 +20,7 @@ import {
   set_extension_filtered,
   set_recurso_filtered,
   set_unidad_filtered,
-  set_carrera_carrera_filtered
+  set_carrera_carrera_pagination_data
 } from '@/store/oferta-academica/slice'
 import {
   add_unidad_academica_tipos,
@@ -40,7 +40,7 @@ export function useOfertaAcademicaActions() {
   const setUnidadFiltered = async filteredData => dispatch(set_unidad_filtered({ filteredData }))
   const setExtensionFiltered = async filteredData => dispatch(set_extension_filtered({ filteredData }))
   const setRecursoFiltered = async filteredData => dispatch(set_recurso_filtered({ filteredData }))
-  const setCarreraCarreraFiltered = async filteredData => dispatch(set_carrera_carrera_filtered({ filteredData }))
+  const setCarreraCarreraPaginationData = async data => dispatch(set_carrera_carrera_pagination_data(data))
 
   const getCarreraNivelData = async () => dispatch(get_carrera_nivel_data())
   const addCarreraNivel = async data => dispatch(add_carrera_nivel(data))
@@ -57,7 +57,7 @@ export function useOfertaAcademicaActions() {
   const deleteCarreraRecurso = async nombre => dispatch(delete_recurso({ nombre }))
   const updateCarreraRecurso = async ({ nombre, newData }) => dispatch(update_recurso({ nombre, newData }))
 
-  const getCarreraCarreraData = async () => dispatch(get_carrera_carrera_data())
+  const getCarreraCarreraData = async data => dispatch(get_carrera_carrera_data(data))
   const addCarreraCarrera = async newData => dispatch(add_carrera_carrera({ newData }))
   const deleteCarreraCarrera = async nombre => dispatch(delete_carrera_carrera({ nombre }))
 
@@ -86,7 +86,7 @@ export function useOfertaAcademicaActions() {
     setUnidadFiltered,
     setExtensionFiltered,
     setRecursoFiltered,
-    setCarreraCarreraFiltered,
+    setCarreraCarreraPaginationData,
     getOfertaAcademicaExtension,
     addOfertaAcademicaExtension,
     getCarreraNivelData,

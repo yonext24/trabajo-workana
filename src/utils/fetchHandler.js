@@ -3,6 +3,12 @@
 
 import { BASE_URL } from './consts'
 
+let store
+
+export const injectStore = _store => {
+  store = _store
+}
+
 const errorParser = {
   'Not authenticated':
     'No pudimos verificar tu sesión, porfavor vuelve a iniciar sesión. Si el problema persiste, contacta a soporte.',
@@ -35,9 +41,53 @@ export const fetchHandler = async res => {
     const data = await res.json()
     return data
   }
+}
 
-  const service = res.url.startsWith(BASE_URL) ? 'Autenticación' : 'Oferta Académica'
+export const appFetch = async (url, options) => {
+  const withoutToken = options?.withoutToken
+  const externalToken = options?.externalToken
 
-  console.log({ res })
-  return `Hubo un error accediendo al servicio de ${service}, porfavor contacta a soporte.`
+  let headers = {}
+
+  if (!withoutToken && !externalToken) {
+    const state = store.getState()
+    const token = state?.auth?.token
+
+    if (!token) throw new Error('No se encontró el token de autenticación, porfavor inicia sesión.')
+
+    headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  }
+
+  if (externalToken) {
+    headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${externalToken}`
+    }
+  }
+
+  const config = {
+    ...options,
+    headers: {
+      ...headers,
+      ...options?.headers
+    }
+  }
+
+  try {
+    const res = await fetch(url, config).then(fetchHandler)
+    return res
+  } catch (err) {
+    if (err.message === 'Failed to fetch') {
+      const service = url.startsWith(BASE_URL) ? 'Autenticación' : 'Oferta Académica'
+
+      throw new Error(
+        `Ocurrió un error, es posible que el servidor de ${service} esté caído, porfavor contacta a soporte.`
+      )
+    }
+
+    throw err
+  }
 }

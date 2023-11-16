@@ -32,10 +32,8 @@ export const switch_state_carrera_nivel = createAsyncThunk(
 
 ********************************************************************************************* */
 
-export const get_carrera_carrera_data = createAsyncThunk('oferta-academica/carrera/carrera/get', async (_, api) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return fakeData({ nivel: 8, carrera: 10, estado: 4 })
+export const get_carrera_carrera_data = createAsyncThunk('oferta-academica/carrera/carrera/get', async (data, api) => {
+  return await carrera.carrera.get(api, data)
 })
 
 export const add_carrera_carrera = createAsyncThunk('oferta-academica/carrera/carrera/add', async ({ newData }) => {
@@ -130,7 +128,22 @@ const toLoop = [
   {
     carrera: {
       get: {
-        function: get_carrera_carrera_data
+        function: get_carrera_carrera_data,
+        customFunc: ({ state, data, getProperty, setProperty }) => {
+          const { items, pages } = data
+
+          const paginationData = getProperty({ property: 'paginationData', state })
+
+          setProperty({ property: 'data', value: items, state })
+          setProperty({
+            property: 'paginationData',
+            state,
+            value: {
+              ...paginationData,
+              pages
+            }
+          })
+        }
       },
       add: {
         function: add_carrera_carrera
