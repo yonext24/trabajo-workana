@@ -16,11 +16,10 @@ WORKDIR /app/react-app
 
 # Copiar solo los archivos necesarios para la ejecución en producción
 COPY --from=BUILD_IMAGE /app/react-app/dist/ /app/react-app/dist/
+COPY --from=BUILD_IMAGE /app/react-app/node_modules/ /app/react-app/node_modules/
+
 COPY package.json .
 COPY vite.config.js .
-
-# Instalar dependencias de producción
-RUN npm install
 
 EXPOSE 3000
 CMD ["npx", "vite", "preview", "--port", "3000"]
