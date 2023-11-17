@@ -9,6 +9,12 @@ export const carrera = {
           size ? `&size=${size}` : ''
         }`
       )
+    },
+    add: async (_, data) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/carrera/nuevo`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
     }
   },
   nivel: {
@@ -52,6 +58,29 @@ export const carrera = {
     },
     add: async (_, data) => {
       return await appFetch(`${BASE_OFERTA_URL}/rye/tipo_recurso/nuevo`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+    }
+  },
+  recurso: {
+    get: async () => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/recurso/recursos`)
+    },
+    add: async (_, data) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/recurso/nuevo`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+    },
+    switch_state: async (_, { id_recurso, estado }) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/recurso/actualizar`, {
+        method: 'POST',
+        body: JSON.stringify({ id_recurso, estado: !estado })
+      })
+    },
+    update: async (_, data) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/recurso/actualizar`, {
         method: 'POST',
         body: JSON.stringify(data)
       })

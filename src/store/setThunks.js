@@ -104,7 +104,11 @@ const thunksSets = ({
         }
       }
       if (type === 'add') {
-        addHandler({ state, data, add, getProperty, setProperty })
+        if (add.customFunc) {
+          add.customFunc({ state, data, getProperty, setProperty })
+        } else {
+          addHandler({ state, data, add, getProperty, setProperty })
+        }
       }
       if (type === 'switch_state') {
         if (switch_state.customFunc) {

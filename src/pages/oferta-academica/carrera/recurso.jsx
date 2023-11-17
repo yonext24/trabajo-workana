@@ -1,3 +1,4 @@
+import { ErrorWarning } from '@/components/common/error-warning'
 import { NuevoButton } from '@/components/common/nuevo-button'
 import { SelectInput } from '@/components/common/select-input'
 import { RecursoAddModal } from '@/components/modals/oferta-academica/carrera/recurso/recurso-add-modal'
@@ -9,8 +10,14 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
 export function Recurso() {
-  const { data: tipoRecursoData } = useSelector(s => s.ofertaAcademica.carrera.tipo_recurso)
-  const { data: recursoData } = useSelector(s => s.ofertaAcademica.carrera.recurso)
+  const {
+    data: tipoRecursoData,
+    error: tipoRecursoError,
+    revalidating: tipoRecursoLoading
+  } = useSelector(s => s.ofertaAcademica.carrera.tipo_recurso)
+  const recursoData = useSelector(s => s.ofertaAcademica.carrera.recurso.data)
+  const recursoError = useSelector(s => s.ofertaAcademica.carrera.recurso.error)
+
   const { handleAdd } = useTableDefaultModals({ add: { el: RecursoAddModal } })
   const { getCarreraRecursoData, getCarreraTipoRecursoData, setRecursoFiltered } = useOfertaAcademicaActions()
 
@@ -22,8 +29,9 @@ export function Recurso() {
     getCarreraTipoRecursoData()
   }, [])
 
-  const handleOptionClick = data => {
-    const filtered = data === 'Todas' ? recursoData : recursoData.filter(el => el.tipo === data)
+  const handleOptionClick = ({ id_tipo_recurso }) => {
+    const filtered =
+      id_tipo_recurso === -1 ? recursoData : recursoData.filter(el => el.id_tipo_recurso === id_tipo_recurso)
     setRecursoFiltered(filtered)
   }
 
@@ -34,10 +42,16 @@ export function Recurso() {
           <label className="font-semibold text-lg">Tipo</label>
           <SelectInput
             handleOptionClick={handleOptionClick}
-            options={['Todas', ...tipoRecursoData.map(el => el.nombre)]}
+            loading={tipoRecursoLoading}
+            error={tipoRecursoError}
+            show="nombre"
+            options={[{ nombre: 'Todas', id_tipo_recurso: -1 }, ...tipoRecursoData]}
           />
         </div>
-        <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+        <div className="flex gap-4 items-center">
+          <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
+          <ErrorWarning err={recursoError} />
+        </div>
       </div>
       <RecursoTable permissions={permissions} />
     </div>

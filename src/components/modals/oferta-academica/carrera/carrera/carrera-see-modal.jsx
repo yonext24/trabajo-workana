@@ -7,7 +7,7 @@ import { ModalBackground } from '@/components/modals/modal-background'
 export function CarreraSeeModal({ closeModal, nivel, nombre, titulo_femenino, titulo_masculino }) {
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Ver Carrera" className="!max-w-3xl" closeModal={closeModal}>
+      <DefaultModalLayout title="Ver Carrera" className="!max-w-2xl" closeModal={closeModal}>
         <div className="p-6 flex flex-col gap-4">
           <div className="flex w-full [&>*]:flex-1 gap-4 items-end">
             <div className="flex flex-col">
@@ -47,12 +47,6 @@ export function CarreraSeeModal({ closeModal, nivel, nombre, titulo_femenino, ti
                 defaultValue={new Date().toISOString().split('T')[0]}
                 required
               />
-              <div className="flex flex-col">
-                <label disabled className="font-semibold text-lg">
-                  Estado
-                </label>
-                <SelectInput control={() => {}} name="estado" options={['Activo', 'Desactivado']} />
-              </div>
             </div>
           </div>
 

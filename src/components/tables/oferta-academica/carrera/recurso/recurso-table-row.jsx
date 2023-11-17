@@ -4,28 +4,25 @@ import { RowLayout } from '@/components/tables/row-layout'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 
-export function RecursoTableRow({ tipo, nombre, descripcion, permissions }) {
-  const { deleteCarreraRecurso } = useOfertaAcademicaActions()
-  const { handleUpd, handleDel } = useTableDefaultModals({
+export function RecursoTableRow(props) {
+  const { tipo, nombre, descripcion, permissions, estado, id_recurso } = props
+
+  const { switchCarreraRecurso } = useOfertaAcademicaActions()
+  const { handleUpd } = useTableDefaultModals({
     place: 'recurso',
-    update: { el: RecursoUpdateModal, nombre, descripcion, tipo },
-    del: {
-      onClick: () => {
-        deleteCarreraRecurso(nombre)
-      }
-    }
+    update: { el: RecursoUpdateModal, ...props }
   })
 
   const { UPDATE } = permissions
   const actions = UPDATE
     ? [
-        { type: 'update', onClick: handleUpd },
-        { type: 'delete', onClick: handleDel }
+        { type: 'switch', onClick: async () => switchCarreraRecurso({ estado, id_recurso }), estado },
+        { type: 'update', onClick: handleUpd }
       ]
     : []
 
   return (
-    <RowLayout>
+    <RowLayout data-disabled={!estado}>
       <td className="border-r">{tipo}</td>
       <td className="border-r">{nombre}</td>
       <td className="border-r">{descripcion}</td>

@@ -5,11 +5,11 @@ import {
   add_tipo_recurso,
   delete_carrera_carrera,
   switch_state_carrera_nivel,
-  delete_recurso,
   switch_state_tipo_recurso,
   get_carrera_carrera_data,
   get_carrera_nivel_data,
   get_recurso_data,
+  switch_state_recurso,
   get_tipo_recurso_data,
   update_carrera_nivel,
   update_recurso,
@@ -53,13 +53,13 @@ export function useOfertaAcademicaActions() {
   const updateCarreraTipoRecurso = async data => dispatch(update_tipo_recurso(data))
 
   const getCarreraRecursoData = async () => dispatch(get_recurso_data())
-  const addCarreraRecurso = async newData => dispatch(add_recurso({ newData }))
-  const deleteCarreraRecurso = async nombre => dispatch(delete_recurso({ nombre }))
-  const updateCarreraRecurso = async ({ nombre, newData }) => dispatch(update_recurso({ nombre, newData }))
+  const addCarreraRecurso = async data => dispatch(add_recurso(data))
+  const switchCarreraRecurso = async data => dispatch(switch_state_recurso(data))
+  const updateCarreraRecurso = async data => dispatch(update_recurso(data))
 
   const getCarreraCarreraData = async data => dispatch(get_carrera_carrera_data(data))
-  const addCarreraCarrera = async newData => dispatch(add_carrera_carrera({ newData }))
-  const deleteCarreraCarrera = async nombre => dispatch(delete_carrera_carrera({ nombre }))
+  const addCarreraCarrera = async data => dispatch(add_carrera_carrera(data))
+  const deleteCarreraCarrera = async data => dispatch(delete_carrera_carrera(data))
 
   const getOfertaAcademicaExtension = props => dispatch(get_extension_data(props))
   const addOfertaAcademicaExtension = async newData => dispatch(add_extension({ newData }))
@@ -102,7 +102,7 @@ export function useOfertaAcademicaActions() {
     updateCarreraTipoRecurso,
     getCarreraRecursoData,
     addCarreraRecurso,
-    deleteCarreraRecurso,
+    switchCarreraRecurso,
     updateCarreraRecurso
   }
 }

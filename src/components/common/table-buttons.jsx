@@ -91,7 +91,7 @@ export function SwitchButton({
       <button
         type="button"
         ref={elementRef}
-        onClick={handleClick}
+        onClick={() => handleClick(!FState)}
         className="bg-black rounded-full p-1 w-[45px] h-[25px]"
         {...props}
       >
