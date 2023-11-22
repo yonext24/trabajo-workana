@@ -43,14 +43,11 @@ export const add_carrera_carrera = createAsyncThunk(
   }
 )
 
-export const update_carrera_carrera = createAsyncThunk(
-  'oferta-academica/carrera/carrera/update',
-  async ({ nombre, newData }) => {
-    await new Promise(resolve => setTimeout(resolve, 2000))
+export const update_carrera_carrera = createAsyncThunk('oferta-academica/carrera/carrera/update', async data => {
+  await carrera.carrera.update('', data)
 
-    return { id: nombre, newData }
-  }
-)
+  return data.carrera
+})
 
 export const delete_carrera_carrera = createAsyncThunk(
   'oferta-academica/carrera/carrera/delete',
@@ -152,7 +149,7 @@ const toLoop = [
       },
       update: {
         function: update_carrera_carrera,
-        filterBy: 'nombre'
+        filterBy: 'id_carrera'
       },
       del: {
         function: delete_carrera_carrera,

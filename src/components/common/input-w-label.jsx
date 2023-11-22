@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 export function InputWLabel({
   id,
   name,
@@ -14,6 +16,11 @@ export function InputWLabel({
   rows = 3,
   ...props
 }) {
+  const pattern = useMemo(() => {
+    if (type === 'number') return { value: /^[0-9]+$/, message: 'El numero debe ser mayor a 0' }
+    return undefined
+  }, [type])
+
   return (
     <div className={'flex flex-col'} id="input-w-label">
       {!noLabel && (
@@ -32,7 +39,7 @@ export function InputWLabel({
           type={type}
           rows={rows}
           readOnly={disabled} // Esto esta hecho porque me di cuenta muy tarde de que podía usar readOnly en vez de disabled
-          {...(register && register(id ?? name, { required, ...registerProps }))}
+          {...(register && register(id ?? name, { required, pattern, ...registerProps }))}
           {...props}
         />
       ) : (
@@ -45,7 +52,7 @@ export function InputWLabel({
           name={name}
           type={type}
           readOnly={disabled} // Esto esta hecho porque me di cuenta muy tarde de que podía usar readOnly en vez de disabled
-          {...(register && register(id ?? name, { required, ...registerProps }))}
+          {...(register && register(id ?? name, { required, pattern, ...registerProps }))}
           {...props}
         />
       )}

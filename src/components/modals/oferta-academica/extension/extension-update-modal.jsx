@@ -1,29 +1,47 @@
 import { useForm } from 'react-hook-form'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
-import { SelectInputControlled } from '@/components/common/select-input-controlled'
 import { InputWLabel } from '@/components/common/input-w-label'
 import { ButtonsContainer } from '../../buttons-container'
-// import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
-import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
+import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SubmitButton } from '@/components/common/submit-button'
+import { handleErrorInFormResponse } from '@/utils/consts'
 
-export function ExtensionUpdateModal({ closeModal, codigo, nombre, abreviatura, fecha_de_creacion, estado }) {
-  const { register, control, handleSubmit } = useForm()
-  const { data: extensionData } = useSelector(s => s.ofertaAcademica.extension)
-  // const { addOfertaAcademicaExtension } = useOfertaAcademicaActions()
+export function ExtensionUpdateModal({
+  closeModal,
+  codigo,
+  nombre,
+  abreviatura,
+  fecha_creacion,
+  estado,
+  ubicacion,
+  id_extension
+}) {
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError
+  } = useForm()
+  const { updateOfertaAcademicaExtension } = useOfertaAcademicaActions()
 
-  const handleUpdate = data => {
-    if (extensionData.some(el => el.nombre === data.nombre)) {
-      toast.error('Ya hay una extensión con ese nombre.')
-    }
-    // addOfertaAcademicaExtension(data)
-    // .then(closeModal)
+  const handleUpdate = async ({ rawEstado: { estado }, fecha_creacion: local_fecha_creacion, ...rest }) => {
+    const data = { estado, id_extension, ...rest }
+    if (local_fecha_creacion) data.fecha_creacion = local_fecha_creacion
+    const res = await updateOfertaAcademicaExtension(data)
+    handleErrorInFormResponse(res, setError, closeModal)
   }
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout title={'Agregar extensión'} className={'!max-h-[calc(100vh_-_5px)]'}>
+      <DefaultModalLayout
+        title={'Agregar extensión'}
+        className={'!max-h-[calc(100vh_-_5px)]'}
+        loading={isSubmitting}
+        errors={errors}
+      >
         <form
           className="p-6 gap-4 flex flex-col [&_label]:text-lg [&_label]:font-semibold overflow-y-auto"
           onSubmit={handleSubmit(handleUpdate)}
@@ -39,39 +57,30 @@ export function ExtensionUpdateModal({ closeModal, codigo, nombre, abreviatura, 
           <InputWLabel defaultValue={nombre} id={'nombre'} disabled name="nombre" register={register} required />
           <InputWLabel defaultValue={abreviatura} id={'abreviatura'} name="abreviatura" register={register} required />
 
-          <div className="flex flex-col w-full">
-            <label>Ubicación</label>
-            <SelectInputControlled
-              disabled
-              control={control}
-              name="unidad"
-              options={['México', 'Guatemala', 'El Salvador', 'Estados Unidos']}
-              rules={{ required: true }}
-            />
-          </div>
+          <InputWLabel labelText={'Ubicación'} disabled name="unidad" defaultValue={ubicacion} />
           <InputWLabel
             type="date"
             register={register}
-            id="date"
-            name="date"
-            required
+            id="fecha_creacion"
+            name="fecha_creacion"
             labelText={'Fecha de creación'}
-            defaultValue={fecha_de_creacion}
+            defaultValue={fecha_creacion}
           />
-          <div className="flex flex-col w-full">
-            <label>Estado</label>
-            <SelectInputControlled
-              defaultValue={estado}
-              disabled
-              control={control}
-              name="unidad"
-              options={['Activo', 'Desactivado']}
-              rules={{ required: true }}
-            />
-          </div>
+          <SelectInputControlledWithLabel
+            control={control}
+            id="rawEstado"
+            name="rawEstado"
+            labelText={'Estado'}
+            options={[
+              { text: 'Activo', estado: true },
+              { text: 'Inactivo', estado: false }
+            ]}
+            defaultValue={estado ? { text: 'Activo', estado: estado } : { text: 'Inactivo', estado: estado }}
+            show="text"
+          />
 
-          <ButtonsContainer closeModal={closeModal}>
-            <button type="submit">Agregar</button>
+          <ButtonsContainer closeModal={closeModal} disabled={isSubmitting}>
+            <SubmitButton text="Actualizar" loading={isSubmitting} />
           </ButtonsContainer>
         </form>
       </DefaultModalLayout>

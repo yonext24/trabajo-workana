@@ -23,7 +23,8 @@ const initialState = {
     loading: false,
     revalidate: false,
     data: [],
-    filtered: [],
+    selectedUnidad: null,
+    selectedTipo: null,
     error: null
   },
   carrera: {
@@ -40,7 +41,7 @@ const initialState = {
       error: null,
       paginationData: {
         nivel: null,
-        size: 25,
+        size: 10,
         page: 1,
         pages: null
       }
@@ -69,9 +70,10 @@ export const ofertaAcademicaSlice = createSlice({
       const { filteredData } = action.payload
       state.unidadAcademica.unidad.filtered = filteredData
     },
-    set_extension_filtered: (state, action) => {
-      const { filteredData } = action.payload
-      state.extension.filtered = filteredData
+    set_extension_selected_unidad: (state, action) => {
+      const { unidad, tipo } = action.payload
+      if (tipo) state.extension.selectedTipo = tipo
+      if (unidad) state.extension.selectedUnidad = unidad
     },
     set_recurso_filtered: (state, action) => {
       const { filteredData } = action.payload
@@ -94,7 +96,7 @@ export const ofertaAcademicaSlice = createSlice({
 
 export const {
   set_unidad_filtered,
-  set_extension_filtered,
+  set_extension_selected_unidad,
   set_recurso_filtered,
   set_carrera_carrera_pagination_data
 } = ofertaAcademicaSlice.actions

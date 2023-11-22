@@ -3,7 +3,8 @@ import { TableLoading } from './general/table-loading'
 import { TableContainer } from './table-container'
 import { TableHeader } from './table-header'
 
-export function TableLayout({ children, loading, columns, revalidating }) {
+export function TableLayout({ children, loading, columns, revalidating, hardError }) {
+  /*  HardError esta hecho para ser utilizado en las modales que tienen tablas dentro, y no pueden tener un ErrorWarning */
   return (
     <>
       <TableContainer>
@@ -18,6 +19,11 @@ export function TableLayout({ children, loading, columns, revalidating }) {
         </table>
 
         <TableLoading loading={loading} />
+        {hardError && (
+          <div className="absolute w-full h-full left-0 top-0 bg-red-500/80 px-12 text-white flex items-center justify-center">
+            {hardError}
+          </div>
+        )}
       </TableContainer>
       {revalidating && <RevalidatingIndicator />}
     </>

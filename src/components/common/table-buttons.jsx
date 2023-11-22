@@ -1,4 +1,4 @@
-import { EyeIcon, KeyIcon, PenIcon, PersonsIcon, Warn } from '../icons'
+import { EyeIcon, KeyIcon, PenIcon, PersonsIcon, Plus, Warn } from '../icons'
 import { useHovering } from '@/hooks/useHovering'
 
 const ButtonWrapper = ({ children, hovering, text }) => {
@@ -102,6 +102,18 @@ export function SwitchButton({
             }`}
           />
         </div>
+      </button>
+    </ButtonWrapper>
+  )
+}
+
+export const AddCarreraButton = ({ handleClick, text = 'Agregar carrera' }) => {
+  const { hovering, elementRef } = useHovering()
+
+  return (
+    <ButtonWrapper hovering={hovering} text={text}>
+      <button ref={elementRef} onClick={handleClick} className="bg-verde text-white p-1 rounded-md">
+        <Plus className="h-5 w-5" />
       </button>
     </ButtonWrapper>
   )

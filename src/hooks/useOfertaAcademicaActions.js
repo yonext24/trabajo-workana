@@ -13,14 +13,15 @@ import {
   get_tipo_recurso_data,
   update_carrera_nivel,
   update_recurso,
-  update_tipo_recurso
+  update_tipo_recurso,
+  update_carrera_carrera
 } from '@/store/oferta-academica/carreraThunks'
-import { add_extension, get_extension_data } from '@/store/oferta-academica/extensionThunks'
+import { add_extension, get_extension_data, update_extension } from '@/store/oferta-academica/extensionThunks'
 import {
-  set_extension_filtered,
   set_recurso_filtered,
   set_unidad_filtered,
-  set_carrera_carrera_pagination_data
+  set_carrera_carrera_pagination_data,
+  set_extension_selected_unidad
 } from '@/store/oferta-academica/slice'
 import {
   add_unidad_academica_tipos,
@@ -38,7 +39,7 @@ export function useOfertaAcademicaActions() {
   const dispatch = useDispatch()
 
   const setUnidadFiltered = async filteredData => dispatch(set_unidad_filtered({ filteredData }))
-  const setExtensionFiltered = async filteredData => dispatch(set_extension_filtered({ filteredData }))
+  const setExtensionSelectedUnidad = async data => dispatch(set_extension_selected_unidad(data))
   const setRecursoFiltered = async filteredData => dispatch(set_recurso_filtered({ filteredData }))
   const setCarreraCarreraPaginationData = async data => dispatch(set_carrera_carrera_pagination_data(data))
 
@@ -60,9 +61,11 @@ export function useOfertaAcademicaActions() {
   const getCarreraCarreraData = async data => dispatch(get_carrera_carrera_data(data))
   const addCarreraCarrera = async data => dispatch(add_carrera_carrera(data))
   const deleteCarreraCarrera = async data => dispatch(delete_carrera_carrera(data))
+  const updateCarreraCarrera = async data => dispatch(update_carrera_carrera(data))
 
-  const getOfertaAcademicaExtension = props => dispatch(get_extension_data(props))
-  const addOfertaAcademicaExtension = async newData => dispatch(add_extension({ newData }))
+  const getOfertaAcademicaExtension = async data => dispatch(get_extension_data(data))
+  const addOfertaAcademicaExtension = async data => dispatch(add_extension(data))
+  const updateOfertaAcademicaExtension = async data => dispatch(update_extension(data))
 
   const getUnidadAcademicaTipos = async () => dispatch(get_unidad_academica_tipos())
   const addUnidadAcademicaTipos = async data => dispatch(add_unidad_academica_tipos(data))
@@ -84,11 +87,12 @@ export function useOfertaAcademicaActions() {
     updateUnidadAcademicaUnidad,
     switchUnidadAcademicaUnidad,
     setUnidadFiltered,
-    setExtensionFiltered,
+    setExtensionSelectedUnidad,
     setRecursoFiltered,
     setCarreraCarreraPaginationData,
     getOfertaAcademicaExtension,
     addOfertaAcademicaExtension,
+    updateOfertaAcademicaExtension,
     getCarreraNivelData,
     addCarreraNivel,
     updateCarreraNivel,
@@ -96,6 +100,7 @@ export function useOfertaAcademicaActions() {
     getCarreraCarreraData,
     addCarreraCarrera,
     deleteCarreraCarrera,
+    updateCarreraCarrera,
     getCarreraTipoRecursoData,
     switchCarreraTipoRecurso,
     addCarreraTipoRecurso,

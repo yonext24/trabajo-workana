@@ -5,39 +5,20 @@ import { ExtensionUpdateModal } from '@/components/modals/oferta-academica/exten
 import { ExtensionSeeModal } from '@/components/modals/oferta-academica/extension/extension-see-modal'
 import { useLayoutActions } from '@/hooks/useLayoutActions'
 import { ExtensionAddCarreraModal } from '@/components/modals/oferta-academica/extension/extension-add-carrera-modal'
-import { ExtensionCarreraModal } from '@/components/modals/oferta-academica/extension/extension-carrera-modal'
+import { parseEstado } from '@/utils/consts'
 
-export function ExtensionMainTableRow({
-  permissions,
-  ua,
-  codigo,
-  nombre,
-  estado,
-  fecha_de_creacion,
-  abreviatura,
-  ubicacion
-}) {
-  const { handleUpd, handleDel, handleSee } = useTableDefaultModals({
+export function ExtensionMainTableRow(props) {
+  const { permissions, unidad, codigo, nombre, estado } = props
+
+  const { handleUpd, handleSee } = useTableDefaultModals({
     place: 'extension',
     update: {
       el: ExtensionUpdateModal,
-      ua,
-      codigo,
-      nombre,
-      estado,
-      fecha_de_creacion,
-      abreviatura,
-      ubicacion
+      ...props
     },
     see: {
       el: ExtensionSeeModal,
-      ua,
-      codigo,
-      nombre,
-      estado,
-      fecha_de_creacion,
-      abreviatura,
-      ubicacion
+      ...props
     }
   })
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
@@ -52,50 +33,27 @@ export function ExtensionMainTableRow({
       props: {
         closeModal: () => {
           closeModalFunc(modalId)
-        }
-      }
-    })
-  }
-  const handleCarreraUpd = () => {
-    const modalId = 'carrera-extension-modal'
-    openModal({
-      Element: ExtensionCarreraModal,
-      id: modalId,
-      props: {
-        closeModal: () => {
-          closeModalFunc(modalId)
-        }
+        },
+        ...props
       }
     })
   }
   const rows = [
-    { id: 1, text: ua },
-    { id: 2, text: codigo },
+    { id: 1, text: unidad },
+    { id: 2, text: codigo, className: '!text-center' },
     { id: 3, text: nombre },
-    { id: 4, text: estado },
+    { id: 4, text: parseEstado(estado) },
     {
       id: 5,
-      carreras: UPDATE
-        ? [
-            { type: 'add', onClick: handleCarreraUpd },
-            { type: 'see', onClick: handleCarreraAdd }
-          ]
-        : []
+      carreras: UPDATE ? [{ type: 'add', onClick: handleCarreraAdd }] : []
     },
     {
       id: 6,
-      actions: [{ type: 'see', onClick: handleSee }].concat(
-        UPDATE
-          ? [
-              { type: 'update', onClick: handleUpd },
-              { type: 'delete', onClick: handleDel }
-            ]
-          : []
-      )
+      actions: [{ type: 'see', onClick: handleSee }].concat(UPDATE ? [{ type: 'update', onClick: handleUpd }] : [])
     }
   ]
   return (
-    <RowLayout>
+    <RowLayout data-disabled={!estado}>
       {rows.map(el => (
         <Row key={el.id} {...el}></Row>
       ))}

@@ -15,6 +15,12 @@ export const carrera = {
         method: 'POST',
         body: JSON.stringify(data)
       })
+    },
+    update: async (_, data) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/carrera/actualizar`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
     }
   },
   nivel: {

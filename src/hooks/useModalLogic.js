@@ -12,12 +12,14 @@ export function useModalLogic({ closeModal, noScroll = false }) {
     html.addEventListener('keydown', onKeyDown)
     if (noScroll) {
       html.style.overflow = 'hidden'
+      html.style.paddingRight = '15px'
     }
 
     return () => {
       html.removeEventListener('keydown', onKeyDown)
       if (noScroll) {
         html.style.overflow = 'auto'
+        html.style.paddingRight = '0'
       }
     }
   }, [])

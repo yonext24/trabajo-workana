@@ -12,6 +12,7 @@ import { useModalLogic } from '@/hooks/useModalLogic'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { usePermissions } from '@/hooks/usePermissions'
 import { SubmitButton } from '@/components/common/submit-button'
+import { handleErrorInFormResponse } from '@/utils/consts'
 
 export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
   // ***************** SELECTORS *****************
@@ -101,12 +102,9 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
       }
 
       const res = await updateRole({ rol, actualizar: updatedPermissions })
-      if (res.error) {
-        setError('custom', res.error)
-        return
-      }
-
-      setUpdatedPermissions([])
+      handleErrorInFormResponse(res, setError, () => {
+        setUpdatedPermissions([])
+      })
     }),
     [handleLoading, id_rol, updatedPermissions]
   )

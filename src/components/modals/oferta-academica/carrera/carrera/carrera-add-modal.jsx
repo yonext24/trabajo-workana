@@ -1,5 +1,6 @@
 import { InputWLabel } from '@/components/common/input-w-label'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SubmitButton } from '@/components/common/submit-button'
 import { SwitchControlled } from '@/components/common/switch-controlled'
 import { ButtonsContainer } from '@/components/modals/buttons-container'
 import { DefaultModalLayout } from '@/components/modals/default-modal-layout'
@@ -49,7 +50,7 @@ export function CarreraAddModal({ closeModal }) {
         closeModal={closeModal}
         errors={errors}
         loading={loading}
-        className={'!max-h-[98vh] h-full !mx-4 overflow-hiddenp'}
+        className={'!max-h-[98vh] h-full !mx-4 overflow-hidden'}
       >
         <form onSubmit={handleSubmit(handleUpdate)} className="p-6 flex flex-col gap-4 overflow-y-auto">
           <div className="flex w-full [&>*]:flex-1 gap-4 items-end">
@@ -91,7 +92,7 @@ export function CarreraAddModal({ closeModal }) {
             required
           />
           <ButtonsContainer className="[&>button]:py-[7px] mt-4">
-            <button type="submit">Guardar</button>
+            <SubmitButton text="Guardar" loading={loading} />
           </ButtonsContainer>
         </form>
       </DefaultModalLayout>

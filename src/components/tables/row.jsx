@@ -1,5 +1,12 @@
-import { DeactivateButton, PermissionsButton, SeeButton, SwitchButton, UpdateButton } from '../common/table-buttons'
-import { Plus, RecycleIcon } from '../icons'
+import {
+  AddCarreraButton,
+  DeactivateButton,
+  PermissionsButton,
+  SeeButton,
+  SwitchButton,
+  UpdateButton
+} from '../common/table-buttons'
+import { RecycleIcon } from '../icons'
 
 export function Row({ text, actions = false, carreras = false, funcProps, className }) {
   return (
@@ -27,13 +34,9 @@ export function Row({ text, actions = false, carreras = false, funcProps, classN
         </div>
       ) : carreras ? (
         <div className="w-full h-full flex justify-center items-center gap-4">
-          {carreras.map(({ type, onClick }) => {
+          {carreras.map(({ type, onClick, ...props }) => {
             if (type === 'add') {
-              return (
-                <button key={type} onClick={() => onClick(funcProps)} className="bg-verde text-white p-1 rounded-md">
-                  <Plus className="h-5 w-5" />
-                </button>
-              )
+              return <AddCarreraButton key={type} handleClick={() => onClick(funcProps)} {...props} />
             }
             if (type === 'see') {
               return (

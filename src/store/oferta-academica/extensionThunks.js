@@ -1,42 +1,20 @@
-import { fakeData } from '@/assets/fake-api-call'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { setThunks } from '../setThunks'
+import { extension } from '@/utils/routes'
 
-export const get_extension_data = createAsyncThunk('oferta-academica/extension/get', async (_, api) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return [
-    {
-      ua: 2,
-      codigo: 2,
-      nombre: 7,
-      abreviatura: 5,
-      estado: 1,
-      fecha_de_creacion: '28/8/23'
-    }
-  ]
+export const get_extension_data = createAsyncThunk('oferta-academica/extension/get', async data => {
+  return await extension.get(data)
 })
-export const add_extension = createAsyncThunk('oferta-academica/extension/add', async ({ newData, nombre }, api) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
+export const add_extension = createAsyncThunk('oferta-academica/extension/add', async data => {
+  const unidad = data.unidad
+  const res = await extension.add(data)
 
-  return { id: nombre, newData }
+  return { ...res, unidad }
 })
-export const update_extension = createAsyncThunk('oferta-academica/extension/update', async (_, api) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
+export const update_extension = createAsyncThunk('oferta-academica/extension/update', async data => {
+  await extension.update(data)
 
-  return fakeData({
-    ua: 2,
-    codigo: 2,
-    nombre: 7,
-    abreviatura: 5,
-    estado: 1,
-    fecha_de_creacion: new Date().toISOString().split('T')[0]
-  })
-})
-export const delete_extension = createAsyncThunk('oferta-academica/extension/delete', async ({ nombre }, api) => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
-  return nombre
+  return data
 })
 
 const noLoopData = {
@@ -49,11 +27,7 @@ const noLoopData = {
   },
   update: {
     function: update_extension,
-    filterBy: 'nombre'
-  },
-  del: {
-    function: delete_extension,
-    filterBy: 'nombre'
+    filterBy: 'id_extension'
   }
 }
 

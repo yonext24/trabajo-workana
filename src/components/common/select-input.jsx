@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { DownArrowIcon } from '../icons'
 
 function valueParser(data, show) {
-  if (data === undefined) return 'Seleccionar'
+  if (data === undefined || data === null) return 'Seleccionar'
   return typeof data === 'string' ? data : data[show]
 }
 
@@ -14,6 +14,7 @@ export function SelectInput({
   firstOne = false,
   handleOptionClick,
   ligatedToExternalChange = false,
+  resetOnOptionsChange = false,
   disabled,
   error,
   formError,
@@ -25,6 +26,7 @@ export function SelectInput({
   const [open, setOpen] = useState(false)
 
   const firstChangeHasOcurred = useRef(false)
+  const previousValueBeforeLoading = useRef(null)
 
   useEffect(() => {
     if (!ligatedToExternalChange) return
@@ -37,17 +39,28 @@ export function SelectInput({
     if (loading) setValue('Cargando...')
     else if (error) setValue('Error')
     else if (firstOne) {
+      if (previousValueBeforeLoading.current) {
+        setValue(previousValueBeforeLoading.current)
+        return
+      }
       const value = options[0]
       setValue(value)
     } else if (defaultValue) {
-      const newValue = valueParser(defaultValue, show) ?? 'Seleccionar'
+      const newValue = defaultValue ?? 'Seleccionar'
       setValue(newValue)
     } else setValue('Seleccionar')
   }, [loading, error, defaultValue])
 
   useEffect(() => {
-    !disabled && rawOnChange?.(value) // No fui capaz de hacerlo sin esto, no creo que sea la mejor práctica
+    if (!resetOnOptionsChange) return
+    setValue('Seleccionar')
+  }, [options])
 
+  useEffect(() => {
+    !disabled && rawOnChange?.(value) // No fui capaz de hacerlo sin esto, no creo que sea la mejor práctica
+    if (!['Seleccionar', 'Cargando...', 'Error'].includes(value)) {
+      previousValueBeforeLoading.current = value
+    }
     if (!onFirstChange) return
 
     if (firstChangeHasOcurred.current) return

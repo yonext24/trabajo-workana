@@ -2,16 +2,13 @@ import { CarreraSeeModal } from '@/components/modals/oferta-academica/carrera/ca
 import { CarreraUpdateModal } from '@/components/modals/oferta-academica/carrera/carrera/carrera-update-modal'
 import { Row } from '@/components/tables/row'
 import { RowLayout } from '@/components/tables/row-layout'
-import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 import { parseEstado } from '@/utils/consts'
 
 export function CarreraCarreraTableRow(props) {
-  const { permissions, nombre, id_carrera, nivel, estado } = props
+  const { permissions, nombre, nivel, estado } = props
 
-  const { deleteCarreraCarrera } = useOfertaAcademicaActions()
-
-  const { handleUpd, handleSee, handleDel } = useTableDefaultModals({
+  const { handleUpd, handleSee } = useTableDefaultModals({
     update: { el: CarreraUpdateModal, ...props },
     see: { el: CarreraSeeModal, ...props },
     place: 'carrera'
@@ -19,16 +16,11 @@ export function CarreraCarreraTableRow(props) {
 
   const { UPDATE } = permissions
   const actions = [{ type: 'see', onClick: handleSee, text: 'Ver Carrera' }].concat(
-    UPDATE
-      ? [
-          { type: 'switch', onClick: handleDel, estado },
-          { type: 'update', onClick: handleUpd }
-        ]
-      : []
+    UPDATE ? [{ type: 'update', onClick: handleUpd }] : []
   )
 
   return (
-    <RowLayout>
+    <RowLayout data-disabled={!estado}>
       <td className="border-r">{nivel}</td>
       <td className="border-r">{nombre}</td>
       <td className="border-r">{parseEstado(estado)}</td>

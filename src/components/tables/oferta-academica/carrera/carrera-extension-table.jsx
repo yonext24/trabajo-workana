@@ -1,30 +1,75 @@
+import { parseEstado } from '@/utils/consts'
 import { Row } from '../../row'
 import { RowLayout } from '../../row-layout'
 import { TableLayout } from '../../table-layout'
+import { usePermissions } from '@/hooks/usePermissions'
+import { ExtensionUpdateCarreraModal } from '@/components/modals/oferta-academica/extension/extension-update-carrera-modal'
+import { useLayoutActions } from '@/hooks/useLayoutActions'
 
-export function CarreraExtensionTable({ data }) {
-  const columns = [
-    { text: '02', className: 'text-center' },
-    { text: 'Experto en geografía 1', className: 'text-center' },
-    { text: 'Activo' },
-    { text: 'Fecha de Creación', className: 'text-center' }
-  ]
+export function CarreraExtensionTable({ data, loading, error, extension, unidad, id_extension }) {
+  console.log({ data })
+
+  const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
+  const { UPDATE } = permissions
+
   return (
     <TableLayout
+      loading={loading}
+      hardError={error}
       columns={[
         { text: 'Código' },
         { text: 'Carrera', className: 'w-1/2' },
         { text: 'Estado' },
-        { text: 'Fecha de creación', className: 'w-1/3' }
+        { text: 'Fecha de creación', className: 'w-1/3' },
+        { text: 'Acción' }
       ]}
     >
       {data.map(el => (
-        <RowLayout key={el.id}>
-          {columns.map(el => (
-            <Row key={el.text} {...el}></Row>
-          ))}
-        </RowLayout>
+        <ExtensionMainTableRow
+          key={el.id_carrera}
+          {...el}
+          id_extension={id_extension}
+          extension={extension}
+          unidad={unidad}
+          UPDATE={UPDATE}
+        />
       ))}
     </TableLayout>
+  )
+}
+
+export function ExtensionMainTableRow(props) {
+  const { codigo, estado, fecha_creacion, nombre, UPDATE } = props
+
+  const { openModal, closeModal: closeModalFunc } = useLayoutActions()
+
+  const handleCarreraUpdate = () => {
+    const modalId = 'update-carrera-extension-modal'
+    openModal({
+      Element: ExtensionUpdateCarreraModal,
+      id: modalId,
+      props: {
+        closeModal: () => {
+          closeModalFunc(modalId)
+        },
+        ...props
+      }
+    })
+  }
+
+  const rows = [
+    { id: 1, text: codigo, className: '!text-center' },
+    { id: 2, text: nombre },
+    { id: 3, text: parseEstado(estado) },
+    { id: 4, text: fecha_creacion, className: '!text-center' },
+    { id: 5, carreras: UPDATE ? [{ type: 'see', onClick: handleCarreraUpdate }] : [] }
+  ]
+
+  return (
+    <RowLayout data-disabled={!estado}>
+      {rows.map(el => (
+        <Row key={el.id} {...el} />
+      ))}
+    </RowLayout>
   )
 }
