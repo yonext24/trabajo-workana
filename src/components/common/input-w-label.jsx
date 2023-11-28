@@ -9,6 +9,7 @@ export function InputWLabel({
   inputClassName,
   register,
   isTextArea = false,
+  value,
   noLabel = false,
   required,
   disabled,
@@ -51,6 +52,7 @@ export function InputWLabel({
           id={id ?? name}
           name={name}
           type={type}
+          value={value}
           readOnly={disabled} // Esto esta hecho porque me di cuenta muy tarde de que podía usar readOnly en vez de disabled
           {...(register && register(id ?? name, { required, pattern, ...registerProps }))}
           {...props}

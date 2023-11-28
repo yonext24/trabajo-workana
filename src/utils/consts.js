@@ -3,6 +3,9 @@ export const BASE_URL = process.env.NODE_ENV === 'production' ? 'http://localhos
 
 export const BASE_OFERTA_URL = process.env.NODE_ENV === 'production' ? 'http://localhost:8001' : 'http://localhost:8001'
 
+export const BASE_GEOGRAFIA_URL =
+  process.env.NODE_ENV === 'production' ? 'http://localhost:8002' : 'http://localhost:8002'
+
 export const getToken = api => {
   const token = api.getState().auth.token
   const headers = {

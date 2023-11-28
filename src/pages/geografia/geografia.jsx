@@ -1,30 +1,36 @@
+import { ErrorWarning } from '@/components/common/error-warning'
 import { NuevoButton } from '@/components/common/nuevo-button'
-import { SelectInput } from '@/components/common/select-input'
-import { TableLayout } from '@/components/tables/table-layout'
+import { GeografiaFilter } from '@/components/filters/geografia-filter'
+import { GeografiaAddModal } from '@/components/modals/geografia/geografia-add-modal'
+import { GeografiaPagination } from '@/components/pagination/geografia/geografia-pagination'
+import { TableGeografia } from '@/components/tables/geografia/table-geografia'
 import { usePermissions } from '@/hooks/usePermissions'
+import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
+import { useSelector } from 'react-redux'
 
 export function Geografia() {
+  const { handleAdd } = useTableDefaultModals({
+    place: 'geografia',
+    add: {
+      el: GeografiaAddModal
+    }
+  })
+
   const permissions = usePermissions({ nameOfModule: 'GEOGRAFICO' })
   const { CREATE } = permissions
+  const errors = useSelector(s => s.geografia.error)
 
   return (
     <div id="page-content">
       <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
-        <div className="flex flex-1 gap-4 [&>div]:flex [&>div]:flex-col [&>div]:w-full [&>div]:max-w-[210px] [&_label]:text-lg [&_label]:font-semibold">
-          <div>
-            <label>País</label>
-            <SelectInput options={['El Salvador']} firstOne handleOptionClick={() => {}} />
-          </div>
-          <div>
-            <label>Departamento</label>
-            <SelectInput options={['Todos']} firstOne handleOptionClick={() => {}} />
-          </div>
+        <GeografiaFilter />
+        <div className="flex items-center justify-end gap-2">
+          <ErrorWarning err={errors} />
+          <NuevoButton content="Cargar Excel" CREATE={CREATE} handleClick={handleAdd} />
         </div>
-
-        <NuevoButton content="Cargar Excel" CREATE={CREATE} />
       </div>
-
-      <TableLayout columns={[{ text: 'Departamento' }, { text: 'Municipio' }, { text: 'Código postal' }]}></TableLayout>
+      <TableGeografia />
+      <GeografiaPagination />
     </div>
   )
 }

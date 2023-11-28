@@ -31,15 +31,15 @@ export function SelectInput({
   useEffect(() => {
     if (!ligatedToExternalChange) return
 
-    const newValue = valueParser(externalValue, show)
-    setValue(newValue)
+    setValue(externalValue)
   }, [externalValue])
 
   useEffect(() => {
     if (loading) setValue('Cargando...')
     else if (error) setValue('Error')
     else if (firstOne) {
-      if (previousValueBeforeLoading.current) {
+      console.log(previousValueBeforeLoading.current, options[0])
+      if (previousValueBeforeLoading.current && !resetOnOptionsChange) {
         setValue(previousValueBeforeLoading.current)
         return
       }
@@ -49,7 +49,7 @@ export function SelectInput({
       const newValue = defaultValue ?? 'Seleccionar'
       setValue(newValue)
     } else setValue('Seleccionar')
-  }, [loading, error, defaultValue])
+  }, [loading, error])
 
   useEffect(() => {
     if (!resetOnOptionsChange) return

@@ -4,6 +4,7 @@ import dataReducer from './general/slice'
 import usuariosReducer from './usuarios/slice'
 import ofertaAcademicaReducer from './oferta-academica/slice'
 import authReducer from './auth/slice'
+import geografiaReducer from './geografia/slice'
 
 const rollbackerMiddleware = store => next => action => {
   if (typeof action === 'function') {
@@ -20,7 +21,8 @@ export const setupStore = preloadedState => {
       data: dataReducer,
       usuarios: usuariosReducer,
       ofertaAcademica: ofertaAcademicaReducer,
-      auth: authReducer
+      auth: authReducer,
+      geografia: geografiaReducer
     },
     middleware: [rollbackerMiddleware],
     preloadedState
