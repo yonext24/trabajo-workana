@@ -8,18 +8,34 @@ import { SelectInputControlledWithLabel } from '@/components/common/select-input
 import { useSelector } from 'react-redux'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
+import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { useEffect } from 'react'
+import { handleErrorInFormResponse } from '@/utils/consts'
 
 export function DependenciasAddModal({ closeModal }) {
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors }
+    formState: { errors },
+    setError
   } = useForm()
   const { addDependenciasData } = useDataActions()
   const { loading, handleLoading } = useFormCustom()
 
   const { data: sectoresData, revalidating: sectoresLoading, error: sectoresError } = useSelector(s => s.data.sectores)
+  const {
+    data: unidadesData,
+    loading: unidadesLoading,
+    error: unidadesError
+  } = useSelector(s => s.ofertaAcademica.unidadAcademica.unidad)
+
+  const { getUnidadAcademicaUnidad } = useOfertaAcademicaActions()
+
+  useEffect(() => {
+    getUnidadAcademicaUnidad()
+  }, [])
+
   const dependenciasData = useSelector(s => s.data.dependencias.data)
 
   const onSubmit = handleLoading(async data => {
@@ -27,19 +43,23 @@ export function DependenciasAddModal({ closeModal }) {
     const id_sector = sector.id_sector
     const id_unidad = unidad.id_unidad
 
-    await addDependenciasData({
+    const finalData = {
       ...data,
       sector: sector.nombre,
       unidad: unidad.nombre,
       id_unidad,
       id_sector
-    })
-    closeModal()
+    }
+
+    console.log({ finalData })
+
+    const res = await addDependenciasData(finalData)
+    handleErrorInFormResponse(res, setError, closeModal)
   })
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Agregar Sector" closeModal={closeModal} loading={loading} errors={errors}>
+      <DefaultModalLayout title="Agregar Dependencia" closeModal={closeModal} loading={loading} errors={errors}>
         <form onSubmit={handleSubmit(onSubmit)} className="py-8 px-4 font-semibold flex flex-col gap-y-4">
           <InputWLabel
             id="nombre"
@@ -85,7 +105,10 @@ export function DependenciasAddModal({ closeModal }) {
             name="unidad"
             control={control}
             rules={{ required: true }}
-            options={['Abc', 'Abc2', 'Abc3', 'Abc4']}
+            options={unidadesData}
+            loading={unidadesLoading}
+            error={unidadesError}
+            show="nombre"
             labelText="Unidad"
           />
 

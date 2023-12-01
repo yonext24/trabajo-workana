@@ -1,11 +1,11 @@
-import { EyeIcon, KeyIcon, PenIcon, PersonsIcon, Plus, Warn } from '../icons'
+import { EyeIcon, KeyIcon, PenIcon, PersonsIcon, Plus, PlusRoundedIcon, SearchIcon, Warn } from '../icons'
 import { useHovering } from '@/hooks/useHovering'
 
-const ButtonWrapper = ({ children, hovering, text }) => {
+const ButtonWrapper = ({ children, hovering, text, style }) => {
   return (
-    <div className="relative">
+    <div className="relative w-max h-max">
       {hovering && (
-        <div className="absolute -top-full left-1/2 -translate-x-1/2 z-[100]">
+        <div style={style} className={`absolute -top-full left-1/2 -translate-x-1/2 z-[100]`}>
           <div className="bg-zinc-700 text-white text-xs px-2 py-1 rounded-md animate-fade whitespace-nowrap">
             {text}
           </div>
@@ -114,6 +114,34 @@ export const AddCarreraButton = ({ handleClick, text = 'Agregar carrera' }) => {
     <ButtonWrapper hovering={hovering} text={text}>
       <button ref={elementRef} onClick={handleClick} className="bg-verde text-white p-1 rounded-md">
         <Plus className="h-5 w-5" />
+      </button>
+    </ButtonWrapper>
+  )
+}
+
+export const SeeMoreOfUserButton = ({ handleClick, text = 'Ver más', style = {} }) => {
+  const { hovering, elementRef } = useHovering()
+
+  return (
+    <ButtonWrapper style={style} hovering={hovering} text={text}>
+      <button
+        onClick={handleClick}
+        ref={elementRef}
+        className="bg-neutral-800 text-white p-1 self-start -mt-7 rounded-md"
+      >
+        <PlusRoundedIcon className="h-6 w-6" />
+      </button>
+    </ButtonWrapper>
+  )
+}
+
+export const SearchButton = ({ handleClick, text = 'Buscar', style = {} }) => {
+  const { hovering, elementRef } = useHovering()
+
+  return (
+    <ButtonWrapper style={style} hovering={hovering} text={text}>
+      <button onClick={handleClick} ref={elementRef} type="submit" className="bg-gray-800 p-1 rounded-lg ml-1">
+        <SearchIcon className="h-7 w-7 text-white" />
       </button>
     </ButtonWrapper>
   )

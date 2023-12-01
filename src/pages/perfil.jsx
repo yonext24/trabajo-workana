@@ -1,11 +1,23 @@
+import { FormErrorMessage } from '@/components/common/form-error-message'
 import { InputWLabel } from '@/components/common/input-w-label'
 import { Spinner } from '@/components/common/spinner'
-import { USER_POSSIBLE_STATES } from '@/store/auth/slice'
+import { SubmitButton } from '@/components/common/submit-button'
+import { ButtonsContainer } from '@/components/modals/buttons-container'
+import { USER_POSSIBLE_STATES, changeUser } from '@/store/auth/slice'
+import { auth } from '@/utils/routes'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 export function Perfil() {
-  const { register, handleSubmit } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, touchedFields },
+    setError
+  } = useForm()
+
+  const dispatch = useDispatch()
   const { user, logged } = useSelector(s => s.auth)
 
   const usuario = user?.usuario
@@ -18,10 +30,18 @@ export function Perfil() {
   const nombres = user?.nombres
   const telefono = user?.telefono
 
-  const handleUpload = data => {
-    console.log(data)
-    console.log(user)
+  const handleUpload = async data => {
+    if (Object.entries(touchedFields).length < 1) return
+    try {
+      await auth.actualzar_perfil(data)
+      dispatch(changeUser(data))
+      toast.success('Perfil actualizado.')
+    } catch (e) {
+      setError('root.fetchError', { message: e?.message ?? 'Algo salió mal.' })
+    }
   }
+
+  const pattern = { value: /[0-9]+/, message: 'El valor del teléfono debe ser un número.' }
 
   return (
     <div id="page-content">
@@ -33,60 +53,63 @@ export function Perfil() {
           <label htmlFor={'username'} className="font-semibold text-2xl">
             Usuario actual
           </label>
-          <InputWLabel
-            noLabel
-            name="username"
-            register={register}
-            disabled
-            value={usuario}
-            labelText="Usuario actual"
-          />
+          <InputWLabel noLabel name="username" disabled value={usuario} labelText="Usuario actual" />
           <label htmlFor={'rol'} className="font-semibold text-2xl">
             Rol de usuario
           </label>
-          <InputWLabel noLabel name="rol" register={register} disabled value={rol} labelText="Rol de usuario" />
+          <InputWLabel noLabel name="rol" disabled value={rol} labelText="Rol de usuario" />
           <label htmlFor={'puesto'} className="font-semibold text-2xl">
             Puesto de usuario
           </label>
-          <InputWLabel noLabel name="puesto" register={register} disabled value={puesto} labelText="Puesto" />
+          <InputWLabel noLabel name="puesto" disabled value={puesto} labelText="Puesto" />
           <label htmlFor={'nombres'} className="font-semibold text-2xl">
-            Nombre
+            Nombres
           </label>
-          <InputWLabel noLabel name="nombres" register={register} disabled value={nombres} labelText="nombres" />
+          <InputWLabel noLabel name="nombres" disabled value={nombres} labelText="nombres" />
           <label htmlFor={'apellidos'} className="font-semibold text-2xl">
             Apellidos
           </label>
-          <InputWLabel noLabel name="apellidos" register={register} disabled value={apellidos} labelText="apellidos" />
+          <InputWLabel noLabel name="apellidos" disabled value={apellidos} labelText="apellidos" />
           <label htmlFor={'telefono'} autoFocus className="font-semibold text-2xl">
             Teléfono
           </label>
           <InputWLabel
             noLabel
             name="telefono"
+            type="number"
+            registerProps={{ pattern }}
             register={register}
             required
             defaultValue={telefono}
             labelText="telefono"
           />
-          <label htmlFor={'celular'} className="font-semibold text-2xl">
+          <label htmlFor={'celular'} type="number" className="font-semibold text-2xl">
             Celular
           </label>
-          <InputWLabel noLabel name="celular" register={register} required defaultValue={celular} labelText="celular" />
+          <InputWLabel
+            noLabel
+            name="celular"
+            required
+            defaultValue={celular}
+            registerProps={{ pattern }}
+            register={register}
+            labelText="celular"
+          />
           <label htmlFor={'CUI'} className="font-semibold text-2xl">
             CUI
           </label>
-          <InputWLabel noLabel name="CUI" register={register} disabled value={CUI} labelText="CUI" />
+          <InputWLabel noLabel name="CUI" disabled value={CUI} labelText="CUI" />
           <label htmlFor={'correo'} className="font-semibold text-2xl">
             Correo
           </label>
           <InputWLabel noLabel name="correo" register={register} required defaultValue={correo} labelText="correo" />
 
-          <button
-            type="submit"
-            className="bg-gris-oscuro text-white font-semibold px-12 py-3 rounded-md text-xl col-start-1 col-end-3 mx-auto"
-          >
-            Actualizar
-          </button>
+          <ButtonsContainer alone className={'col-start-1 col-end-3'}>
+            <SubmitButton loading={isSubmitting} text="Actualizar" />
+          </ButtonsContainer>
+          <div className="col-start-1 col-end-3 text-center">
+            <FormErrorMessage errors={errors} />
+          </div>
         </form>
       )}
 

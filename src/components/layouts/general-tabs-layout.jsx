@@ -7,7 +7,7 @@ const tabs = {
     { text: 'Sectores', href: '/general/sectores' },
     { text: 'Dependencias', href: '/general/dependencias' },
     { text: 'Puestos', href: '/general/puestos' },
-    { text: 'Modulos', href: '/general/modulos' }
+    { text: 'Módulos', href: '/general/modulos' }
   ],
   usuarios: [
     { text: 'Roles', href: '/usuarios/roles' },

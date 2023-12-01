@@ -2,6 +2,7 @@ import { RowLayout } from '../../row-layout'
 import { Row } from '../../row'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { SwitchButton } from '@/components/common/table-buttons'
+import { useMemo } from 'react'
 
 const parsePermisoText = permiso => {
   if (permiso === -2) return '---'
@@ -21,10 +22,19 @@ export function TablePermisosRow(props) {
     estado,
     withActions = true,
     selectFunction,
-    permissions
+    permissions,
+    unidades,
+    extensiones
   } = props
 
   const { switchPermissionState } = useUsuariosActions()
+
+  const { currentUnidad, currentExtension } = useMemo(() => {
+    const currentUnidad = unidades.find(u => u.id_unidad === unidad)?.nombre ?? unidad
+    const currentExtension = extensiones.find(e => e.id_extension === extension)?.nombre ?? extension
+
+    return { currentUnidad, currentExtension }
+  }, [unidades, extensiones, unidad, extension])
 
   const { UPDATE } = permissions
 
@@ -50,8 +60,8 @@ export function TablePermisosRow(props) {
   const rows = [
     { text: modulo, id: 1 },
     { text: operacion, id: 2 },
-    { text: parsePermisoText(unidad), id: 3 },
-    { text: parsePermisoText(extension), id: 4 },
+    { text: parsePermisoText(currentUnidad), id: 3 },
+    { text: parsePermisoText(currentExtension), id: 4 },
     { text: parsePermisoText(nivel), id: 5 }
   ].concat(toConcat)
 

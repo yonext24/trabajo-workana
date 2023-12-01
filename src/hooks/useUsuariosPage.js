@@ -6,17 +6,11 @@ import { useLayoutActions } from '@/hooks/useLayoutActions'
 import { usePermissions } from '@/hooks/usePermissions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
-import { useFormCustom } from './useFormCustom'
 
 export const useUsuariosPage = () => {
-  const [searchFor, setSearchFor] = useState('correo')
-  const { register, handleSubmit } = useForm()
-  const { handleLoading } = useFormCustom()
-  const { searchUsuario, deleteUsuario } = useUsuariosActions()
+  const { deleteUsuario } = useUsuariosActions()
 
   const usuariosData = useSelector(s => s.usuarios.usuarios.data)
   const usuariosLoading = useSelector(s => s.usuarios.usuarios.loading)
@@ -66,26 +60,14 @@ export const useUsuariosPage = () => {
     })
   }
 
-  const onSubmit = handleLoading(async data => {
-    const { search } = data
-
-    const res = await searchUsuario({ [searchFor]: search })
-    console.log(res)
-  })
-
   const canShow = Object.entries(showing).length > 0
 
   return {
-    onSubmit,
     handleRole,
     handleInfo,
     handleDel,
     handleUpd,
     handleAdd,
-    register,
-    handleSubmit,
-    setSearchFor,
-    searchFor,
     usuariosLoading,
     usuariosData,
     CREATE,

@@ -3,12 +3,15 @@ import { TableDependenciasRow } from './table-dependencias-row'
 import { TableLayout } from '../../table-layout'
 import { useDataActions } from '@/hooks/useDataActions'
 import { useEffect } from 'react'
+import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 
 export function TableDependencias({ permissions }) {
   const { getDependencias } = useDataActions()
+  const { getUnidadAcademicaUnidad } = useOfertaAcademicaActions()
 
   useEffect(() => {
     getDependencias()
+    getUnidadAcademicaUnidad()
   }, [])
 
   const { filtered, revalidating, loading } = useSelector(s => s.data.dependencias)

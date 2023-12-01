@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-export function useFetchLocalData({ func, dependencies = [] }) {
-  const [state, setState] = useState({ loading: false, error: null, data: [] })
+export function useFetchLocalData({ func, dependencies = [], initialData = [] }) {
+  const [state, setState] = useState({ loading: false, error: null, data: initialData })
 
   useEffect(() => {
     setState(prev => ({ ...prev, loading: true }))

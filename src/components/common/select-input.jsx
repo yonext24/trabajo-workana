@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { DownArrowIcon } from '../icons'
+import { useSelector } from 'react-redux'
+import isEqual from 'lodash.isequal'
 
 function valueParser(data, show) {
   if (data === undefined || data === null) return 'Seleccionar'
@@ -27,9 +29,12 @@ export function SelectInput({
 
   const firstChangeHasOcurred = useRef(false)
   const previousValueBeforeLoading = useRef(null)
+  const previousValue = useRef(value)
 
   useEffect(() => {
     if (!ligatedToExternalChange) return
+    // Esto está hecho porque en algunos casos se generaban loops infinitos
+    if (isEqual(externalValue, previousValue.current)) return
 
     setValue(externalValue)
   }, [externalValue])
@@ -38,7 +43,6 @@ export function SelectInput({
     if (loading) setValue('Cargando...')
     else if (error) setValue('Error')
     else if (firstOne) {
-      console.log(previousValueBeforeLoading.current, options[0])
       if (previousValueBeforeLoading.current && !resetOnOptionsChange) {
         setValue(previousValueBeforeLoading.current)
         return
@@ -57,6 +61,8 @@ export function SelectInput({
   }, [options])
 
   useEffect(() => {
+    previousValue.current = value
+
     !disabled && rawOnChange?.(value) // No fui capaz de hacerlo sin esto, no creo que sea la mejor práctica
     if (!['Seleccionar', 'Cargando...', 'Error'].includes(value)) {
       previousValueBeforeLoading.current = value
@@ -79,7 +85,8 @@ export function SelectInput({
     setOpen(false)
     handleOptionClick(selected)
   }
-  const handleClick = () => {
+  const handleClick = e => {
+    e.stopPropagation()
     if (disabled || loading) return
     setOpen(!open)
   }
@@ -108,25 +115,55 @@ export function SelectInput({
         </div>
       </div>
       {open && (
-        <ul
-          className="absolute z-10 w-full bottom-0 left-0 translate-y-[calc(100%+5px)] border border-black block rounded-md shadow-md
-      overflow-hidden"
-        >
-          {options.map(data => {
-            const value = valueParser(data, show)
-
-            return (
-              <li
-                className="bg-azulfondo text-white hover:bg-white hover:text-black py-1 px-3 transition-colors select-none capitalize"
-                key={value}
-                onClick={() => handleChange(data)}
-              >
-                {value}
-              </li>
-            )
-          })}
-        </ul>
+        <OptionsMenu
+          options={options}
+          show={show}
+          handleChange={handleChange}
+          closeSelf={() => {
+            setOpen(false)
+          }}
+        />
       )}
     </div>
+  )
+}
+
+const OptionsMenu = ({ options, show, handleChange, closeSelf }) => {
+  const ulRef = useRef(null)
+  const screenHeight = useSelector(s => s.layout.screenData.height)
+
+  useEffect(() => {
+    const handleClickOutside = e => {
+      if (ulRef.current && !ulRef.current.contains(e.target)) closeSelf()
+    }
+    document.addEventListener('mouseup', handleClickOutside)
+
+    const data = ulRef.current.getBoundingClientRect()
+    const offSet = data.bottom - screenHeight
+    if (offSet > 0) ulRef.current.style.marginBottom = `${offSet}px`
+
+    return () => document.removeEventListener('mouseup', handleClickOutside)
+  }, [ulRef.current])
+
+  return (
+    <ul
+      ref={ulRef}
+      className="absolute z-10 w-full bottom-0 left-0 translate-y-[calc(100%+5px)] border border-black block rounded-md shadow-md
+      overflow-hidden"
+    >
+      {options.map(data => {
+        const value = valueParser(data, show)
+
+        return (
+          <li
+            className="bg-azulfondo text-white hover:bg-white hover:text-black py-1 px-3 transition-colors select-none capitalize"
+            key={value}
+            onClick={() => handleChange(data)}
+          >
+            {value}
+          </li>
+        )
+      })}
+    </ul>
   )
 }

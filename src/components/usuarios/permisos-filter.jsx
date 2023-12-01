@@ -2,13 +2,10 @@ import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { useEffect, useMemo, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { SelectInput } from '../common/select-input'
-import { useDataActions } from '@/hooks/useDataActions'
 
 export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
-  const modulosData = useSelector(s => s.data.modulos.data)
   const permisosData = useSelector(s => s.usuarios.permisos.data)
   const { setPermisosFiltered } = useUsuariosActions()
-  const { getModulos } = useDataActions()
 
   const dataToUse = useMemo(() => {
     // not sure if its the best use an useMemo here tbh
@@ -17,8 +14,11 @@ export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
   }, [outsideData, permisosData])
 
   const options = useMemo(() => {
-    return ['Todos'].concat(modulosData.filter(el => el.tipo === 'Módulo').map(el => el.nombre))
-  }, [modulosData])
+    const allModulos = permisosData.map(el => el.modulo)
+    const uniqueModulos = [...new Set(allModulos)]
+
+    return ['Todos'].concat(uniqueModulos)
+  }, [permisosData])
 
   const currentOption = useRef('Todos')
 
@@ -33,10 +33,6 @@ export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
     if (!outsideData || !currentOption.current) return
     handleChange(currentOption.current)
   }, [outsideData])
-
-  useEffect(() => {
-    getModulos()
-  }, [])
 
   useEffect(() => {
     setPermisosFiltered(dataToUse)

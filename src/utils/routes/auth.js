@@ -4,7 +4,7 @@ import { appFetch } from '../fetchHandler'
 export const auth = {
   login: `${BASE_URL}/rye/usuario/token`,
   perfil: `${BASE_URL}/rye/usuario/perfil`,
-  changePassword: async (api, data) => {
+  changePassword: async data => {
     return await appFetch(`${BASE_URL}/rye/usuario/actualizar_contrasenia`, {
       method: 'POST',
       body: JSON.stringify(data)
@@ -17,5 +17,7 @@ export const auth = {
     })
   },
   permisos: `${BASE_URL}/rye/permiso/permisos_usuario`,
-  parametros: `${BASE_URL}/rye/modulo/parametros`
+  parametros: `${BASE_URL}/rye/modulo/parametros`,
+  actualzar_perfil: async data =>
+    await appFetch(`${BASE_URL}/rye/usuario/actualizar_perfil`, { body: JSON.stringify(data), method: 'POST' })
 }

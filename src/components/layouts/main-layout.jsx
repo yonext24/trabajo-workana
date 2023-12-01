@@ -79,20 +79,20 @@ const navbarEntrys = [
 ]
 
 export function MainLayout({ children }) {
-  const { setScreenWidth } = useLayoutActions()
-  const { screenWidth } = useSelector(s => s.layout)
+  const { setScreenData } = useLayoutActions()
+  const isMobile = useSelector(s => s.layout.screenData.isMobile)
 
   const location = useLocation()
 
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    setScreenWidth(window.innerWidth)
+    setScreenData(window.innerWidth)
 
     const handleResize = e => {
       const target = e.target
 
-      setScreenWidth(target.innerWidth)
+      setScreenData(target.innerWidth, target.innerHeight)
     }
 
     window.addEventListener('resize', handleResize)
@@ -102,18 +102,12 @@ export function MainLayout({ children }) {
   return (
     <div
       id="main-layout"
-      className={`flex flex-1 max-w-full justify-between flex-row-reverse ${
-        screenWidth.isMobile ? 'flex-col-reverse' : ''
-      }`}
+      className={`flex flex-1 max-w-full justify-between flex-row-reverse ${isMobile ? 'flex-col-reverse' : ''}`}
     >
       {children}
 
-      <Suspense fallback={<NavbarFallback />}>
-        {screenWidth.isMobile === false && <NavbarLazy entrys={navbarEntrys} />}
-      </Suspense>
-      <Suspense fallback={<></>}>
-        {screenWidth.isMobile === true && <MobileNavbarLazy entrys={navbarEntrys} />}
-      </Suspense>
+      <Suspense fallback={<NavbarFallback />}>{isMobile === false && <NavbarLazy entrys={navbarEntrys} />}</Suspense>
+      <Suspense fallback={<></>}>{isMobile === true && <MobileNavbarLazy entrys={navbarEntrys} />}</Suspense>
     </div>
   )
 }

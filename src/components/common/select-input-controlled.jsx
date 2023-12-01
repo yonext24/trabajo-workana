@@ -27,6 +27,7 @@ export function SelectInputControlled({
       control={control}
       rules={{ validate: { validateSelect, ...validate }, ...rules }}
       render={({ field: { onChange, value }, formState: { errors } }) => {
+        console.log({ value })
         return (
           <SelectInput
             options={options}

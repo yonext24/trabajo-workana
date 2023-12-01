@@ -5,30 +5,30 @@ import { useForm } from 'react-hook-form'
 import { ButtonsContainer } from '../buttons-container'
 import { FormErrorMessage } from '@/components/common/form-error-message'
 import { useModalLogic } from '@/hooks/useModalLogic'
-import { useFormCustom } from '@/hooks/useFormCustom'
-import { useAuthActions } from '@/hooks/useAuthActions'
+import { SubmitButton } from '@/components/common/submit-button'
+import { confirmar_contraseña_validations, nueva_contraseña_validations } from '@/utils/validations/passwords'
+import { auth } from '@/utils/routes'
+import { toast } from 'react-toastify'
 
 export function ChangePasswordModal({ closeModal }) {
   const {
     register,
     handleSubmit,
     setError,
-    watch,
-    formState: { errors }
+    formState: { errors, isSubmitting }
   } = useForm()
-  const { loading, handleLoading } = useFormCustom()
 
   useModalLogic({ closeModal: () => {}, noScroll: true })
-  const { ChangePassword } = useAuthActions()
 
-  const handleUpdate = handleLoading(async data => {
-    const { error } = await ChangePassword(data)
-    if (error) {
-      setError('actual', { message: error.message ?? error })
-      return
+  const handleUpdate = async data => {
+    try {
+      await auth.changePassword(data)
+      toast.success('La contraseña se actualizó correctamente.')
+      closeModal()
+    } catch (err) {
+      setError('root.fetchError', { message: err.message ?? 'Algo salió mal.' })
     }
-    closeModal()
-  })
+  }
 
   return (
     <ModalBackground closeModal={() => {}}>
@@ -51,16 +51,7 @@ export function ChangePasswordModal({ closeModal }) {
             name="nuevo"
             id="nuevo"
             register={register}
-            registerProps={{
-              minLength: {
-                value: 6,
-                message: 'La contraseña debe tener al menos 6 caracteres'
-              },
-              maxLength: {
-                value: 25,
-                message: 'La contraseña debe tener menos de 25 caracteres'
-              }
-            }}
+            registerProps={nueva_contraseña_validations}
           />
           <InputWLabel
             type="password"
@@ -68,19 +59,11 @@ export function ChangePasswordModal({ closeModal }) {
             name="confirmacion"
             id="confirmacion"
             register={register}
-            registerProps={{
-              validate: value => {
-                if (watch('nuevo') !== value) {
-                  return 'Las contraseñas no coinciden'
-                }
-              }
-            }}
+            registerProps={confirmar_contraseña_validations}
           />
 
-          <ButtonsContainer alone className={'[&>button]:w-auto [&>button]:px-4 mt-4'}>
-            <button type="submit" disabled={loading}>
-              Cambiar Contraseña
-            </button>
+          <ButtonsContainer alone className={'[&>button]:w-auto [&>button]:px-4 [&>button]:!max-w-[260px] mt-4'}>
+            <SubmitButton loading={isSubmitting} text="Cambiar Contraseña" />
           </ButtonsContainer>
 
           <FormErrorMessage errors={errors} />

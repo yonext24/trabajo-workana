@@ -30,7 +30,7 @@ export function AddModulosModal({ closeModal }) {
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout title="Agregar Modulo" closeModal={closeModal} loading={loading} errors={errors}>
+      <DefaultModalLayout title="Agregar Módulo" closeModal={closeModal} loading={loading} errors={errors}>
         <form onSubmit={handleSubmit(handleUpdate)} className="py-8 px-4 font-semibold flex flex-col gap-4">
           <InputWLabel
             id="nombre"

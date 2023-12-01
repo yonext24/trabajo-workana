@@ -3,6 +3,8 @@ import { useDataActions } from '../../../../hooks/useDataActions'
 import { UpdateDependenciaModal } from '../../../modals/general/dependencias/update-dependencia-modal'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 import { parseEstado } from '@/utils/consts'
+import { useSelector } from 'react-redux'
+import { useMemo } from 'react'
 
 export function TableDependenciasRow({
   sector,
@@ -40,9 +42,16 @@ export function TableDependenciasRow({
       id_dependencia,
       id_sector,
       id_unidad,
-      abreviatura
+      abreviatura,
+      estado
     })
   }
+
+  const unidades = useSelector(s => s.ofertaAcademica.unidadAcademica.unidad.data)
+  const currentUnidad = useMemo(
+    () => unidades.find(u => u.id_unidad === id_unidad)?.nombre ?? 'Desconocido',
+    [unidades, id_unidad]
+  )
 
   return (
     <tr
@@ -52,7 +61,7 @@ export function TableDependenciasRow({
       <td>{sector}</td>
       <td>{nombre}</td>
       <td>{abreviatura}</td>
-      <td>{unidad}</td>
+      <td>{currentUnidad}</td>
       <td className="!text-center">{parseEstado(estado)}</td>
       <td>
         <div className="w-full h-full flex justify-center items-center gap-4">

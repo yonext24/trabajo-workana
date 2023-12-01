@@ -1,16 +1,33 @@
+import { FormErrorMessage } from '@/components/common/form-error-message'
 import { InputWLabel } from '@/components/common/input-w-label'
 import { Spinner } from '@/components/common/spinner'
+import { SubmitButton } from '@/components/common/submit-button'
+import { ButtonsContainer } from '@/components/modals/buttons-container'
 import { USER_POSSIBLE_STATES } from '@/store/auth/slice'
+import { auth } from '@/utils/routes'
+import { confirmar_contraseña_validations, nueva_contraseña_validations } from '@/utils/validations/passwords'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
 export function CambiarContrasena() {
-  const { register, handleSubmit } = useForm()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+    reset
+  } = useForm()
   const { user, logged } = useSelector(s => s.auth)
 
-  const handleUpload = data => {
-    toast('Esperando api')
+  const handleUpload = async data => {
+    try {
+      await auth.changePassword(data)
+      toast.success('La contraseña se ha cambiado correctamente.')
+      reset()
+    } catch (err) {
+      setError('root.fetchError', { message: err.message ?? 'Algo salió mal.' })
+    }
   }
 
   return (
@@ -23,33 +40,40 @@ export function CambiarContrasena() {
           <label htmlFor={'username'} className="font-semibold text-2xl">
             Usuario actual
           </label>
-          <InputWLabel
-            noLabel
-            name="username"
-            register={register}
-            disabled
-            value={user?.usuario}
-            labelText="Usuario actual"
-          />
+          <InputWLabel noLabel name="username" disabled value={user?.usuario} labelText="Usuario actual" />
           <label htmlFor={'rol'} className="font-semibold text-2xl">
             Contraseña Actual
           </label>
-          <InputWLabel noLabel name="actual_password" autoFocus required register={register} />
+          <InputWLabel noLabel name="actual" autoFocus type="password" required register={register} />
           <label htmlFor={'puesto'} className="font-semibold text-2xl">
             Nueva contraseña
           </label>
-          <InputWLabel noLabel name="new_password" required register={register} />
+          <InputWLabel
+            noLabel
+            name="nuevo"
+            type="password"
+            required
+            register={register}
+            registerProps={nueva_contraseña_validations}
+          />
           <label htmlFor={'nombre'} className="font-semibold text-2xl">
             Confirmar nueva contraseña
           </label>
-          <InputWLabel noLabel name="confirm_new_password" register={register} required />
+          <InputWLabel
+            noLabel
+            name="confirmacion"
+            type="password"
+            register={register}
+            registerProps={confirmar_contraseña_validations}
+            required
+          />
 
-          <button
-            type="submit"
-            className="bg-gris-oscuro text-white font-semibold px-12 py-3 rounded-md text-xl col-start-1 col-end-3 mx-auto"
-          >
-            Actualizar
-          </button>
+          <ButtonsContainer alone className={'col-start-1 col-end-3'}>
+            <SubmitButton loading={isSubmitting} text="Actualizar" />
+          </ButtonsContainer>
+          <div className="col-start-1 col-end-3 text-center">
+            <FormErrorMessage errors={errors} />
+          </div>
         </form>
       )}
 

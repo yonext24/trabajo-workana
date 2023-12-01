@@ -7,7 +7,7 @@ export const get_puestos = createAsyncThunk('general/get_puestos_data', async (_
 })
 
 export const switch_state_puestos = createAsyncThunk('general/delete_puestos_data', async (data, api) => {
-  await general.puestos.delete(api, data)
+  await general.puestos.switch_state(api, data)
 
   return data
 })

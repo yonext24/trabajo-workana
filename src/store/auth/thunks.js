@@ -133,11 +133,3 @@ export const login = createAsyncThunk('auth/login', async ({ formData }) => {
     throw new Error(errMessage)
   }
 })
-
-export const changePassword = createAsyncThunk('auth/changePassword', async (data, api) => {
-  return await auth.changePassword(api, data)
-})
-
-export const recoverPassword = createAsyncThunk('auth/recoverPassword', async (data, api) => {
-  return await auth.recoverPassword(api, data)
-})

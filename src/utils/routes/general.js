@@ -64,10 +64,10 @@ export const general = {
     get: async () => {
       return await appFetch(`${BASE_URL}/rye/puesto/puestos`)
     },
-    delete: async (_, { id_puesto }) => {
+    switch_state: async (_, { id_puesto, estado }) => {
       return await appFetch(`${BASE_URL}/rye/puesto/actualizar`, {
         method: 'POST',
-        body: JSON.stringify({ id_puesto, estado: false })
+        body: JSON.stringify({ id_puesto, estado: !estado })
       })
     },
     add: async (_, { descripcion }) => {

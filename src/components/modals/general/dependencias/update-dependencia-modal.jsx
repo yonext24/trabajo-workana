@@ -32,7 +32,7 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
     register,
     handleSubmit,
     control,
-    formState: { errors }
+    formState: { errors, touchedFields }
   } = useForm()
   const { loading, handleLoading } = useFormCustom()
 
@@ -40,21 +40,22 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
   const { getUnidadAcademicaUnidad } = useOfertaAcademicaActions()
 
   const handleUpdate = handleLoading(async data => {
-    const id_sector = data.sector.id_sector
-    const id_unidad = data.unidad.id_unidad
-    const sector = data.sector.nombre
-    const unidad = 'placeholder'
+    if (Object.entries(touchedFields).length < 1) return
 
-    const newEntryData = {
-      ...entryData,
+    const { sector, unidad } = data
+    const id_sector = sector.id_sector
+    const id_unidad = unidad.id_unidad
+
+    const finalData = {
       ...data,
-      id_sector,
+      sector: sector.nombre,
+      unidad: unidad.nombre,
       id_unidad,
-      sector,
-      unidad
+      id_sector
     }
-    if (compareValues(entryData, newEntryData)) return
-    await updDependenciasData({ ...data, id_dependencia })
+    if (compareValues(entryData, finalData)) return
+
+    await updDependenciasData({ ...finalData, id_dependencia })
     closeModal()
   })
 

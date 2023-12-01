@@ -4,6 +4,8 @@ import { useEffect } from 'react'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { TablePermisosRow } from './table-permisos-row'
 import { sortModules } from '@/utils/consts'
+import { useFetchLocalData } from '@/hooks/useFetchLocalData'
+import { usuarios } from '@/utils/routes'
 
 export function TablePermisos({ outsideData, columns = [], selectFunction = false, permissions }) {
   // eslint-disable-next-line no-unused-vars
@@ -12,6 +14,14 @@ export function TablePermisos({ outsideData, columns = [], selectFunction = fals
   const revalidating = useSelector(state => state.usuarios.permisos.revalidating)
 
   const { getPermisos } = useUsuariosActions()
+  const { loading: unidadesLoading, data: unidadesData } = useFetchLocalData({
+    func: () => usuarios.permisos.unidades(),
+    dependencies: []
+  })
+  const { loading: extensionesLoading, data: extensionesData } = useFetchLocalData({
+    func: () => usuarios.permisos.extensiones(),
+    dependencies: []
+  })
 
   useEffect(() => {
     if (!outsideData) getPermisos()
@@ -19,7 +29,7 @@ export function TablePermisos({ outsideData, columns = [], selectFunction = fals
 
   return (
     <TableLayout
-      loading={loading}
+      loading={loading || unidadesLoading || extensionesLoading}
       revalidating={revalidating}
       columns={[
         { text: 'Módulo' },
@@ -33,6 +43,8 @@ export function TablePermisos({ outsideData, columns = [], selectFunction = fals
       {outsideData
         ? sortModules(outsideData).map((el, i) => (
             <TablePermisosRow
+              extensiones={extensionesData}
+              unidades={unidadesData}
               permissions={permissions}
               key={i}
               withActions={false}
@@ -40,7 +52,16 @@ export function TablePermisos({ outsideData, columns = [], selectFunction = fals
               {...el}
             />
           ))
-        : filtered.map((el, i) => <TablePermisosRow permissions={permissions} key={i} withActions {...el} />)}
+        : filtered.map((el, i) => (
+            <TablePermisosRow
+              extensiones={extensionesData}
+              unidades={unidadesData}
+              permissions={permissions}
+              key={i}
+              withActions
+              {...el}
+            />
+          ))}
     </TableLayout>
   )
 }

@@ -6,7 +6,8 @@ const initialState = {
       open: false
     }
   },
-  screenWidth: {
+  screenData: {
+    height: undefined,
     width: undefined,
     isMobile: null
   },
@@ -17,10 +18,11 @@ const layoutSlice = createSlice({
   name: 'layout',
   initialState,
   reducers: {
-    set_screen_width: (state, action) => {
-      const { width } = action.payload
-      state.screenWidth.width = width
-      state.screenWidth.isMobile = width <= 800
+    set_screen_data: (state, action) => {
+      const { width, height } = action.payload
+      state.screenData.width = width
+      state.screenData.height = height
+      state.screenData.isMobile = width <= 800
     },
     set_navbar_mobile: (state, action) => {
       const { open } = action.payload
@@ -40,4 +42,4 @@ const layoutSlice = createSlice({
 })
 
 export default layoutSlice.reducer
-export const { set_screen_width, set_navbar_mobile, open_modal, close_modal } = layoutSlice.actions
+export const { set_screen_data, set_navbar_mobile, open_modal, close_modal } = layoutSlice.actions

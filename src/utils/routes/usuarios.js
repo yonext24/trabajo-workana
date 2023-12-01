@@ -73,6 +73,12 @@ export const usuarios = {
       return await appFetch(`${BASE_URL}/rye/permiso/actualizar?id_permiso=${id_permiso}&estado=${!estado}`, {
         method: 'POST'
       })
+    },
+    unidades: async () => {
+      return await appFetch(`${BASE_URL}/rye/permiso/prueba_unidades`)
+    },
+    extensiones: async () => {
+      return await appFetch(`${BASE_URL}/rye/permiso/prueba_extensiones`)
     }
   }
 }
