@@ -51,8 +51,6 @@ export function DependenciasAddModal({ closeModal }) {
       id_sector
     }
 
-    console.log({ finalData })
-
     const res = await addDependenciasData(finalData)
     handleErrorInFormResponse(res, setError, closeModal)
   })

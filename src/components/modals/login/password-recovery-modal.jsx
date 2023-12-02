@@ -24,10 +24,8 @@ export function PasswordRecoveryModal({ closeModal }) {
 
   const onSubmit = handleLoading(async ({ correo }) => {
     const res = await RecoverPassword({ correo })
-    console.log({ res })
 
     handleErrorInFormResponse(res, setError, res => {
-      console.log({ res })
       toast.success(res.payload.result ?? 'Se ha enviado un correo de recuperación')
       closeModal()
     })

@@ -8,7 +8,14 @@ export function CarreraFilter() {
   const nivelesLoading = useSelector(s => s.ofertaAcademica.carrera.nivel.revalidating)
   const nivelesError = useSelector(s => s.ofertaAcademica.carrera.nivel.error)
 
-  const { setCarreraCarreraPaginationData, getCarreraNivelData } = useOfertaAcademicaActions()
+  const { setCarreraCarreraPaginationData, getCarreraNivelData, setCarreraError } = useOfertaAcademicaActions()
+
+  useEffect(() => {
+    if (nivelesError) {
+      console.log({ nivelesError })
+      setCarreraError(nivelesError)
+    }
+  }, [nivelesError])
 
   useEffect(() => {
     getCarreraNivelData()

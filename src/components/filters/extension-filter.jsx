@@ -13,8 +13,6 @@ export function ExtensionFilter() {
   const selectedUnidadGlobal = useSelector(s => s.ofertaAcademica.extension.selectedUnidad)
   const selectedTipoGlobal = useSelector(s => s.ofertaAcademica.extension.selectedTipo)
 
-  console.log({ selectedUnidad })
-
   useEffect(() => {
     if (selectedUnidadGlobal) setSelectedUnidad(selectedUnidadGlobal)
     if (selectedTipoGlobal) setSelectedTipo(selectedTipoGlobal)
@@ -28,7 +26,11 @@ export function ExtensionFilter() {
     func: async () => await appFetch(`${BASE_OFERTA_URL}/rye/extension/param_leer`)
   })
 
-  const { getUnidadAcademicaTipos, setExtensionSelectedUnidad } = useOfertaAcademicaActions()
+  const { getUnidadAcademicaTipos, setExtensionSelectedUnidad, setExtensionError } = useOfertaAcademicaActions()
+
+  useEffect(() => {
+    if (errorUnidad) setExtensionError(errorUnidad)
+  }, [errorUnidad])
 
   /* Los datos de los tipos vienen del estado global por que el endpoint de param_leer no los ofrece */
   const {

@@ -21,8 +21,6 @@ export function TipoAddModal({ closeModal }) {
   const { addUnidadAcademicaTipos } = useOfertaAcademicaActions()
 
   const handleUpdate = handleLoading(async data => {
-    console.log({ data })
-
     const res = await addUnidadAcademicaTipos(data)
     handleErrorInFormResponse(res, setError, closeModal)
   })

@@ -28,7 +28,6 @@ const authSlice = createSlice({
       state.user = null
     },
     changeUser: (state, action) => {
-      console.log(action.payload)
       state.user = { ...state.user, ...action.payload }
     }
   },
@@ -49,7 +48,6 @@ const authSlice = createSlice({
         state.error = null
       })
       .addCase(login.rejected, (state, action) => {
-        console.log(action.error)
         toast.error(action.error.message)
         state.logged = USER_POSSIBLE_STATES.NOT_LOGGED
         state.user = null

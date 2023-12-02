@@ -7,8 +7,6 @@ import { ExtensionUpdateCarreraModal } from '@/components/modals/oferta-academic
 import { useLayoutActions } from '@/hooks/useLayoutActions'
 
 export function CarreraExtensionTable({ data, loading, error, extension, unidad, id_extension }) {
-  console.log({ data })
-
   const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
   const { UPDATE } = permissions
 

@@ -21,7 +21,9 @@ import {
   set_recurso_filtered,
   set_unidad_filtered,
   set_carrera_carrera_pagination_data,
-  set_extension_selected_unidad
+  set_extension_selected_unidad,
+  set_extension_error,
+  set_carrera_error
 } from '@/store/oferta-academica/slice'
 import {
   add_unidad_academica_tipos,
@@ -42,6 +44,8 @@ export function useOfertaAcademicaActions() {
   const setExtensionSelectedUnidad = async data => dispatch(set_extension_selected_unidad(data))
   const setRecursoFiltered = async filteredData => dispatch(set_recurso_filtered({ filteredData }))
   const setCarreraCarreraPaginationData = async data => dispatch(set_carrera_carrera_pagination_data(data))
+  const setExtensionError = async error => dispatch(set_extension_error({ error }))
+  const setCarreraError = async error => dispatch(set_carrera_error({ error }))
 
   const getCarreraNivelData = async () => dispatch(get_carrera_nivel_data())
   const addCarreraNivel = async data => dispatch(add_carrera_nivel(data))
@@ -93,6 +97,8 @@ export function useOfertaAcademicaActions() {
     getOfertaAcademicaExtension,
     addOfertaAcademicaExtension,
     updateOfertaAcademicaExtension,
+    setExtensionError,
+    setCarreraError,
     getCarreraNivelData,
     addCarreraNivel,
     updateCarreraNivel,

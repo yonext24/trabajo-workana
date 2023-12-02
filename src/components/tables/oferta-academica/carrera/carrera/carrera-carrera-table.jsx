@@ -16,8 +16,6 @@ export function CarreraCarreraTable({ permissions }) {
     getCarreraCarreraData(paginationData)
   }, [size, pages, page, nivel])
 
-  console.log(data)
-
   return (
     <TableLayout
       loading={loading}

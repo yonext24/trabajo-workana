@@ -24,8 +24,6 @@ export function GeneralSectores() {
 
   const error = useSelector(s => s.data.sectores.error)
 
-  console.log({ error })
-
   useEffect(() => {
     getSectoresData()
   }, [])

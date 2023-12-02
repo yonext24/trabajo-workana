@@ -37,7 +37,6 @@ export function UnidadAddModal({ closeModal }) {
     const parsedDataToSend = { ...rest, tipo_ua: nombre, id_tipo_ua }
 
     const res = await addUnidadAcademicaUnidad(parsedDataToSend)
-    console.log(res)
     handleErrorInFormResponse(res, setError, closeModal)
   })
 

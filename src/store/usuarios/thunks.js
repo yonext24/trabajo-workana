@@ -168,7 +168,6 @@ export const addUsuariosExtraReducers = builder => {
       function: find_user,
       customFunc: ({ state, data, setProperty }) => {
         const { general, otros } = data
-        console.log(data)
         setProperty({
           property: 'showing',
           state,
@@ -177,32 +176,12 @@ export const addUsuariosExtraReducers = builder => {
       }
     },
     add: {
-      function: create_user
+      function: create_user,
+      customFunc: () => {}
     },
     update: {
       function: update_user,
-      customFunc: ({ state, data, setProperty, getProperty }) => {
-        const actualData = getProperty({ property: 'showing', state })
-
-        const { dependencia, id_dependencia, puesto, id_puesto, rol, id_rol, ref_oficio, fecha_desactivacion } = data
-        const mergedOtros = mergeValues(
-          {
-            dependencia,
-            id_dependencia,
-            puesto,
-            id_puesto,
-            rol,
-            id_rol,
-            ref_oficio,
-            fecha_desactivacion
-          },
-          actualData.otros
-        )
-
-        const mergedData = { ...actualData, ...data, otros: mergedOtros }
-
-        setProperty({ property: 'showing', state, value: mergedData })
-      }
+      customFunc: () => {}
     }
   }
 

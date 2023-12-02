@@ -62,9 +62,9 @@ export function AddPermisosModal({ closeModal }) {
     const data = {
       id_operacion: operacion.id,
       id_modulo: modulo.id,
-      id_nivel: nivel?.id_nivel ?? -2,
-      id_unidad: unidad?.id_unidad ?? -2,
-      id_extension: extension?.id_extension ?? -2
+      id_nivel: nivel?.id ?? -2,
+      id_unidad: unidad?.id ?? -2,
+      id_extension: extension?.id ?? -2
     }
 
     const res = await addPermission(data)
@@ -109,11 +109,7 @@ export function AddPermisosModal({ closeModal }) {
               loading={paramsLoading}
               error={paramsError}
               control={control}
-              registerProps={{
-                validate: () => {
-                  if (!isOfertaAcademica) return 'Este campo es requerido'
-                }
-              }}
+              registerProps={{ required: isOfertaAcademica }}
               show="nombre"
               options={[{ nombre: 'Todos', id_unidad: -1 }, ...paramsData.unidades]}
             />
@@ -128,11 +124,7 @@ export function AddPermisosModal({ closeModal }) {
               loading={paramsLoading}
               error={paramsError}
               control={control}
-              registerProps={{
-                validate: () => {
-                  if (!isOfertaAcademica) return 'Este campo es requerido'
-                }
-              }}
+              registerProps={{ required: isOfertaAcademica }}
               show="nombre"
               options={[{ nombre: 'Todos', id_extension: -1 }, ...paramsData.extensiones]}
             />
@@ -145,11 +137,7 @@ export function AddPermisosModal({ closeModal }) {
               loading={paramsLoading}
               error={paramsError}
               control={control}
-              registerProps={{
-                validate: () => {
-                  if (!isOfertaAcademica) return 'Este campo es requerido'
-                }
-              }}
+              registerProps={{ required: isOfertaAcademica }}
               options={[{ nombre: 'Todos', id_nivel: -1 }, ...paramsData.niveles]}
               show="nombre"
             />

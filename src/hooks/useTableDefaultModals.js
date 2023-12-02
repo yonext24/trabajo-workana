@@ -80,7 +80,6 @@ export function useTableDefaultModals({ place, add, update, del, perm, see }) {
     if (!perm) return undefined
     return funcProps => {
       const modalId = `permissions-${place}-modal`
-      console.log(perm)
       openModal({
         Element: perm?.el ?? DefaultComp,
         id: modalId,

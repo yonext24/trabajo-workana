@@ -8,46 +8,49 @@ import { ButtonsContainer } from '../../buttons-container'
 import { toast } from 'react-toastify'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
 import { SubmitButton } from '@/components/common/submit-button'
-import { useFormCustom } from '@/hooks/useFormCustom'
 import { useModalLogic } from '@/hooks/useModalLogic'
+import { handleErrorInFormResponse } from '@/utils/consts'
+import { geografia } from '@/utils/routes'
+import { useFetchLocalData } from '@/hooks/useFetchLocalData'
+import { number_input_pattern_validation as pattern } from '@/utils/validations/numbers'
 
 export function UpdateUsuariosModal({ closeModal }) {
   const showing = useSelector(s => s.usuarios.usuarios.showing)
+  const {
+    loading: loadingPaises,
+    error: errorPaises,
+    data: dataPaises
+  } = useFetchLocalData({ func: geografia.get_parametros, initialData: { paises: [], departamentos: [] } })
 
   const {
     register,
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting: loading },
     setError
   } = useForm()
-  const { loading, handleLoading } = useFormCustom()
-  const { updateUsuario } = useUsuariosActions()
+  const { updateUsuario, searchUsuario } = useUsuariosActions()
   useModalLogic({ closeModal, noScroll: true })
 
   const { nombres, apellidos, telefono, celular, CUI, registro_personal, correo, usuario, otros } = showing
-  const { rol } = otros
+  const rol = otros?.rol
 
-  const handleUpdate = handleLoading(async data => {
-    console.log({ data })
-
+  const handleUpdate = async ({ pais, ...rawData }) => {
+    const data = { ...rawData, id_pais: pais?.id_pais }
     const res = await updateUsuario(data)
-    if (res?.error) {
-      const message = res.error?.message ?? 'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
-      setError('root.fetchError', { type: 'to-not-invalidate', message })
-      return
-    }
-
-    toast.success('El usuario se creó correctamente.')
-    closeModal()
-  })
+    handleErrorInFormResponse(res, setError, async () => {
+      await searchUsuario({ correo: data.correo })
+      toast.success('El usuario se actualizó correctamente.')
+      closeModal()
+    })
+  }
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout
         closeModal={closeModal}
         className="!max-w-4xl !max-h-[95vh]"
-        title="Agregar usuario"
+        title="Actualizar Usuario"
         errors={errors}
         loading={loading}
       >
@@ -66,9 +69,25 @@ export function UpdateUsuariosModal({ closeModal }) {
             defaultValue={apellidos}
             required
           />
-          <InputWLabel register={register} type="text" id="telefono" name="telefono" defaultValue={telefono} required />
-          <InputWLabel register={register} type="text" id="celular" name="celular" defaultValue={celular} required />
-          <InputWLabel register={register} type="text" id="CUI" name="CUI" defaultValue={CUI} disabled />
+          <InputWLabel
+            register={register}
+            type="number"
+            id="telefono"
+            name="telefono"
+            registerProps={{ pattern }}
+            defaultValue={telefono}
+            required
+          />
+          <InputWLabel
+            register={register}
+            type="number"
+            id="celular"
+            name="celular"
+            registerProps={{ pattern }}
+            defaultValue={celular}
+            required
+          />
+          <InputWLabel register={register} type="number" id="CUI" name="CUI" defaultValue={CUI} disabled />
           <InputWLabel
             register={register}
             type="text"
@@ -82,13 +101,17 @@ export function UpdateUsuariosModal({ closeModal }) {
           <SelectInputControlledWithLabel
             labelText={'País'}
             control={control}
+            options={dataPaises.paises}
+            loading={loadingPaises}
+            error={errorPaises}
             name="pais"
-            defaultValue={'Argentina'}
+            id="pais"
+            show="nombre"
             rules={{ required: true }}
           />
 
           <div className="col-start-1 col-end-3 mt-6">
-            <ButtonsContainer closeModal={closeModal}>
+            <ButtonsContainer closeModal={closeModal} disabled={loading}>
               <SubmitButton text="Actualizar" loading={loading} />
             </ButtonsContainer>
           </div>

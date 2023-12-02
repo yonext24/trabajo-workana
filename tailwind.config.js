@@ -3,6 +3,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      screens: {
+        mobile: '800px'
+      },
       colors: {
         azulfondo: '#0f2949',
         gris: '#d8d9db',

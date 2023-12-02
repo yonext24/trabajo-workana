@@ -87,22 +87,25 @@ export function SelectInput({
   }
   const handleClick = e => {
     e.stopPropagation()
-    if (disabled || loading) return
+    if (disabled || loading || error) return
     setOpen(!open)
   }
+
+  const selectRef = useRef(null)
 
   return (
     <div className="relative w-full">
       <div
+        ref={selectRef}
         onClick={handleClick}
         id="fake-select"
-        data-disabled={disabled}
+        data-disabled={Boolean(disabled || error || loading)}
         data-loading={loading}
         className="cursor-default data-[loading=true]:cursor-not-allowed text-lg pl-4
-    border-2 border-gris rounded-md flex w-full overflow-hidden data-[disabled=true]:shadow-lg data-[disabled=true]:cursor-not-allowed"
+    border-2 border-gris rounded-md grid grid-cols-[1fr,50px] w-full overflow-hidden data-[disabled=true]:shadow-lg data-[disabled=true]:cursor-not-allowed"
       >
-        <div className="flex-1 text-left py-[2px]">
-          <span className="block py-px capitalize transition-colors" style={{ color: formError && 'red' }}>
+        <div className="flex-1 text-left py-[2px] overflow-hidden">
+          <span className="block py-px capitalize transition-colors truncate" style={{ color: formError && 'red' }}>
             {valueParser(value, show) || 'Seleccionar'}
           </span>
         </div>
@@ -117,6 +120,7 @@ export function SelectInput({
       {open && (
         <OptionsMenu
           options={options}
+          selectRef={selectRef}
           show={show}
           handleChange={handleChange}
           closeSelf={() => {
@@ -128,13 +132,19 @@ export function SelectInput({
   )
 }
 
-const OptionsMenu = ({ options, show, handleChange, closeSelf }) => {
+const OptionsMenu = ({ options, show, handleChange, closeSelf, selectRef }) => {
   const ulRef = useRef(null)
   const screenHeight = useSelector(s => s.layout.screenData.height)
 
   useEffect(() => {
     const handleClickOutside = e => {
-      if (ulRef.current && !ulRef.current.contains(e.target)) closeSelf()
+      if (
+        ulRef.current &&
+        !ulRef.current.contains(e.target) &&
+        selectRef.current &&
+        !selectRef.current.contains(e.target)
+      )
+        closeSelf()
     }
     document.addEventListener('mouseup', handleClickOutside)
 

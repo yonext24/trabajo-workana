@@ -49,7 +49,6 @@ export function ExtensionAddModal({ closeModal }) {
     const id_unidad = unidad?.id_unidad
     const data = { ...rest, id_unidad, id_departamento: 1, unidad: unidad?.nombre }
 
-    console.log(data)
     const res = await addOfertaAcademicaExtension(data)
     handleErrorInFormResponse(res, setError, () => {
       setExtensionSelectedUnidad({ unidad: unidad })

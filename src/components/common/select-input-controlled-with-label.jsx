@@ -8,7 +8,7 @@ export function SelectInputControlledWithLabel({
   ...SelectInputControlledProps
 }) {
   return (
-    <div className={'flex flex-col'} id="input-w-label">
+    <div className={'flex flex-col w-full'} id="input-w-label">
       {!noLabel && (
         <label htmlFor={id ?? name} className="font-semibold text-lg capitalize">
           {labelText ?? name}

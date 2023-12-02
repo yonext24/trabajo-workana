@@ -15,8 +15,6 @@ const toShow = [
 export function TableUsuarios() {
   const showing = useSelector(s => s.usuarios.usuarios.showing)
 
-  console.log({ showing })
-
   return (
     <div
       className="border border-gris flex flex-col w-full font-bold

@@ -18,7 +18,7 @@ export function Usuarios() {
 
   return (
     <div id="page-content">
-      <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
+      <div className="w-full flex gap-4 flex-col sm:items-end sm:flex-row justify-between">
         <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
 
         <UsuariosFilter usuariosLoading={usuariosLoading} />

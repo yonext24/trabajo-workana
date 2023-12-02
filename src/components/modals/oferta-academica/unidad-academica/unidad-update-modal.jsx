@@ -24,7 +24,6 @@ export function UnidadUpdateModal({ closeModal, tipo_ua, abreviatura, nombre, co
   const handleUpdate = handleLoading(async data => {
     // eslint-disable-next-line no-unused-vars
     const { tipo_ua, ...rest } = data
-    console.log({ rest })
     const res = await updateUnidadAcademicaUnidad({ ...rest, id_unidad })
     handleErrorInFormResponse(res, setError, closeModal)
   })

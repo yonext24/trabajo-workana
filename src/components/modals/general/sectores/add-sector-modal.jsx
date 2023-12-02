@@ -24,8 +24,6 @@ export function AddSectorModal({ closeModal }) {
     closeModal()
   })
 
-  console.log(sectoresData)
-
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
       <DefaultModalLayout title="Agregar Sector" errors={errors} closeModal={closeModal} loading={loading}>

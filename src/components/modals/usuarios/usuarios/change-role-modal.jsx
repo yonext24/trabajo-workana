@@ -10,6 +10,7 @@ import { useEffect } from 'react'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
+import { validateDate } from '@/utils/validations/dates'
 
 export function ChangeRoleModal({ closeModal }) {
   const {
@@ -33,7 +34,12 @@ export function ChangeRoleModal({ closeModal }) {
   const puestosError = useSelector(s => s.data.puestos.error)
 
   const { otros, usuario } = showing
-  const { rol, dependencia, puesto, ref_oficio, fecha_desactivacion } = otros
+  const rol = otros?.rol
+  const dependencia = otros?.dependencia
+  const puesto = otros?.puesto
+  const ref_oficio = otros?.ref_oficio
+  const fecha_desactivacion = otros?.fecha_desactivacion
+
   const { getCreateUsuarioParametros, updateUsuario } = useUsuariosActions()
 
   const handleUpdate = handleLoading(async data => {
@@ -54,8 +60,6 @@ export function ChangeRoleModal({ closeModal }) {
       dataToUpdate.rol = rol.nombre
     }
 
-    console.log({ data, dataToUpdate })
-
     const res = await updateUsuario(dataToUpdate)
     if (res?.error) {
       const message = res.error?.message ?? 'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
@@ -73,7 +77,13 @@ export function ChangeRoleModal({ closeModal }) {
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Cambiar rol de usuario" className={'!max-h-[95vh]'} loading={loading} errors={errors}>
+      <DefaultModalLayout
+        title="Cambiar rol de usuario"
+        className={'!max-h-[95vh]'}
+        loading={loading}
+        errors={errors}
+        closeModal={closeModal}
+      >
         <form
           className="p-6 [&_label]:font-semibold [&_label]:text-lg flex flex-col gap-3 overflow-y-scroll"
           onSubmit={handleSubmit(handleUpdate)}
@@ -127,11 +137,7 @@ export function ChangeRoleModal({ closeModal }) {
             name="fecha_desactivacion"
             defaultValue={fecha_desactivacion}
             registerProps={{
-              validate: date => {
-                if (new Date(date) < new Date()) {
-                  return 'La fecha de desactivación no puede ser menor a la fecha actual.'
-                }
-              }
+              validate: validateDate
             }}
           />
 

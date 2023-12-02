@@ -16,7 +16,7 @@ export function InfoUsuariosModal({ closeModal }) {
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Información de usuario">
+      <DefaultModalLayout title="Información de usuario" closeModal={closeModal}>
         <div className="p-6">
           <div
             className="border border-gris flex flex-col w-full font-bold

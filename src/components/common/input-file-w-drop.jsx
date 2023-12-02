@@ -92,8 +92,7 @@ export const ControlledInputFileWDrop = ({ control, id, name, rules }) => {
       name={name}
       id={id}
       rules={rules}
-      render={({ field, fieldState: { invalid } }) => {
-        console.log({ invalid })
+      render={({ field }) => {
         const { value, onChange } = field
 
         return <InputFileWDrop file={value} setFile={onChange} />

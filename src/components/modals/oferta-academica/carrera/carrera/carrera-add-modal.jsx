@@ -82,12 +82,6 @@ export function CarreraAddModal({ closeModal }) {
             labelText="Fecha de creación"
             type="date"
             defaultValue={new Date().toISOString().split('T')[0]}
-            // registerProps={{
-            //   validate: date => {
-            //     console.log({ date })
-            //     if (new Date(date) < new Date()) return 'La fecha no puede ser menor a la actual'
-            //   }
-            // }}
             register={register}
             required
           />

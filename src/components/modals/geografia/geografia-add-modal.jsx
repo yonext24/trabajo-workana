@@ -27,7 +27,6 @@ export function GeografiaAddModal({ closeModal }) {
       void getGeoParams()
       // TO DO: REINICIAR LOS DATOS
     } catch (err) {
-      console.log({ err })
       setError('root.fetchError', { type: 'to-not-invalidate', err })
     }
   }

@@ -35,11 +35,9 @@ export function GeografiaFilter() {
   }, [selectedPais])
 
   const handlePaisClick = pais => {
-    console.log(pais)
     setGeoPaginationData({ pais })
   }
   const handleDepartamentoClick = departamento => {
-    console.log({ departamento })
     setGeoPaginationData({ departamento })
   }
 

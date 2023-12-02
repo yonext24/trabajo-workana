@@ -66,6 +66,14 @@ export const ofertaAcademicaSlice = createSlice({
   name: 'ofertaAcademica',
   initialState,
   reducers: {
+    set_extension_error: (state, action) => {
+      const { error } = action.payload
+      state.extension.error = error
+    },
+    set_carrera_error: (state, action) => {
+      const { error } = action.payload
+      state.carrera.carrera.error = error
+    },
     set_unidad_filtered: (state, action) => {
       const { filteredData } = action.payload
       state.unidadAcademica.unidad.filtered = filteredData
@@ -98,6 +106,8 @@ export const {
   set_unidad_filtered,
   set_extension_selected_unidad,
   set_recurso_filtered,
-  set_carrera_carrera_pagination_data
+  set_carrera_carrera_pagination_data,
+  set_extension_error,
+  set_carrera_error
 } = ofertaAcademicaSlice.actions
 export default ofertaAcademicaSlice.reducer

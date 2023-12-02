@@ -24,8 +24,6 @@ const geografiaSlice = createSlice({
     set_geografia_pagination_data: (state, action) => {
       const { size, page, departamento, pais } = action.payload
 
-      console.log('set_geografia_pagination_data', action.payload)
-
       if (pais) state.paginationData.selectedPais = pais
       if (departamento) state.paginationData.selectedDepartamento = departamento
       if (size) {
