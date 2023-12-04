@@ -28,8 +28,6 @@ export function ErrorWarning({ err }) {
     debouncedChangeSideFunction(width)
   }, [width])
 
-  console.log(err)
-
   return (
     <>
       <div className="relative" ref={elementRef}>

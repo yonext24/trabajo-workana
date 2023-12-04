@@ -141,7 +141,7 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
         closeModal={closeModal}
         errors={errors}
         loading={loading}
-        title="Modificar Rol"
+        title="Actualizar Rol"
         className={'!max-w-5xl !max-h-[98vh] h-full !mx-4 overflow-hidden'}
       >
         <form
@@ -155,7 +155,7 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
               name="descripcion"
               defaultValue={descripcion}
               id="descripcion"
-              labelText="Descripcion"
+              labelText="Descripción"
               required
               registerProps={{
                 maxLength: {

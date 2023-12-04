@@ -8,68 +8,62 @@ import { toast } from 'react-toastify'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { useEffect } from 'react'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
-import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
 import { validateDate } from '@/utils/validations/dates'
+import { useFetchLocalData } from '@/hooks/useFetchLocalData'
+import { usuarios } from '@/utils/routes'
+import { handleErrorInFormResponse } from '@/utils/consts'
+import isEqual from 'lodash.isequal'
 
 export function ChangeRoleModal({ closeModal }) {
+  const {
+    data: { dependencias: dependenciasData, roles: rolesData, puestos: puestosData },
+    loading: loadingParams,
+    error: errorParams
+  } = useFetchLocalData({
+    func: getParametros,
+    initialData: { puestos: [], dependencias: [], roles: [] }
+  })
   const {
     handleSubmit,
     register,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting: loading },
     setError
   } = useForm()
-  const { loading, handleLoading } = useFormCustom()
 
   const showing = useSelector(s => s.usuarios.usuarios.showing)
-  const rolesData = useSelector(s => s.usuarios.roles.data)
-  const rolesLoading = useSelector(s => s.usuarios.roles.revalidating)
-  const rolesError = useSelector(s => s.usuarios.roles.error)
-  const dependenciasData = useSelector(s => s.data.dependencias.data)
-  const dependenciasLoading = useSelector(s => s.data.dependencias.revalidating)
-  const dependenciasError = useSelector(s => s.data.dependencias.error)
-  const puestosData = useSelector(s => s.data.puestos.data)
-  const puestosLoading = useSelector(s => s.data.puestos.revalidating)
-  const puestosError = useSelector(s => s.data.puestos.error)
+  const { otros, id_usuario } = showing
 
-  const { otros, usuario } = showing
-  const rol = otros?.rol
-  const dependencia = otros?.dependencia
-  const puesto = otros?.puesto
+  const rol = { nombre: otros?.rol, id_rol: otros?.id_rol }
+  const dependencia = { nombre: otros?.dependencia, id_dependencia: otros?.id_dependencia }
+  const puesto = { nombre: otros?.puesto, id_puesto: otros?.id_puesto }
+
   const ref_oficio = otros?.ref_oficio
   const fecha_desactivacion = otros?.fecha_desactivacion
 
-  const { getCreateUsuarioParametros, updateUsuario } = useUsuariosActions()
+  const { getCreateUsuarioParametros, changeRoleUsuario } = useUsuariosActions()
 
-  const handleUpdate = handleLoading(async data => {
-    const { dependencia, puesto, rol, ...rest } = data
-
-    const dataToUpdate = { ...rest, usuario }
-
-    if (typeof dependencia !== 'string') {
-      dataToUpdate.id_dependencia = dependencia.id
-      dataToUpdate.dependencia = dependencia.nombre
-    }
-    if (typeof puesto !== 'string') {
-      dataToUpdate.id_puesto = puesto.id
-      dataToUpdate.puesto = puesto.nombre
-    }
-    if (typeof rol !== 'string') {
-      dataToUpdate.id_rol = rol.id
-      dataToUpdate.rol = rol.nombre
-    }
-
-    const res = await updateUsuario(dataToUpdate)
-    if (res?.error) {
-      const message = res.error?.message ?? 'Ocurrió un error inesperado, si persiste porfavor contacta a soporte.'
-      setError('root.fetchError', { type: 'to-not-invalidate', message })
+  const handleUpdate = async allData => {
+    const { dependencia: localDependencia, puesto: localPuesto, rol: localRol, ...data } = allData
+    if (isEqual({ fecha_desactivacion, rol, dependencia, puesto, ref_oficio }, allData)) {
       return
     }
 
-    toast.success('El usuario se actualizó correctamente.')
-    closeModal()
-  })
+    const dataToUpdate = {
+      ...data,
+      id_usuario,
+      id_dependencia: localDependencia.id_dependencia,
+      id_puesto: localPuesto.id_puesto,
+      id_rol: localRol.id_rol
+    }
+
+    const res = await changeRoleUsuario(dataToUpdate)
+    handleErrorInFormResponse(res, setError, () => {
+      toast.success('El usuario se actualizó correctamente.')
+      closeModal()
+    })
+  }
 
   useEffect(() => {
     getCreateUsuarioParametros()
@@ -96,8 +90,8 @@ export function ChangeRoleModal({ closeModal }) {
             options={rolesData}
             show="nombre"
             defaultValue={rol}
-            loading={rolesLoading}
-            error={rolesError}
+            loading={loadingParams}
+            error={errorParams}
           />
           <SelectInputControlledWithLabel
             labelText={'Dependencia'}
@@ -107,8 +101,8 @@ export function ChangeRoleModal({ closeModal }) {
             options={dependenciasData}
             show="nombre"
             defaultValue={dependencia}
-            loading={dependenciasLoading}
-            error={dependenciasError}
+            loading={loadingParams}
+            error={errorParams}
           />
           <SelectInputControlledWithLabel
             labelText={'Puesto'}
@@ -118,8 +112,8 @@ export function ChangeRoleModal({ closeModal }) {
             options={puestosData}
             show="nombre"
             defaultValue={puesto}
-            loading={puestosLoading}
-            error={puestosError}
+            loading={loadingParams}
+            error={errorParams}
           />
           <InputWLabel
             register={register}
@@ -148,4 +142,18 @@ export function ChangeRoleModal({ closeModal }) {
       </DefaultModalLayout>
     </ModalBackground>
   )
+}
+
+async function getParametros() {
+  const rawData = await usuarios.usuarios.getParameters()
+
+  const rawPuestos = rawData?.puestos
+  const rawDependencias = rawData?.dependencias
+  const rawRoles = rawData?.roles
+
+  const puestos = rawPuestos.map(({ id, ...el }) => ({ id_puesto: id, ...el }))
+  const dependencias = rawDependencias.map(({ id, ...el }) => ({ id_dependencia: id, ...el }))
+  const roles = rawRoles.map(({ id, ...el }) => ({ id_rol: id, ...el }))
+
+  return { puestos, dependencias, roles }
 }

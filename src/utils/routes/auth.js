@@ -10,10 +10,14 @@ export const auth = {
       body: JSON.stringify(data)
     })
   },
-  recoverPassword: async (api, data) => {
+  recoverPassword: async data => {
     return await appFetch(`${BASE_URL}/rye/usuario/recuperar_contrasenia`, {
+      withoutToken: true,
       method: 'POST',
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
   },
   permisos: `${BASE_URL}/rye/permiso/permisos_usuario`,

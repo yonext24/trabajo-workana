@@ -14,7 +14,8 @@ import {
   get_usuarios_parametros,
   switch_permission_state,
   update_role,
-  update_user
+  update_user,
+  update_role_user
 } from '@/store/usuarios/thunks'
 import { useDispatch } from 'react-redux'
 
@@ -43,10 +44,12 @@ export function useUsuariosActions() {
   const getCreateUsuarioParametros = async () => dispatch(get_usuarios_parametros())
   const searchUsuario = async data => dispatch(find_user(data))
   const updateUsuario = async data => dispatch(update_user(data))
+  const changeRoleUsuario = async data => dispatch(update_role_user(data))
   const deleteUsuario = async data => dispatch(delete_user(data))
 
   return {
     getRolesData,
+    changeRoleUsuario,
     getRolePermissions,
     getMappedRolePermissions,
     getPermisos,

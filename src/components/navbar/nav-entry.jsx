@@ -29,7 +29,7 @@ export function RawEntry({
           toastId: permissionName
         })
       } else {
-        navigate(href)
+        navigate(href, {  })
         closeModal && closeModal()
       }
     }

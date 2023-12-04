@@ -36,8 +36,6 @@ export function TablePermisosRow(props) {
     return { currentUnidad, currentExtension }
   }, [unidades, extensiones, unidad, extension])
 
-  console.log({ unidades, extensiones, unidad, extension, currentExtension, currentUnidad })
-
   const { UPDATE } = permissions
 
   const toConcat = withActions

@@ -1,7 +1,9 @@
 // Este handler se encarga de manejar los errores de las peticiones a la API
 // y los lanza como errores de la aplicación.
 
+import { close_all_modals } from '@/store/layout/slice'
 import { BASE_URL } from './consts'
+import { logout } from '@/store/auth/slice'
 
 let store
 
@@ -22,6 +24,11 @@ export const fetchHandler = async res => {
   const contentType = res.headers.get('content-type')
   const isJson = contentType && contentType.includes('application/json')
 
+  if (res.status === 401) {
+    store.dispatch(logout('expired'))
+    store.dispatch(close_all_modals())
+    throw new Error('No pudimos verificar tu sesión, porfavor vuelve a iniciar sesión.')
+  }
   if (res.status === 422) {
     // Fastapi utiliza siempre el 422 para los error de validación
     throw new Error(errorParser['Unprocessable Entity'])
@@ -50,10 +57,13 @@ export const appFetch = async (url, options) => {
   let headers = {}
 
   if (!withoutToken && !externalToken) {
-    const state = store.getState()
+    const state = store?.getState()
     const token = state?.auth?.token
 
-    if (!token) throw new Error('No se encontró el token de autenticación, porfavor inicia sesión.')
+    if (!token) {
+      console.log(state, token)
+      throw new Error('No se encontró el token de autenticación, porfavor inicia sesión.')
+    }
 
     headers = {
       'Content-Type': 'application/json',

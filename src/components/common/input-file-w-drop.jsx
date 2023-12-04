@@ -1,4 +1,3 @@
-import { mapGeografiaExcel, parseExcel } from '@/utils/parseExcel'
 import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 
@@ -19,12 +18,12 @@ export function InputFileWDrop({ file, setFile }) {
       setDragging(false)
       return
     }
-    const json = await parseExcel(file)
 
     try {
+      const { parseExcel, mapGeografiaExcel } = await import('@/utils/parseExcel')
+      const json = await parseExcel(file)
       const parsedRows = mapGeografiaExcel(json)
       setDragging(false)
-
       setFile(parsedRows)
     } catch (err) {
       const errMessage =

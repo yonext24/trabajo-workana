@@ -37,9 +37,12 @@ const layoutSlice = createSlice({
       const { id } = action.payload
       const newModals = state.modals.filter(modal => modal.id !== id)
       state.modals = newModals
+    },
+    close_all_modals: state => {
+      state.modals = []
     }
   }
 })
 
 export default layoutSlice.reducer
-export const { set_screen_data, set_navbar_mobile, open_modal, close_modal } = layoutSlice.actions
+export const { set_screen_data, set_navbar_mobile, open_modal, close_modal, close_all_modals } = layoutSlice.actions

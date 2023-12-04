@@ -35,7 +35,7 @@ export function ExtensionSeeModal({
             <InputWLabel
               id="fecha_de_creacion"
               name="fecha_de_creacion"
-              labelText="Fecha de creación"
+              labelText="Fecha de Activación"
               disabled
               defaultValue={fecha_de_creacion}
             />

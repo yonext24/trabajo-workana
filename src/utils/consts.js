@@ -28,6 +28,9 @@ const order = {
 }
 
 export const modulesSorterCallback = (a, b) => {
+  if (a.estado || !b.estado) return -1
+  if (!a.estado || b.estado) return 1
+
   const indexA = order[a.modulo]
   const indexB = order[b.modulo]
 

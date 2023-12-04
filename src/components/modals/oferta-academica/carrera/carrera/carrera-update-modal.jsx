@@ -126,7 +126,7 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout
         title="Actualizar Carrera"
-        className={'!max-h-[98vh] h-full !mx-4 overflow-hidden max-w-4xl'}
+        className={'!max-h-[98vh] h-full !mx-4 overflow-hidden max-w-[900px]'}
         closeModal={closeModal}
         errors={errors}
         loading={isSubmitting}

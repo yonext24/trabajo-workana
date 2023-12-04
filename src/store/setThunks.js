@@ -141,14 +141,17 @@ const thunksSets = ({
         }
       }
       if (type === 'del') {
-        deleteHandler({
-          state,
-          data,
-          del,
-          getProperty,
-          setProperty,
-          realDelete
-        })
+        if (del.customFunc) {
+          del.customFunc({ state, data, getProperty, setProperty })
+        } else
+          deleteHandler({
+            state,
+            data,
+            del,
+            getProperty,
+            setProperty,
+            realDelete
+          })
       }
 
       if (hasFiltered) {

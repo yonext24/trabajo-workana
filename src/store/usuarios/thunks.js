@@ -2,7 +2,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { setThunks } from '../setThunks'
 import { usuarios } from '@/utils/routes/usuarios'
-import { mergeValues } from '@/utils/consts'
 
 /* **************************************************************************************
 
@@ -98,6 +97,12 @@ export const update_user = createAsyncThunk('usuarios/usuarios/update', async (d
   // Este modus operandi no es el óptimo, pero no depende de mi lo que sale de la api
 })
 
+export const update_role_user = createAsyncThunk('usuarios/usuarios/update_role', async (data, api) => {
+  await usuarios.usuarios.change_role(data)
+
+  return data
+})
+
 export const delete_user = createAsyncThunk('usuarios/usuarios/delete', async (data, api) => {
   await usuarios.usuarios.delete(api, data)
   return data.usuario
@@ -150,11 +155,24 @@ export const addUsuariosExtraReducers = builder => {
     },
     update: {
       function: switch_permission_state,
-      filterFunc: (data, el) => {
-        if (el.id_permiso === data.id_permiso) {
-          return { ...el, estado: !data.estado }
+      customFunc: ({ state, data, setProperty, getProperty }) => {
+        const { id_permiso, estado } = data
+
+        const permisosData = getProperty({ property: 'data', state })
+        const filteredPermisosData = getProperty({ property: 'filtered', state })
+
+        const permisoIndex = permisosData.findIndex(permiso => permiso.id_permiso === id_permiso)
+        const permisoFilteredIndex = filteredPermisosData.findIndex(permiso => permiso.id_permiso === id_permiso)
+
+        if (permisoIndex !== -1) {
+          permisosData[permisoIndex].estado = !estado
         }
-        return el
+        if (permisoFilteredIndex !== -1) {
+          filteredPermisosData[permisoFilteredIndex].estado = !estado
+        }
+
+        setProperty({ property: 'data', state, value: permisosData })
+        setProperty({ property: 'filtered', state, value: filteredPermisosData })
       }
     },
     del: {
@@ -182,6 +200,12 @@ export const addUsuariosExtraReducers = builder => {
     update: {
       function: update_user,
       customFunc: () => {}
+    },
+    del: {
+      function: delete_user,
+      customFunc: ({ state, setProperty }) => {
+        setProperty({ property: 'showing', state, value: {} })
+      }
     }
   }
 
@@ -246,5 +270,23 @@ export const addUsuariosExtraReducers = builder => {
     state.roles.loading = false
     state.roles.revalidating = false
     state.roles.error = action.payload
+  })
+  builder.addCase(update_role_user.fulfilled, (state, action) => {
+    const { id_usuario, ...data } = action.payload
+    const showingUser = state.usuarios.showing
+
+    if (showingUser.id_usuario !== id_usuario) return
+    const showingOther = showingUser.otros
+    const mergedOther = { ...showingOther, ...data }
+
+    state.usuarios.showing.otros = mergedOther
+  })
+  builder.addCase(update_role_user.pending, (state, action) => {
+    state.usuarios.loading = true
+    state.usuarios.error = null
+  })
+  builder.addCase(update_role_user.rejected, (state, action) => {
+    state.usuarios.loading = false
+    state.usuarios.error = action.payload
   })
 }

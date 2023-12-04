@@ -22,7 +22,11 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: state => {
+    logout: (state, action) => {
+      if (action.payload === 'expired') {
+        toast.error('Tu sesión ha expirado, porfavor vuelve a iniciar sesión.')
+      }
+
       localStorage.removeItem('token')
       state.logged = USER_POSSIBLE_STATES.NOT_LOGGED
       state.user = null

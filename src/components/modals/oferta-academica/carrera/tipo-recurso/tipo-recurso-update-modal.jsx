@@ -26,7 +26,7 @@ export function UpdateTipoRecursoModal({ nombre, descripcion, id_tipo_recurso, c
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Modificar Nivel" closeModal={closeModal} errors={errors} loading={loading}>
+      <DefaultModalLayout title="Actualizar Nivel" closeModal={closeModal} errors={errors} loading={loading}>
         <form className="p-6 gap-4 flex flex-col" onSubmit={handleSubmit(handleUpload)}>
           <InputWLabel name="nombre" disabled defaultValue={nombre} />
           <InputWLabel name="descripcion" required register={register} isTextArea defaultValue={descripcion} />

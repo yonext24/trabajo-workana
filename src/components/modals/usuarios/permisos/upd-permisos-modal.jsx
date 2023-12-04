@@ -27,7 +27,7 @@ export function UpdPermisosModal({ closeModal, id, modulo, operacion, unidad, ex
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Modificar Permiso">
+      <DefaultModalLayout title="Actualizar Permiso">
         <form
           onSubmit={handleSubmit(handleUpload)}
           className="flex flex-col gap-y-4 p-6 [&_label]:font-semibold [&>label]:text-lg [&>label]:-mb-4 [&>label]:block"

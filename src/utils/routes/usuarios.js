@@ -23,8 +23,14 @@ export const usuarios = {
         body: JSON.stringify(data)
       })
     },
+    change_role: async data => {
+      return await appFetch(`${BASE_URL}/rye/usuario/asignar_rol`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+    },
     delete: async (_, { usuario }) => {
-      return await appFetch(`${BASE_URL}/rye/usuario/actualizar`, {
+      return await appFetch(`${BASE_URL}/rye/usuario/dar_baja_usuario?id_rol_usuario=${usuario}`, {
         method: 'POST',
         body: JSON.stringify({ usuario, estado: false })
       })

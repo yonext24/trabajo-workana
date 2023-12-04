@@ -86,22 +86,8 @@ export function AddUsuariosModal({ closeModal }) {
         >
           <InputWLabel register={register} type="text" id="nombres" name="nombres" required />
           <InputWLabel register={register} type="text" id="apellidos" name="apellidos" required />
-          <InputWLabel
-            register={register}
-            type="number"
-            registerProps={{ pattern }}
-            id="telefono"
-            name="telefono"
-            required
-          />
-          <InputWLabel
-            register={register}
-            type="number"
-            registerProps={{ pattern }}
-            id="celular"
-            name="celular"
-            required
-          />
+          <InputWLabel register={register} type="number" registerProps={{ pattern }} id="telefono" name="telefono" />
+          <InputWLabel register={register} type="number" registerProps={{ pattern }} id="celular" name="celular" />
           <InputWLabel register={register} type="number" registerProps={{ pattern }} id="CUI" name="CUI" required />
           <InputWLabel
             register={register}
@@ -109,7 +95,6 @@ export function AddUsuariosModal({ closeModal }) {
             id="registro_personal"
             name="registro_personal"
             labelText="Registro de personal"
-            required
           />
           <InputWLabel register={register} type="email" id="correo" name="correo" required />
           <SelectInputControlledWithLabel
@@ -139,6 +124,7 @@ export function AddUsuariosModal({ closeModal }) {
             name="rol"
             loading={rolesLoading}
             error={rolesError}
+            registerProps={{ required: true }}
           />
           <SelectInputControlledWithLabel
             labelText={'Dependencia'}
@@ -148,6 +134,7 @@ export function AddUsuariosModal({ closeModal }) {
             name="dependencia"
             loading={dependenciasLoading}
             error={dependenciasError}
+            registerProps={{ required: true }}
           />
           <SelectInputControlledWithLabel
             labelText={'Puesto'}
@@ -157,6 +144,7 @@ export function AddUsuariosModal({ closeModal }) {
             name="puesto"
             loading={puestosLoading}
             error={puestosError}
+            registerProps={{ required: true }}
           />
           <InputWLabel
             register={register}
@@ -171,6 +159,7 @@ export function AddUsuariosModal({ closeModal }) {
             id="fecha_desactivacion"
             labelText="Fecha de desactivación"
             registerProps={{
+              required: true,
               validate: validateDate
             }}
             required

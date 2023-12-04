@@ -34,10 +34,6 @@ export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
     handleChange(currentOption.current)
   }, [outsideData])
 
-  useEffect(() => {
-    setPermisosFiltered(dataToUse)
-  }, [dataToUse])
-
   return (
     <div
       className="flex flex-col gap-y-2 max-w-[300px] w-full items-center gap-x-4"

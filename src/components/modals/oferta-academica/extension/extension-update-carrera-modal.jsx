@@ -64,33 +64,34 @@ export function ExtensionUpdateCarreraModal({
             <InputWLabel
               id="codigo"
               name="codigo"
-              labelText="Código extensión"
+              labelText="Código"
               type="number"
               required
               register={register}
               defaultValue={codigo}
             />
-            <InputWLabel
-              id="fecha_de_creacion"
-              name="fecha_de_creacion"
-              labelText="Fecha de creación"
-              type="date"
-              register={register}
-              defaultValue={fecha_creacion}
+            <SelectInputControlledWithLabel
+              control={control}
+              id="rawEstado"
+              name="rawEstado"
+              labelText={'Estado'}
+              options={[
+                { text: 'Activo', estado: true },
+                { text: 'Inactivo', estado: false }
+              ]}
+              defaultValue={estado ? { text: 'Activo', estado: estado } : { text: 'Inactivo', estado: estado }}
+              show="text"
             />
           </HorizontalDiv>
-          <SelectInputControlledWithLabel
-            control={control}
-            id="rawEstado"
-            name="rawEstado"
-            labelText={'Estado'}
-            options={[
-              { text: 'Activo', estado: true },
-              { text: 'Inactivo', estado: false }
-            ]}
-            defaultValue={estado ? { text: 'Activo', estado: estado } : { text: 'Inactivo', estado: estado }}
-            show="text"
+          <InputWLabel
+            id="fecha_creacion"
+            name="fecha_creacion"
+            labelText="Fecha de Activación"
+            type="date"
+            register={register}
+            defaultValue={fecha_creacion}
           />
+
           <ButtonsContainer className={'mt-2 mb-2'} closeModal={closeModal} disabled={isSubmitting}>
             <SubmitButton text="Actualizar" loading={isSubmitting} />
           </ButtonsContainer>

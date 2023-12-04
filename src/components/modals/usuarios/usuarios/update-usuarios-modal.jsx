@@ -13,6 +13,7 @@ import { handleErrorInFormResponse } from '@/utils/consts'
 import { geografia } from '@/utils/routes'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
 import { number_input_pattern_validation as pattern } from '@/utils/validations/numbers'
+import { useMemo } from 'react'
 
 export function UpdateUsuariosModal({ closeModal }) {
   const showing = useSelector(s => s.usuarios.usuarios.showing)
@@ -32,11 +33,11 @@ export function UpdateUsuariosModal({ closeModal }) {
   const { updateUsuario, searchUsuario } = useUsuariosActions()
   useModalLogic({ closeModal, noScroll: true })
 
-  const { nombres, apellidos, telefono, celular, CUI, registro_personal, correo, usuario, otros } = showing
+  const { nombres, apellidos, telefono, celular, CUI, registro_personal, correo, usuario, otros, id_pais } = showing
   const rol = otros?.rol
 
   const handleUpdate = async ({ pais, ...rawData }) => {
-    const data = { ...rawData, id_pais: pais?.id_pais }
+    const data = { ...rawData, id_pais: pais?.id_pais, nacionalidad: pais?.nacionalidad }
     const res = await updateUsuario(data)
     handleErrorInFormResponse(res, setError, async () => {
       await searchUsuario({ correo: data.correo })
@@ -44,6 +45,13 @@ export function UpdateUsuariosModal({ closeModal }) {
       closeModal()
     })
   }
+
+  const defaultPais = useMemo(() => {
+    if (id_pais === undefined) return null
+    if (dataPaises?.paises?.length === 0) return null
+
+    return dataPaises.paises.find(pais => pais.id_pais === id_pais)
+  }, [id_pais, dataPaises.paises])
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
@@ -71,6 +79,7 @@ export function UpdateUsuariosModal({ closeModal }) {
           />
           <InputWLabel
             register={register}
+            labelText={'Teléfono'}
             type="number"
             id="telefono"
             name="telefono"
@@ -108,6 +117,7 @@ export function UpdateUsuariosModal({ closeModal }) {
             id="pais"
             show="nombre"
             rules={{ required: true }}
+            defaultValue={defaultPais}
           />
 
           <div className="col-start-1 col-end-3 mt-6">
