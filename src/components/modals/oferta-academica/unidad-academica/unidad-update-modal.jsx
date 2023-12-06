@@ -7,7 +7,7 @@ import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { handleErrorInFormResponse } from '@/utils/consts'
 import { SubmitButton } from '@/components/common/submit-button'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useSelector } from 'react-redux'
 
 export function UnidadUpdateModal({ closeModal, tipo_ua, abreviatura, nombre, codigo, id_unidad }) {

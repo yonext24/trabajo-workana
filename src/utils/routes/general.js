@@ -1,7 +1,10 @@
-import { BASE_URL } from '@/utils/consts'
+import { BASE_OFERTA_URL, BASE_URL } from '@/utils/consts'
 import { appFetch } from '../fetchHandler'
 
 export const general = {
+  parametros: async () => {
+    return await appFetch(`${BASE_OFERTA_URL}/rye/general/parametros`)
+  },
   sectores: {
     get: async () => {
       return await appFetch(`${BASE_URL}/rye/sector/sectores`)

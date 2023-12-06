@@ -12,7 +12,7 @@ export function RolePermissionsModal({ closeModal, nombre, id_rol }) {
   const pagePermissions = usePermissions('USUARIOS')
 
   const rolePermissions = useMemo(() => {
-    return permissions.find(p => p.id_rol === id_rol)
+    return permissions.find(p => p.id_rol === id_rol)?.permissions ?? []
   }, [permissions, id_rol])
 
   const { getRolePermissions } = useUsuariosActions()
@@ -27,7 +27,7 @@ export function RolePermissionsModal({ closeModal, nombre, id_rol }) {
         <div className="px-6 flex flex-col gap-y-5 py-4 justify-between h-full overflow-y-auto">
           <h3 className="text-2xl font-bold">Rol: {nombre}</h3>
 
-          {rolePermissions && <TablePermisos outsideData={rolePermissions.permissions} permissions={pagePermissions} />}
+          {rolePermissions && <TablePermisos outsideData={rolePermissions} permissions={pagePermissions} />}
 
           <button
             onClick={closeModal}

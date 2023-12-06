@@ -1,6 +1,6 @@
 import { InputWLabel } from '@/components/common/input-w-label'
-import { SelectInput } from '@/components/common/select-input'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInput } from '@/components/common/select-input/select-input'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { SubmitButton } from '@/components/common/submit-button'
 import { SwitchControlled } from '@/components/common/switch-controlled'
 import { ButtonsContainer } from '@/components/modals/buttons-container'

@@ -18,13 +18,13 @@ export function InfoUsuariosModal({ closeModal }) {
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout title="Información de usuario" closeModal={closeModal}>
         <div className="p-6">
+          {showing?.otros === null && (
+            <span className="text-red-500">Deberás asignarle un rol al usuario para ver más datos.</span>
+          )}
           <div
             className="border border-gris flex flex-col w-full font-bold
         [&>#row]:grid [&>#row]:grid-cols-2 [&_#td]:py-[9px] [&_#row:not(:last-of-type)>#td]:border-b [&_#td]:px-2"
           >
-            {showing?.otros === null && (
-              <span className="text-red-500">Deberás asignarle un rol al usuario para ver más datos.</span>
-            )}
             {toShow
               .map(({ key, text }) => ({ [key]: showing?.otros?.[key], text }))
               .map(el => {

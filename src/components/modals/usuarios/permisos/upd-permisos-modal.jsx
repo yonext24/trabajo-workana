@@ -1,4 +1,4 @@
-import { SelectInputControlled } from '@/components/common/select-input-controlled'
+import { SelectInputControlled } from '@/components/common/select-input/select-input-controlled'
 import { ButtonsContainer } from '../../buttons-container'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'

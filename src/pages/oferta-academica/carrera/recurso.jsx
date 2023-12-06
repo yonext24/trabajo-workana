@@ -1,6 +1,6 @@
 import { ErrorWarning } from '@/components/common/error-warning'
 import { NuevoButton } from '@/components/common/nuevo-button'
-import { SelectInput } from '@/components/common/select-input'
+import { SelectInput } from '@/components/common/select-input/select-input'
 import { RecursoAddModal } from '@/components/modals/oferta-academica/carrera/recurso/recurso-add-modal'
 import { RecursoTable } from '@/components/tables/oferta-academica/carrera/recurso/recurso-table'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'

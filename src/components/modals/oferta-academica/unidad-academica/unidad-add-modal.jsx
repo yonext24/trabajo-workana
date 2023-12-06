@@ -7,7 +7,7 @@ import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useSelector } from 'react-redux'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useEffect } from 'react'
 import { handleErrorInFormResponse } from '@/utils/consts'
 

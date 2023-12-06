@@ -4,7 +4,7 @@ import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '@/components/common/input-w-label'
 import { ButtonsContainer } from '../../buttons-container'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { SubmitButton } from '@/components/common/submit-button'
 import { handleErrorInFormResponse } from '@/utils/consts'
 

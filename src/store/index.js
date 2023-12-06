@@ -6,7 +6,7 @@ import ofertaAcademicaReducer from './oferta-academica/slice'
 import authReducer from './auth/slice'
 import geografiaReducer from './geografia/slice'
 
-const rollbackerMiddleware = store => next => action => {
+const sessionMiddleware = store => next => action => {
   if (typeof action === 'function') {
     return action(store.dispatch, store.getState)
   }
@@ -24,7 +24,7 @@ export const setupStore = preloadedState => {
       auth: authReducer,
       geografia: geografiaReducer
     },
-    middleware: [rollbackerMiddleware],
+    middleware: [sessionMiddleware],
     preloadedState
   })
 }

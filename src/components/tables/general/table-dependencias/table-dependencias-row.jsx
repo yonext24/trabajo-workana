@@ -3,7 +3,6 @@ import { useDataActions } from '../../../../hooks/useDataActions'
 import { UpdateDependenciaModal } from '../../../modals/general/dependencias/update-dependencia-modal'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 import { parseEstado } from '@/utils/consts'
-import { useSelector } from 'react-redux'
 import { useMemo } from 'react'
 
 export function TableDependenciasRow({
@@ -15,7 +14,8 @@ export function TableDependenciasRow({
   id_dependencia,
   id_sector,
   id_unidad,
-  estado
+  estado,
+  unidades
 }) {
   const { switchStateDependencias } = useDataActions()
 
@@ -47,9 +47,8 @@ export function TableDependenciasRow({
     })
   }
 
-  const unidades = useSelector(s => s.ofertaAcademica.unidadAcademica.unidad.data)
   const currentUnidad = useMemo(
-    () => unidades.find(u => u.id_unidad === id_unidad)?.nombre ?? 'Desconocido',
+    () => unidades.find(u => u.id_unidad === id_unidad)?.abreviatura ?? 'Desconocido',
     [unidades, id_unidad]
   )
 

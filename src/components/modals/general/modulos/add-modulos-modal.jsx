@@ -6,7 +6,7 @@ import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '../../../common/input-w-label'
 import { useSelector } from 'react-redux'
 import { compareValues } from '@/utils/compareValues'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
 

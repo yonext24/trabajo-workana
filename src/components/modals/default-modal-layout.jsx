@@ -8,7 +8,8 @@ export function DefaultModalLayout({
   closeModal = false,
   noButton = false,
   loading,
-  errors
+  errors,
+  info = false
 }) {
   return (
     <div
@@ -31,6 +32,7 @@ export function DefaultModalLayout({
       </header>
       {children}
       {errors && <FormErrorMessage errors={errors} className="mb-2" />}
+      {info && <span className="text-blue-500 text-center text-sm">{info}</span>}
     </div>
   )
 }

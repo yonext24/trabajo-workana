@@ -2,36 +2,35 @@ import { useForm } from 'react-hook-form'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '@/components/common/input-w-label'
-import { useSelector } from 'react-redux'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { ButtonsContainer } from '../../buttons-container'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useModalLogic } from '@/hooks/useModalLogic'
 import { toast } from 'react-toastify'
 import { SubmitButton } from '@/components/common/submit-button'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
-import { geografia } from '@/utils/routes'
+import { geografia, usuarios } from '@/utils/routes'
 import { number_input_pattern_validation as pattern } from '@/utils/validations/numbers'
 import { username_validation } from '@/utils/validations/usuario'
 import { validateDate } from '@/utils/validations/dates'
 import { handleErrorInFormResponse } from '@/utils/consts'
 
+const fetch_data = async () => {
+  return await usuarios.usuarios.getParameters()
+}
+
 export function AddUsuariosModal({ closeModal }) {
-  const dependencias = useSelector(s => s.data.dependencias.data)
-  const dependenciasLoading = useSelector(s => s.data.dependencias.revalidating)
-  const dependenciasError = useSelector(s => s.data.dependencias.error)
-  const puestos = useSelector(s => s.data.puestos.data)
-  const puestosLoading = useSelector(s => s.data.puestos.revalidating)
-  const puestosError = useSelector(s => s.data.puestos.error)
-  const roles = useSelector(s => s.usuarios.roles.data)
-  const rolesLoading = useSelector(s => s.usuarios.roles.revalidating)
-  const rolesError = useSelector(s => s.usuarios.roles.error)
   const {
     loading: loadingPaises,
     error: errorPaises,
     data: dataPaises
   } = useFetchLocalData({ func: geografia.get_parametros, initialData: { paises: [], departamentos: [] } })
+  const {
+    loading: paramsLoading,
+    error: paramsError,
+    data: paramsData
+  } = useFetchLocalData({ func: fetch_data, initialData: { dependencias: [], roles: [], puestos: [] } })
 
   const {
     register,
@@ -40,7 +39,7 @@ export function AddUsuariosModal({ closeModal }) {
     formState: { errors, isSubmitting: loading },
     setError
   } = useForm()
-  const { getCreateUsuarioParametros, createUsuario } = useUsuariosActions()
+  const { createUsuario } = useUsuariosActions()
   useModalLogic({ closeModal, noScroll: true })
 
   const onSubmit = useCallback(async data => {
@@ -48,7 +47,7 @@ export function AddUsuariosModal({ closeModal }) {
     const { id: id_dependencia } = dependencia
     const { id: id_rol } = rol
     const { id: id_puesto } = puesto
-    const id_pais = pais?.id_pais
+    const { id_pais, nacionalidad } = pais
 
     const otros = {
       id_dependencia,
@@ -58,7 +57,7 @@ export function AddUsuariosModal({ closeModal }) {
       fecha_desactivacion
     }
 
-    const parsedUserToSend = { usuario: { ...restOfUser, id_pais }, otros }
+    const parsedUserToSend = { usuario: { ...restOfUser, id_pais, nacionalidad }, otros }
 
     const res = await createUsuario(parsedUserToSend)
     handleErrorInFormResponse(res, setError, () => {
@@ -66,11 +65,6 @@ export function AddUsuariosModal({ closeModal }) {
       closeModal()
     })
   }, [])
-
-  useEffect(() => {
-    getCreateUsuarioParametros()
-  }, [])
-
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout
@@ -119,31 +113,31 @@ export function AddUsuariosModal({ closeModal }) {
           <SelectInputControlledWithLabel
             labelText={'Rol'}
             control={control}
-            options={roles}
+            options={paramsData.roles}
             show="nombre"
             name="rol"
-            loading={rolesLoading}
-            error={rolesError}
+            loading={paramsLoading}
+            error={paramsError}
             registerProps={{ required: true }}
           />
           <SelectInputControlledWithLabel
             labelText={'Dependencia'}
             control={control}
-            options={dependencias}
+            options={paramsData.dependencias}
             show={'nombre'}
             name="dependencia"
-            loading={dependenciasLoading}
-            error={dependenciasError}
+            loading={paramsLoading}
+            error={paramsError}
             registerProps={{ required: true }}
           />
           <SelectInputControlledWithLabel
             labelText={'Puesto'}
             control={control}
-            options={puestos}
+            options={paramsData.puestos}
             show="nombre"
             name="puesto"
-            loading={puestosLoading}
-            error={puestosError}
+            loading={paramsLoading}
+            error={paramsError}
             registerProps={{ required: true }}
           />
           <InputWLabel

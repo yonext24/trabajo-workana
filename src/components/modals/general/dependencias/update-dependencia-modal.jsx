@@ -7,25 +7,33 @@ import { InputWLabel } from '../../../common/input-w-label'
 import { compareValues } from '../../../../utils/compareValues'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
-import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
+import { general } from '@/utils/routes'
+import { useFetchLocalData } from '@/hooks/useFetchLocalData'
+
+const fetchDependencias = async () => {
+  return await general.parametros().then(({ unidades }) => unidades)
+}
 
 export function UpdateDependenciaModal({ closeModal, entryData }) {
   const { nombre, abreviatura, id_dependencia, id_sector, id_unidad } = entryData
 
   const { data: sectoresData, error: sectoresError, revalidating: sectoresLoading } = useSelector(s => s.data.sectores)
   const dependenciasData = useSelector(s => s.data.dependencias.data)
+
   const {
+    loading: unidadesLoading,
     data: unidadesData,
-    error: unidadesError,
-    loading: unidadesLoading
-  } = useSelector(s => s.ofertaAcademica.unidadAcademica.unidad)
+    error: unidadesError
+  } = useFetchLocalData({
+    func: fetchDependencias,
+    dependencies: []
+  })
 
   useEffect(() => {
     getSectoresData()
-    getUnidadAcademicaUnidad()
   }, [])
 
   const {
@@ -37,7 +45,6 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
   const { loading, handleLoading } = useFormCustom()
 
   const { updDependenciasData, getSectoresData } = useDataActions()
-  const { getUnidadAcademicaUnidad } = useOfertaAcademicaActions()
 
   const handleUpdate = handleLoading(async data => {
     if (Object.entries(touchedFields).length < 1) return
@@ -105,7 +112,7 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
             control={control}
             rules={{ required: true }}
             defaultValue={unidadesData.find(el => el.id_unidad === id_unidad)}
-            show={'nombre'}
+            show={'abreviatura'}
             loading={unidadesLoading}
             error={unidadesError}
             options={unidadesData}

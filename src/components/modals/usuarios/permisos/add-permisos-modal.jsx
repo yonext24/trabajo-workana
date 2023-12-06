@@ -4,18 +4,18 @@ import { ModalBackground } from '../../modal-background'
 import { ButtonsContainer } from '../../buttons-container'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { useEffect, useMemo } from 'react'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
 import { BASE_URL, handleErrorInFormResponse } from '@/utils/consts'
 import { appFetch } from '@/utils/fetchHandler'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
+import { general } from '@/utils/routes'
 
 const fetchData = async () => {
   const { modulos, operaciones, niveles } = await appFetch(`${BASE_URL}/rye/permiso/parametros_nuevo`)
 
-  const unidades = await appFetch(`${BASE_URL}/rye/permiso/prueba_unidades`)
-  const extensiones = await appFetch(`${BASE_URL}/rye/permiso/prueba_extensiones`)
+  const { unidades, extensiones } = await general.parametros()
 
   return { modulos, operaciones, niveles, unidades, extensiones }
 }
@@ -32,6 +32,8 @@ export function AddPermisosModal({ closeModal }) {
   const { loading, handleLoading } = useFormCustom()
 
   const moduloSelected = watch('modulo')
+  const data = watch()
+  console.log(data)
 
   const isOfertaAcademica = useMemo(() => {
     if (!moduloSelected) return false
@@ -62,9 +64,9 @@ export function AddPermisosModal({ closeModal }) {
     const data = {
       id_operacion: operacion.id,
       id_modulo: modulo.id,
-      id_nivel: nivel?.id ?? -2,
-      id_unidad: unidad?.id ?? -2,
-      id_extension: extension?.id ?? -2
+      id_nivel: nivel?.id_nivel ?? -2,
+      id_unidad: unidad?.id_unidad ?? -2,
+      id_extension: extension?.id_extension ?? -2
     }
 
     const res = await addPermission(data)
@@ -105,13 +107,14 @@ export function AddPermisosModal({ closeModal }) {
               labelText="Unidad"
               ligatedToExternalChange
               disabled={!isOfertaAcademica}
+              disabledMessage="Esta opción sólo está disponible en el módulo Oferta Académica"
               name="unidad"
               loading={paramsLoading}
               error={paramsError}
               control={control}
               registerProps={{ required: isOfertaAcademica }}
-              show="nombre"
-              options={[{ nombre: 'Todos', id_unidad: -1 }, ...paramsData.unidades]}
+              show="abreviatura"
+              options={[{ abreviatura: 'Todos', id_unidad: -1 }, ...paramsData.unidades]}
             />
           </div>
 
@@ -120,19 +123,21 @@ export function AddPermisosModal({ closeModal }) {
               labelText="Extensión"
               ligatedToExternalChange
               disabled={!isOfertaAcademica}
+              disabledMessage="Esta opción sólo está disponible en el módulo Oferta Académica"
               name="extension"
               loading={paramsLoading}
               error={paramsError}
               control={control}
               registerProps={{ required: isOfertaAcademica }}
-              show="nombre"
-              options={[{ nombre: 'Todos', id_extension: -1 }, ...paramsData.extensiones]}
+              show="abreviatura"
+              options={[{ abreviatura: 'Todos', id_extension: -1 }, ...paramsData.extensiones]}
             />
 
             <SelectInputControlledWithLabel
               labelText="Nivel"
               ligatedToExternalChange
               disabled={!isOfertaAcademica}
+              disabledMessage="Esta opción sólo está disponible en el módulo Oferta Académica"
               name="nivel"
               loading={paramsLoading}
               error={paramsError}

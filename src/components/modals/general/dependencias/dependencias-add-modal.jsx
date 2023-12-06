@@ -4,13 +4,17 @@ import { ButtonsContainer } from '../../buttons-container'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { useDataActions } from '../../../../hooks/useDataActions'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useSelector } from 'react-redux'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
-import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
-import { useEffect } from 'react'
 import { handleErrorInFormResponse } from '@/utils/consts'
+import { useFetchLocalData } from '@/hooks/useFetchLocalData'
+import { general } from '@/utils/routes'
+
+const fetchDependencias = async () => {
+  return await general.parametros().then(({ unidades }) => unidades)
+}
 
 export function DependenciasAddModal({ closeModal }) {
   const {
@@ -23,18 +27,15 @@ export function DependenciasAddModal({ closeModal }) {
   const { addDependenciasData } = useDataActions()
   const { loading, handleLoading } = useFormCustom()
 
-  const { data: sectoresData, revalidating: sectoresLoading, error: sectoresError } = useSelector(s => s.data.sectores)
   const {
-    data: unidadesData,
     loading: unidadesLoading,
+    data: unidadesData,
     error: unidadesError
-  } = useSelector(s => s.ofertaAcademica.unidadAcademica.unidad)
-
-  const { getUnidadAcademicaUnidad } = useOfertaAcademicaActions()
-
-  useEffect(() => {
-    getUnidadAcademicaUnidad()
-  }, [])
+  } = useFetchLocalData({
+    func: fetchDependencias,
+    dependencies: []
+  })
+  const { data: sectoresData, revalidating: sectoresLoading, error: sectoresError } = useSelector(s => s.data.sectores)
 
   const dependenciasData = useSelector(s => s.data.dependencias.data)
 
@@ -106,7 +107,7 @@ export function DependenciasAddModal({ closeModal }) {
             options={unidadesData}
             loading={unidadesLoading}
             error={unidadesError}
-            show="nombre"
+            show="abreviatura"
             labelText="Unidad"
           />
 

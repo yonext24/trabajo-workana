@@ -1,7 +1,7 @@
 import { useGeografiaActions } from '@/hooks/useGeografiaActions'
 import { useEffect, useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { SelectInputWithLabel } from '../common/select-input-w-label'
+import { SelectInputWithLabel } from '../common/select-input/select-input-w-label'
 import { InputWLabel } from '../common/input-w-label'
 
 export function GeografiaFilter() {

@@ -1,7 +1,7 @@
 import { ErrorWarning } from '@/components/common/error-warning'
 import { NuevoButton } from '@/components/common/nuevo-button'
 import { UnidadAddModal } from '@/components/modals/oferta-academica/unidad-academica/unidad-add-modal'
-import { UnidadFilter } from '@/components/ofertaAcademica/unidadFilter'
+import { UnidadFilter } from '@/components/filters/unidadFilter'
 import { TableUnidad } from '@/components/tables/oferta-academica/unidad-academica/table-unidad'
 import { usePermissions } from '@/hooks/usePermissions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'

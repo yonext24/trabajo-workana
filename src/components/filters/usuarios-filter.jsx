@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { Spinner } from '../common/spinner'
-import { SelectInputControlledWithLabel } from '../common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '../common/select-input/select-input-controlled-with-label'
 import { SearchButton } from '../common/table-buttons'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { toast } from 'react-toastify'
@@ -34,7 +34,7 @@ export function UsuariosFilter({ usuariosLoading }) {
         </div>
       </div>
 
-      <div className="flex">
+      <div className="flex w-full">
         <input
           type="text"
           className="border border-gris rounded-md py-1 px-4 w-full"

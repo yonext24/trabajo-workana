@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '@/components/common/input-w-label'
-import { PermisosFilter } from '@/components/usuarios/permisos-filter'
+import { PermisosFilter } from '@/components/filters/permisos-filter'
 import { useSelector } from 'react-redux'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
@@ -142,11 +142,12 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
         errors={errors}
         loading={loading}
         title="Actualizar Rol"
-        className={'!max-w-5xl !max-h-[98vh] h-full !mx-4 overflow-hidden'}
+        info="Recuerda que si no le das permisos de lectura a un rol en un módulo, no podrá acceder a la página de ese módulo aunque tenga otros permisos."
+        className={'!max-w-5xl !max-h-[98vh] h-full mx-1 sm:mx-4 overflow-hidden'}
       >
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="p-6 px-8 flex flex-col gap-y-3 overflow-y-auto [&>#table-container]:!min-h-[auto]"
+          className="py-6 px-2 sm:px-8 flex flex-col gap-y-3 overflow-y-auto h-full [&>#table-container]:!min-h-[auto]"
         >
           <div className="grid gap-3 grid-cols-[.7fr_1fr]">
             <InputWLabel register={register} name="nombre" value={nombre} labelText="Nombre" disabled type="text" />
@@ -173,7 +174,7 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
               <span className="text-xl font-semibold">Permisos a actualizar: {updatedPermissions.length}</span>
             )}
           </div>
-          <div className="h-full overflow-y-scroll">
+          <div className="h-full overflow-y-scroll flex-1">
             <TablePermisos
               permissions={permissions}
               outsideData={filteredRows}

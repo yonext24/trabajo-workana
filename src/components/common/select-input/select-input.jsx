@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
-import { DownArrowIcon } from '../icons'
-import { useSelector } from 'react-redux'
+import { DownArrowIcon } from '../../icons'
 import isEqual from 'lodash.isequal'
+import { useHovering } from '@/hooks/useHovering'
+import { SelectInputOptions } from './select-input-options'
+import { SelectInputHoverMessage } from './select-input-hover-message'
 
-function valueParser(data, show) {
+export function valueParser(data, show) {
   if (data === undefined || data === null) return 'Seleccionar'
   return typeof data === 'string' ? data : data[show]
 }
@@ -18,6 +20,7 @@ export function SelectInput({
   ligatedToExternalChange = false,
   resetOnOptionsChange = false,
   disabled,
+  disabledMessage,
   error,
   formError,
   loading,
@@ -87,25 +90,38 @@ export function SelectInput({
   }
   const handleClick = e => {
     e.stopPropagation()
-    if (disabled || loading || error) return
+    if (disabled || loading || error || options?.length === 0) return
     setOpen(!open)
   }
 
   const selectRef = useRef(null)
+  const { elementRef, hovering } = useHovering()
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" ref={elementRef}>
+      {hovering && (
+        <SelectInputHoverMessage
+          disabled={disabled}
+          error={error}
+          loading={loading}
+          options={options}
+          disabledMessage={disabledMessage}
+        />
+      )}
       <div
         ref={selectRef}
         onClick={handleClick}
         id="fake-select"
-        data-disabled={Boolean(disabled || error || loading)}
+        data-disabled={Boolean(disabled || error || loading || options?.length === 0)}
         data-loading={loading}
         className="cursor-default data-[loading=true]:cursor-not-allowed text-lg pl-4
     border-2 border-gris rounded-md grid grid-cols-[1fr,50px] w-full overflow-hidden data-[disabled=true]:shadow-lg data-[disabled=true]:cursor-not-allowed"
       >
         <div className="flex-1 text-left py-[2px] overflow-hidden">
-          <span className="block py-px capitalize transition-colors truncate" style={{ color: formError && 'red' }}>
+          <span
+            className="block py-px capitalize transition-colors truncate select-none"
+            style={{ color: formError && 'red' }}
+          >
             {valueParser(value, show) || 'Seleccionar'}
           </span>
         </div>
@@ -118,7 +134,7 @@ export function SelectInput({
         </div>
       </div>
       {open && (
-        <OptionsMenu
+        <SelectInputOptions
           options={options}
           selectRef={selectRef}
           show={show}
@@ -129,51 +145,5 @@ export function SelectInput({
         />
       )}
     </div>
-  )
-}
-
-const OptionsMenu = ({ options, show, handleChange, closeSelf, selectRef }) => {
-  const ulRef = useRef(null)
-  const screenHeight = useSelector(s => s.layout.screenData.height)
-
-  useEffect(() => {
-    const handleClickOutside = e => {
-      if (
-        ulRef.current &&
-        !ulRef.current.contains(e.target) &&
-        selectRef.current &&
-        !selectRef.current.contains(e.target)
-      )
-        closeSelf()
-    }
-    document.addEventListener('mouseup', handleClickOutside)
-
-    const data = ulRef.current.getBoundingClientRect()
-    const offSet = data.bottom - screenHeight
-    if (offSet > 0) ulRef.current.style.marginBottom = `${offSet}px`
-
-    return () => document.removeEventListener('mouseup', handleClickOutside)
-  }, [ulRef.current])
-
-  return (
-    <ul
-      ref={ulRef}
-      className="absolute z-10 w-full bottom-0 left-0 translate-y-[calc(100%+5px)] border border-black block rounded-md shadow-md
-      overflow-hidden"
-    >
-      {options.map(data => {
-        const value = valueParser(data, show)
-
-        return (
-          <li
-            className="bg-azulfondo text-white hover:bg-white hover:text-black py-1 px-3 transition-colors select-none capitalize"
-            key={value}
-            onClick={() => handleChange(data)}
-          >
-            {value}
-          </li>
-        )
-      })}
-    </ul>
   )
 }

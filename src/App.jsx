@@ -1,5 +1,6 @@
+import 'react-toastify/dist/ReactToastify.css'
 import { MainLayout } from './components/layouts/main-layout'
-import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom'
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom'
 import { ProtectedRoute } from './components/layouts/protected-route'
 import { GeneralLayout } from './components/layouts/general-layout'
 import { AuthLayout } from './components/layouts/auth-layout'
@@ -8,7 +9,6 @@ import { GeneralTabsLayout } from './components/layouts/general-tabs-layout'
 import { GeneralSectores } from './pages/general/sectores'
 import { Dependencias } from './pages/general/dependencias'
 import { Puestos } from './pages/general/puestos'
-import 'react-toastify/dist/ReactToastify.css'
 import { Roles } from './pages/usuarios/roles'
 import { Permisos } from './pages/usuarios/permisos'
 import { Usuarios } from './pages/usuarios/usuarios'
@@ -26,12 +26,16 @@ import { Perfil } from './pages/perfil'
 import { CambiarContrasena } from './pages/cambiar-contraseña'
 import { useAuth } from './hooks/useAuth'
 import { Modulos } from './pages/general/modulos'
+import { CustomRouter } from './components/router/custom-router'
+import { createBrowserHistory } from 'history'
+
+export const history = createBrowserHistory()
 
 function App() {
   useAuth()
 
   return (
-    <Router>
+    <CustomRouter history={history}>
       <MainLayout>
         <Routes>
           <Route exact path="/" element={<Navigate to="perfil" />} />
@@ -204,7 +208,7 @@ function App() {
           />
         </Routes>
       </MainLayout>
-    </Router>
+    </CustomRouter>
   )
 }
 

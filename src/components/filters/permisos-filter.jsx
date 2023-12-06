@@ -1,17 +1,30 @@
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import { SelectInput } from '../common/select-input'
+import { SelectInput } from '../common/select-input/select-input'
 
 export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
+  const [currentOption, setCurrentOption] = useState('Todos')
   const permisosData = useSelector(s => s.usuarios.permisos.data)
   const { setPermisosFiltered } = useUsuariosActions()
 
   const dataToUse = useMemo(() => {
-    // not sure if its the best use an useMemo here tbh
     if (outsideData) return outsideData
     else return permisosData
   }, [outsideData, permisosData])
+  const funcToUse = useMemo(() => {
+    if (outsideFunc) return outsideFunc
+    else return setPermisosFiltered
+  }, [outsideFunc, setPermisosFiltered])
+
+  const hasChangeOfThisOptionOcurred = useRef({ option: currentOption, state: false })
+  useEffect(() => {
+    if (hasChangeOfThisOptionOcurred.current.option === currentOption && hasChangeOfThisOptionOcurred.state) return
+    hasChangeOfThisOptionOcurred.current = { option: currentOption, state: true }
+
+    if (currentOption === 'Todos') funcToUse(dataToUse)
+    else funcToUse(dataToUse.filter(el => el.modulo.toLowerCase() === currentOption.toLowerCase()))
+  }, [dataToUse, currentOption, funcToUse])
 
   const options = useMemo(() => {
     const allModulos = permisosData.map(el => el.modulo)
@@ -20,18 +33,17 @@ export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
     return ['Todos'].concat(uniqueModulos)
   }, [permisosData])
 
-  const currentOption = useRef('Todos')
-
   const handleChange = value => {
-    currentOption.current = value
-    const funcToUse = outsideFunc || setPermisosFiltered
+    setCurrentOption(value)
+    if (!outsideData) return
+    const funcToUse = outsideFunc
     if (value === 'Todos') funcToUse(dataToUse)
     else funcToUse(dataToUse.filter(el => el.modulo.toLowerCase() === value.toLowerCase()))
   }
 
   useEffect(() => {
     if (!outsideData || !currentOption.current) return
-    handleChange(currentOption.current)
+    handleChange(currentOption)
   }, [outsideData])
 
   return (
@@ -41,7 +53,7 @@ export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
     >
       <span className="font-semibold">Modulo</span>
       <div className="w-full">
-        <SelectInput options={options} handleOptionClick={handleChange} firstOne />
+        <SelectInput options={options} handleOptionClick={handleChange} onFirstChange={handleChange} firstOne />
       </div>
     </div>
   )

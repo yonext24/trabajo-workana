@@ -24,16 +24,18 @@ export function TablePermisosRow(props) {
     selectFunction,
     permissions,
     unidades,
-    extensiones
+    extensiones,
+    niveles
   } = props
 
   const { switchPermissionState } = useUsuariosActions()
 
-  const { currentUnidad, currentExtension } = useMemo(() => {
-    const currentUnidad = unidades.find(u => u.id_unidad === unidad)?.nombre ?? unidad
-    const currentExtension = extensiones.find(e => e.id_extension === extension)?.nombre ?? extension
+  const { currentUnidad, currentExtension, currentNivel } = useMemo(() => {
+    const currentUnidad = unidades.find(u => u.id_unidad === unidad)?.abreviatura ?? unidad
+    const currentExtension = extensiones.find(e => e.id_extension === extension)?.abreviatura ?? extension
+    const currentNivel = niveles.find(n => n.id_nivel === nivel)?.nombre ?? nivel
 
-    return { currentUnidad, currentExtension }
+    return { currentUnidad, currentExtension, currentNivel }
   }, [unidades, extensiones, unidad, extension])
 
   const { UPDATE } = permissions
@@ -62,11 +64,11 @@ export function TablePermisosRow(props) {
     { text: operacion, id: 2 },
     { text: parsePermisoText(currentUnidad), id: 3 },
     { text: parsePermisoText(currentExtension), id: 4 },
-    { text: parsePermisoText(nivel), id: 5 }
+    { text: parsePermisoText(currentNivel), id: 5 }
   ].concat(toConcat)
 
   return (
-    <RowLayout data-disabled={!estado}>
+    <RowLayout data-disabled={estado === false}>
       {rows.map(el => (
         <Row key={el.id} {...el}></Row>
       ))}

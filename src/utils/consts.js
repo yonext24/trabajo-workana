@@ -69,6 +69,21 @@ export const mergeValues = (originalObject, objectToMerge) => {
   return newObj
 }
 
+export const preventDuplicatesInArray = (array, key) => {
+  const keysInArray = {}
+  const newArray = []
+
+  array.forEach(el => {
+    const value = el[key]
+    if (keysInArray[value]) return
+
+    keysInArray[value] = true
+    newArray.push(el)
+  })
+
+  return newArray
+}
+
 export const parseEstado = estado => {
   if (estado === true) return 'Activo'
   if (estado === false) return 'Inactivo'

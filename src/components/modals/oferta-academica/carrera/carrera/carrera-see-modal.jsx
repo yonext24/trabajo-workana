@@ -1,5 +1,5 @@
 import { InputWLabel } from '@/components/common/input-w-label'
-import { SelectInput } from '@/components/common/select-input'
+import { SelectInput } from '@/components/common/select-input/select-input'
 import { SwitchButton } from '@/components/common/table-buttons'
 import { ButtonsContainer } from '@/components/modals/buttons-container'
 import { DefaultModalLayout } from '@/components/modals/default-modal-layout'

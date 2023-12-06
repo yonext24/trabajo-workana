@@ -20,9 +20,9 @@ export function Extension() {
 
   return (
     <div id="page-content">
-      <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
+      <div className="w-full flex flex-col gap-4 md:justify-between sm:flex-row sm:items-end">
         <ExtensionFilter />
-        <div className="flex gap-2 justify-end">
+        <div className="flex gap-2 sm:justify-end">
           <ErrorWarning err={error} />
           <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
         </div>

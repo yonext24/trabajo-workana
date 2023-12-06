@@ -5,12 +5,13 @@ import { useLayoutActions } from '../hooks/useLayoutActions'
 import { PasswordRecoveryModal } from '../components/modals/login/password-recovery-modal'
 import { useForm } from 'react-hook-form'
 import { useAuthActions } from '@/hooks/useAuthActions'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { USER_POSSIBLE_STATES } from '@/store/auth/slice'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
 import { ButtonsContainer } from '@/components/modals/buttons-container'
+import { toast } from 'react-toastify'
 
 export function Login() {
   const { handleSubmit, register } = useForm()
@@ -20,9 +21,20 @@ export function Login() {
   const { Login } = useAuthActions()
   const { logged, error } = useSelector(s => s.auth)
 
+  const hasExpiredMessageShown = useRef(false)
+
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const expired = searchParams.get('expired')
 
   useEffect(() => {
+    if (!expired || hasExpiredMessageShown.current) return
+    hasExpiredMessageShown.current = true
+    toast.error('Su sesión ha expirado, por favor inicie sesión nuevamente')
+  }, [expired])
+
+  useEffect(() => {
+    if (expired) return
     if (logged === USER_POSSIBLE_STATES.LOGGED) navigate('/general/sectores')
   }, [logged])
 

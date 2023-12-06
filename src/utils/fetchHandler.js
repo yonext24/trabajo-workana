@@ -1,8 +1,9 @@
 // Este handler se encarga de manejar los errores de las peticiones a la API
 // y los lanza como errores de la aplicación.
 
-import { close_all_modals } from '@/store/layout/slice'
+import { history } from '@/App'
 import { BASE_URL } from './consts'
+import { close_all_modals } from '@/store/layout/slice'
 import { logout } from '@/store/auth/slice'
 
 let store
@@ -25,9 +26,13 @@ export const fetchHandler = async res => {
   const isJson = contentType && contentType.includes('application/json')
 
   if (res.status === 401) {
-    store.dispatch(logout('expired'))
-    store.dispatch(close_all_modals())
-    throw new Error('No pudimos verificar tu sesión, porfavor vuelve a iniciar sesión.')
+    console.log(res.url === `${BASE_URL}/rye/usuario/token`, 'aaaaaaaaaaaaaaaaaaaaaaaaaaa')
+    if (res.url !== `${BASE_URL}/rye/usuario/token`) {
+      history.replace('/login?expired=true')
+      store.dispatch(close_all_modals())
+      store.dispatch(logout())
+      throw new Error('No pudimos verificar tu sesión, porfavor vuelve a iniciar sesión.')
+    }
   }
   if (res.status === 422) {
     // Fastapi utiliza siempre el 422 para los error de validación

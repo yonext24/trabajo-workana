@@ -3,11 +3,10 @@ import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { useForm } from 'react-hook-form'
 import { ButtonsContainer } from '../../buttons-container'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
-import { SelectInput } from '@/components/common/select-input'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
 import { extension } from '@/utils/routes'
 import { SubmitButton } from '@/components/common/submit-button'
@@ -15,15 +14,16 @@ import { toast } from 'react-toastify'
 import { useModalLogic } from '@/hooks/useModalLogic'
 
 export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nombre }) {
-  const [selectedNivel, setSelectedNivel] = useState(null)
   const {
     handleSubmit,
     register,
     control,
     formState: { errors, isSubmitting },
-    setError
+    setError,
+    watch
   } = useForm()
   useModalLogic({ closeModal, noScroll: true })
+  const selectedNivel = watch('nivel')
 
   const {
     loading: carrerasLoading,
@@ -31,7 +31,8 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
     data: carrerasData
   } = useFetchLocalData({
     func: async ([currentSelectedNivel]) => {
-      if (!currentSelectedNivel) return []
+      if (!currentSelectedNivel || ['Seleccionar', 'Cargando...', 'Error'].includes(currentSelectedNivel)) return []
+      console.log({ currentSelectedNivel })
       return await extension.add_carrera_params({ nivel: currentSelectedNivel.id_nivel })
     },
     dependencies: [selectedNivel]
@@ -47,10 +48,6 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
   useEffect(() => {
     getCarreraNivelData()
   }, [])
-
-  const handleNivelChange = nivel => {
-    setSelectedNivel(nivel)
-  }
 
   const handleUpdate = async ({ carrera, ...rest }) => {
     const data = { id_extension, id_carrera: carrera?.id_carrera, ...rest }
@@ -69,7 +66,7 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout
-        title={'Carreras de extensión'}
+        title={'Agregar carrera a extensión'}
         className={'!max-w-3xl'}
         closeModal={closeModal}
         errors={errors}
@@ -85,31 +82,34 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
           </div>
           <h5 className="text-2xl my-2">Agregar carrera a extensión</h5>
           <div className="flex [&>*]:flex-1 gap-3">
-            <div className="flex flex-col">
-              <label>Nivel carrera</label>
-              <SelectInput
-                options={nivelesData}
-                loading={nivelesLoading}
-                error={nivelesError}
-                handleOptionClick={handleNivelChange}
-                onFirstChange={handleNivelChange}
-                show="nombre"
-                firstOne
-                control={control}
-              />
-            </div>
+            <SelectInputControlledWithLabel
+              labelText={'Nivel carrera'}
+              options={nivelesData}
+              loading={nivelesLoading}
+              error={nivelesError}
+              show="nombre"
+              name="nivel"
+              id="nivel"
+              firstOne
+              control={control}
+            />
             <SelectInputControlledWithLabel
               labelText={'Carrera'}
               resetOnOptionsChange
               id="carrera"
               name="carrera"
               options={carrerasData}
-              loading={carrerasLoading}
-              error={carrerasError}
+              loading={carrerasLoading || nivelesLoading}
+              error={carrerasError || nivelesError}
               show={'nombre'}
-              disabled={nivelesError}
               firstOne
               control={control}
+              disabled={!selectedNivel || carrerasData.length === 0}
+              disabledMessage={
+                selectedNivel && selectedNivel !== 'Seleccionar'
+                  ? `No hay carreras en el nivel ${selectedNivel.nombre}`
+                  : 'Selecciona un nivel antes'
+              }
             />
           </div>
           <div className="flex [&>*]:flex-1 gap-3">

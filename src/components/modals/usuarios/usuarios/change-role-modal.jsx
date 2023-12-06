@@ -7,7 +7,7 @@ import { ButtonsContainer } from '../../buttons-container'
 import { toast } from 'react-toastify'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { useEffect } from 'react'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { SubmitButton } from '@/components/common/submit-button'
 import { validateDate } from '@/utils/validations/dates'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
@@ -31,9 +31,10 @@ export function ChangeRoleModal({ closeModal }) {
     formState: { errors, isSubmitting: loading },
     setError
   } = useForm()
+  const { searchUsuario } = useUsuariosActions()
 
   const showing = useSelector(s => s.usuarios.usuarios.showing)
-  const { otros, id_usuario } = showing
+  const { otros, id_usuario, correo } = showing
 
   const rol = { nombre: otros?.rol, id_rol: otros?.id_rol }
   const dependencia = { nombre: otros?.dependencia, id_dependencia: otros?.id_dependencia }
@@ -60,6 +61,7 @@ export function ChangeRoleModal({ closeModal }) {
 
     const res = await changeRoleUsuario(dataToUpdate)
     handleErrorInFormResponse(res, setError, () => {
+      searchUsuario({ correo })
       toast.success('El usuario se actualizó correctamente.')
       closeModal()
     })

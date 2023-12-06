@@ -22,7 +22,7 @@ export const useUsuariosPage = () => {
     update: { el: UpdateUsuariosModal },
     del: {
       onClick: async () => {
-        const res = await deleteUsuario({ usuario: showing?.otros?.id_rol })
+        const res = await deleteUsuario({ usuario: showing?.otros?.id_rol_usuario })
         if (!res.error) {
           toast.success('Usuario desactivado con éxito')
         }

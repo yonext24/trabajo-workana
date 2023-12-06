@@ -1,5 +1,5 @@
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
-import { SelectInput } from '../common/select-input'
+import { SelectInput } from '../common/select-input/select-input'
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { appFetch } from '@/utils/fetchHandler'
@@ -67,7 +67,10 @@ export function ExtensionFilter() {
   }
 
   return (
-    <div className="w-full flex flex-col gap-x-4 sm:justify-start sm:flex-row sm:items-end text-lg font-semibold">
+    <div
+      className="w-full flex flex-col gap-x-4 sm:justify-start sm:flex-row sm:items-end text-lg font-semibold md:max-[1000px]:flex-col
+    md:max-[1000px]:items-start"
+    >
       <div className="flex flex-col w-full max-w-[190px]">
         <label>Tipo unidad</label>
         <SelectInput
@@ -93,7 +96,7 @@ export function ExtensionFilter() {
           handleOptionClick={handleUnidadChange}
           options={unidades}
           show="abreviatura"
-          disabled={unidades.length <= 0 || !selectedTipo}
+          disabled={!selectedTipo}
           firstOne
         />
       </div>

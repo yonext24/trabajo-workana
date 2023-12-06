@@ -87,7 +87,7 @@ export function MainLayout({ children }) {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
-    setScreenData(window.innerWidth)
+    setScreenData(window.innerWidth, window.innerHeight)
 
     const handleResize = e => {
       const target = e.target

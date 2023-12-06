@@ -1,5 +1,5 @@
 import { NuevoButton } from '@/components/common/nuevo-button'
-import { SelectInput } from '@/components/common/select-input'
+import { SelectInput } from '@/components/common/select-input/select-input'
 import { TableLayout } from '@/components/tables/table-layout'
 import { usePermissions } from '@/hooks/usePermissions'
 

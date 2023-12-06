@@ -10,7 +10,7 @@ export function useFetchLocalData({ func, dependencies = [], initialData = [] })
         setState({ loading: false, error: null, data: res })
       })
       .catch(err => {
-        setState({ loading: false, error: err, data: [] })
+        setState({ loading: false, error: err, data: initialData })
       })
   }, dependencies)
 

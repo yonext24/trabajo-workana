@@ -9,7 +9,7 @@ import { SubmitButton } from '@/components/common/submit-button'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
 import { extension, geografia } from '@/utils/routes'
 import { useEffect, useMemo } from 'react'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 
 export function ExtensionAddModal({ closeModal }) {
   const { addOfertaAcademicaExtension, getUnidadAcademicaTipos, setExtensionSelectedUnidad } =
@@ -66,7 +66,7 @@ export function ExtensionAddModal({ closeModal }) {
 
     const res = await addOfertaAcademicaExtension(data)
     handleErrorInFormResponse(res, setError, () => {
-      setExtensionSelectedUnidad({ unidad: unidad })
+      setExtensionSelectedUnidad({ unidad, tipo })
       closeModal()
     })
   }
@@ -106,6 +106,11 @@ export function ExtensionAddModal({ closeModal }) {
               show="abreviatura"
               rules={{ required: true }}
               disabled={unidades.length === 0}
+              disabledMessage={
+                selectedTipo && selectedTipo !== 'Seleccionar'
+                  ? `No hay unidades disponibles para el tipo ${selectedTipo}`
+                  : 'Seleccione un tipo de unidad primero.'
+              }
             />
           </div>
           <InputWLabel id={'codigo'} name="codigo" type="number" register={register} labelText={'Código'} required />

@@ -1,5 +1,5 @@
 import { InputWLabel } from '@/components/common/input-w-label'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { SubmitButton } from '@/components/common/submit-button'
 import { ButtonsContainer } from '@/components/modals/buttons-container'
 import { DefaultModalLayout } from '@/components/modals/default-modal-layout'

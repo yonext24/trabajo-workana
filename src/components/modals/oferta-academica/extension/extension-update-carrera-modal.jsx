@@ -4,7 +4,7 @@ import { DefaultModalLayout } from '../../default-modal-layout'
 import { InputWLabel } from '@/components/common/input-w-label'
 import { ButtonsContainer } from '../../buttons-container'
 import { SubmitButton } from '@/components/common/submit-button'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { extension as extensionRouter } from '@/utils/routes'
 import { toast } from 'react-toastify'
 

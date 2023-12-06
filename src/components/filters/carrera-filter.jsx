@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { SelectInput } from '../common/select-input'
+import { SelectInput } from '../common/select-input/select-input'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useEffect } from 'react'
 
@@ -22,7 +22,7 @@ export function CarreraFilter() {
   }, [])
 
   const handleOptionClick = option => {
-    setCarreraCarreraPaginationData({ nivel: option.id_nivel })
+    setCarreraCarreraPaginationData({ nivel: option?.id_nivel })
   }
 
   return (

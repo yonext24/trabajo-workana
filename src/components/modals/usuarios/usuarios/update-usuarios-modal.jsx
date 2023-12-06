@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { ButtonsContainer } from '../../buttons-container'
 import { toast } from 'react-toastify'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { SubmitButton } from '@/components/common/submit-button'
 import { useModalLogic } from '@/hooks/useModalLogic'
 import { handleErrorInFormResponse } from '@/utils/consts'
@@ -85,7 +85,6 @@ export function UpdateUsuariosModal({ closeModal }) {
             name="telefono"
             registerProps={{ pattern }}
             defaultValue={telefono}
-            required
           />
           <InputWLabel
             register={register}
@@ -94,7 +93,6 @@ export function UpdateUsuariosModal({ closeModal }) {
             name="celular"
             registerProps={{ pattern }}
             defaultValue={celular}
-            required
           />
           <InputWLabel register={register} type="number" id="CUI" name="CUI" defaultValue={CUI} disabled />
           <InputWLabel

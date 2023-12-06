@@ -6,7 +6,7 @@ import { ModalBackground } from '../../modal-background'
 import { useForm } from 'react-hook-form'
 import { InputWLabel } from '../../../common/input-w-label'
 import { toast } from 'react-toastify'
-import { SelectInputControlledWithLabel } from '@/components/common/select-input-controlled-with-label'
+import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 
 export function UpdateModulosModal({ closeModal, nombre, tipo, estado }) {
   const { updModulos } = useDataActions()

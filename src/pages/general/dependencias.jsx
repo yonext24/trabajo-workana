@@ -1,6 +1,6 @@
 import { TableDependencias } from '../../components/tables/general/table-dependencias/table-dependencias'
 import { NuevoButton } from '../../components/common/nuevo-button'
-import { Filter } from '../../components/general/filter'
+import { DependenciasFilter } from '../../components/filters/dependencias-filter'
 import { DependenciasAddModal } from '../../components/modals/general/dependencias/dependencias-add-modal'
 import { usePermissions } from '@/hooks/usePermissions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
@@ -23,7 +23,7 @@ export function Dependencias() {
   return (
     <div id="page-content">
       <div className="w-full flex flex-col gap-4 items-start md:justify-between md:flex-row md:items-end">
-        <Filter />
+        <DependenciasFilter />
         <div className="flex justify-end gap-4 items-center">
           <ErrorWarning err={error} />
           <NuevoButton handleClick={handleAdd} CREATE={CREATE} />
