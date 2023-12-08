@@ -21,6 +21,7 @@ export function SelectInput({
   resetOnOptionsChange = false,
   disabled,
   disabledMessage,
+  noOptionsMessage,
   error,
   formError,
   loading,
@@ -55,11 +56,18 @@ export function SelectInput({
     } else if (defaultValue) {
       const newValue = defaultValue ?? 'Seleccionar'
       setValue(newValue)
-    } else setValue('Seleccionar')
+    } else {
+      if (previousValueBeforeLoading.current && !resetOnOptionsChange) {
+        setValue(previousValueBeforeLoading.current)
+        return
+      }
+      setValue('Seleccionar')
+    }
   }, [loading, error])
 
   useEffect(() => {
     if (!resetOnOptionsChange) return
+    console.log(options)
     setValue('Seleccionar')
   }, [options])
 
@@ -71,7 +79,6 @@ export function SelectInput({
       previousValueBeforeLoading.current = value
     }
     if (!onFirstChange) return
-
     if (firstChangeHasOcurred.current) return
     /* 
       Se utiliza el valor del primer cambio para capturarlo externamente en algunos filtros,
@@ -106,6 +113,7 @@ export function SelectInput({
           loading={loading}
           options={options}
           disabledMessage={disabledMessage}
+          noOptionsMessage={noOptionsMessage}
         />
       )}
       <div
@@ -114,7 +122,7 @@ export function SelectInput({
         id="fake-select"
         data-disabled={Boolean(disabled || error || loading || options?.length === 0)}
         data-loading={loading}
-        className="cursor-default data-[loading=true]:cursor-not-allowed text-lg pl-4
+        className="cursor-default data-[loading=true]:cursor-not-allowed text-base sm:text-lg pl-4
     border-2 border-gris rounded-md grid grid-cols-[1fr,50px] w-full overflow-hidden data-[disabled=true]:shadow-lg data-[disabled=true]:cursor-not-allowed"
       >
         <div className="flex-1 text-left py-[2px] overflow-hidden">

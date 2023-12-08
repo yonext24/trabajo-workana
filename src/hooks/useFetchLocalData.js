@@ -14,5 +14,5 @@ export function useFetchLocalData({ func, dependencies = [], initialData = [] })
       })
   }, dependencies)
 
-  return state
+  return { ...state, setState }
 }

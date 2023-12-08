@@ -4,9 +4,9 @@ import {
   PermissionsButton,
   SeeButton,
   SwitchButton,
-  UpdateButton
+  UpdateButton,
+  UpdateExtensionCarreraButton
 } from '../common/table-buttons'
-import { RecycleIcon } from '../icons'
 
 export function Row({ text, actions = false, carreras = false, funcProps, className }) {
   return (
@@ -39,15 +39,7 @@ export function Row({ text, actions = false, carreras = false, funcProps, classN
               return <AddCarreraButton key={type} handleClick={() => onClick(funcProps)} {...props} />
             }
             if (type === 'see') {
-              return (
-                <button
-                  key={type}
-                  onClick={() => onClick(funcProps)}
-                  className="bg-red-500 text-white p-1 rounded-full"
-                >
-                  <RecycleIcon className="h-5 w-5" />
-                </button>
-              )
+              return <UpdateExtensionCarreraButton key={type} handleClick={() => onClick(funcProps)} {...props} />
             }
             return null
           })}

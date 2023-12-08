@@ -50,7 +50,7 @@ export function CarreraAddModal({ closeModal }) {
         closeModal={closeModal}
         errors={errors}
         loading={loading}
-        className={'!max-h-[98vh] h-full !mx-4 overflow-hidden'}
+        className={'!max-h-[98vh] !mx-1 overflow-hidden'}
       >
         <form onSubmit={handleSubmit(handleUpdate)} className="p-6 flex flex-col gap-4 overflow-y-auto">
           <div className="flex w-full [&>*]:flex-1 gap-4 items-end">
@@ -65,7 +65,7 @@ export function CarreraAddModal({ closeModal }) {
               options={nivel.data}
             />
             <div className="flex gap-2 items-center">
-              <label className="font-semibold text-lg">Prerrequisito técnico</label>
+              <label className="font-semibold text-base md:text-lg">Prerrequisito técnico</label>
               <SwitchControlled control={control} defaultValue={false} name={'prerrequisito_tecnico'} />
             </div>
           </div>
@@ -85,7 +85,7 @@ export function CarreraAddModal({ closeModal }) {
             register={register}
             required
           />
-          <ButtonsContainer className="[&>button]:py-[7px] mt-4">
+          <ButtonsContainer className="[&>button]:py-[7px] mt-5">
             <SubmitButton text="Guardar" loading={loading} />
           </ButtonsContainer>
         </form>

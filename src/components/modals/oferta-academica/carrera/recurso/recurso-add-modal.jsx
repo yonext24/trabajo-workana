@@ -32,7 +32,7 @@ export function RecursoAddModal({ closeModal }) {
   const handleUpload = handleLoading(async ({ tipo, ...data }) => {
     const id_tipo_recurso = tipo.id_tipo_recurso
 
-    const res = addCarreraRecurso({ ...data, id_tipo_recurso })
+    const res = addCarreraRecurso({ ...data, id_tipo_recurso, tipo: tipo.nombre })
     handleErrorInFormResponse(res, setError, closeModal)
   })
 
@@ -56,6 +56,7 @@ export function RecursoAddModal({ closeModal }) {
             required
             register={register}
             registerProps={{
+              minLength: { value: 3, message: 'El nombre debe tener al menos 3 caracteres.' },
               validate: nombre => {
                 if (recursoData.some(el => el.nombre === nombre)) {
                   return 'Ya hay un recurso con ese nombre.'

@@ -1,10 +1,10 @@
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
-import { SelectInput } from '../common/select-input/select-input'
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { appFetch } from '@/utils/fetchHandler'
 import { BASE_OFERTA_URL } from '@/utils/consts'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
+import { SelectInputWithLabel } from '../common/select-input/select-input-w-label'
 
 export function ExtensionFilter() {
   const [selectedTipo, setSelectedTipo] = useState(null)
@@ -61,7 +61,6 @@ export function ExtensionFilter() {
     if (tipo === undefined) return
     setSelectedTipo(tipo)
   }
-
   const handleUnidadChange = unidad => {
     setSelectedUnidad(unidad)
   }
@@ -72,8 +71,8 @@ export function ExtensionFilter() {
     md:max-[1000px]:items-start"
     >
       <div className="flex flex-col w-full max-w-[190px]">
-        <label>Tipo unidad</label>
-        <SelectInput
+        <SelectInputWithLabel
+          labelText={'Tipo unidad'}
           loading={revalidatingTipo}
           externalValue={selectedTipo}
           ligatedToExternalChange
@@ -86,8 +85,9 @@ export function ExtensionFilter() {
         />
       </div>
       <div className="flex flex-col w-full max-w-[190px]">
-        <label>Unidad</label>
-        <SelectInput
+        <SelectInputWithLabel
+          labelText="Unidad"
+          noOptionsMessage={`No hay unidades para el tipo ${selectedTipo?.nombre ?? ''}`}
           ligatedToExternalChange
           loading={loadingUnidad}
           error={errorUnidad}

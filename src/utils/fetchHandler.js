@@ -6,12 +6,6 @@ import { BASE_URL } from './consts'
 import { close_all_modals } from '@/store/layout/slice'
 import { logout } from '@/store/auth/slice'
 
-let store
-
-export const injectStore = _store => {
-  store = _store
-}
-
 const errorParser = {
   'Not authenticated':
     'No pudimos verificar tu sesión, porfavor vuelve a iniciar sesión. Si el problema persiste, contacta a soporte.',
@@ -21,12 +15,17 @@ const errorParser = {
     'No pudimos conectarnos al servidor, porfavor intentalo denuevo. Si el problema persiste contacta con soporte.'
 }
 
+let store
+
+export const injectStore = _store => {
+  store = _store
+}
+
 export const fetchHandler = async res => {
   const contentType = res.headers.get('content-type')
   const isJson = contentType && contentType.includes('application/json')
 
   if (res.status === 401) {
-    console.log(res.url === `${BASE_URL}/rye/usuario/token`, 'aaaaaaaaaaaaaaaaaaaaaaaaaaa')
     if (res.url !== `${BASE_URL}/rye/usuario/token`) {
       history.replace('/login?expired=true')
       store.dispatch(close_all_modals())

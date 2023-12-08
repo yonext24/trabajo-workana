@@ -99,8 +99,9 @@ export const get_recurso_data = createAsyncThunk('oferta-academica/carrera/recur
   return await carrera.recurso.get()
 })
 
-export const add_recurso = createAsyncThunk('oferta-academica/carrera/recurso/add', async data => {
-  return await carrera.recurso.add('', data)
+export const add_recurso = createAsyncThunk('oferta-academica/carrera/recurso/add', async ({ tipo, ...data }) => {
+  const res = await carrera.recurso.add('', data)
+  return { ...res, tipo }
 })
 
 export const switch_state_recurso = createAsyncThunk('oferta-academica/carrera/recurso/delete', async data => {

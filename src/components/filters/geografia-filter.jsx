@@ -19,11 +19,6 @@ export function GeografiaFilter() {
   }, [])
 
   useEffect(() => {
-    if (!selectedPais || !departamentos) return
-    setGeoPaginationData({ departamento: departamentos[0] })
-  }, [selectedPais])
-
-  useEffect(() => {
     if (!selectedPais) return
     const { selectedDepartamento, page, size } = paginationData
     getGeoMunicipios({ departamento: selectedDepartamento?.id_departamento, page, size })
@@ -56,16 +51,15 @@ export function GeografiaFilter() {
         show="nombre"
       />
       <SelectInputWithLabel
+        noOptionsMessage={`No hay departamentos para el país ${selectedPais?.nombre ?? ''}`}
         labelText={'Departamento'}
         options={departamentosOptions}
-        firstOne
         ligatedToExternalChange
         externalValue={selectedDepartamento}
         show="nombre"
+        resetOnOptionsChange
         handleOptionClick={handleDepartamentoClick}
         onFirstChange={handleDepartamentoClick}
-        loading={loading}
-        resetOnOptionsChange
         error={error}
       />
       <div className="col-start-1 col-end-3 row-span-2 w-full [&>*]:flex-1 flex">

@@ -18,7 +18,8 @@ export function ExtensionUpdateCarreraModal({
   nombre,
   codigo,
   fecha_creacion,
-  estado
+  estado,
+  setCarrera
 }) {
   const {
     handleSubmit,
@@ -33,6 +34,10 @@ export function ExtensionUpdateCarreraModal({
     await extensionRouter
       .update_carrera(data)
       .then(() => {
+        setCarrera(prev => {
+          const data = prev.data
+          return { ...prev, data: data.map(el => (el.id_carrera === id_carrera ? { ...el, ...rest, estado } : el)) }
+        })
         toast.success('Carrera actualizada con éxito')
         closeModal()
       })

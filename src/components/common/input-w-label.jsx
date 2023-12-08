@@ -25,7 +25,7 @@ export function InputWLabel({
   return (
     <div className={'flex flex-col'} id="input-w-label">
       {!noLabel && (
-        <label htmlFor={id ?? name} className="font-semibold text-lg capitalize">
+        <label htmlFor={id ?? name} className="font-semibold text-base sm:text-lg capitalize">
           {labelText ?? name}
         </label>
       )}

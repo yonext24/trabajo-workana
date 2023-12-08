@@ -2,6 +2,13 @@ import { useEffect } from 'react'
 
 export function useModalLogic({ closeModal, noScroll = false }) {
   useEffect(() => {
+    if (document) {
+      try {
+        document.activeElement.blur()
+      } catch {
+        // ignore
+      }
+    }
     const html = document.querySelector('html')
     if (html == null) return
 

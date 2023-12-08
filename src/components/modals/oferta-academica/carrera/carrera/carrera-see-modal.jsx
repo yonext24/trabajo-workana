@@ -42,7 +42,7 @@ export function CarreraSeeModal({
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout
         title="Ver Carrera"
-        className={'!max-h-[98vh] h-full max-w-4xl !mx-4 overflow-hidden'}
+        className={'!max-h-[98vh] h-full w-full max-w-[880px] !mx-4 overflow-hidden'}
         closeModal={closeModal}
       >
         <div className="p-4 flex flex-col gap-4 overflow-y-auto">
@@ -51,9 +51,9 @@ export function CarreraSeeModal({
               <label className="font-semibold text-lg">Nivel carrera</label>
               <SelectInput options={[]} disabled defaultValue={nivel} name="nivel" />
             </div>
-            <div className="flex justify-end gap-4">
+            <div className="flex flex-col items-center gap-1">
               <label className="font-semibold text-lg">Prerrequisito técnico</label>
-              <SwitchButton estado={prerrequisito_tecnico} />
+              <SwitchButton disabled estado={prerrequisito_tecnico} />
             </div>
           </div>
           <InputWLabel name="carrera" labelText={'Nombre'} disabled defaultValue={nombre} required />
@@ -90,7 +90,7 @@ export function CarreraSeeModal({
 
           <RecursoTable
             columns={[{ text: 'Tipo' }, { text: 'Recurso' }]}
-            outsideData={recursos.data}
+            outsideData={recursos.data.map(el => ({ ...el, estado: true }))}
             outsideError={recursos.error}
             outsideLoading={recursos.loading}
             permissions={permissions}

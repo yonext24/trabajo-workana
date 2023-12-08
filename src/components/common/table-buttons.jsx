@@ -1,4 +1,4 @@
-import { EyeIcon, KeyIcon, PenIcon, PersonsIcon, Plus, PlusRoundedIcon, SearchIcon, Warn } from '../icons'
+import { EyeIcon, KeyIcon, PenIcon, PersonsIcon, Plus, PlusRoundedIcon, RecycleIcon, SearchIcon, Warn } from '../icons'
 import { useHovering } from '@/hooks/useHovering'
 
 const ButtonWrapper = ({ children, hovering, text, style }) => {
@@ -78,6 +78,7 @@ export function SwitchButton({
   handleClick,
   text = 'Desactivado/Activado',
   estado,
+  disabled,
   customState, // CustomState se utiliza para setear el estado del switch desde afuera sin depender de "estado",
   // se utiliza en la modal de actualizar permisos de rol.
   ...props
@@ -91,8 +92,12 @@ export function SwitchButton({
       <button
         type="button"
         ref={elementRef}
-        onClick={() => handleClick(!FState)}
-        className="bg-black rounded-full p-1 w-[45px] h-[25px]"
+        onClick={() => {
+          if (disabled) return
+          handleClick(!FState)
+        }}
+        data-disabled={disabled}
+        className="bg-black rounded-full p-1 w-[45px] h-[25px] data-[disabled=true]:cursor-not-allowed"
         {...props}
       >
         <div className="relative w-full h-full">
@@ -114,6 +119,18 @@ export const AddCarreraButton = ({ handleClick, text = 'Agregar carrera' }) => {
     <ButtonWrapper hovering={hovering} text={text}>
       <button ref={elementRef} onClick={handleClick} className="bg-verde text-white p-1 rounded-md">
         <Plus className="h-5 w-5" />
+      </button>
+    </ButtonWrapper>
+  )
+}
+
+export const UpdateExtensionCarreraButton = ({ handleClick, text = 'Actualizar Carrera' }) => {
+  const { hovering, elementRef } = useHovering()
+
+  return (
+    <ButtonWrapper hovering={hovering} text={text}>
+      <button ref={elementRef} onClick={handleClick} className="bg-red-500 text-white p-1 rounded-full">
+        <RecycleIcon className="h-5 w-5" />
       </button>
     </ButtonWrapper>
   )

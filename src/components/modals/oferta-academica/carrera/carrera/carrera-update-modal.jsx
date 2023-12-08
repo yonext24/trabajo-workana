@@ -15,6 +15,7 @@ import { appFetch } from '@/utils/fetchHandler'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 export function CarreraUpdateModal({ closeModal, id_carrera }) {
   useModalLogic({ closeModal, noScroll: true })
@@ -105,6 +106,7 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
   const { updateCarreraCarrera } = useOfertaAcademicaActions()
 
   const handleUpdate = async ({ estado: rawEstado, ...data }) => {
+    console.log(rawEstado)
     const newEstado = rawEstado.value
 
     const res = await updateCarreraCarrera({
@@ -117,6 +119,7 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
         data: prev.data.map(el => ({ ...el, wasOriginallyInCarrera: el.checked, estado: el.checked }))
       }))
       setUpdatedRecurso([])
+      toast.success('La carrera se actualizó correctamente')
     })
   }
 
@@ -126,7 +129,7 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout
         title="Actualizar Carrera"
-        className={'!max-h-[98vh] h-full !mx-4 overflow-hidden max-w-[900px]'}
+        className={'!max-h-[98vh] h-full !mx-4 overflow-hidden w-full max-w-[880px]'}
         closeModal={closeModal}
         errors={errors}
         loading={isSubmitting}
@@ -137,8 +140,8 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
               <label className="font-semibold text-lg">Nivel carrera</label>
               <SelectInput disabled defaultValue={nivel} name="nivel" rules={{ required: true }} />
             </div>
-            <div className="flex gap-4 justify-end items-center">
-              <label className="font-semibold text-lg">Prerrequisito técnico</label>
+            <div className="flex flex-col items-center gap-1 justify-end">
+              <label className="font-semibold text-base md:text-lg">Prerrequisito técnico</label>
               <SwitchControlled control={control} defaultValue={prerrequisito_tecnico} name={'prerrequisito_tecnico'} />
             </div>
           </div>
@@ -156,9 +159,9 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
             register={register}
           />
 
-          <div className="flex w-full justify-end gap-2 [&>*]:min-w-[200px]">
+          <div className="flex w-full justify-end gap-2">
             <InputWLabel
-              name="fecha_de_creacion"
+              name="fecha_creacion"
               labelText="Fecha de creación"
               type="date"
               defaultValue={fecha_creacion}
@@ -177,21 +180,27 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
               show="text"
             />
           </div>
-          <div className="flex-[.9] flex items-center">
+          <div className="flex-[.9] flex items-center justify-between">
             <h5 className="text-2xl font-semibold">Recursos de carrera</h5>
+            <div className="flex justify-between items-end">
+              {updatedRecurso.length > 0 && (
+                <span className="text-base md:text-xl font-semibold">
+                  Recursos a actualizar: {updatedRecurso.length}
+                </span>
+              )}
+            </div>
           </div>
 
           <RecursoTable
             columns={[{ text: 'Tipo' }, { text: 'Recurso', className: 'w-full' }, { text: 'Acciones' }]}
-            outsideData={recursos.data}
+            outsideData={recursos.data?.sort((a, b) => {
+              if (a.estado && !b.estado) return -1
+              if (!a.estado && b.estado) return 1
+              return 0
+            })}
             permissions={permissions}
             selectFunction={selectFunction}
           />
-          <div className="flex justify-between items-end">
-            {updatedRecurso.length > 0 && (
-              <span className="text-xl font-semibold">Recursos a actualizar: {updatedRecurso.length}</span>
-            )}
-          </div>
 
           <ButtonsContainer className="[&>button]:py-[7px] mt-4" disabled={isSubmitting}>
             <SubmitButton text="Actualizar" loading={isSubmitting} />

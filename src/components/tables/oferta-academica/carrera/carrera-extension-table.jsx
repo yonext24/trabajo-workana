@@ -6,7 +6,7 @@ import { usePermissions } from '@/hooks/usePermissions'
 import { ExtensionUpdateCarreraModal } from '@/components/modals/oferta-academica/extension/extension-update-carrera-modal'
 import { useLayoutActions } from '@/hooks/useLayoutActions'
 
-export function CarreraExtensionTable({ data, loading, error, extension, unidad, id_extension }) {
+export function CarreraExtensionTable({ data, loading, error, extension, unidad, id_extension, setCarrera }) {
   const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
   const { UPDATE } = permissions
 
@@ -25,6 +25,7 @@ export function CarreraExtensionTable({ data, loading, error, extension, unidad,
       {data.map(el => (
         <ExtensionMainTableRow
           key={el.id_carrera}
+          setCarrera={setCarrera}
           {...el}
           id_extension={id_extension}
           extension={extension}
@@ -37,7 +38,7 @@ export function CarreraExtensionTable({ data, loading, error, extension, unidad,
 }
 
 export function ExtensionMainTableRow(props) {
-  const { codigo, estado, fecha_creacion, nombre, UPDATE } = props
+  const { codigo, estado, fecha_creacion, nombre, UPDATE, setCarrera } = props
 
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
 
@@ -50,6 +51,7 @@ export function ExtensionMainTableRow(props) {
         closeModal: () => {
           closeModalFunc(modalId)
         },
+        setCarrera,
         ...props
       }
     })

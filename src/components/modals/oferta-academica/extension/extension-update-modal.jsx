@@ -7,6 +7,9 @@ import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { SubmitButton } from '@/components/common/submit-button'
 import { handleErrorInFormResponse } from '@/utils/consts'
+import { useFetchLocalData } from '@/hooks/useFetchLocalData'
+import { geografia } from '@/utils/routes'
+import { useMemo } from 'react'
 
 export function ExtensionUpdateModal({
   closeModal,
@@ -15,7 +18,7 @@ export function ExtensionUpdateModal({
   abreviatura,
   fecha_creacion,
   estado,
-  ubicacion,
+  id_departamento,
   id_extension
 }) {
   const {
@@ -33,6 +36,19 @@ export function ExtensionUpdateModal({
     const res = await updateOfertaAcademicaExtension(data)
     handleErrorInFormResponse(res, setError, closeModal)
   }
+
+  const {
+    loading: loadingPaises,
+    error: errorPaises,
+    data: dataPaises
+  } = useFetchLocalData({ func: geografia.get_parametros, initialData: { paises: [], departamentos: [] } })
+
+  const ubicacion = useMemo(() => {
+    if (loadingPaises) return 'Cargando...'
+    if (errorPaises || dataPaises?.departamentos?.length === 0) return 'Desconocido'
+
+    return dataPaises.departamentos.find(({ id_departamento: id }) => id === id_departamento)?.nombre ?? 'Desconocido'
+  }, [dataPaises, id_departamento, errorPaises, loadingPaises])
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
@@ -57,7 +73,7 @@ export function ExtensionUpdateModal({
           <InputWLabel defaultValue={nombre} id={'nombre'} disabled name="nombre" register={register} required />
           <InputWLabel defaultValue={abreviatura} id={'abreviatura'} name="abreviatura" register={register} required />
 
-          <InputWLabel labelText={'Ubicación'} disabled name="unidad" defaultValue={ubicacion} />
+          <InputWLabel labelText={'Ubicación'} disabled name="unidad" value={ubicacion} />
           <InputWLabel
             type="date"
             register={register}
