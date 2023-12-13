@@ -31,10 +31,10 @@ export function ExtensionAddModal({ closeModal }) {
     data: unidadData
   } = useFetchLocalData({ func: extension.get_params_create })
   const {
-    loading: loadingPaises,
-    error: errorPaises,
-    data: dataPaises
-  } = useFetchLocalData({ func: geografia.get_parametros, initialData: { paises: [], departamentos: [] } })
+    loading: loadingDepartamentos,
+    error: errorDepartamentos,
+    data: dataDepartamentos
+  } = useFetchLocalData({ func: geografia.get_departamentos_guatemala, initialData: { paises: [], departamentos: [] } })
 
   useEffect(() => {
     getUnidadAcademicaTipos()
@@ -118,12 +118,12 @@ export function ExtensionAddModal({ closeModal }) {
           <InputWLabel id={'abreviatura'} name="abreviatura" register={register} required />
 
           <SelectInputControlledWithLabel
-            labelText={'Ubicación'}
+            labelText={'Departamento'}
             control={control}
             name="departamento"
-            options={dataPaises?.departamentos}
-            loading={loadingPaises}
-            error={errorPaises}
+            options={dataDepartamentos}
+            loading={loadingDepartamentos}
+            error={errorDepartamentos}
             rules={{ required: true }}
             show="nombre"
           />

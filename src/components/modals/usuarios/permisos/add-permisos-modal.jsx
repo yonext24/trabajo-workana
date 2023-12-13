@@ -32,21 +32,7 @@ export function AddPermisosModal({ closeModal }) {
   const { loading, handleLoading } = useFormCustom()
 
   const moduloSelected = watch('modulo')
-  const data = watch()
-  console.log(data)
-
-  const isOfertaAcademica = useMemo(() => {
-    if (!moduloSelected) return false
-    return moduloSelected.nombre === 'Oferta Académica'
-  }, [moduloSelected])
-
-  useEffect(() => {
-    if (!isOfertaAcademica) {
-      setValue('unidad', undefined)
-      setValue('extension', undefined)
-      setValue('nivel', undefined)
-    }
-  }, [isOfertaAcademica])
+  const unidadSelected = watch('unidad')
 
   const {
     data: paramsData,
@@ -58,13 +44,35 @@ export function AddPermisosModal({ closeModal }) {
     initialData: { modulos: [], operaciones: [], niveles: [], unidades: [], extensiones: [] }
   })
 
+  const isOfertaAcademica = useMemo(() => {
+    if (!moduloSelected) return false
+    return moduloSelected.nombre === 'Oferta Académica'
+  }, [moduloSelected])
+
+  const availableExtensiones = useMemo(() => {
+    if (!unidadSelected) return [{ nombre: 'Todos', id_nivel: -1 }]
+    if (unidadSelected.id_unidad === -1) return paramsData.extensiones
+    return paramsData.extensiones.filter(extension => extension.id_unidad === unidadSelected?.id_unidad)
+  }, [unidadSelected])
+
+  useEffect(() => {
+    if (!isOfertaAcademica) {
+      setValue('unidad', undefined)
+      setValue('extension', undefined)
+      setValue('nivel', undefined)
+    }
+  }, [isOfertaAcademica])
+
   const { addPermission } = useUsuariosActions()
+
+  const nivel = watch('nivel')
+  console.log(nivel)
 
   const handleUpload = handleLoading(async ({ operacion, unidad, extension, modulo, nivel }) => {
     const data = {
       id_operacion: operacion.id,
       id_modulo: modulo.id,
-      id_nivel: nivel?.id_nivel ?? -2,
+      id_nivel: nivel?.id ?? -2,
       id_unidad: unidad?.id_unidad ?? -2,
       id_extension: extension?.id_extension ?? -2
     }
@@ -121,6 +129,7 @@ export function AddPermisosModal({ closeModal }) {
           <div className="grid grid-cols-2 gap-4 mb-4">
             <SelectInputControlledWithLabel
               labelText="Extensión"
+              resetOnOptionsChange
               ligatedToExternalChange
               disabled={!isOfertaAcademica}
               disabledMessage="Esta opción sólo está disponible en el módulo Oferta Académica"
@@ -130,7 +139,7 @@ export function AddPermisosModal({ closeModal }) {
               control={control}
               registerProps={{ required: isOfertaAcademica }}
               show="abreviatura"
-              options={[{ abreviatura: 'Todos', id_extension: -1 }, ...paramsData.extensiones]}
+              options={[{ abreviatura: 'Todos', id_extension: -1 }, ...availableExtensiones]}
             />
 
             <SelectInputControlledWithLabel

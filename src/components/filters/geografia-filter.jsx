@@ -19,8 +19,8 @@ export function GeografiaFilter() {
   }, [])
 
   useEffect(() => {
-    if (!selectedPais) return
     const { selectedDepartamento, page, size } = paginationData
+    if (!selectedPais || !selectedDepartamento) return
     getGeoMunicipios({ departamento: selectedDepartamento?.id_departamento, page, size })
   }, [selectedDepartamento, size, page])
 
@@ -35,6 +35,8 @@ export function GeografiaFilter() {
   const handleDepartamentoClick = departamento => {
     setGeoPaginationData({ departamento })
   }
+
+  console.log(selectedPais, selectedDepartamento, error)
 
   return (
     <div className="flex-1 grid grid-cols-[200px,200px] gap-4 [&>*]:flex [&>*]:flex-col [&>*]:w-full">
@@ -56,6 +58,7 @@ export function GeografiaFilter() {
         options={departamentosOptions}
         ligatedToExternalChange
         externalValue={selectedDepartamento}
+        defaultValue={selectedDepartamento}
         show="nombre"
         resetOnOptionsChange
         handleOptionClick={handleDepartamentoClick}

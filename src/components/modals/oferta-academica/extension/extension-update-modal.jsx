@@ -38,17 +38,17 @@ export function ExtensionUpdateModal({
   }
 
   const {
-    loading: loadingPaises,
-    error: errorPaises,
-    data: dataPaises
-  } = useFetchLocalData({ func: geografia.get_parametros, initialData: { paises: [], departamentos: [] } })
+    loading: loadingDepartamentos,
+    error: errorDepartamentos,
+    data: dataDepartamentos
+  } = useFetchLocalData({ func: geografia.get_departamentos_guatemala })
 
   const ubicacion = useMemo(() => {
-    if (loadingPaises) return 'Cargando...'
-    if (errorPaises || dataPaises?.departamentos?.length === 0) return 'Desconocido'
+    if (loadingDepartamentos) return 'Cargando...'
+    if (errorDepartamentos || dataDepartamentos?.length === 0) return 'Desconocido'
 
-    return dataPaises.departamentos.find(({ id_departamento: id }) => id === id_departamento)?.nombre ?? 'Desconocido'
-  }, [dataPaises, id_departamento, errorPaises, loadingPaises])
+    return dataDepartamentos?.find(({ id_departamento: id }) => id === id_departamento)?.nombre ?? 'Desconocido'
+  }, [dataDepartamentos, id_departamento, errorDepartamentos, loadingDepartamentos])
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>

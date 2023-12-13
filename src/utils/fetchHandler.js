@@ -2,14 +2,15 @@
 // y los lanza como errores de la aplicación.
 
 import { history } from '@/App'
-import { BASE_URL } from './consts'
+import { BASE_GEOGRAFIA_URL, BASE_OFERTA_URL, BASE_URL } from './consts'
 import { close_all_modals } from '@/store/layout/slice'
 import { logout } from '@/store/auth/slice'
 
 const errorParser = {
   'Not authenticated':
     'No pudimos verificar tu sesión, porfavor vuelve a iniciar sesión. Si el problema persiste, contacta a soporte.',
-  'Unprocessable Entity': 'Hubo un error validando los datos, si el problema persiste porfavor contacta a soporte.',
+  'Unprocessable Entity':
+    'Hubo un error validando los datos del formulario, si el problema persiste porfavor contacta a soporte.',
   'Not Found': 'Ocurrió un error inesperado, si el problema persiste porfavor contacta a soporte (NotFound).',
   'Failed to fetch':
     'No pudimos conectarnos al servidor, porfavor intentalo denuevo. Si el problema persiste contacta con soporte.'
@@ -29,6 +30,7 @@ export const fetchHandler = async res => {
     if (res.url !== `${BASE_URL}/rye/usuario/token`) {
       history.replace('/login?expired=true')
       store.dispatch(close_all_modals())
+      await new Promise(res => setTimeout(res, 150)) // Esto es porque aveces se ejecuta el logout antes de que se redireccione a expired=true
       store.dispatch(logout())
       throw new Error('No pudimos verificar tu sesión, porfavor vuelve a iniciar sesión.')
     }
@@ -66,7 +68,9 @@ export const appFetch = async (url, options) => {
 
     if (!token) {
       console.log(state, token)
-      throw new Error('No se encontró el token de autenticación, porfavor inicia sesión.')
+      throw new Error(
+        'Ocurrió un error, no pudimos encontrar tu sesión, porfavor reinicia la página. Si el problema persiste contacta a soporte.'
+      )
     }
 
     headers = {
@@ -95,13 +99,18 @@ export const appFetch = async (url, options) => {
     return res
   } catch (err) {
     if (err.message === 'Failed to fetch') {
-      const service = url.startsWith(BASE_URL) ? 'Autenticación' : 'Oferta Académica'
-
       throw new Error(
-        `Ocurrió un error, es posible que el servidor de ${service} esté caído, porfavor contacta a soporte.`
+        `Ocurrió un error, es posible que el servidor de ${matchService(url)} esté caído, porfavor contacta a soporte.`
       )
     }
 
     throw err
   }
+}
+
+const matchService = url => {
+  if (url.startsWith(BASE_URL)) return 'Autenticación'
+  if (url.startsWith(BASE_OFERTA_URL)) return 'Oferta Académica'
+  if (url.startsWith(BASE_GEOGRAFIA_URL)) return 'Geografía'
+  return ''
 }

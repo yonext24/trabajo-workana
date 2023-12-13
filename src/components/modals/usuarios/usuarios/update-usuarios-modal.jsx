@@ -50,7 +50,7 @@ export function UpdateUsuariosModal({ closeModal }) {
     if (id_pais === undefined) return null
     if (dataPaises?.paises?.length === 0) return null
 
-    return dataPaises.paises.find(pais => pais.id_pais === id_pais)
+    return dataPaises.find(pais => pais.id_pais === id_pais)
   }, [id_pais, dataPaises.paises])
 
   return (
@@ -108,7 +108,7 @@ export function UpdateUsuariosModal({ closeModal }) {
           <SelectInputControlledWithLabel
             labelText={'País'}
             control={control}
-            options={dataPaises.paises}
+            options={dataPaises}
             loading={loadingPaises}
             error={errorPaises}
             name="pais"

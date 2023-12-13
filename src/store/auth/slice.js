@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { checkSession, login } from './thunks'
+import { checkSession, login, revalidatePermissions } from './thunks'
 import { toast } from 'react-toastify'
 
 export const USER_POSSIBLE_STATES = {
@@ -81,6 +81,12 @@ const authSlice = createSlice({
         state.user = null
         state.token = null
         state.permissions = null
+      })
+      .addCase(revalidatePermissions.fulfilled, (state, action) => {
+        const { parsedPermissions, operacion } = action.payload
+
+        state.permissions = parsedPermissions
+        state.operacion = operacion
       })
   }
 })

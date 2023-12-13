@@ -34,6 +34,7 @@ export function SelectInput({
   const firstChangeHasOcurred = useRef(false)
   const previousValueBeforeLoading = useRef(null)
   const previousValue = useRef(value)
+  const previousOptions = useRef(options)
 
   useEffect(() => {
     if (!ligatedToExternalChange) return
@@ -67,7 +68,9 @@ export function SelectInput({
 
   useEffect(() => {
     if (!resetOnOptionsChange) return
-    console.log(options)
+    if (isEqual(previousOptions.current, options)) return
+    previousOptions.current = options
+
     setValue('Seleccionar')
   }, [options])
 

@@ -13,6 +13,7 @@ import { useFormCustom } from '@/hooks/useFormCustom'
 import { usePermissions } from '@/hooks/usePermissions'
 import { SubmitButton } from '@/components/common/submit-button'
 import { handleErrorInFormResponse } from '@/utils/consts'
+import { useAuthActions } from '@/hooks/useAuthActions'
 
 export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
   // ***************** SELECTORS *****************
@@ -33,6 +34,7 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
   const permissions = usePermissions('USUARIOS')
   useModalLogic({ closeModal, noScroll: true })
   const { getPermisos, getRolePermissions, getMappedRolePermissions, updateRole } = useUsuariosActions()
+  const { RevalidatePermissions } = useAuthActions()
 
   // **************** STATES *******************
 
@@ -90,6 +92,8 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
     [setUpdatedPermissions]
   )
 
+  const user = useSelector(s => s.auth.user)
+
   const onSubmit = useCallback(
     handleLoading(async value => {
       const { descripcion } = value
@@ -102,11 +106,15 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
       }
 
       const res = await updateRole({ rol, actualizar: updatedPermissions })
+      if (currentRole.nombre === user.rol) {
+        RevalidatePermissions()
+      }
+
       handleErrorInFormResponse(res, setError, () => {
         setUpdatedPermissions([])
       })
     }),
-    [handleLoading, id_rol, updatedPermissions]
+    [handleLoading, id_rol, updatedPermissions, user]
   )
 
   // **************** EFFECTS *******************

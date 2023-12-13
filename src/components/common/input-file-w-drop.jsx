@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Controller } from 'react-hook-form'
 
 // Este componente se utiliza sólamente en la modal de agregar geografía
@@ -7,10 +7,18 @@ export function InputFileWDrop({ file, setFile }) {
   const [error, setError] = useState(false)
   const [dragging, setDragging] = useState(false)
 
-  const handleFileChange = async e => {
+  const handleDropFile = async e => {
     e.preventDefault()
     const file = e.dataTransfer.files[0]
+    handleParseFile(file)
+  }
+  const handleInputFile = async e => {
+    e.preventDefault()
+    const file = e.target.files[0]
+    handleParseFile(file)
+  }
 
+  const handleParseFile = useCallback(async file => {
     const isExcel = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     if (!isExcel) {
       setFile(null)
@@ -20,7 +28,9 @@ export function InputFileWDrop({ file, setFile }) {
     }
 
     try {
-      const { parseExcel, mapGeografiaExcel } = await import('@/utils/parseExcel')
+      const { parseExcel } = await import('@/utils/excel/parseExcel')
+      const { mapGeografiaExcel } = await import('@/utils/excel/mappers')
+
       const json = await parseExcel(file)
       const parsedRows = mapGeografiaExcel(json)
       setDragging(false)
@@ -31,7 +41,7 @@ export function InputFileWDrop({ file, setFile }) {
       setError(errMessage)
       setDragging(false)
     }
-  }
+  }, [])
 
   const handleDragStart = e => {
     e.preventDefault()
@@ -48,17 +58,17 @@ export function InputFileWDrop({ file, setFile }) {
     <div
       className={`w-full h-full flex flex-col ${file ? 'hidden' : ''}`}
       onDragOver={handleDragStart}
-      onDrop={handleFileChange}
+      onDrop={handleDropFile}
       onDragExit={handleDragEnd}
       onDragLeave={handleDragEnd}
       onDragEnd={handleDragEnd}
     >
-      <Render dragging={dragging} file={file} error={error} />
+      <Render dragging={dragging} file={file} error={error} handleInputFile={handleInputFile} />
     </div>
   )
 }
 
-const Render = ({ dragging, file, error }) => {
+const Render = ({ dragging, file, error, handleInputFile }) => {
   return (
     <div className="rounded-md overflow-hidden m-6 flex-1 flex">
       {(() => {
@@ -72,11 +82,20 @@ const Render = ({ dragging, file, error }) => {
 
         return (
           <div
-            className={`w-full flex-1 border-dashed border-blue-500 border-2 flex items-center justify-center transition-colors text-xl text-black ${
-              dragging ? 'bg-blue-500 text-white' : 'bg-transparent'
-            }`}
+            className={`w-full flex-1 border-dashed border-blue-500 border-2 flex items-center justify-center transition-colors text-xl 
+            text-black flex-col ${dragging ? 'bg-blue-500 text-white' : 'bg-transparent'}`}
           >
             {dragging ? <span>Suelte el archivo aquí</span> : <span>Arrastre un archivo de excel aquí</span>}
+            <label htmlFor="input_drop_geo" className="border border-black p-2 rounded bg-gray-200">
+              Seleccionar aquí
+            </label>
+            <input
+              onChange={handleInputFile}
+              type="file"
+              id="input_drop_geo"
+              className="hidden"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            />
           </div>
         )
       })()}

@@ -94,7 +94,7 @@ export function AddUsuariosModal({ closeModal }) {
           <SelectInputControlledWithLabel
             labelText={'País'}
             control={control}
-            options={dataPaises.paises}
+            options={dataPaises}
             loading={loadingPaises}
             error={errorPaises}
             name="pais"

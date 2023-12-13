@@ -79,6 +79,19 @@ const getUserData = async ({ token }) => {
   return { user, permissions: parsedPermissions, operacion: operaciones }
 }
 
+export const revalidatePermissions = createAsyncThunk('auth/revalidatePermissions', async () => {
+  const userPermissions = await appFetch(auth.permisos)
+  const { modulos, operaciones } = await appFetch(auth.parametros)
+
+  const parsedPermissions = permissionParser({
+    userPermissions,
+    modulos,
+    operaciones
+  })
+
+  return { parsedPermissions, operacion: operaciones }
+})
+
 // Acción asincrónica para verificar la sesión inicial
 export const checkSession = createAsyncThunk(auth.login, async () => {
   const token = localStorage.getItem('token')

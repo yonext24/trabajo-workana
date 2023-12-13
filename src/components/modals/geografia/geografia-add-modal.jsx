@@ -25,7 +25,6 @@ export function GeografiaAddModal({ closeModal }) {
       const parsedData = data.map(el => ({ ...el, codigo_postal: String(el.codigo_postal) }))
       await geografia.add(parsedData)
       void getGeoParams()
-      // TO DO: REINICIAR LOS DATOS
     } catch (err) {
       setError('root.fetchError', { type: 'to-not-invalidate', err })
     }
