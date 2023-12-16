@@ -19,5 +19,8 @@ export const geografia = {
   },
   get_departamentos_guatemala: async () => {
     return appFetch(`${BASE_GEOGRAFIA_URL}/rye/pais/departamentos_guatemala`)
+  },
+  get_departamentos_municipios_guatemala: async () => {
+    return appFetch(`${BASE_GEOGRAFIA_URL}/rye/pais/departamentos_municipios_guatemala`)
   }
 }

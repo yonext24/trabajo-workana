@@ -2,7 +2,7 @@
 // y los lanza como errores de la aplicación.
 
 import { history } from '@/App'
-import { BASE_GEOGRAFIA_URL, BASE_OFERTA_URL, BASE_URL } from './consts'
+import { BASE_CENTROS_EDUCATIVOS_URL, BASE_GEOGRAFIA_URL, BASE_OFERTA_URL, BASE_URL } from './consts'
 import { close_all_modals } from '@/store/layout/slice'
 import { logout } from '@/store/auth/slice'
 
@@ -112,5 +112,6 @@ const matchService = url => {
   if (url.startsWith(BASE_URL)) return 'Autenticación'
   if (url.startsWith(BASE_OFERTA_URL)) return 'Oferta Académica'
   if (url.startsWith(BASE_GEOGRAFIA_URL)) return 'Geografía'
-  return ''
+  if (url.startsWith(BASE_CENTROS_EDUCATIVOS_URL)) return 'Centros Educativos'
+  return 'Desconocido'
 }

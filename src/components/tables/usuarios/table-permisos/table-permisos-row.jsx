@@ -31,9 +31,13 @@ export function TablePermisosRow(props) {
   const { switchPermissionState } = useUsuariosActions()
 
   const { currentUnidad, currentExtension, currentNivel } = useMemo(() => {
-    const currentUnidad = unidades.find(u => u.id_unidad === unidad)?.abreviatura ?? unidad
-    const currentExtension = extensiones.find(e => e.id_extension === extension)?.abreviatura ?? extension
-    const currentNivel = niveles.find(n => n.id_nivel === nivel)?.nombre ?? nivel
+    const foundUnidad = unidades.find(u => u.id_unidad === unidad)
+    const foundExtension = extensiones.find(e => e.id_extension === extension)
+    const foundNivel = niveles.find(n => n.id_nivel === nivel)
+
+    const currentUnidad = { text: foundUnidad?.abreviatura ?? unidad, estado: foundUnidad?.estado ?? true }
+    const currentExtension = { text: foundExtension?.abreviatura ?? extension, estado: foundExtension?.estado ?? true }
+    const currentNivel = { text: foundNivel?.nombre ?? nivel, estado: foundNivel?.estado ?? true }
 
     return { currentUnidad, currentExtension, currentNivel }
   }, [unidades, extensiones, unidad, extension])
@@ -62,9 +66,13 @@ export function TablePermisosRow(props) {
   const rows = [
     { text: modulo, id: 1 },
     { text: operacion, id: 2 },
-    { text: parsePermisoText(currentUnidad), id: 3 },
-    { text: parsePermisoText(currentExtension), id: 4 },
-    { text: parsePermisoText(currentNivel), id: 5 }
+    { text: parsePermisoText(currentUnidad.text), className: `${!currentUnidad.estado && 'text-red-600'}`, id: 3 },
+    {
+      text: parsePermisoText(currentExtension.text),
+      className: `${!currentExtension.estado && 'text-red-600'}`,
+      id: 4
+    },
+    { text: parsePermisoText(currentNivel.text), className: `${!currentNivel.estado && 'text-red-600'}`, id: 5 }
   ].concat(toConcat)
 
   return (

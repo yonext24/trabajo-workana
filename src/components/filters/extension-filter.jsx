@@ -45,11 +45,6 @@ export function ExtensionFilter() {
   }, [selectedTipo, dataUnidad])
 
   useEffect(() => {
-    if (unidades.length <= 0) setSelectedUnidad(null)
-    setSelectedUnidad(unidades[0])
-  }, [unidades])
-
-  useEffect(() => {
     setExtensionSelectedUnidad({ unidad: selectedUnidad })
   }, [selectedUnidad])
 
@@ -58,10 +53,12 @@ export function ExtensionFilter() {
   }, [])
 
   const handleTipoChange = tipo => {
+    console.log(tipo)
     if (tipo === undefined) return
     setSelectedTipo(tipo)
   }
   const handleUnidadChange = unidad => {
+    if (unidad === undefined) return
     setSelectedUnidad(unidad)
   }
 
@@ -79,6 +76,7 @@ export function ExtensionFilter() {
           error={errorTipo}
           handleOptionClick={handleTipoChange}
           onFirstChange={handleTipoChange}
+          rawOnChange={handleTipoChange}
           options={dataTipo}
           show="nombre"
           firstOne
@@ -92,12 +90,14 @@ export function ExtensionFilter() {
           loading={loadingUnidad}
           error={errorUnidad}
           externalValue={selectedUnidad}
-          onFirstChange={handleTipoChange}
+          onFirstChange={handleUnidadChange}
           handleOptionClick={handleUnidadChange}
+          rawOnChange={handleUnidadChange}
           options={unidades}
           show="abreviatura"
           disabled={!selectedTipo}
           firstOne
+          resetOnOptionsChange
         />
       </div>
     </div>

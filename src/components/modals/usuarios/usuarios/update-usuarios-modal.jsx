@@ -21,7 +21,9 @@ export function UpdateUsuariosModal({ closeModal }) {
     loading: loadingPaises,
     error: errorPaises,
     data: dataPaises
-  } = useFetchLocalData({ func: geografia.get_parametros, initialData: { paises: [], departamentos: [] } })
+  } = useFetchLocalData({ func: geografia.get_parametros })
+
+  console.log(dataPaises)
 
   const {
     register,
@@ -51,7 +53,7 @@ export function UpdateUsuariosModal({ closeModal }) {
     if (dataPaises?.paises?.length === 0) return null
 
     return dataPaises.find(pais => pais.id_pais === id_pais)
-  }, [id_pais, dataPaises.paises])
+  }, [id_pais, dataPaises])
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
@@ -68,7 +70,15 @@ export function UpdateUsuariosModal({ closeModal }) {
         >
           <InputWLabel register={register} type="text" id="usuario" name="usuario" disabled defaultValue={usuario} />
           <SelectInputControlledWithLabel labelText="Rol" control={control} name="rol" disabled defaultValue={rol} />
-          <InputWLabel register={register} type="text" id="nombres" name="nombres" defaultValue={nombres} required />
+          <InputWLabel
+            autoFocus
+            register={register}
+            type="text"
+            id="nombres"
+            name="nombres"
+            defaultValue={nombres}
+            required
+          />
           <InputWLabel
             register={register}
             type="text"

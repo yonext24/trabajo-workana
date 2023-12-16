@@ -38,7 +38,7 @@ export const SelectInputOptions = ({ options, show, handleChange, closeSelf, sel
           <li
             className="bg-azulfondo text-white hover:bg-white hover:text-black py-1 px-3 transition-colors select-none capitalize"
             key={i}
-            onClick={() => handleChange(data)}
+            onClick={() => handleChange(data, i)}
           >
             {value}
           </li>

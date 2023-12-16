@@ -1,95 +1,99 @@
-import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
-import { useEffect, useMemo, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { appFetch } from '@/utils/fetchHandler'
-import { BASE_OFERTA_URL } from '@/utils/consts'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
 import { SelectInputWithLabel } from '../common/select-input/select-input-w-label'
+import { centros, geografia } from '@/utils/routes'
+import { useCentrosEducativosActions } from '@/hooks/useCentrosEducativosActions'
+import { useSelector } from 'react-redux'
+import { useMemo } from 'react'
+
+const getCentrosEducativosFilterData = async () => {
+  const geoData = await geografia.get_departamentos_municipios_guatemala()
+  const sectores = await centros.get_sectores()
+
+  return { ...geoData, sectores }
+}
 
 export function CentrosEducativosFilter() {
-  const [selectedSector, setSelectedSector] = useState(null)
-  const [selectedEstablecimiento, setSelectedEstablecimiento] = useState(null)
-
   const {
-    loading: loadingUnidad,
-    error: errorUnidad,
-    data: dataUnidad
+    loading: loadingParams,
+    error: errorParams,
+    data: dataParams
   } = useFetchLocalData({
-    func: async () => await appFetch(`${BASE_OFERTA_URL}/rye/extension/param_leer`)
+    func: getCentrosEducativosFilterData,
+    initialData: { departamentos: [], municipios: [], sectores: [] }
   })
+  const { departamentos, municipios, sectores } = dataParams
+  const { getCentrosEstablecimientos, setPaginationData } = useCentrosEducativosActions()
 
-  const { getUnidadAcademicaTipos, setExtensionSelectedUnidad, setExtensionError } = useOfertaAcademicaActions()
+  const { pages, size, page, selectedDepartamento, selectedMunicipio, selectedSector } = useSelector(
+    s => s.centrosEducativos.paginationData
+  )
+  console.log(selectedDepartamento, selectedMunicipio, selectedSector)
 
-  useEffect(() => {
-    if (errorUnidad) setExtensionError(errorUnidad)
-  }, [errorUnidad])
+  const availableMunicipios = useMemo(() => {
+    if (!selectedDepartamento) return []
+    return dataParams.municipios.filter(m => m.id_departamento === selectedDepartamento.id_departamento)
+  }, [selectedDepartamento, municipios])
 
-  /* Los datos de los tipos vienen del estado global por que el endpoint de param_leer no los ofrece */
-  const {
-    data: dataTipo,
-    revalidating: revalidatingTipo,
-    error: errorTipo
-  } = useSelector(s => s.ofertaAcademica.unidadAcademica.tipo)
-
-  const establecimientos = useMemo(() => {
-    if (!selectedSector) return []
-    return dataUnidad.filter(el => el.id_tipo_ua === selectedTipo.id_tipo_ua)
-  }, [selectedSector, dataUnidad])
-
-  useEffect(() => {
-    if (unidades.length <= 0) setSelectedUnidad(null)
-    setSelectedUnidad(unidades[0])
-  }, [unidades])
-
-  useEffect(() => {
-    setExtensionSelectedUnidad({ unidad: selectedUnidad })
-  }, [selectedUnidad])
-
-  useEffect(() => {
-    getUnidadAcademicaTipos()
-  }, [])
-
-  const handleTipoChange = tipo => {
-    if (tipo === undefined) return
-    setSelectedTipo(tipo)
+  const handleDepartamentoChange = departamento => {
+    console.log({ departamento })
+    setPaginationData({ selectedDepartamento: departamento })
   }
-  const handleUnidadChange = unidad => {
-    setSelectedUnidad(unidad)
+  const handleMunicipioChange = municipio => {
+    setPaginationData({ selectedMunicipio: municipio })
+  }
+  const handleSectorChange = sector => {
+    setPaginationData({ selectedSector: sector })
   }
 
   return (
     <div
-      className="w-full flex flex-col gap-x-4 sm:justify-start sm:flex-row sm:items-end text-lg font-semibold md:max-[1000px]:flex-col
+      className="w-full flex flex-col gap-4 justify-start items-start text-lg font-semibold md:max-[1000px]:flex-col
     md:max-[1000px]:items-start"
     >
-      <div className="flex flex-col w-full max-w-[190px]">
-        <SelectInputWithLabel
-          labelText={'Tipo unidad'}
-          loading={revalidatingTipo}
-          externalValue={selectedTipo}
-          ligatedToExternalChange
-          error={errorTipo}
-          handleOptionClick={handleTipoChange}
-          onFirstChange={handleTipoChange}
-          options={dataTipo}
-          show="nombre"
-          firstOne
-        />
+      <div className="flex gap-4 w-full">
+        <div className="flex flex-col w-full max-w-[190px]">
+          <SelectInputWithLabel
+            labelText={'Departamento'}
+            loading={loadingParams}
+            externalValue={selectedDepartamento}
+            ligatedToExternalChange
+            error={errorParams}
+            options={departamentos}
+            handleOptionClick={handleDepartamentoChange}
+            onFirstChange={handleDepartamentoChange}
+            show="nombre"
+            firstOne
+          />
+        </div>
+        <div className="flex flex-col w-full max-w-[190px]">
+          <SelectInputWithLabel
+            labelText="Municipio"
+            noOptionsMessage={`No hay municipios para el departamento ${selectedDepartamento?.nombre}`}
+            ligatedToExternalChange
+            handleOptionClick={handleMunicipioChange}
+            onFirstChange={handleMunicipioChange}
+            firstOne
+            loading={loadingParams}
+            error={errorParams}
+            externalValue={selectedMunicipio}
+            options={availableMunicipios}
+            show="nombre"
+          />
+        </div>
       </div>
       <div className="flex flex-col w-full max-w-[190px]">
         <SelectInputWithLabel
-          labelText="Unidad"
-          noOptionsMessage={`No hay unidades para el tipo ${selectedTipo?.nombre ?? ''}`}
+          labelText="Sector"
+          noOptionsMessage={``}
           ligatedToExternalChange
-          loading={loadingUnidad}
-          error={errorUnidad}
-          externalValue={selectedUnidad}
-          onFirstChange={handleTipoChange}
-          handleOptionClick={handleUnidadChange}
-          options={unidades}
-          show="abreviatura"
-          disabled={!selectedTipo}
+          handleOptionClick={handleSectorChange}
+          onFirstChange={handleSectorChange}
           firstOne
+          loading={loadingParams}
+          error={errorParams}
+          externalValue={selectedSector}
+          options={sectores}
+          show="nombre"
         />
       </div>
     </div>

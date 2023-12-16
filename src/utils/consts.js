@@ -6,6 +6,9 @@ export const BASE_OFERTA_URL = process.env.NODE_ENV === 'production' ? 'http://l
 export const BASE_GEOGRAFIA_URL =
   process.env.NODE_ENV === 'production' ? 'http://localhost:8002' : 'http://localhost:8002'
 
+export const BASE_CENTROS_EDUCATIVOS_URL =
+  process.env.NODE_ENV === 'production' ? 'http://localhost:8003' : 'http://localhost:8003'
+
 export const getToken = api => {
   const token = api.getState().auth.token
   const headers = {

@@ -4,6 +4,8 @@ export function useModalLogic({ closeModal, noScroll = false }) {
   useEffect(() => {
     if (document) {
       try {
+        if (!document.activeElement) return
+        if (document.activeElement.closest('#modalBackground')) return
         document.activeElement.blur()
       } catch {
         // ignore

@@ -2,8 +2,17 @@ import { BASE_OFERTA_URL, BASE_URL } from '@/utils/consts'
 import { appFetch } from '../fetchHandler'
 
 export const general = {
-  parametros: async () => {
-    return await appFetch(`${BASE_OFERTA_URL}/rye/general/parametros`)
+  parametros: async (filterByActive = true) => {
+    const res = await appFetch(`${BASE_OFERTA_URL}/rye/general/parametros`)
+    if (!filterByActive) return res
+
+    const filterCallback = el => el.estado
+
+    return {
+      niveles: (res.niveles || []).filter(filterCallback),
+      unidades: (res.unidades || []).filter(filterCallback),
+      extensiones: (res.extensiones || []).filter(filterCallback)
+    }
   },
   sectores: {
     get: async () => {

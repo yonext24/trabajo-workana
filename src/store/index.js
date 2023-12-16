@@ -5,6 +5,7 @@ import usuariosReducer from './usuarios/slice'
 import ofertaAcademicaReducer from './oferta-academica/slice'
 import authReducer from './auth/slice'
 import geografiaReducer from './geografia/slice'
+import centrosEducativosReducer from './centros-educativos/slice'
 
 const sessionMiddleware = store => next => action => {
   if (typeof action === 'function') {
@@ -22,7 +23,8 @@ export const setupStore = preloadedState => {
       usuarios: usuariosReducer,
       ofertaAcademica: ofertaAcademicaReducer,
       auth: authReducer,
-      geografia: geografiaReducer
+      geografia: geografiaReducer,
+      centrosEducativos: centrosEducativosReducer
     },
     middleware: [sessionMiddleware],
     preloadedState

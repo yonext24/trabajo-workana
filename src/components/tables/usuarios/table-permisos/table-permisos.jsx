@@ -15,7 +15,7 @@ export function TablePermisos({ outsideData, columns = [], selectFunction = fals
 
   const { getPermisos } = useUsuariosActions()
   const { loading: paramsLoading, data: paramsData } = useFetchLocalData({
-    func: async () => await general.parametros(),
+    func: async () => await general.parametros(false),
     initialData: { unidades: [], extensiones: [], niveles: [] },
     dependencies: []
   })

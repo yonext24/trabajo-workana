@@ -41,6 +41,7 @@ export function SelectInputControlled({
               handleOptionClick && handleOptionClick(selected)
               onChange(selected)
             }}
+            name={name}
             rawOnChange={onChange}
             {...props}
           />

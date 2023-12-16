@@ -18,9 +18,11 @@ export function GeografiaFilter() {
     getGeoParams()
   }, [])
 
+  console.log(paginationData)
   useEffect(() => {
     const { selectedDepartamento, page, size } = paginationData
-    if (!selectedPais || !selectedDepartamento) return
+    if (!selectedDepartamento) return
+    console.log(selectedDepartamento)
     getGeoMunicipios({ departamento: selectedDepartamento?.id_departamento, page, size })
   }, [selectedDepartamento, size, page])
 
@@ -35,8 +37,6 @@ export function GeografiaFilter() {
   const handleDepartamentoClick = departamento => {
     setGeoPaginationData({ departamento })
   }
-
-  console.log(selectedPais, selectedDepartamento, error)
 
   return (
     <div className="flex-1 grid grid-cols-[200px,200px] gap-4 [&>*]:flex [&>*]:flex-col [&>*]:w-full">
@@ -60,10 +60,13 @@ export function GeografiaFilter() {
         externalValue={selectedDepartamento}
         defaultValue={selectedDepartamento}
         show="nombre"
+        firstOne
         resetOnOptionsChange
+        rawOnChange={handleDepartamentoClick}
         handleOptionClick={handleDepartamentoClick}
         onFirstChange={handleDepartamentoClick}
         error={error}
+        name="BBBBBB"
       />
       <div className="col-start-1 col-end-3 row-span-2 w-full [&>*]:flex-1 flex">
         {selectedPais && <InputWLabel noLabel value={selectedPais.nacionalidad} disabled />}

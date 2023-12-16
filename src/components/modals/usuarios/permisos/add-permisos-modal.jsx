@@ -13,11 +13,17 @@ import { useFetchLocalData } from '@/hooks/useFetchLocalData'
 import { general } from '@/utils/routes'
 
 const fetchData = async () => {
-  const { modulos, operaciones, niveles } = await appFetch(`${BASE_URL}/rye/permiso/parametros_nuevo`)
+  const { modulos, operaciones } = await appFetch(`${BASE_URL}/rye/permiso/parametros_nuevo`)
 
-  const { unidades, extensiones } = await general.parametros()
+  const { unidades, extensiones, niveles } = await general.parametros()
 
-  return { modulos, operaciones, niveles, unidades, extensiones }
+  return {
+    modulos,
+    operaciones,
+    niveles,
+    unidades,
+    extensiones
+  }
 }
 
 export function AddPermisosModal({ closeModal }) {
@@ -50,7 +56,7 @@ export function AddPermisosModal({ closeModal }) {
   }, [moduloSelected])
 
   const availableExtensiones = useMemo(() => {
-    if (!unidadSelected) return [{ nombre: 'Todos', id_nivel: -1 }]
+    if (!unidadSelected) return []
     if (unidadSelected.id_unidad === -1) return paramsData.extensiones
     return paramsData.extensiones.filter(extension => extension.id_unidad === unidadSelected?.id_unidad)
   }, [unidadSelected])
@@ -65,14 +71,11 @@ export function AddPermisosModal({ closeModal }) {
 
   const { addPermission } = useUsuariosActions()
 
-  const nivel = watch('nivel')
-  console.log(nivel)
-
   const handleUpload = handleLoading(async ({ operacion, unidad, extension, modulo, nivel }) => {
     const data = {
       id_operacion: operacion.id,
       id_modulo: modulo.id,
-      id_nivel: nivel?.id ?? -2,
+      id_nivel: nivel?.id_nivel ?? -2,
       id_unidad: unidad?.id_unidad ?? -2,
       id_extension: extension?.id_extension ?? -2
     }
@@ -89,6 +92,7 @@ export function AddPermisosModal({ closeModal }) {
           className="flex flex-col gap-y-4 p-6 [&_label]:font-semibold [&>label]:text-lg [&>label]:-mb-4 [&>label]:block"
         >
           <SelectInputControlledWithLabel
+            autoFocus
             name="modulo"
             control={control}
             rules={{ required: true }}
@@ -131,8 +135,11 @@ export function AddPermisosModal({ closeModal }) {
               labelText="Extensión"
               resetOnOptionsChange
               ligatedToExternalChange
-              disabled={!isOfertaAcademica}
-              disabledMessage="Esta opción sólo está disponible en el módulo Oferta Académica"
+              disabled={!isOfertaAcademica || !unidadSelected}
+              disabledMessage={(() => {
+                if (!isOfertaAcademica) return 'Esta opción sólo está disponible en el módulo Oferta Académica'
+                if (!unidadSelected) return 'Primero debe seleccionar una unidad'
+              })()}
               name="extension"
               loading={paramsLoading}
               error={paramsError}
