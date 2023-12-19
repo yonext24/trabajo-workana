@@ -93,7 +93,7 @@ export const revalidatePermissions = createAsyncThunk('auth/revalidatePermission
 })
 
 // Acción asincrónica para verificar la sesión inicial
-export const checkSession = createAsyncThunk(auth.login, async () => {
+export const checkSession = createAsyncThunk('auth/checkSession', async () => {
   const token = localStorage.getItem('token')
   if (!token) return false
 

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { get_centros_establecimientos } from './thunks'
+import { add_centros_excel, get_centros_establecimientos } from './thunks'
 
 const initialState = {
   loading: false,
@@ -15,7 +15,8 @@ const initialState = {
     size: 10,
     selectedDepartamento: null,
     selectedMunicipio: null,
-    selectedSector: null
+    selectedSector: null,
+    shouldRevalidate: 1
   }
 }
 
@@ -31,12 +32,16 @@ const centrosEducativosSlice = createSlice({
       if (selectedDepartamento) state.paginationData.selectedDepartamento = selectedDepartamento
       if (selectedMunicipio) state.paginationData.selectedMunicipio = selectedMunicipio
       if (selectedSector) state.paginationData.selectedSector = selectedSector
+    },
+    set_should_revalidate: state => {
+      state.paginationData.shouldRevalidate = state.paginationData.shouldRevalidate + 1
     }
   },
   extraReducers: builder => {
     builder.addCase(get_centros_establecimientos.fulfilled, (state, action) => {
       state.loading = false
       state.revalidating = false
+      state.error = null
       state.data = action.payload.items
       state.paginationData.pages = action.payload.pages
     })
@@ -49,8 +54,21 @@ const centrosEducativosSlice = createSlice({
       state.revalidating = false
       state.error = action.error
     })
+    builder.addCase(add_centros_excel.fulfilled, state => {
+      state.loading = false
+      state.revalidating = false
+    })
+    builder.addCase(add_centros_excel.pending, state => {
+      state.loading = true
+      state.revalidating = true
+    })
+    builder.addCase(add_centros_excel.rejected, (state, action) => {
+      state.error = action.error
+      state.loading = false
+      state.revalidating = false
+    })
   }
 })
 
 export default centrosEducativosSlice.reducer
-export const { set_pagination_data } = centrosEducativosSlice.actions
+export const { set_pagination_data, set_should_revalidate } = centrosEducativosSlice.actions

@@ -21,7 +21,7 @@ export function TableLayout({ children, loading, columns, revalidating, hardErro
         <TableLoading loading={loading} />
         {hardError && (
           <div className="absolute w-full h-full left-0 top-0 bg-red-500/80 px-12 text-white flex items-center justify-center">
-            {hardError}
+            {hardError?.message ?? String(hardError)}
           </div>
         )}
       </TableContainer>

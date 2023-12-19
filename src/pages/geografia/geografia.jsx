@@ -22,7 +22,7 @@ export function Geografia() {
 
   return (
     <div id="page-content">
-      <div className="w-full flex flex-col gap-4 md:justify-between md:flex-row md:items-end">
+      <div className="w-full flex flex-col items-center gap-4 md:justify-between md:flex-row md:items-end">
         <GeografiaFilter />
         <div className="flex items-center justify-end gap-2">
           <ErrorWarning err={errors} />

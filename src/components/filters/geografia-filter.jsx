@@ -18,11 +18,9 @@ export function GeografiaFilter() {
     getGeoParams()
   }, [])
 
-  console.log(paginationData)
   useEffect(() => {
     const { selectedDepartamento, page, size } = paginationData
     if (!selectedDepartamento) return
-    console.log(selectedDepartamento)
     getGeoMunicipios({ departamento: selectedDepartamento?.id_departamento, page, size })
   }, [selectedDepartamento, size, page])
 
@@ -39,7 +37,7 @@ export function GeografiaFilter() {
   }
 
   return (
-    <div className="flex-1 grid grid-cols-[200px,200px] gap-4 [&>*]:flex [&>*]:flex-col [&>*]:w-full">
+    <div className="flex-1 grid grid-cols-[200px,200px] md:max-[1050px]:flex md:max-[1050px]:flex-col gap-4 [&>*]:flex [&>*]:flex-col [&>*]:w-full">
       <SelectInputWithLabel
         labelText={'País'}
         options={paises}
@@ -53,6 +51,7 @@ export function GeografiaFilter() {
         show="nombre"
       />
       <SelectInputWithLabel
+        className="md:max-[1050px]:row-span-2"
         noOptionsMessage={`No hay departamentos para el país ${selectedPais?.nombre ?? ''}`}
         labelText={'Departamento'}
         options={departamentosOptions}
@@ -66,9 +65,8 @@ export function GeografiaFilter() {
         handleOptionClick={handleDepartamentoClick}
         onFirstChange={handleDepartamentoClick}
         error={error}
-        name="BBBBBB"
       />
-      <div className="col-start-1 col-end-3 row-span-2 w-full [&>*]:flex-1 flex">
+      <div className="col-start-1 col-end-3 row-span-2 md:max-[1050px]:row-span-3 w-full [&>*]:flex-1 flex">
         {selectedPais && <InputWLabel noLabel value={selectedPais.nacionalidad} disabled />}
       </div>
     </div>

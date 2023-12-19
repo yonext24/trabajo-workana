@@ -1,17 +1,49 @@
-export const mapGeografiaExcel = excelRows => {
-  const columnMapper = {
-    PAIS: 'pais',
-    DEPARTAMENTO: 'departamento',
-    MUNICIPIO: 'municipio',
-    NACIONALIDAD: 'nacionalidad',
-    CODIGO: 'codigo_postal'
-  }
+import {
+  centrosExcelToJsonColsMapper,
+  geografiaExcelToJsonColsMapper,
+  reportesJsonToExcelColsMapper,
+  reportesRowTypesToJson
+} from './excel-cols-rows'
 
+export const mapCentrosExcel = (excelRows, { departamentos, municipios }) => {
   const parsedRows = excelRows.map(row => {
     const parsedRow = {}
     for (const key in row) {
       const value = row[key]
-      const newKey = columnMapper[key]
+      const newKey = centrosExcelToJsonColsMapper[key]
+      if (newKey === undefined)
+        throw new Error(
+          'El formato del excel es incorrecto, debe tener las columnas: SECTOR, ESTABLECIMIENTO, CODIGO_ESTABLECIMIENTO, TITULO, CODIGO_TITULO, DEPARTAMENTO y MUNICIPIO'
+        )
+      if (newKey) parsedRow[newKey] = value
+    }
+
+    const foundDepartamento = departamentos.find(
+      dep => String(dep.nombre).toLowerCase() === String(parsedRow.departamento).toLowerCase()
+    )
+    if (foundDepartamento === undefined)
+      throw new Error(`El departamento ${parsedRow.departamento} no existe, asegúrese de que el nombre sea correcto.`)
+    const foundMunicipio = municipios.find(
+      mun => String(mun.nombre).toLowerCase() === String(parsedRow.municipio).toLowerCase()
+    )
+    if (foundMunicipio === undefined)
+      throw new Error(`El municipio ${parsedRow.municipio} no existe, asegúrese de que el nombre sea correcto.`)
+
+    parsedRow.id_departamento = foundDepartamento.id_departamento
+    parsedRow.id_municipio = foundMunicipio.id_municipio
+
+    return parsedRow
+  })
+
+  return parsedRows
+}
+
+export const mapGeografiaExcel = excelRows => {
+  const parsedRows = excelRows.map(row => {
+    const parsedRow = {}
+    for (const key in row) {
+      const value = row[key]
+      const newKey = geografiaExcelToJsonColsMapper[key]
       if (newKey === undefined)
         throw new Error(
           'El formato del excel es incorrecto, debe tener las columnas: PAIS, DEPARTAMENTO, MUNICIPIO, NACIONALIDAD y CODIGO'
@@ -23,8 +55,8 @@ export const mapGeografiaExcel = excelRows => {
 
     parsedRow.id = id
 
-    for (const key in columnMapper) {
-      const value = columnMapper[key]
+    for (const key in geografiaExcelToJsonColsMapper) {
+      const value = geografiaExcelToJsonColsMapper[key]
       if (parsedRow[value] === undefined)
         throw new Error(
           'El formato del excel es incorrecto, debe tener las columnas: PAIS, DEPARTAMENTO, MUNICIPIO, NACIONALIDAD y CODIGO'
@@ -38,48 +70,17 @@ export const mapGeografiaExcel = excelRows => {
 }
 
 export const reportesJsonToExcelMapper = json => {
-  const columnMapper = {
-    codigo_ua: 'Código Unidad Académica',
-    unidad: 'Unidad Académica',
-    codigo_extension: 'Código Extensión',
-    extension: 'Extensión',
-    codigo_carrera: 'Código Carrera',
-    carrera: 'Carrera',
-    codigo_nivel: 'Código Nivel',
-    nivel: 'Nivel Académico',
-    codigo_carrera_activa: 'Código Carrera Activa',
-    carrera_activa: 'Carrera Activa',
-    codigo_prerrequisito: 'Código Prerrequisito',
-    prerrequisito: 'Prerrequisito',
-    fecha_activacion: 'Fecha de Activación',
-    fecha_creacion: 'Fecha de Creación',
-    estado_ingreso: 'Estado Ingreso',
-    estado_reingreso: 'Estado Reingreso',
-    estado_cierre: 'Estado Cierre',
-    estado_graduado: 'Estado Graduado'
-  }
-  const rowMapper = {
-    codigo_carrera_activa: 'boolean',
-    codigo_prerrequisito: 'boolean',
-    estado_ingreso: 'boolean',
-    estado_reingreso: 'boolean',
-    estado_cierre: 'boolean',
-    estado_graduado: 'boolean',
-    fecha_activacion: 'date',
-    fecha_creacion: 'date'
-  }
-
   const parsedJson = json.map(row => {
     const parsedRows = {}
 
     for (const key in row) {
-      const parsedColumn = columnMapper[key] ?? key
+      const parsedColumn = reportesJsonToExcelColsMapper[key] ?? key
 
-      if (rowMapper[key] === 'boolean') {
+      if (reportesRowTypesToJson[key] === 'boolean') {
         parsedRows[parsedColumn] = row[key] ? '1' : '0'
         continue
       }
-      if (rowMapper[key] === 'date') {
+      if (reportesRowTypesToJson[key] === 'date') {
         const newDate = new Date(row[key])
         const day = newDate.getDate()
         const month = newDate.getMonth()

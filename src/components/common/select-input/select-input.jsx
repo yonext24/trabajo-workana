@@ -31,7 +31,8 @@ export function SelectInput({
   rawOnChange,
   onFirstChange = false,
   autoFocus = false,
-  name
+  name,
+  className = ''
 }) {
   const [value, setValue] = useState(loading ? 'Cargando...' : 'Seleccionar')
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -171,7 +172,7 @@ export function SelectInput({
   }
 
   return (
-    <div className="relative w-full flex" ref={elementRef}>
+    <div className={`relative w-full flex ${className ?? ''}`} ref={elementRef}>
       <input
         autoFocus={autoFocus}
         id={'Fa'}

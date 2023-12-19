@@ -2,14 +2,14 @@ import { useForm } from 'react-hook-form'
 import { DefaultModalLayout } from '../default-modal-layout'
 import { ModalBackground } from '../modal-background'
 import { ControlledInputFileWDrop } from '@/components/common/input-file-w-drop'
-import { RawTableGeografia } from '@/components/tables/geografia/table-geografia'
 import { ButtonsContainer } from '../buttons-container'
 import { SubmitButton } from '@/components/common/submit-button'
-import { geografia } from '@/utils/routes'
-import { useGeografiaActions } from '@/hooks/useGeografiaActions'
 import { useCallback } from 'react'
+import { geografia } from '@/utils/routes'
+import { CentrosEducativosAddTable } from '@/components/tables/centros-educativos/centros-educativos-add-table'
+import { useCentrosEducativosActions } from '@/hooks/useCentrosEducativosActions'
 
-export function GeografiaAddModal({ closeModal }) {
+export function CentrosEducativosAddModal({ closeModal }) {
   const {
     handleSubmit,
     formState: { errors, isSubmitting },
@@ -19,14 +19,19 @@ export function GeografiaAddModal({ closeModal }) {
   } = useForm()
 
   const data = watch('data')
-  console.log({ data })
-  const { getGeoParams } = useGeografiaActions()
+
+  const { addCentrosExcel, setShouldRevalidate } = useCentrosEducativosActions()
 
   const onSubmit = async ({ data }) => {
     try {
-      const parsedData = data.map(el => ({ ...el, codigo_postal: String(el.codigo_postal) }))
-      await geografia.add(parsedData)
-      void getGeoParams()
+      // eslint-disable-next-line no-unused-vars
+      const parsedData = data.map(({ departamento, municipio, codigo_titulo, ...rest }) => ({
+        ...rest,
+        codigo_titulo: String(codigo_titulo)
+      }))
+
+      await addCentrosExcel(parsedData)
+      setShouldRevalidate()
       closeModal()
     } catch (err) {
       setError('root.fetchError', { type: 'to-not-invalidate', err })
@@ -40,11 +45,14 @@ export function GeografiaAddModal({ closeModal }) {
     }
 
     try {
+      const res = await geografia.get_departamentos_municipios_guatemala()
+
       const { parseExcel } = await import('@/utils/excel/parseExcel')
-      const { mapGeografiaExcel } = await import('@/utils/excel/mappers')
+      const { mapCentrosExcel } = await import('@/utils/excel/mappers')
 
       const json = await parseExcel(file)
-      const parsedRows = await mapGeografiaExcel(json)
+      const parsedRows = mapCentrosExcel(json, res)
+
       return parsedRows
     } catch (err) {
       const errMessage =
@@ -57,24 +65,24 @@ export function GeografiaAddModal({ closeModal }) {
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout
         closeModal={closeModal}
-        title={'Agregar Geografía'}
-        className={'max-h-[98vh]'}
+        title={'Cargar Excel de Centros Educativos'}
+        className={`max-h-[98vh] ${data && '!max-w-[1100px]'}`}
         errors={errors}
         loading={isSubmitting}
       >
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col overflow-y-auto">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col overflow-y-auto p-2">
           <div className="min-h-[400px] grid grid-rows-[1fr,auto] [&>*]:flex-1">
             <ControlledInputFileWDrop
-              handleParseFile={handleParseFile}
               control={control}
               id={'data'}
               name={'data'}
               rules={{ required: { value: true, message: 'Debes subir un archivo!' } }}
+              handleParseFile={handleParseFile}
             />
             {data && (
               <>
                 <div className="overflow-y-auto">
-                  <RawTableGeografia data={data} />
+                  <CentrosEducativosAddTable data={data} />
                 </div>
                 <ButtonsContainer disabled={isSubmitting} className={'py-3'}>
                   <SubmitButton loading={isSubmitting} text="Enviar" />

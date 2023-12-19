@@ -1,47 +1,37 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 
-// Este componente se utiliza sólamente en la modal de agregar geografía
-// no es realmente reutilizable, habría que refactorizarlo para que lo sea
-export function InputFileWDrop({ file, setFile }) {
+export function InputFileWDrop({ file, setFile, handleParseFile }) {
   const [error, setError] = useState(false)
   const [dragging, setDragging] = useState(false)
 
   const handleDropFile = async e => {
     e.preventDefault()
     const file = e.dataTransfer.files[0]
-    handleParseFile(file)
+    try {
+      const parsedFile = await handleParseFile(file)
+      setFile(parsedFile)
+    } catch (err) {
+      setFile(undefined)
+      setError(err?.message ?? String(err))
+    } finally {
+      setDragging(false)
+    }
   }
   const handleInputFile = async e => {
     e.preventDefault()
     const file = e.target.files[0]
-    handleParseFile(file)
-  }
-
-  const handleParseFile = useCallback(async file => {
-    const isExcel = file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    if (!isExcel) {
-      setFile(null)
-      setError('El archivo debe ser de tipo excel')
-      setDragging(false)
-      return
-    }
-
+    console.log(file)
     try {
-      const { parseExcel } = await import('@/utils/excel/parseExcel')
-      const { mapGeografiaExcel } = await import('@/utils/excel/mappers')
-
-      const json = await parseExcel(file)
-      const parsedRows = mapGeografiaExcel(json)
-      setDragging(false)
-      setFile(parsedRows)
+      const parsedFile = await handleParseFile(file)
+      setFile(parsedFile)
     } catch (err) {
-      const errMessage =
-        err instanceof Error ? err.message : 'Ocurrió un error desconocido, si el error persiste infórmele a soporte'
-      setError(errMessage)
+      setFile(undefined)
+      setError(err?.message ?? String(err))
+    } finally {
       setDragging(false)
     }
-  }, [])
+  }
 
   const handleDragStart = e => {
     e.preventDefault()
@@ -103,7 +93,7 @@ const Render = ({ dragging, file, error, handleInputFile }) => {
   )
 }
 
-export const ControlledInputFileWDrop = ({ control, id, name, rules }) => {
+export const ControlledInputFileWDrop = ({ control, id, name, rules, handleParseFile }) => {
   return (
     <Controller
       control={control}
@@ -113,7 +103,7 @@ export const ControlledInputFileWDrop = ({ control, id, name, rules }) => {
       render={({ field }) => {
         const { value, onChange } = field
 
-        return <InputFileWDrop file={value} setFile={onChange} />
+        return <InputFileWDrop file={value} setFile={onChange} handleParseFile={handleParseFile} />
       }}
     />
   )
