@@ -13,7 +13,7 @@ export const mapCentrosExcel = (excelRows, { departamentos, municipios }) => {
       const newKey = centrosExcelToJsonColsMapper[key]
       if (newKey === undefined)
         throw new Error(
-          'El formato del excel es incorrecto, debe tener las columnas: SECTOR, ESTABLECIMIENTO, CODIGO_ESTABLECIMIENTO, TITULO, CODIGO_TITULO, DEPARTAMENTO y MUNICIPIO'
+          'El formato del excel es incorrecto, debe tener las columnas: SECTOR, CODIGO_SECTOR, ESTABLECIMIENTO, CODIGO_ESTABLECIMIENTO, TITULO, CODIGO_TITULO, DEPARTAMENTO y MUNICIPIO'
         )
       if (newKey) parsedRow[newKey] = value
     }

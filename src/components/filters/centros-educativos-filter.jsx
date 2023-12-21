@@ -37,7 +37,12 @@ export function CentrosEducativosFilter() {
       page,
       size
     })
-  }, [selectedDepartamento?.id_departamento, selectedMunicipio?.id_municipio, selectedSector?.id_sector])
+  }, [
+    selectedDepartamento?.id_departamento,
+    selectedMunicipio?.id_municipio,
+    selectedSector?.id_sector,
+    shouldRevalidate
+  ])
 
   const availableMunicipios = useMemo(() => {
     if (!selectedDepartamento) return []

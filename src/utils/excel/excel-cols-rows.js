@@ -1,5 +1,6 @@
 export const centrosExcelToJsonColsMapper = {
   SECTOR: 'sector',
+  CODIGO_SECTOR: 'codigo_sector',
   ESTABLECIMIENTO: 'establecimiento',
   CODIGO_ESTABLECIMIENTO: 'codigo_establecimiento',
   TITULO: 'titulo',

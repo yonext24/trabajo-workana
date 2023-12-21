@@ -9,7 +9,9 @@ export const parseExcel = file => {
       const workbook = XLSX.read(data, { type: 'array' })
 
       const firstSheet = workbook.SheetNames[0]
-      const excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet])
+      const excelRows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheet], {
+        rawNumbers: true
+      })
       resolve(excelRows)
     }
 
