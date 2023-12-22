@@ -31,11 +31,11 @@ export function SelectInput({
   rawOnChange,
   onFirstChange = false,
   autoFocus = false,
-  name,
+  // name,
   className = ''
 }) {
   const [value, setValue] = useState(loading ? 'Cargando...' : 'Seleccionar')
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const [currentIndex, setCurrentIndex] = useState(-1)
   const [open, setOpen] = useState(false)
   const [focused, setFocused] = useState(false)
 
@@ -44,7 +44,7 @@ export function SelectInput({
   const previousValue = useRef(value)
   const previousOptions = useRef(options)
   const hasIndexSearchOfDefaultValueOcurred = useRef(defaultValue !== undefined)
-  name === 'modulo' && console.log({ autoFocus, focused })
+  const inputRef = useRef(null)
 
   useEffect(() => {
     if (!hasIndexSearchOfDefaultValueOcurred.current) return
@@ -82,14 +82,14 @@ export function SelectInput({
       setValue(value)
     } else if (defaultValue) {
       const newValue = defaultValue ?? 'Seleccionar'
-      setCurrentIndex(0)
+      setCurrentIndex(-1)
       setValue(newValue)
     } else {
       if (previousValueBeforeLoading.current !== undefined && !resetOnOptionsChange) {
         setValue(previousValueBeforeLoading.current)
         return
       }
-      setCurrentIndex(0)
+      setCurrentIndex(-1)
       setValue('Seleccionar')
     }
   }, [loading, error, JSON.stringify(options)])
@@ -109,7 +109,7 @@ export function SelectInput({
     if (isEqual(previousOptions.current, options)) return
 
     previousOptions.current = options
-    setCurrentIndex(0)
+    setCurrentIndex(-1)
     setValue('Seleccionar')
   }, [options])
 
@@ -131,16 +131,17 @@ export function SelectInput({
     onFirstChange(value)
   }, [value])
 
-  const handleChange = (selected, index) => {
+  const handleChange = (selected, index, noClose) => {
     if (disabled) return
     setCurrentIndex(index)
     setValue(selected)
-    setOpen(false)
+    !noClose && setOpen(false)
     handleOptionClick(selected)
   }
   const handleClick = e => {
     e.stopPropagation()
     if (disabled || loading || error || options?.length === 0) return
+    inputRef.current?.focus()
     setOpen(!open)
   }
 
@@ -148,43 +149,39 @@ export function SelectInput({
   const { elementRef, hovering } = useHovering()
 
   const handleKeyDown = e => {
+    e.preventDefault()
     if (disabled || loading || error || options?.length === 0) return
     if (e.key === 'Enter') {
-      if (open) {
-        setOpen(false)
-      } else {
-        setOpen(true)
-      }
+      setOpen(prev => !prev)
     }
     if (e.key === 'Escape') {
       setOpen(false)
     }
     if (e.key === 'ArrowDown') {
-      e.preventDefault()
-      if (currentIndex + 1 >= options.length) return
-      handleChange(options[currentIndex + 1], currentIndex + 1)
+      const newIndex = currentIndex + 1
+      if (newIndex >= options.length) return
+      handleChange(options[newIndex], newIndex, true)
     }
     if (e.key === 'ArrowUp') {
-      e.preventDefault()
-      if (currentIndex - 1 < 0) return
-      handleChange(options[currentIndex - 1], currentIndex - 1)
+      const newIndex = currentIndex - 1
+      if (newIndex < 0) return
+      handleChange(options[newIndex], newIndex, true)
     }
   }
 
   return (
     <div className={`relative w-full flex ${className ?? ''}`} ref={elementRef}>
       <input
+        ref={inputRef}
         autoFocus={autoFocus}
         id={'Fa'}
         type="text"
         className="h-0 w-0"
         onFocus={() => {
           setFocused(true)
-          console.log('FOCUS ', name)
         }}
         onBlur={() => {
           setFocused(false)
-          console.log('blur ', name)
         }}
         onKeyDown={handleKeyDown}
       />
@@ -205,7 +202,7 @@ export function SelectInput({
         data-disabled={Boolean(disabled || error || loading || options?.length === 0)}
         data-loading={loading}
         data-focused={focused}
-        className="cursor-default data-[loading=true]:cursor-not-allowed text-base sm:text-lg pl-4 data-[focused=true]:border-blue-700
+        className="cursor-default data-[loading=true]:cursor-not-allowed text-base sm:text-lg pl-4 data-[focused=true]:border-black
         border-2 border-gris rounded-md grid grid-cols-[1fr,50px] w-full overflow-hidden data-[disabled=true]:shadow-lg data-[disabled=true]:cursor-not-allowed"
       >
         <div className="flex-1 text-left py-[2px] overflow-hidden">
@@ -230,6 +227,7 @@ export function SelectInput({
           selectRef={selectRef}
           show={show}
           handleChange={handleChange}
+          currentIndex={currentIndex}
           closeSelf={() => {
             setOpen(false)
           }}

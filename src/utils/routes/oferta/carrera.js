@@ -21,6 +21,12 @@ export const carrera = {
         method: 'POST',
         body: JSON.stringify(data)
       })
+    },
+    param_crear: async () => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/carrera/param_crear`)
+    },
+    param_leer: async () => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/carrera/param_leer`)
     }
   },
   nivel: {

@@ -1,12 +1,12 @@
 import { parseEstado } from '@/utils/consts'
-import { Row } from '../../row'
-import { RowLayout } from '../../row-layout'
-import { TableLayout } from '../../table-layout'
 import { usePermissions } from '@/hooks/usePermissions'
-import { ExtensionUpdateCarreraModal } from '@/components/modals/oferta-academica/extension/extension/extension-update-carrera-modal'
 import { useLayoutActions } from '@/hooks/useLayoutActions'
+import { RowLayout } from '@/components/tables/row-layout'
+import { Row } from '@/components/tables/row'
+import { TableLayout } from '@/components/tables/table-layout'
+import { UnidadUpdateCarreraModal } from '@/components/modals/oferta-academica/unidad-academica/unidad/unidad-update-carrera-modal'
 
-export function CarreraExtensionTable({ data, loading, error, extension, unidad, id_extension, setCarrera }) {
+export function UnidadCarrerasTable({ data, loading, error, id_unidad, setCarrera, nivel, unidad }) {
   const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
   const { UPDATE } = permissions
 
@@ -14,22 +14,16 @@ export function CarreraExtensionTable({ data, loading, error, extension, unidad,
     <TableLayout
       loading={loading}
       hardError={error}
-      columns={[
-        { text: 'Código' },
-        { text: 'Carrera', className: 'w-1/2' },
-        { text: 'Estado' },
-        { text: 'Fecha de creación', className: 'w-1/3' },
-        { text: 'Acción' }
-      ]}
+      columns={[{ text: 'Código' }, { text: 'Carrera', className: 'w-1/2' }, { text: 'Estado' }, { text: 'Acción' }]}
     >
       {data.map(el => (
-        <ExtensionMainTableRow
+        <UnidadCarrerasTableRow
           key={el.id_carrera}
           setCarrera={setCarrera}
           {...el}
-          id_extension={id_extension}
-          extension={extension}
+          id_unidad={id_unidad}
           unidad={unidad}
+          nivel={nivel}
           UPDATE={UPDATE}
         />
       ))}
@@ -37,21 +31,21 @@ export function CarreraExtensionTable({ data, loading, error, extension, unidad,
   )
 }
 
-export function ExtensionMainTableRow(props) {
-  const { codigo, estado, fecha_creacion, nombre, UPDATE, setCarrera } = props
+export function UnidadCarrerasTableRow(props) {
+  const { codigo, estado, nombre, UPDATE } = props
 
   const { openModal, closeModal: closeModalFunc } = useLayoutActions()
 
   const handleCarreraUpdate = () => {
-    const modalId = 'update-carrera-extension-modal'
+    const modalId = 'update-carrera-unidad-modal'
     openModal({
-      Element: ExtensionUpdateCarreraModal,
+      Element: UnidadUpdateCarreraModal,
       id: modalId,
       props: {
         closeModal: () => {
           closeModalFunc(modalId)
         },
-        setCarrera,
+        carrera: nombre,
         ...props
       }
     })
@@ -60,8 +54,7 @@ export function ExtensionMainTableRow(props) {
   const rows = [
     { id: 1, text: codigo, className: '!text-center' },
     { id: 2, text: nombre },
-    { id: 3, text: parseEstado(estado) },
-    { id: 4, text: fecha_creacion, className: '!text-center' },
+    { id: 3, text: parseEstado(estado), className: '!text-center' },
     { id: 5, carreras: UPDATE ? [{ type: 'see', onClick: handleCarreraUpdate }] : [] }
   ]
 

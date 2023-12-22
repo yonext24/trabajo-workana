@@ -1,10 +1,10 @@
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
-import { Row } from '../../row'
-import { RowLayout } from '../../row-layout'
-import { ExtensionUpdateModal } from '@/components/modals/oferta-academica/extension/extension-update-modal'
-import { ExtensionSeeModal } from '@/components/modals/oferta-academica/extension/extension-see-modal'
+import { Row } from '../../../row'
+import { RowLayout } from '../../../row-layout'
+import { ExtensionUpdateModal } from '@/components/modals/oferta-academica/extension/extension/extension-update-modal'
+import { ExtensionSeeModal } from '@/components/modals/oferta-academica/extension/extension/extension-see-modal'
 import { useLayoutActions } from '@/hooks/useLayoutActions'
-import { ExtensionAddCarreraModal } from '@/components/modals/oferta-academica/extension/extension-add-carrera-modal'
+import { ExtensionAddCarreraModal } from '@/components/modals/oferta-academica/extension/extension/extension-add-carrera-modal'
 import { parseEstado } from '@/utils/consts'
 
 export function ExtensionMainTableRow(props) {

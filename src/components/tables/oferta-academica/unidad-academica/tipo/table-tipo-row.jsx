@@ -1,7 +1,7 @@
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
-import { Row } from '../../row'
-import { RowLayout } from '../../row-layout'
-import { TipoUpdateModal } from '@/components/modals/oferta-academica/unidad-academica/tipo-update-modal'
+import { Row } from '../../../row'
+import { RowLayout } from '../../../row-layout'
+import { TipoUpdateModal } from '@/components/modals/oferta-academica/unidad-academica/tipo/tipo-update-modal'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { parseEstado } from '@/utils/consts'
 

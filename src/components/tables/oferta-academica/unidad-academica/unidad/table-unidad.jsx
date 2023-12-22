@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { TableLayout } from '../../table-layout'
+import { TableLayout } from '../../../table-layout'
 import { TableUnidadRow } from './table-unidad-row'
 import { useEffect } from 'react'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
@@ -23,6 +23,7 @@ export function TableUnidad({ permissions }) {
         { text: 'Nombre', className: 'w-1/2 !max-w-[300px]' },
         { text: 'Abreviatura' },
         { text: 'Estado' },
+        { text: 'Carreras' },
         { text: 'Acciones' }
       ]}
     >

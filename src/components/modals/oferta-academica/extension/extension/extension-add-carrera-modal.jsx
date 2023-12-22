@@ -1,17 +1,15 @@
 import { InputWLabel } from '@/components/common/input-w-label'
-import { DefaultModalLayout } from '../../default-modal-layout'
-import { ModalBackground } from '../../modal-background'
+import { DefaultModalLayout } from '../../../default-modal-layout'
+import { ModalBackground } from '../../../modal-background'
 import { useForm } from 'react-hook-form'
-import { ButtonsContainer } from '../../buttons-container'
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
+import { ButtonsContainer } from '../../../buttons-container'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
 import { extension } from '@/utils/routes'
 import { SubmitButton } from '@/components/common/submit-button'
 import { toast } from 'react-toastify'
 import { useModalLogic } from '@/hooks/useModalLogic'
+import { carrera } from '@/utils/routes/oferta/carrera'
 
 export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nombre }) {
   const {
@@ -39,15 +37,12 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
   })
 
   const {
-    data: nivelesData,
-    revalidating: nivelesLoading,
-    error: nivelesError
-  } = useSelector(s => s.ofertaAcademica.carrera.nivel)
-  const { getCarreraNivelData } = useOfertaAcademicaActions()
-
-  useEffect(() => {
-    getCarreraNivelData()
-  }, [])
+    loading: nivelesLoading,
+    error: nivelesError,
+    data: nivelesData
+  } = useFetchLocalData({
+    func: carrera.carrera.param_crear
+  })
 
   const handleUpdate = async ({ carrera, ...rest }) => {
     const data = { id_extension, id_carrera: carrera?.id_carrera, ...rest }

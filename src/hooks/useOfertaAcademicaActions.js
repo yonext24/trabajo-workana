@@ -16,7 +16,15 @@ import {
   update_tipo_recurso,
   update_carrera_carrera
 } from '@/store/oferta-academica/carreraThunks'
-import { add_extension, get_extension_data, update_extension } from '@/store/oferta-academica/extensionThunks'
+import {
+  add_extension,
+  add_extension_permiso,
+  get_extension_data,
+  get_extension_permiso,
+  switch_state_extension_permiso,
+  update_extension,
+  update_extension_permiso
+} from '@/store/oferta-academica/extensionThunks'
 import {
   set_recurso_filtered,
   set_unidad_filtered,
@@ -71,6 +79,11 @@ export function useOfertaAcademicaActions() {
   const addOfertaAcademicaExtension = async data => dispatch(add_extension(data))
   const updateOfertaAcademicaExtension = async data => dispatch(update_extension(data))
 
+  const getOfertaAcademicaPermiso = async () => dispatch(get_extension_permiso())
+  const addOfertaAcademicaPermiso = async data => dispatch(add_extension_permiso(data))
+  const updateOfertaAcademicaPermiso = async data => dispatch(update_extension_permiso(data))
+  const switchOfertaAcademicaPermiso = async data => dispatch(switch_state_extension_permiso(data))
+
   const getUnidadAcademicaTipos = async () => dispatch(get_unidad_academica_tipos())
   const addUnidadAcademicaTipos = async data => dispatch(add_unidad_academica_tipos(data))
   const switchUnidadAcademicaTipos = async data => dispatch(switch_state_unidad_academica_tipos(data))
@@ -114,6 +127,10 @@ export function useOfertaAcademicaActions() {
     getCarreraRecursoData,
     addCarreraRecurso,
     switchCarreraRecurso,
-    updateCarreraRecurso
+    updateCarreraRecurso,
+    getOfertaAcademicaPermiso,
+    addOfertaAcademicaPermiso,
+    updateOfertaAcademicaPermiso,
+    switchOfertaAcademicaPermiso
   }
 }

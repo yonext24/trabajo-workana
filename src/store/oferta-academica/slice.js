@@ -20,12 +20,20 @@ const initialState = {
     }
   },
   extension: {
-    loading: false,
-    revalidate: false,
-    data: [],
-    selectedUnidad: null,
-    selectedTipo: null,
-    error: null
+    extension: {
+      loading: false,
+      revalidating: false,
+      data: [],
+      selectedUnidad: null,
+      selectedTipo: null,
+      error: null
+    },
+    permiso: {
+      loading: false,
+      revalidating: false,
+      data: [],
+      error: null
+    }
   },
   carrera: {
     nivel: {
@@ -68,7 +76,7 @@ export const ofertaAcademicaSlice = createSlice({
   reducers: {
     set_extension_error: (state, action) => {
       const { error } = action.payload
-      state.extension.error = error
+      state.extension.extension.error = error
     },
     set_carrera_error: (state, action) => {
       const { error } = action.payload
@@ -80,8 +88,8 @@ export const ofertaAcademicaSlice = createSlice({
     },
     set_extension_selected_unidad: (state, action) => {
       const { unidad, tipo } = action.payload
-      if (tipo) state.extension.selectedTipo = tipo
-      if (unidad) state.extension.selectedUnidad = unidad
+      if (tipo) state.extension.extension.selectedTipo = tipo
+      if (unidad) state.extension.extension.selectedUnidad = unidad
     },
     set_recurso_filtered: (state, action) => {
       const { filteredData } = action.payload

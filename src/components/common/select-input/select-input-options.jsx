@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { valueParser } from './select-input'
 
-export const SelectInputOptions = ({ options, show, handleChange, closeSelf, selectRef }) => {
+export const SelectInputOptions = ({ options, show, handleChange, closeSelf, selectRef, currentIndex }) => {
   const ulRef = useRef(null)
   const screenHeight = useSelector(s => s.layout.screenData.height)
 
@@ -36,7 +36,9 @@ export const SelectInputOptions = ({ options, show, handleChange, closeSelf, sel
 
         return (
           <li
-            className="bg-azulfondo text-white hover:bg-white hover:text-black py-1 px-3 transition-colors select-none capitalize"
+            className="bg-azulfondo text-white hover:bg-white hover:text-black py-1 px-3 select-none capitalize
+            data-[selected=true]:bg-gray-700"
+            data-selected={currentIndex === i}
             key={i}
             onClick={() => handleChange(data, i)}
           >

@@ -10,8 +10,8 @@ export function ExtensionFilter() {
   const [selectedTipo, setSelectedTipo] = useState(null)
   const [selectedUnidad, setSelectedUnidad] = useState(null)
 
-  const selectedUnidadGlobal = useSelector(s => s.ofertaAcademica.extension.selectedUnidad)
-  const selectedTipoGlobal = useSelector(s => s.ofertaAcademica.extension.selectedTipo)
+  const selectedUnidadGlobal = useSelector(s => s.ofertaAcademica.extension.extension.selectedUnidad)
+  const selectedTipoGlobal = useSelector(s => s.ofertaAcademica.extension.extension.selectedTipo)
 
   useEffect(() => {
     if (selectedUnidadGlobal) setSelectedUnidad(selectedUnidadGlobal)
@@ -53,7 +53,6 @@ export function ExtensionFilter() {
   }, [])
 
   const handleTipoChange = tipo => {
-    console.log(tipo)
     if (tipo === undefined) return
     setSelectedTipo(tipo)
   }

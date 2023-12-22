@@ -46,6 +46,21 @@ export const unidad = {
         method: 'POST',
         body: JSON.stringify(data)
       })
+    },
+    add_carrera: async data => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/nueva_carrera`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+    },
+    get_carreras: async (id_unidad, id_nivel) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/carreras?unidad=${id_unidad}&nivel=${id_nivel}`)
+    },
+    update_carrera: async data => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/actualizar_carrera`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
     }
   }
 }

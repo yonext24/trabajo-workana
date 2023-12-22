@@ -9,6 +9,7 @@
 const addHandler = ({ state, getProperty, setProperty, data }) => {
   const actualData = getProperty({ property: 'data', state })
   const value = [...actualData]
+  console.log('data from addhandler', data)
   value.push(data)
   setProperty({ property: 'data', state, value })
 }
@@ -95,6 +96,7 @@ const thunksSets = ({
   const addActionCase = (actionType, dataExtractor, type) => {
     builder.addCase(actionType.fulfilled, (state, action) => {
       const data = dataExtractor(action.payload)
+      console.log({ data })
 
       if (type === 'get') {
         if (get.customFunc) {

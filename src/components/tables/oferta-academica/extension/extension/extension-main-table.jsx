@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux'
-import { TableLayout } from '../../table-layout'
+import { TableLayout } from '../../../table-layout'
 import { ExtensionMainTableRow } from './extension-main-table-row'
 import { useEffect } from 'react'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 
 export function ExtensionMainTable({ permissions }) {
-  const { data, revalidating, selectedUnidad } = useSelector(s => s.ofertaAcademica.extension)
+  const { data, revalidating, selectedUnidad } = useSelector(s => s.ofertaAcademica.extension.extension)
 
   const { getOfertaAcademicaExtension } = useOfertaAcademicaActions()
 

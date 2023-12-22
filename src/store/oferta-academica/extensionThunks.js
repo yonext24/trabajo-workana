@@ -17,20 +17,60 @@ export const update_extension = createAsyncThunk('oferta-academica/extension/upd
   return data
 })
 
-const noLoopData = {
-  name: 'extension',
-  get: {
-    function: get_extension_data
-  },
-  add: {
-    function: add_extension
-  },
-  update: {
-    function: update_extension,
-    filterBy: 'id_extension'
+export const get_extension_permiso = createAsyncThunk('oferta-academica/extension/permiso/get', async () => {
+  return await extension.permiso.get()
+})
+export const add_extension_permiso = createAsyncThunk('oferta-academica/extension/permiso/add', async data => {
+  const res = await extension.permiso.add(data)
+  return res
+})
+export const update_extension_permiso = createAsyncThunk('oferta-academica/extension/permiso/update', async data => {
+  await extension.permiso.update(data)
+  return data
+})
+export const switch_state_extension_permiso = createAsyncThunk(
+  'oferta-academica/extension/permiso/switch_state',
+  async data => {
+    await extension.permiso.switch_state(data)
+    return data
   }
-}
+)
+
+const toLoop = [
+  {
+    extension: {
+      get: {
+        function: get_extension_data
+      },
+      add: {
+        function: add_extension
+      },
+      update: {
+        function: update_extension,
+        filterBy: 'id_extension'
+      }
+    }
+  },
+  {
+    permiso: {
+      get: {
+        function: get_extension_permiso
+      },
+      add: {
+        function: add_extension_permiso
+      },
+      update: {
+        function: update_extension_permiso,
+        filterBy: 'id_permiso'
+      },
+      switch_state: {
+        function: switch_state_extension_permiso,
+        filterBy: 'id_permiso'
+      }
+    }
+  }
+]
 
 export const setExtensionThunks = builder => {
-  setThunks({ builder, noLoopData, hasFiltered: true })
+  setThunks({ builder, toLoop, hasFiltered: true, placeName: 'extension' })
 }

@@ -28,6 +28,7 @@ import { useAuth } from './hooks/useAuth'
 import { Modulos } from './pages/general/modulos'
 import { CustomRouter } from './components/router/custom-router'
 import { createBrowserHistory } from 'history'
+import { Permiso } from './pages/oferta-academica/extension/permiso'
 
 export const history = createBrowserHistory()
 
@@ -121,12 +122,13 @@ function App() {
 
               <Route
                 element={
-                  <GeneralTabsLayout noTabs>
+                  <GeneralTabsLayout tabsName="oferta-academica-extension">
                     <Outlet />
                   </GeneralTabsLayout>
                 }
               >
-                <Route path="/oferta-academica/extension" element={<Extension />} />
+                <Route path="/oferta-academica/extension/extension" element={<Extension />} />
+                <Route path="/oferta-academica/extension/permiso" element={<Permiso />} />
               </Route>
 
               <Route

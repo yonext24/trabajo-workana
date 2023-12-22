@@ -46,7 +46,7 @@ const navbarEntrys = [
       {
         text: 'Extensión',
         Icon: HomeIcon,
-        href: '/oferta-academica/extension'
+        href: '/oferta-academica/extension/extension'
       },
       {
         text: 'Carrera',

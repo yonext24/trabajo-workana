@@ -30,7 +30,7 @@ export const fetchHandler = async res => {
     if (res.url !== `${BASE_URL}/rye/usuario/token`) {
       history.replace('/login?expired=true')
       store.dispatch(close_all_modals())
-      await new Promise(res => setTimeout(res, 150)) // Esto es porque aveces se ejecuta el logout antes de que se redireccione a expired=true
+      await new Promise(res => setTimeout(res, 250)) // Esto es porque aveces se ejecuta el logout antes de que se redireccione a expired=true
       store.dispatch(logout())
       throw new Error('No pudimos verificar tu sesión, porfavor vuelve a iniciar sesión.')
     }

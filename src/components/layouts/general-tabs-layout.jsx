@@ -18,6 +18,10 @@ const tabs = {
     { text: 'Tipo', href: '/oferta-academica/unidad/tipo' },
     { text: 'Unidad', href: '/oferta-academica/unidad/unidad' }
   ],
+  'oferta-academica-extension': [
+    { text: 'Extensión', href: '/oferta-academica/extension/extension' },
+    { text: 'Permiso', href: '/oferta-academica/extension/permiso' }
+  ],
   'oferta-academica-carrera': [
     { text: 'Nivel Carrera', href: '/oferta-academica/carrera/nivel' },
     { text: 'Carrera', href: '/oferta-academica/carrera/carrera' },

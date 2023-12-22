@@ -5,9 +5,10 @@ import { ControlledInputFileWDrop } from '@/components/common/input-file-w-drop'
 import { ButtonsContainer } from '../buttons-container'
 import { SubmitButton } from '@/components/common/submit-button'
 import { useCallback } from 'react'
-import { geografia } from '@/utils/routes'
+import { centros, geografia } from '@/utils/routes'
 import { CentrosEducativosAddTable } from '@/components/tables/centros-educativos/centros-educativos-add-table'
 import { useCentrosEducativosActions } from '@/hooks/useCentrosEducativosActions'
+import { toast } from 'react-toastify'
 
 export function CentrosEducativosAddModal({ closeModal }) {
   const {
@@ -31,6 +32,7 @@ export function CentrosEducativosAddModal({ closeModal }) {
       }))
 
       await addCentrosExcel(parsedData)
+      toast.success('El excel se cargó correctamente.')
       setShouldRevalidate()
       closeModal()
     } catch (err) {
@@ -46,12 +48,13 @@ export function CentrosEducativosAddModal({ closeModal }) {
 
     try {
       const res = await geografia.get_departamentos_municipios_guatemala()
+      const sectores = await centros.get_sectores()
 
       const { parseExcel } = await import('@/utils/excel/parseExcel')
       const { mapCentrosExcel } = await import('@/utils/excel/mappers')
 
       const json = await parseExcel(file)
-      const parsedRows = mapCentrosExcel(json, res)
+      const parsedRows = mapCentrosExcel(json, { ...res, sectores })
 
       return parsedRows
     } catch (err) {

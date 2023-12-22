@@ -37,5 +37,28 @@ export const extension = {
       method: 'POST',
       body: JSON.stringify(data)
     })
+  },
+  permiso: {
+    get: async () => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/permiso/permisos`)
+    },
+    add: async data => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/permiso/nuevo`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+    },
+    update: async data => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/permiso/actualizar`, {
+        method: 'POST',
+        body: JSON.stringify(data)
+      })
+    },
+    switch_state: async ({ id_permiso, estado }) => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/permiso/actualizar`, {
+        method: 'POST',
+        body: JSON.stringify({ id_permiso, estado: !estado })
+      })
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux'
-import { TableLayout } from '../../table-layout'
+import { TableLayout } from '../../../table-layout'
 import { TableTipoRow } from './table-tipo-row'
 import { useEffect } from 'react'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'

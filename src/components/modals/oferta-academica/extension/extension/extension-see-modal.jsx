@@ -1,6 +1,6 @@
 import { InputWLabel } from '@/components/common/input-w-label'
-import { DefaultModalLayout } from '../../default-modal-layout'
-import { ModalBackground } from '../../modal-background'
+import { DefaultModalLayout } from '../../../default-modal-layout'
+import { ModalBackground } from '../../../modal-background'
 import { CarreraExtensionTable } from '@/components/tables/oferta-academica/carrera/carrera-extension-table'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
 import { extension, geografia } from '@/utils/routes'
@@ -37,14 +37,14 @@ export function ExtensionSeeModal({
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout className="!max-w-[840px] max-h-[98vh]" title="Ver Extensión" closeModal={closeModal}>
-        <div className="p-1 md:p-6 md:py-2 flex flex-col overflow-y-auto">
-          <div className="flex gap-4 lg:gap-4 w-full justify-between mb-2 [&>input]:w-full items-end">
+        <div className="p-1 md:p-6 md:pt-2 flex flex-col overflow-y-auto pb-6">
+          <div className="flex gap-4 lg:gap-4 w-full [&>*]:flex-1 items-end">
             <InputWLabel id="unidad" name="unidad" disabled defaultValue={unidad} />
             <InputWLabel id="codigo" name="codigo" labelText="Código extensión" disabled defaultValue={codigo} />
             <InputWLabel id="abreviatura" name="abreviatura" disabled defaultValue={abreviatura} />
           </div>
           <InputWLabel id="nombre" name="nombre" disabled defaultValue={nombre} />
-          <div className="flex gap-4 lg:gap-4 w-full justify-between mt-2 [&>input]:w-full items-end">
+          <div className="flex gap-4 lg:gap-4 w-full [&>*]:flex-1 items-end">
             <InputWLabel id="ubicacion" name="ubicacion" disabled value={ubicacion} />
             <InputWLabel
               id="fecha_creacion"
