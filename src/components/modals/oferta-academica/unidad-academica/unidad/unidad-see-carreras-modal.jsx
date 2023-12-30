@@ -33,7 +33,7 @@ export function UnidadSeeCarrerasModal({ closeModal, id_unidad, nombre, estado, 
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout className="!max-w-[840px] max-h-[98vh]" title="Ver Extensión" closeModal={closeModal}>
+      <DefaultModalLayout className="!max-w-[840px] max-h-[98vh]" title="Ver Unidad" closeModal={closeModal}>
         <div className="p-1 md:p-6 md:pt-2 pb-6 flex flex-col overflow-y-hidden">
           <div className="flex gap-4 lg:gap-4 w-full mb-2 [&>*]:flex-1 items-end">
             <InputWLabel name="Tipo UA" disabled defaultValue={tipo_ua} />
@@ -46,7 +46,7 @@ export function UnidadSeeCarrerasModal({ closeModal, id_unidad, nombre, estado, 
           </div>
 
           <div className="grid grid-cols-[2fr_1fr] gap-4 mt-6">
-            <h4 className="font-bold text-2xl my-2">Carreras de extensión</h4>
+            <h4 className="font-bold text-2xl my-2">Carreras de unidad</h4>
 
             <SelectInputWithLabel
               options={dataNivel}

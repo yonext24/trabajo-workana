@@ -6,11 +6,12 @@ import { ExtensionSeeModal } from '@/components/modals/oferta-academica/extensio
 import { useLayoutActions } from '@/hooks/useLayoutActions'
 import { ExtensionAddCarreraModal } from '@/components/modals/oferta-academica/extension/extension/extension-add-carrera-modal'
 import { parseEstado } from '@/utils/consts'
+import { ExtensionPermisosModal } from '@/components/modals/oferta-academica/extension/extension/extension-permisos-modal'
 
 export function ExtensionMainTableRow(props) {
   const { permissions, unidad, codigo, nombre, estado } = props
 
-  const { handleUpd, handleSee } = useTableDefaultModals({
+  const { handleUpd, handleSee, handlePerm } = useTableDefaultModals({
     place: 'extension',
     update: {
       el: ExtensionUpdateModal,
@@ -18,6 +19,10 @@ export function ExtensionMainTableRow(props) {
     },
     see: {
       el: ExtensionSeeModal,
+      ...props
+    },
+    perm: {
+      el: ExtensionPermisosModal,
       ...props
     }
   })
@@ -49,7 +54,10 @@ export function ExtensionMainTableRow(props) {
     },
     {
       id: 6,
-      actions: [{ type: 'see', onClick: handleSee }].concat(UPDATE ? [{ type: 'update', onClick: handleUpd }] : [])
+      actions: [
+        { type: 'see', onClick: handleSee },
+        { type: 'permisos', onClick: handlePerm }
+      ].concat(UPDATE ? [{ type: 'update', onClick: handleUpd }] : [])
     }
   ]
   return (

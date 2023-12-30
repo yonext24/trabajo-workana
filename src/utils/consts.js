@@ -99,3 +99,10 @@ export const handleErrorInFormResponse = (response, setError, successFunc) => {
     setError('root.fetchError', { type: 'to-not-invalidate', message })
   } else successFunc(response)
 }
+
+export const removeIndexFromArray = (index, array) => {
+  if (index === -1) return array
+  const newArray = [...array]
+  newArray.splice(index, 1)
+  return newArray
+}

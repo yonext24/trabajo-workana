@@ -10,6 +10,7 @@ import { SubmitButton } from '@/components/common/submit-button'
 import { toast } from 'react-toastify'
 import { useModalLogic } from '@/hooks/useModalLogic'
 import { carrera } from '@/utils/routes/oferta/carrera'
+import { useSelector } from 'react-redux'
 
 export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nombre }) {
   const {
@@ -21,19 +22,30 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
     watch
   } = useForm()
   useModalLogic({ closeModal, noScroll: true })
+
   const selectedNivel = watch('nivel')
+  const selectedUnidadGlobal = useSelector(s => s.ofertaAcademica.extension.extension.selectedUnidad)
+  console.log(selectedUnidadGlobal)
 
   const {
     loading: carrerasLoading,
     error: carrerasError,
     data: carrerasData
   } = useFetchLocalData({
-    func: async ([currentSelectedNivel]) => {
-      if (!currentSelectedNivel || ['Seleccionar', 'Cargando...', 'Error'].includes(currentSelectedNivel)) return []
-      console.log({ currentSelectedNivel })
-      return await extension.add_carrera_params({ nivel: currentSelectedNivel.id_nivel })
+    func: async ([currentSelectedNivel, selectedUnidadGlobal]) => {
+      if (
+        !currentSelectedNivel ||
+        ['Seleccionar', 'Cargando...', 'Error'].includes(currentSelectedNivel) ||
+        !selectedUnidadGlobal?.id_unidad
+      )
+        return []
+
+      return await extension.add_carrera_params({
+        nivel: currentSelectedNivel.id_nivel,
+        id_unidad: selectedUnidadGlobal.id_unidad
+      })
     },
-    dependencies: [selectedNivel]
+    dependencies: [selectedNivel, selectedUnidadGlobal]
   })
 
   const {
