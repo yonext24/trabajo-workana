@@ -137,7 +137,7 @@ export function ChangeRoleModal({ closeModal }) {
             }}
           />
 
-          <ButtonsContainer className="[&>button]:!py-2 mt-6" disabled={loading}>
+          <ButtonsContainer className="[&>button]:!py-2 mt-6" disabled={loading} closeModal={closeModal}>
             <SubmitButton text="Actualizar" loading={loading} />
           </ButtonsContainer>
         </form>

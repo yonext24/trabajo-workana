@@ -37,7 +37,7 @@ export function PasswordRecoveryModal({ closeModal }) {
         <form
           onClick={e => e.stopPropagation()}
           onSubmit={handleSubmit(onSubmit)}
-          className="bg-white rounded-lg w-full h-[60vh] gap-y-3 flex flex-col max-w-lg mx-auto px-16 py-8"
+          className="bg-white rounded-lg w-full gap-y-3 flex flex-col max-w-lg mx-auto px-16 py-8"
         >
           <h1 className="text-2xl font-semibold text-center mb-2">Recuperar contraseña</h1>
           <InputWLabel
@@ -49,7 +49,7 @@ export function PasswordRecoveryModal({ closeModal }) {
             autoFocus
             inputClassName="mt-2"
           />
-          <ButtonsContainer alone className="mt-auto">
+          <ButtonsContainer alone className="mt-16">
             <SubmitButton loading={loading} text="Enviar" />
           </ButtonsContainer>
         </form>

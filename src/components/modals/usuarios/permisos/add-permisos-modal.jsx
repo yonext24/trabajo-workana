@@ -38,6 +38,8 @@ export function AddPermisosModal({ closeModal }) {
   const { loading, handleLoading } = useFormCustom()
 
   const moduloSelected = watch('modulo')
+  const operacionSelected = watch('operacion')
+
   const unidadSelected = watch('unidad')
 
   const {
@@ -55,19 +57,24 @@ export function AddPermisosModal({ closeModal }) {
     return moduloSelected.nombre === 'Oferta Académica'
   }, [moduloSelected])
 
+  const isOfertaAcademicaUpdate = useMemo(() => {
+    if (!moduloSelected || !operacionSelected) return false
+    return moduloSelected.nombre === 'Oferta Académica' && operacionSelected.nombre === 'Actualizar'
+  }, [moduloSelected, operacionSelected])
+
   const availableExtensiones = useMemo(() => {
-    if (!unidadSelected) return []
+    if (!unidadSelected || isOfertaAcademicaUpdate) return []
     if (unidadSelected.id_unidad === -1) return paramsData.extensiones
     return paramsData.extensiones.filter(extension => extension.id_unidad === unidadSelected?.id_unidad)
-  }, [unidadSelected])
+  }, [unidadSelected, isOfertaAcademicaUpdate])
 
   useEffect(() => {
-    if (!isOfertaAcademica) {
+    if (!isOfertaAcademica || isOfertaAcademicaUpdate) {
       setValue('unidad', undefined)
       setValue('extension', undefined)
       setValue('nivel', undefined)
     }
-  }, [isOfertaAcademica])
+  }, [isOfertaAcademica, isOfertaAcademicaUpdate])
 
   const { addPermission } = useUsuariosActions()
 
@@ -126,7 +133,10 @@ export function AddPermisosModal({ closeModal }) {
               control={control}
               registerProps={{ required: isOfertaAcademica }}
               show="abreviatura"
-              options={[{ abreviatura: 'Todos', id_unidad: -1 }, ...paramsData.unidades]}
+              options={[
+                { abreviatura: 'Todos', id_unidad: -1 },
+                ...(!isOfertaAcademicaUpdate ? paramsData.unidades : [])
+              ]}
             />
           </div>
 
@@ -159,7 +169,7 @@ export function AddPermisosModal({ closeModal }) {
               error={paramsError}
               control={control}
               registerProps={{ required: isOfertaAcademica }}
-              options={[{ nombre: 'Todos', id_nivel: -1 }, ...paramsData.niveles]}
+              options={[{ nombre: 'Todos', id_nivel: -1 }, ...(!isOfertaAcademicaUpdate ? paramsData.niveles : [])]}
               show="nombre"
             />
           </div>

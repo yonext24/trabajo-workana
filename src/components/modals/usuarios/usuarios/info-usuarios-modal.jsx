@@ -8,7 +8,8 @@ const toShow = [
   { text: 'Puesto', key: 'puesto' },
   { text: 'Dependencia', key: 'dependencia' },
   { text: 'Referencia de Oficio', key: 'ref_oficio' },
-  { text: 'Fecha de desactivación', key: 'fecha_desactivacion' }
+  { text: 'Fecha de desactivación', key: 'fecha_desactivacion' },
+  { text: 'Fecha de activación', key: 'fecha_activacion' }
 ]
 
 export function InfoUsuariosModal({ closeModal }) {
@@ -19,7 +20,7 @@ export function InfoUsuariosModal({ closeModal }) {
       <DefaultModalLayout title="Información de usuario" closeModal={closeModal}>
         <div className="p-6">
           {showing?.otros === null && (
-            <span className="text-red-500">Deberás asignarle un rol al usuario para ver más datos.</span>
+            <span className="text-red-500">Deberá asignarle un rol al usuario para ver más datos.</span>
           )}
           <div
             className="border border-gris flex flex-col w-full font-bold

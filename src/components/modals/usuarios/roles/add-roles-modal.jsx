@@ -5,23 +5,24 @@ import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '../../../common/input-w-label'
 import { useSelector } from 'react-redux'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
-import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
+import { handleErrorInFormResponse } from '@/utils/consts'
 
 export function AddRolesModal({ closeModal }) {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isSubmitting: loading },
+    setError
   } = useForm()
-  const { loading, handleLoading } = useFormCustom()
 
   const { data: rolesData } = useSelector(s => s.usuarios).roles
   const { addRole } = useUsuariosActions()
 
-  const handleUpdate = handleLoading(async data => {
-    await addRole(data)
-  })
+  const handleUpdate = async data => {
+    const res = await addRole(data)
+    handleErrorInFormResponse(res, setError, closeModal)
+  }
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>

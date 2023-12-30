@@ -2,7 +2,7 @@
 // y los lanza como errores de la aplicación.
 
 import { history } from '@/App'
-import { BASE_CENTROS_EDUCATIVOS_URL, BASE_GEOGRAFIA_URL, BASE_OFERTA_URL, BASE_URL } from './consts'
+import { BASE_URL } from './consts'
 import { close_all_modals } from '@/store/layout/slice'
 import { logout } from '@/store/auth/slice'
 
@@ -99,19 +99,9 @@ export const appFetch = async (url, options) => {
     return res
   } catch (err) {
     if (err.message === 'Failed to fetch') {
-      throw new Error(
-        `Ocurrió un error, es posible que el servidor de ${matchService(url)} esté caído, porfavor contacta a soporte.`
-      )
+      throw new Error(`Ocurrió un error, es posible que el servidor esté de baja, por favor contacte a soporte.`)
     }
 
     throw err
   }
-}
-
-const matchService = url => {
-  if (url.startsWith(BASE_URL)) return 'Autenticación'
-  if (url.startsWith(BASE_OFERTA_URL)) return 'Oferta Académica'
-  if (url.startsWith(BASE_GEOGRAFIA_URL)) return 'Geografía'
-  if (url.startsWith(BASE_CENTROS_EDUCATIVOS_URL)) return 'Centros Educativos'
-  return 'Desconocido'
 }
