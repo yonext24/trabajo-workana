@@ -42,6 +42,7 @@ export function Usuarios() {
             iconProps={{ className: 'h-10 w-10' }}
           />
           <DeactivateButton
+            text="Dar de baja"
             handleClick={() => {
               canShow && handleDel()
             }}

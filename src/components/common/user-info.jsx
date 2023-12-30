@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux'
 import { DownArrowIcon, UserIcon } from '../icons'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthActions } from '@/hooks/useAuthActions'
+import { useClickOutside } from '@/hooks/useClickOutside'
 
 export function UserInfo() {
   const [open, setOpen] = useState(false)
@@ -23,22 +24,38 @@ export function UserInfo() {
         </div>
       </button>
       {open && (
-        <div
-          className="absolute bottom-0 right-0 w-max translate-y-full border border-black rounded-md flex flex-col bg-white z-50
-      font-semibold py-2 [&>*]:pl-4 [&>*]:pr-2 "
-        >
-          <Link to="/perfil" className="hover:bg-gris">
-            Perfil
-          </Link>
-          <Link to="/cambiar-contraseña" className="mb-2 mt-1 hover:bg-gris">
-            Cambiar Contraseña
-          </Link>
-
-          <button onClick={Logout} className="border-t border-black hover:bg-gris text-start mt-2">
-            Salir
-          </button>
-        </div>
+        <Menu
+          close={() => {
+            setOpen(false)
+          }}
+          Logout={Logout}
+        />
       )}
+    </div>
+  )
+}
+
+function Menu({ close, Logout }) {
+  const menuRef = useRef()
+
+  useClickOutside(menuRef, close)
+
+  return (
+    <div
+      ref={menuRef}
+      className="absolute bottom-0 right-0 w-max translate-y-full border border-black rounded-md flex flex-col bg-white z-50
+      font-semibold py-2 [&>*]:pl-4 [&>*]:pr-2 "
+    >
+      <Link to="/perfil" className="hover:bg-gris">
+        Perfil
+      </Link>
+      <Link to="/cambiar-contraseña" className="mb-2 mt-1 hover:bg-gris">
+        Cambiar Contraseña
+      </Link>
+
+      <button onClick={Logout} className="border-t border-black hover:bg-gris text-start mt-2">
+        Salir
+      </button>
     </div>
   )
 }

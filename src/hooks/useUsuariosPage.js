@@ -27,8 +27,9 @@ export const useUsuariosPage = () => {
           toast.success('Usuario desactivado con éxito')
         }
       },
-      title: 'Desactivar usuario',
-      sure: 'Realmente quieres desactivar este usuario?'
+      title: 'Dar de baja usuario',
+      sure: 'Realmente quieres dar de baja este usuario?',
+      button: 'Dar de baja'
     }
   })
 

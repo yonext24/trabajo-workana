@@ -15,6 +15,14 @@ import { usuarios } from '@/utils/routes'
 import { handleErrorInFormResponse } from '@/utils/consts'
 import isEqual from 'lodash.isequal'
 
+const validateSome = value => {
+  if (value === undefined) return 'Debes seleccionar una opción'
+  if (typeof value === 'object') {
+    const values = Object.values(value)
+    if (values.some(e => e === undefined)) return 'Debes seleccionar una opción'
+  }
+}
+
 export function ChangeRoleModal({ closeModal }) {
   const {
     data: { dependencias: dependenciasData, roles: rolesData, puestos: puestosData },
@@ -88,6 +96,8 @@ export function ChangeRoleModal({ closeModal }) {
             labelText={'Rol'}
             control={control}
             name="rol"
+            required
+            validate={{ validateSome }}
             rules={{ required: true }}
             options={rolesData}
             show="nombre"
@@ -98,6 +108,8 @@ export function ChangeRoleModal({ closeModal }) {
           <SelectInputControlledWithLabel
             labelText={'Dependencia'}
             control={control}
+            required
+            validate={{ validateSome }}
             name="dependencia"
             rules={{ required: true }}
             options={dependenciasData}
@@ -108,6 +120,8 @@ export function ChangeRoleModal({ closeModal }) {
           />
           <SelectInputControlledWithLabel
             labelText={'Puesto'}
+            required
+            validate={{ validateSome }}
             control={control}
             name="puesto"
             rules={{ required: true }}
@@ -127,6 +141,7 @@ export function ChangeRoleModal({ closeModal }) {
           />
           <InputWLabel
             register={register}
+            required
             type="date"
             id="fecha_desactivacion"
             labelText="Fecha de desactivación"

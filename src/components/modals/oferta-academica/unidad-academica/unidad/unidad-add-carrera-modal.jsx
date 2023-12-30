@@ -30,7 +30,7 @@ export function UnidadAddCarreraModal({ closeModal, id_unidad, nombre, tipo_ua }
   } = useFetchLocalData({
     func: async ([currentSelectedNivel]) => {
       if (!currentSelectedNivel || ['Seleccionar', 'Cargando...', 'Error'].includes(currentSelectedNivel)) return []
-      return await extension.add_carrera_params({ nivel: currentSelectedNivel.id_nivel })
+      return await extension.add_carrera_params({ nivel: currentSelectedNivel.id_nivel, id_unidad })
     },
     dependencies: [selectedNivel]
   })

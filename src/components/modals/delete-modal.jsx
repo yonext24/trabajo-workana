@@ -5,7 +5,7 @@ import { ModalBackground } from './modal-background'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '../common/submit-button'
 
-export function DeleteModal({ closeModal, onClick, title, sure }) {
+export function DeleteModal({ closeModal, onClick, title, sure, button = 'Desactivar' }) {
   const { handleSubmit } = useForm()
   const { loading, handleLoading } = useFormCustom()
 
@@ -22,7 +22,7 @@ export function DeleteModal({ closeModal, onClick, title, sure }) {
           <p className="mb-12">{sure}</p>
 
           <ButtonsContainer closeModal={closeModal}>
-            <SubmitButton loading={loading} text="Desactivar" />
+            <SubmitButton loading={loading} text={button} />
           </ButtonsContainer>
         </form>
       </DefaultModalLayout>
