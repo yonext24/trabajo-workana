@@ -104,7 +104,7 @@ export function UpdateUsuariosModal({ closeModal }) {
             registerProps={{ pattern }}
             defaultValue={celular}
           />
-          <InputWLabel register={register} type="number" id="CUI" name="CUI" defaultValue={CUI} disabled />
+          <InputWLabel register={register} type="text" id="CUI" name="CUI" defaultValue={CUI} disabled />
           <InputWLabel
             register={register}
             type="text"

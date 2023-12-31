@@ -82,7 +82,7 @@ export function AddUsuariosModal({ closeModal }) {
           <InputWLabel register={register} type="text" id="apellidos" name="apellidos" required />
           <InputWLabel register={register} type="number" registerProps={{ pattern }} id="telefono" name="telefono" />
           <InputWLabel register={register} type="number" registerProps={{ pattern }} id="celular" name="celular" />
-          <InputWLabel register={register} type="number" registerProps={{ pattern }} id="CUI" name="CUI" required />
+          <InputWLabel register={register} type="text" id="CUI" name="CUI" required />
           <InputWLabel
             register={register}
             type="text"
