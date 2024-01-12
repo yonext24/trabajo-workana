@@ -29,8 +29,6 @@ export function UnidadSeeCarrerasModal({ closeModal, id_unidad, nombre, estado, 
     dependencies: [selectedNivel, id_unidad]
   })
 
-  console.log(data)
-
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout className="!max-w-[840px] max-h-[98vh]" title="Ver Unidad" closeModal={closeModal}>

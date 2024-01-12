@@ -8,7 +8,6 @@ import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 export function RecursoTableRow(props) {
   const { tipo, nombre, descripcion, permissions, estado, id_recurso, fromCarrera, selectFunction } = props
   const checked = props?.checked
-  console.log(tipo, props)
 
   const { switchCarreraRecurso } = useOfertaAcademicaActions()
   const { handleUpd } = useTableDefaultModals({

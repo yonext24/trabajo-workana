@@ -57,8 +57,6 @@ export function ExtensionAddModal({ closeModal }) {
     return unidadData.filter(el => el.id_tipo_ua === selectedTipo?.id_tipo_ua)
   }, [selectedTipo])
 
-  console.log(tipos)
-
   // eslint-disable-next-line no-unused-vars
   const handleUpdate = async ({ tipo, unidad, departamento, ...rest }) => {
     const id_unidad = unidad?.id_unidad

@@ -6,7 +6,6 @@ export const extension = {
     return await appFetch(`${BASE_OFERTA_URL}/rye/extension/permisos?id_extension=${id_extension}`)
   },
   update_permisos: async ({ data, id_extension }) => {
-    console.log({ data })
     return await appFetch(`${BASE_OFERTA_URL}/rye/extension/permisos?id_extension=${id_extension}`, {
       method: 'POST',
       body: JSON.stringify(data)
@@ -22,7 +21,7 @@ export const extension = {
     return await appFetch(`${BASE_OFERTA_URL}/rye/extension/carreras?extension=${extension}`)
   },
   add_carrera_params: async ({ nivel, id_unidad }) => {
-    return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/param_crear_carrera?nivel=${nivel}&id_unidad=${id_unidad}`)
+    return await appFetch(`${BASE_OFERTA_URL}/rye/extension/param_crear_carrera?nivel=${nivel}&id_unidad=${id_unidad}`)
   },
   add_carrera: async data => {
     return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/nueva_carrera_extension`, {

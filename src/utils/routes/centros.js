@@ -6,7 +6,7 @@ export const centros = {
   get_establecimientos: async ({ id_municipio, id_sector, id_departamento, page, size }) => {
     if (!id_municipio || !id_sector || !id_departamento) throw new Error('Faltan parámetros')
     return await appFetch(
-      `${BASE_CENTROS_EDUCATIVOS_URL}/rye/centros_educativos/establecimientos?page=${page}&size=${size}&id_municipio=${id_municipio}&id_sector=${id_sector}&id_deptartamento=${id_departamento}`
+      `${BASE_CENTROS_EDUCATIVOS_URL}/rye/centros_educativos/establecimientos?page=${page}&size=${size}&id_municipio=${id_municipio}&id_sector=${id_sector}&id_departamento=${id_departamento}`
     )
   },
   get_establecimiento_data: async ({ id_establecimiento }) => {

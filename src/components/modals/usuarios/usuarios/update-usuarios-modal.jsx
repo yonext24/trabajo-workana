@@ -23,8 +23,6 @@ export function UpdateUsuariosModal({ closeModal }) {
     data: dataPaises
   } = useFetchLocalData({ func: geografia.get_parametros })
 
-  console.log(dataPaises)
-
   const {
     register,
     control,

@@ -67,7 +67,6 @@ export const appFetch = async (url, options) => {
     const token = state?.auth?.token
 
     if (!token) {
-      console.log(state, token)
       throw new Error(
         'Ocurrió un error, no pudimos encontrar tu sesión, porfavor reinicia la página. Si el problema persiste contacta a soporte.'
       )

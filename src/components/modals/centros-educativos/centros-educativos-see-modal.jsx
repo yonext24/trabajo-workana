@@ -12,8 +12,6 @@ const get_titulos = async id_establecimiento => {
 export function CentrosEducativosSeeModal({ closeModal, id_establecimiento, nombre }) {
   const { data, loading, error } = useFetchLocalData({ func: async () => get_titulos(id_establecimiento) })
 
-  console.log(data, loading, error)
-
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout title="Lista de carreras" className={'!max-w-[940px] max-h-[98vh]'} closeModal={closeModal}>

@@ -12,7 +12,6 @@ export function CarreraFilter() {
 
   useEffect(() => {
     if (nivelesError) {
-      console.log({ nivelesError })
       setCarreraError(nivelesError)
     }
   }, [nivelesError])

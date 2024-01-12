@@ -46,8 +46,6 @@ export const ModalUpdatePermisosReducer = (state, action) => {
 
     let actualizando = [...state.actualizando]
 
-    console.log({ isIn, estado })
-
     if ((isIn && !estado) || (!isIn && estado)) {
       actualizando.push({ id_permiso, estado })
     } else {

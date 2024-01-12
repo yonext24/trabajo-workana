@@ -19,7 +19,6 @@ export function GeografiaAddModal({ closeModal }) {
   } = useForm()
 
   const data = watch('data')
-  console.log({ data })
   const { getGeoParams } = useGeografiaActions()
 
   const onSubmit = async ({ data }) => {

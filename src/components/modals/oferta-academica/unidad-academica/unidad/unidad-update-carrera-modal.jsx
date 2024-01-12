@@ -48,7 +48,6 @@ export function UnidadUpdateCarreraModal({
               }
               return el
             }) ?? []
-          console.log(newData)
 
           return { ...prev, data: newData }
         })
@@ -63,8 +62,6 @@ export function UnidadUpdateCarreraModal({
         toast.error('Ocurrió un error al modificar la carrera.')
       })
   }
-
-  console.log(errors)
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>

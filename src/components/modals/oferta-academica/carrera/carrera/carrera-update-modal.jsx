@@ -106,7 +106,6 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
   const { updateCarreraCarrera } = useOfertaAcademicaActions()
 
   const handleUpdate = async ({ estado: rawEstado, ...data }) => {
-    console.log(rawEstado)
     const newEstado = rawEstado.value
 
     const res = await updateCarreraCarrera({

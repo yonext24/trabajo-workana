@@ -23,7 +23,6 @@ const geografiaSlice = createSlice({
   reducers: {
     set_geografia_pagination_data: (state, action) => {
       const { size, page, departamento, pais } = action.payload
-      console.log(action.payload)
 
       if (pais) state.paginationData.selectedPais = pais
       if (departamento) state.paginationData.selectedDepartamento = departamento

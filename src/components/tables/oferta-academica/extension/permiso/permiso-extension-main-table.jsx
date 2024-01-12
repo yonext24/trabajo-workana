@@ -6,7 +6,6 @@ import { PermisoExtensionMainTableRow } from './permiso-extension-main-table-row
 
 export function PermisoExtensionMainTable({ permissions }) {
   const { data, revalidating, loading } = useSelector(s => s.ofertaAcademica.extension.permiso)
-  console.log(data)
 
   const { getOfertaAcademicaPermiso } = useOfertaAcademicaActions()
 

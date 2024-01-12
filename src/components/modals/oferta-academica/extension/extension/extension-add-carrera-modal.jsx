@@ -25,7 +25,6 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
 
   const selectedNivel = watch('nivel')
   const selectedUnidadGlobal = useSelector(s => s.ofertaAcademica.extension.extension.selectedUnidad)
-  console.log(selectedUnidadGlobal)
 
   const {
     loading: carrerasLoading,

@@ -21,7 +21,6 @@ export function InputFileWDrop({ file, setFile, handleParseFile }) {
   const handleInputFile = async e => {
     e.preventDefault()
     const file = e.target.files[0]
-    console.log(file)
     try {
       const parsedFile = await handleParseFile(file)
       setFile(parsedFile)

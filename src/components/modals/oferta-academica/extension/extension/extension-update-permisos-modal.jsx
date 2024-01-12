@@ -24,8 +24,6 @@ export function ExtensionUpdatePermisosModal({ closeModal, fetchPermisos, unidad
   const [status, setStatus] = useState({ type: 'idle' })
   const [state, dispatch] = useReducer(ModalUpdatePermisosReducer, INITIAL_STATE)
 
-  console.log(state)
-
   useEffect(() => {
     setStatus({ type: 'loading' })
     extension
