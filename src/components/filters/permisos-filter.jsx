@@ -53,7 +53,13 @@ export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
     >
       <span className="font-semibold">Modulo</span>
       <div className="w-full">
-        <SelectInput options={options} handleOptionClick={handleChange} onFirstChange={handleChange} firstOne />
+        <SelectInput
+          notFocusable
+          options={options}
+          handleOptionClick={handleChange}
+          onFirstChange={handleChange}
+          firstOne
+        />
       </div>
     </div>
   )

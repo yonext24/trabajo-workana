@@ -34,7 +34,7 @@ export function UnidadFilter() {
     <div className="flex flex-col gap-y-2 max-w-[300px] w-full gap-x-4">
       <span className="font-bold text-tab">Tipo UA</span>
       <div className="w-full">
-        <SelectInput options={options} show="tipo_ua" handleOptionClick={handleChange} firstOne />
+        <SelectInput notFocusable options={options} show="tipo_ua" handleOptionClick={handleChange} firstOne />
       </div>
     </div>
   )

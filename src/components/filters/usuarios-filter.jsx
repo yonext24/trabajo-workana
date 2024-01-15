@@ -21,6 +21,7 @@ export function UsuariosFilter({ usuariosLoading }) {
     <form onSubmit={handleSubmit(onSubmit)} className="flex md:items-end gap-x-4 gap-y-2 flex-col lg:flex-row">
       <div className="flex items-center gap-2 w-full min-w-[200px]">
         <SelectInputControlledWithLabel
+          notFocusable
           control={control}
           id="searchFor"
           name="searchFor"

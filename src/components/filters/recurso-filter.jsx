@@ -38,6 +38,7 @@ export function RecursoFilter() {
     <div className="flex flex-col w-full max-w-[200px]">
       <label className="font-semibold text-lg">Tipo</label>
       <SelectInput
+        notFocusable
         handleOptionClick={handleChange}
         loading={tipoRecursoLoading}
         error={tipoRecursoError}

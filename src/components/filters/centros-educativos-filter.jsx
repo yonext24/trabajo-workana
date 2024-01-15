@@ -67,6 +67,7 @@ export function CentrosEducativosFilter() {
       <div className="flex gap-4 w-full md:max-[1000px]:flex-col">
         <div className="flex flex-col w-full md:max-w-[190px]">
           <SelectInputWithLabel
+            notFocusable
             labelText={'Departamento'}
             loading={loadingParams}
             externalValue={selectedDepartamento}
@@ -81,6 +82,7 @@ export function CentrosEducativosFilter() {
         </div>
         <div className="flex flex-col w-full md:max-w-[190px]">
           <SelectInputWithLabel
+            notFocusable
             labelText="Municipio"
             noOptionsMessage={`No hay municipios para el departamento ${selectedDepartamento?.nombre}`}
             ligatedToExternalChange
@@ -97,6 +99,7 @@ export function CentrosEducativosFilter() {
       </div>
       <div className="flex flex-col w-full md:max-w-[190px] ">
         <SelectInputWithLabel
+          notFocusable
           labelText="Sector"
           noOptionsMessage={`No encontramos ningún sector.`}
           ligatedToExternalChange

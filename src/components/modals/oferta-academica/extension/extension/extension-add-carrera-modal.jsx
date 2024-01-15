@@ -56,7 +56,8 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
   })
 
   const handleUpdate = async ({ carrera, ...rest }) => {
-    const data = { id_extension, id_carrera: carrera?.id_carrera, ...rest }
+    const id_unidad_carrera = carrera?.id_unidad_carrera
+    const data = { id_extension, id_unidad_carrera, ...rest }
     await extension
       .add_carrera(data)
       .then(() => {
@@ -130,7 +131,7 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
             <InputWLabel id="codigo" name="codigo" register={register} required />
           </div>
 
-          <ButtonsContainer className="[&>button]:py-2 mt-2" disabled={isSubmitting}>
+          <ButtonsContainer className="[&>button]:py-2 mt-2" disabled={isSubmitting} closeModal={closeModal}>
             <SubmitButton text="Guardar" loading={isSubmitting} />
           </ButtonsContainer>
         </form>

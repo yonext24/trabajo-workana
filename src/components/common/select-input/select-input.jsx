@@ -32,7 +32,8 @@ export function SelectInput({
   onFirstChange = false,
   autoFocus = false,
   // name,
-  className = ''
+  className = '',
+  notFocusable = false
 }) {
   const [value, setValue] = useState(loading ? 'Cargando...' : 'Seleccionar')
   const [currentIndex, setCurrentIndex] = useState(-1)
@@ -150,7 +151,7 @@ export function SelectInput({
 
   const handleKeyDown = e => {
     e.preventDefault()
-    if (disabled || loading || error || options?.length === 0) return
+    if (disabled || loading || error || options?.length === 0 || notFocusable) return
     if (e.key === 'Enter') {
       setOpen(prev => !prev)
     }
@@ -174,6 +175,8 @@ export function SelectInput({
       <input
         ref={inputRef}
         autoFocus={autoFocus}
+        disabled={disabled}
+        tabIndex={notFocusable ? -1 : undefined}
         id={'Fa'}
         type="text"
         className="h-0 w-0"

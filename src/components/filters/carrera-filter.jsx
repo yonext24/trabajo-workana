@@ -35,6 +35,7 @@ export function CarreraFilter() {
         error={nivelesError}
         loading={nivelesLoading}
         firstOne
+        notFocusable
       />
     </div>
   )

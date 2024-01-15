@@ -22,6 +22,19 @@ export const injectStore = _store => {
   store = _store
 }
 
+const validationErrorParser = errors => {
+  let parsedErrors = ''
+
+  for (let i = 0; i < errors.length; i++) {
+    const currentError = errors[i]
+    const msg = currentError?.msg
+    if (!msg) continue
+
+    parsedErrors += `\n${i + 1}: ${msg}`
+  }
+  return parsedErrors
+}
+
 export const fetchHandler = async res => {
   const contentType = res.headers.get('content-type')
   const isJson = contentType && contentType.includes('application/json')
@@ -37,12 +50,18 @@ export const fetchHandler = async res => {
   }
   if (res.status === 422) {
     // Fastapi utiliza siempre el 422 para los error de validación
-    throw new Error(errorParser['Unprocessable Entity'])
+    // dejo pasar el error para ver si puedo imprimir algun error más específico en lo formularios
   }
 
   if (!res.ok) {
     if (isJson) {
       const { detail } = await res.json()
+
+      if (res.status === 422) {
+        const parsedError = validationErrorParser(detail)
+        throw new Error(parsedError)
+      }
+
       const parsedError = errorParser[detail] ?? detail
       throw new Error(parsedError)
     } else {

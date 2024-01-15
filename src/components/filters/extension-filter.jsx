@@ -68,6 +68,7 @@ export function ExtensionFilter() {
     >
       <div className="flex flex-col w-full max-w-[190px]">
         <SelectInputWithLabel
+          notFocusable
           labelText={'Tipo unidad'}
           loading={revalidatingTipo}
           externalValue={selectedTipo}
@@ -83,6 +84,7 @@ export function ExtensionFilter() {
       </div>
       <div className="flex flex-col w-full max-w-[190px]">
         <SelectInputWithLabel
+          notFocusable
           labelText="Unidad"
           noOptionsMessage={`No hay unidades para el tipo ${selectedTipo?.nombre ?? ''}`}
           ligatedToExternalChange

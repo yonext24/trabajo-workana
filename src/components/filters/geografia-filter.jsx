@@ -39,6 +39,7 @@ export function GeografiaFilter() {
   return (
     <div className="flex-1 grid grid-cols-[200px,200px] md:max-[1050px]:flex md:max-[1050px]:flex-col gap-4 [&>*]:flex [&>*]:flex-col [&>*]:w-full">
       <SelectInputWithLabel
+        notFocusable
         labelText={'País'}
         options={paises}
         firstOne
@@ -51,6 +52,7 @@ export function GeografiaFilter() {
         show="nombre"
       />
       <SelectInputWithLabel
+        notFocusable
         className="md:max-[1050px]:row-span-2"
         noOptionsMessage={`No hay departamentos para el país ${selectedPais?.nombre ?? ''}`}
         labelText={'Departamento'}

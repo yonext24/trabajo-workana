@@ -18,10 +18,13 @@ export const extension = {
     return await appFetch(`${BASE_OFERTA_URL}/rye/extension/param_crear`)
   },
   get_carreras: async ({ extension }) => {
-    return await appFetch(`${BASE_OFERTA_URL}/rye/extension/carreras?extension=${extension}`)
+    return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/carreras_extension?extension=${extension}`)
+  },
+  add_carrera_unidad: async ({ nivel }) => {
+    return await appFetch(`${BASE_OFERTA_URL}/rye/extension/param_crear_carrera?nivel=${nivel}`)
   },
   add_carrera_params: async ({ nivel, id_unidad }) => {
-    return await appFetch(`${BASE_OFERTA_URL}/rye/extension/param_crear_carrera?nivel=${nivel}&id_unidad=${id_unidad}`)
+    return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/param_crear_carrera?nivel=${nivel}&id_unidad=${id_unidad}`)
   },
   add_carrera: async data => {
     return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/nueva_carrera_extension`, {
@@ -30,7 +33,7 @@ export const extension = {
     })
   },
   update_carrera: async data => {
-    return await appFetch(`${BASE_OFERTA_URL}/rye/extension/actualizar_carrera`, {
+    return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/actualizar_carrera`, {
       method: 'POST',
       body: JSON.stringify(data)
     })

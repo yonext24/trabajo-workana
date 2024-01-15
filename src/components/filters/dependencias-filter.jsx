@@ -38,6 +38,7 @@ export function DependenciasFilter() {
       <span className="font-semibold">Sector</span>
       <div className="w-full">
         <SelectInput
+          notFocusable
           options={options}
           show={'nombre'}
           loading={loading}

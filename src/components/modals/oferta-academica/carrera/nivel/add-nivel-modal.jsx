@@ -7,8 +7,6 @@ import { useFormCustom } from '@/hooks/useFormCustom'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { handleErrorInFormResponse } from '@/utils/consts'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
 
 export function AddNivelModal({ closeModal }) {
   const {
@@ -19,7 +17,6 @@ export function AddNivelModal({ closeModal }) {
   } = useForm()
   const { loading, handleLoading } = useFormCustom()
 
-  const nivelData = useSelector(s => s.ofertaAcademica.carrera.nivel.data)
   const { addCarreraNivel } = useOfertaAcademicaActions()
 
   const handleUpload = handleLoading(async data => {
@@ -33,14 +30,7 @@ export function AddNivelModal({ closeModal }) {
         <form className="p-6 gap-4 flex flex-col" onSubmit={handleSubmit(handleUpload)}>
           <InputWLabel
             name="nombre"
-            registerProps={{
-              validate: nombre => {
-                if (nivelData.some(el => el.nombre === nombre)) {
-                  toast.error('Ya hay un nivel con ese nombre.')
-                  return
-                }
-              }
-            }}
+            registerProps={{ minLength: { value: 2, message: 'La longitud del nombre debe ser mayor a 1 carácter.' } }}
             required
             register={register}
           />
