@@ -30,11 +30,16 @@ export function TipoAddModal({ closeModal }) {
           <InputWLabel
             name="nombre"
             id="nombre"
+            maxlength={50}
             register={register}
             registerProps={{
               minLength: {
                 value: 2,
                 message: 'Debe tener al menos 3 caracteres'
+              },
+              maxLength: {
+                value: 50,
+                message: 'Debe tener menos de 50 caracteres'
               }
             }}
             type="text"
@@ -48,6 +53,13 @@ export function TipoAddModal({ closeModal }) {
             inputClassName="mb-12"
             isTextArea
             rows={3}
+            maxlength={50}
+            registerProps={{
+              maxLength: {
+                value: 50,
+                message: 'Debe tener menos de 50 caracteres'
+              }
+            }}
           />
 
           <ButtonsContainer closeModal={closeModal} disabled={loading}>

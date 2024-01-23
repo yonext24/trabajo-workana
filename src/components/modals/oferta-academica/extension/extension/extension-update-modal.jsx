@@ -53,10 +53,11 @@ export function ExtensionUpdateModal({
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
       <DefaultModalLayout
-        title={'Agregar extensión'}
+        title={'Actualizar extensión'}
         className={'!max-h-[calc(100vh_-_5px)]'}
         loading={isSubmitting}
         errors={errors}
+        closeModal={closeModal}
       >
         <form
           className="p-6 gap-4 flex flex-col [&_label]:text-lg [&_label]:font-semibold overflow-y-auto"
@@ -71,9 +72,20 @@ export function ExtensionUpdateModal({
             required
           />
           <InputWLabel defaultValue={nombre} id={'nombre'} disabled name="nombre" register={register} required />
-          <InputWLabel defaultValue={abreviatura} id={'abreviatura'} name="abreviatura" register={register} required />
+          <InputWLabel
+            defaultValue={abreviatura}
+            id={'abreviatura'}
+            maxlength={50}
+            registerProps={{
+              maxLength: { value: 50, message: 'Máximo 50 caracteres.' },
+              minLenght: { value: 2, message: 'Mínimo 2 caracteres.' }
+            }}
+            name="abreviatura"
+            register={register}
+            required
+          />
 
-          <InputWLabel labelText={'Ubicación'} disabled name="unidad" value={ubicacion} />
+          <InputWLabel labelText={'Departamento'} disabled name="ubicacion" value={ubicacion} />
           <InputWLabel
             type="date"
             register={register}

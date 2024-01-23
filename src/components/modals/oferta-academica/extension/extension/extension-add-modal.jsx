@@ -112,8 +112,28 @@ export function ExtensionAddModal({ closeModal }) {
             />
           </div>
           <InputWLabel id={'codigo'} name="codigo" type="number" register={register} labelText={'Código'} required />
-          <InputWLabel id={'nombre'} name="nombre" register={register} required />
-          <InputWLabel id={'abreviatura'} name="abreviatura" register={register} required />
+          <InputWLabel
+            id={'nombre'}
+            name="nombre"
+            maxlength={150}
+            registerProps={{
+              maxLength: { value: 50, message: 'Máximo 150 caracteres.' },
+              minLenght: { value: 2, message: 'Mínimo 2 caracteres.' }
+            }}
+            register={register}
+            required
+          />
+          <InputWLabel
+            id={'abreviatura'}
+            maxlength={50}
+            registerProps={{
+              maxLength: { value: 50, message: 'Máximo 50 caracteres.' },
+              minLenght: { value: 2, message: 'Mínimo 2 caracteres.' }
+            }}
+            name="abreviatura"
+            register={register}
+            required
+          />
 
           <SelectInputControlledWithLabel
             labelText={'Departamento'}

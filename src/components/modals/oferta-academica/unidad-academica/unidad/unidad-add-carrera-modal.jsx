@@ -110,7 +110,7 @@ export function UnidadAddCarreraModal({ closeModal, id_unidad, nombre, tipo_ua }
             <InputWLabel id="codigo" name="codigo" register={register} required />
           </div>
 
-          <ButtonsContainer className="[&>button]:py-2 mt-2" disabled={isSubmitting}>
+          <ButtonsContainer className="[&>button]:py-2 mt-2" disabled={isSubmitting} closeModal={closeModal}>
             <SubmitButton text="Guardar" loading={isSubmitting} />
           </ButtonsContainer>
         </form>

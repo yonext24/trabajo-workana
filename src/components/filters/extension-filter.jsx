@@ -5,6 +5,7 @@ import { appFetch } from '@/utils/fetchHandler'
 import { BASE_OFERTA_URL } from '@/utils/consts'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
 import { SelectInputWithLabel } from '../common/select-input/select-input-w-label'
+import { unidad } from '@/utils/routes'
 
 export function ExtensionFilter() {
   const [selectedTipo, setSelectedTipo] = useState(null)
@@ -25,19 +26,17 @@ export function ExtensionFilter() {
   } = useFetchLocalData({
     func: async () => await appFetch(`${BASE_OFERTA_URL}/rye/extension/param_leer`)
   })
+  const {
+    data: tiposData,
+    laoding: tiposLoading,
+    error: tiposError
+  } = useFetchLocalData({ func: unidad.unidad.params })
 
-  const { getUnidadAcademicaTipos, setExtensionSelectedUnidad, setExtensionError } = useOfertaAcademicaActions()
+  const { setExtensionSelectedUnidad, setExtensionError } = useOfertaAcademicaActions()
 
   useEffect(() => {
     if (errorUnidad) setExtensionError(errorUnidad)
   }, [errorUnidad])
-
-  /* Los datos de los tipos vienen del estado global por que el endpoint de param_leer no los ofrece */
-  const {
-    data: dataTipo,
-    revalidating: revalidatingTipo,
-    error: errorTipo
-  } = useSelector(s => s.ofertaAcademica.unidadAcademica.tipo)
 
   const unidades = useMemo(() => {
     if (!selectedTipo) return []
@@ -47,10 +46,6 @@ export function ExtensionFilter() {
   useEffect(() => {
     setExtensionSelectedUnidad({ unidad: selectedUnidad })
   }, [selectedUnidad])
-
-  useEffect(() => {
-    getUnidadAcademicaTipos()
-  }, [])
 
   const handleTipoChange = tipo => {
     if (tipo === undefined) return
@@ -70,14 +65,14 @@ export function ExtensionFilter() {
         <SelectInputWithLabel
           notFocusable
           labelText={'Tipo unidad'}
-          loading={revalidatingTipo}
+          loading={tiposLoading}
           externalValue={selectedTipo}
           ligatedToExternalChange
-          error={errorTipo}
+          error={tiposError}
           handleOptionClick={handleTipoChange}
           onFirstChange={handleTipoChange}
           rawOnChange={handleTipoChange}
-          options={dataTipo}
+          options={tiposData}
           show="nombre"
           firstOne
         />

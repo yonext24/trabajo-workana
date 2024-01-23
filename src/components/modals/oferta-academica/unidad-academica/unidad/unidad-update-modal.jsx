@@ -29,7 +29,7 @@ export function UnidadUpdateModal({ closeModal, tipo_ua, abreviatura, nombre, co
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Actualizar Unidad" errors={errors} loading={loading}>
+      <DefaultModalLayout title="Actualizar Unidad" errors={errors} loading={loading} closeModal={closeModal}>
         <form onSubmit={handleSubmit(handleUpdate)} className="px-8 py-4 pb-12 flex flex-col gap-y-3">
           <SelectInputControlledWithLabel
             labelText="Tipo UA"
@@ -50,6 +50,11 @@ export function UnidadUpdateModal({ closeModal, tipo_ua, abreviatura, nombre, co
             name="nombre"
             id="nombre"
             labelText="Nombre"
+            maxlength={80}
+            registerProps={{
+              maxLength: { value: 50, message: 'Máximo 80 caracteres.' },
+              minLenght: { value: 2, message: 'Mínimo 2 caracteres.' }
+            }}
             register={register}
             disabled
             defaultValue={nombre}
@@ -58,6 +63,13 @@ export function UnidadUpdateModal({ closeModal, tipo_ua, abreviatura, nombre, co
             inputClassName="mb-12"
             name="abreviatura"
             id="abreviatura"
+            maxlength={30}
+            registerProps={{
+              maxLength: {
+                value: 30,
+                message: 'Debe tener menos de 30 caracteres'
+              }
+            }}
             required
             register={register}
             defaultValue={abreviatura}

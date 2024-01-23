@@ -26,6 +26,9 @@ export const unidad = {
     }
   },
   unidad: {
+    params: async () => {
+      return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/parametros_ua`)
+    },
     get: async () => {
       return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/unidades`)
     },

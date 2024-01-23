@@ -26,7 +26,7 @@ export function TipoUpdateModal({ closeModal, nombre, descripcion, id_tipo_ua })
 
   return (
     <ModalBackground onClick={closeModal} closeModal={closeModal}>
-      <DefaultModalLayout title="Agregar Tipo" closeModal={closeModal} loading={loading} errors={errors}>
+      <DefaultModalLayout title="Actualizar Tipo" closeModal={closeModal} loading={loading} errors={errors}>
         <form className="p-6 flex flex-col gap-3" onSubmit={handleSubmit(handleUpdate)}>
           <InputWLabel
             defaultValue={nombre}
@@ -39,6 +39,7 @@ export function TipoUpdateModal({ closeModal, nombre, descripcion, id_tipo_ua })
           />
           <InputWLabel
             defaultValue={descripcion}
+            labelText={'Descripción'}
             name="descripcion"
             id="descripcion"
             register={register}
@@ -46,6 +47,13 @@ export function TipoUpdateModal({ closeModal, nombre, descripcion, id_tipo_ua })
             inputClassName="mb-12"
             isTextArea
             rows={3}
+            maxlength={50}
+            registerProps={{
+              maxLength: {
+                value: 50,
+                message: 'Debe tener menos de 50 caracteres'
+              }
+            }}
           />
 
           <ButtonsContainer closeModal={closeModal} disabled={loading}>

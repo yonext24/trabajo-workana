@@ -4,16 +4,20 @@ import { ModalBackground } from '../../../modal-background'
 import { InputWLabel } from '@/components/common/input-w-label'
 import { ButtonsContainer } from '../../../buttons-container'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
-import { useSelector } from 'react-redux'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useEffect } from 'react'
 import { handleErrorInFormResponse } from '@/utils/consts'
+import { useFetchLocalData } from '@/hooks/useFetchLocalData'
+import { unidad } from '@/utils/routes'
 
 export function UnidadAddModal({ closeModal }) {
-  const tiposLoading = useSelector(s => s.ofertaAcademica.unidadAcademica.tipo.loading)
-  const tiposData = useSelector(s => s.ofertaAcademica.unidadAcademica.tipo.data)
+  const {
+    data: tiposData,
+    laoding: tiposLoading,
+    error: tiposError
+  } = useFetchLocalData({ func: unidad.unidad.params })
 
   const {
     register,
@@ -50,13 +54,15 @@ export function UnidadAddModal({ closeModal }) {
             rules={{ required: true }}
             options={tiposData}
             loading={tiposLoading}
+            error={tiposError}
             show={'nombre'}
           />
           <InputWLabel name="codigo" id="codigo" labelText="Código" required type="number" register={register} />
           <InputWLabel
             name="nombre"
+            maxlength={80}
             registerProps={{
-              maxLength: { value: 50, message: 'Máximo 50 caracteres.' },
+              maxLength: { value: 50, message: 'Máximo 80 caracteres.' },
               minLenght: { value: 2, message: 'Mínimo 2 caracteres.' }
             }}
             id="nombre"
@@ -64,7 +70,20 @@ export function UnidadAddModal({ closeModal }) {
             required
             register={register}
           />
-          <InputWLabel inputClassName="mb-12" name="abreviatura" id="abreviatura" required register={register} />
+          <InputWLabel
+            inputClassName="mb-12"
+            name="abreviatura"
+            id="abreviatura"
+            maxlength={30}
+            registerProps={{
+              maxLength: {
+                value: 30,
+                message: 'Debe tener menos de 30 caracteres'
+              }
+            }}
+            required
+            register={register}
+          />
 
           <ButtonsContainer closeModal={closeModal}>
             <SubmitButton text="Agregar" loading={loading} />

@@ -106,7 +106,7 @@ export function UnidadUpdateCarreraModal({
             />
           </div>
 
-          <ButtonsContainer className="[&>button]:py-2 mt-2" disabled={isSubmitting}>
+          <ButtonsContainer className="[&>button]:py-2 mt-2" disabled={isSubmitting} closeModal={closeModal}>
             <SubmitButton text="Guardar" loading={isSubmitting} />
           </ButtonsContainer>
         </form>
