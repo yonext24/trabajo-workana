@@ -152,12 +152,18 @@ export const SeeMoreOfUserButton = ({ handleClick, text = 'Ver más', style = {}
   )
 }
 
-export const SearchButton = ({ handleClick, text = 'Buscar', style = {} }) => {
+export const SearchButton = ({ handleClick, disabled, type = 'submit', text = 'Buscar', style = {} }) => {
   const { hovering, elementRef } = useHovering()
 
   return (
     <ButtonWrapper style={style} hovering={hovering} text={text}>
-      <button onClick={handleClick} ref={elementRef} type="submit" className="bg-gray-800 p-1 rounded-lg ml-1">
+      <button
+        disabled={disabled}
+        type={type}
+        onClick={handleClick}
+        ref={elementRef}
+        className="bg-gray-800 p-1 rounded-lg ml-1"
+      >
         <SearchIcon className="h-7 w-7 text-white" />
       </button>
     </ButtonWrapper>

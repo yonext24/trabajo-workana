@@ -9,12 +9,6 @@ import { useSelector } from 'react-redux'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
 import { handleErrorInFormResponse } from '@/utils/consts'
-import { useFetchLocalData } from '@/hooks/useFetchLocalData'
-import { general } from '@/utils/routes'
-
-const fetchDependencias = async () => {
-  return await general.parametros().then(({ unidades }) => unidades)
-}
 
 export function DependenciasAddModal({ closeModal }) {
   const {
@@ -27,28 +21,15 @@ export function DependenciasAddModal({ closeModal }) {
   const { addDependenciasData } = useDataActions()
   const { loading, handleLoading } = useFormCustom()
 
-  const {
-    loading: unidadesLoading,
-    data: unidadesData,
-    error: unidadesError
-  } = useFetchLocalData({
-    func: fetchDependencias,
-    dependencies: []
-  })
   const { data: sectoresData, revalidating: sectoresLoading, error: sectoresError } = useSelector(s => s.data.sectores)
 
-  const dependenciasData = useSelector(s => s.data.dependencias.data)
-
   const onSubmit = handleLoading(async data => {
-    const { sector, unidad } = data
+    const { sector } = data
     const id_sector = sector.id_sector
-    const id_unidad = unidad.id_unidad
 
     const finalData = {
       ...data,
       sector: sector.nombre,
-      unidad: unidad.nombre,
-      id_unidad,
       id_sector
     }
 
@@ -60,19 +41,7 @@ export function DependenciasAddModal({ closeModal }) {
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout title="Agregar Dependencia" closeModal={closeModal} loading={loading} errors={errors}>
         <form onSubmit={handleSubmit(onSubmit)} className="py-8 px-4 font-semibold flex flex-col gap-y-4">
-          <InputWLabel
-            id="nombre"
-            labelText="Nombre"
-            type="text"
-            autoFocus
-            register={register}
-            required
-            registerProps={{
-              validate: nombre => {
-                if (dependenciasData.some(d => d.nombre === nombre)) return 'Ya existe una dependencia con ese nombre'
-              }
-            }}
-          />
+          <InputWLabel id="nombre" labelText="Nombre" type="text" autoFocus register={register} required />
           <InputWLabel
             id="abreviatura"
             name="abreviatura"
@@ -81,11 +50,7 @@ export function DependenciasAddModal({ closeModal }) {
             register={register}
             required
             registerProps={{
-              maxLength: { value: 20, message: 'Máximo 20 caracteres' },
-              validate: abreviatura => {
-                if (dependenciasData.some(d => d.abreviatura === abreviatura))
-                  return 'Ya existe una dependencia con esa abreviatura'
-              }
+              maxLength: { value: 20, message: 'Máximo 20 caracteres' }
             }}
           />
 
@@ -94,21 +59,10 @@ export function DependenciasAddModal({ closeModal }) {
             control={control}
             show="nombre"
             rules={{ required: true }}
-            options={sectoresData}
+            options={sectoresData.filter(el => el.estado)}
             loading={sectoresLoading}
             error={sectoresError}
             labelText={'Sector'}
-          />
-
-          <SelectInputControlledWithLabel
-            name="unidad"
-            control={control}
-            rules={{ required: true }}
-            options={unidadesData}
-            loading={unidadesLoading}
-            error={unidadesError}
-            show="abreviatura"
-            labelText="Unidad"
           />
 
           <ButtonsContainer closeModal={closeModal} disabled={loading}>

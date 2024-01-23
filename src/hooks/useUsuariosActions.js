@@ -1,4 +1,4 @@
-import { set_permisos_filtered, set_usuarios_showing } from '@/store/usuarios/slice'
+import { set_permisos_filtered, set_usuarios_showing, reset_showing } from '@/store/usuarios/slice'
 import {
   add_permission,
   add_role,
@@ -41,6 +41,7 @@ export function useUsuariosActions() {
   const setUsuariosShowing = async usuario => dispatch(set_usuarios_showing({ usuario }))
 
   const createUsuario = async data => dispatch(create_user(data))
+  const resetShowing = () => dispatch(reset_showing())
   const getCreateUsuarioParametros = async () => dispatch(get_usuarios_parametros())
   const searchUsuario = async data => dispatch(find_user(data))
   const updateUsuario = async data => dispatch(update_user(data))
@@ -50,6 +51,7 @@ export function useUsuariosActions() {
   return {
     getRolesData,
     changeRoleUsuario,
+    resetShowing,
     getRolePermissions,
     getMappedRolePermissions,
     getPermisos,

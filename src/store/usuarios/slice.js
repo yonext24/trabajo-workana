@@ -27,6 +27,9 @@ const usuariosSlice = createSlice({
   name: 'usuarios',
   initialState,
   reducers: {
+    reset_showing: state => {
+      state.usuarios.showing = {}
+    },
     set_permisos_filtered: (state, action) => {
       const { data } = action.payload
       state.permisos.filtered = data
@@ -43,4 +46,4 @@ const usuariosSlice = createSlice({
 })
 
 export default usuariosSlice.reducer
-export const { set_permisos_filtered, set_usuarios_showing } = usuariosSlice.actions
+export const { set_permisos_filtered, set_usuarios_showing, reset_showing } = usuariosSlice.actions

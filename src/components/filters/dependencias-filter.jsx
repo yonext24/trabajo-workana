@@ -19,9 +19,8 @@ export function DependenciasFilter() {
     else setDependenciasFiltered(complete.filter(el => el.id_sector === currentOption))
   }, [complete, currentOption])
 
-  // El siguiente useMemo se encarga de obtener una lista (sin repeticiones, por eso el Set), de todos los sectores de los valores de la data
   const options = useMemo(() => {
-    return ['Todos'].concat(sectoresData)
+    return ['Todos'].concat(sectoresData.filter(el => el.estado))
   }, [complete])
 
   const handleChange = value => {

@@ -6,11 +6,13 @@ import { useLayoutActions } from '@/hooks/useLayoutActions'
 import { usePermissions } from '@/hooks/usePermissions'
 import { useTableDefaultModals } from '@/hooks/useTableDefaultModals'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 export const useUsuariosPage = () => {
-  const { deleteUsuario } = useUsuariosActions()
+  const { deleteUsuario, resetShowing } = useUsuariosActions()
 
   const usuariosData = useSelector(s => s.usuarios.usuarios.data)
   const usuariosLoading = useSelector(s => s.usuarios.usuarios.loading)
@@ -62,6 +64,12 @@ export const useUsuariosPage = () => {
   }
 
   const canShow = Object.entries(showing).length > 0
+
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    if (pathname.pathname !== '/usuarios/usuarios') resetShowing()
+  }, [pathname])
 
   return {
     handleRole,

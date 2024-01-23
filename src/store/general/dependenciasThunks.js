@@ -16,16 +16,14 @@ export const switch_state_dependencias = createAsyncThunk('general/delete_depend
 
 export const update_dependencias = createAsyncThunk('general/update_dependencias_data', async (data, api) => {
   const id_dependencia = data?.id_dependencia
-  const { unidad, sector, id_unidad, id_sector } = data
+  const { sector, id_sector } = data
   await general.dependencias.update(api, data)
 
   return {
     id_dependencia,
     ...data,
     id_sector,
-    id_unidad,
-    sector,
-    unidad
+    sector
   }
 })
 

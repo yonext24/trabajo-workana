@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { DownArrowIcon, UserIcon } from '../icons'
 import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuthActions } from '@/hooks/useAuthActions'
 import { useClickOutside } from '@/hooks/useClickOutside'
 
@@ -39,21 +39,35 @@ function Menu({ close, Logout }) {
   const menuRef = useRef()
 
   useClickOutside(menuRef, close)
+  const router = useNavigate()
 
   return (
     <div
       ref={menuRef}
       className="absolute bottom-0 right-0 w-max translate-y-full border border-black rounded-md flex flex-col bg-white z-50
-      font-semibold py-2 [&>*]:pl-4 [&>*]:pr-2 "
+      font-semibold py-2 [&>*]:pl-4 [&>*]:pr-2 [&>button]:py-[3pxx]"
     >
-      <Link to="/perfil" className="hover:bg-gris">
+      <button
+        role="link"
+        onClick={() => {
+          router('/perfil')
+        }}
+        href="/perfil"
+        className="hover:bg-gris text-start"
+      >
         Perfil
-      </Link>
-      <Link to="/cambiar-contraseña" className="mb-2 mt-1 hover:bg-gris">
+      </button>
+      <button
+        onClick={() => router('/cambiar-contraseña')}
+        role="link"
+        href="/cambiar-contraseña"
+        className="hover:bg-gris text-start"
+      >
         Cambiar Contraseña
-      </Link>
+      </button>
 
-      <button onClick={Logout} className="border-t border-black hover:bg-gris text-start mt-2">
+      <div className="h-px w-full bg-black my-1" />
+      <button onClick={Logout} className="hover:bg-gris text-start">
         Salir
       </button>
     </div>

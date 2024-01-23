@@ -4,7 +4,6 @@ import { ButtonsContainer } from '../../buttons-container'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '../../../common/input-w-label'
-import { useSelector } from 'react-redux'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
 
@@ -16,7 +15,6 @@ export function AddPuestosModal({ closeModal }) {
   } = useForm()
   const { loading, handleLoading } = useFormCustom()
 
-  const puestosData = useSelector(s => s.data.puestos.data)
   const { addPuestosData } = useDataActions()
 
   const handleUpdate = handleLoading(async ({ descripcion }) => {
@@ -36,13 +34,6 @@ export function AddPuestosModal({ closeModal }) {
             autoFocus
             register={register}
             required
-            registerProps={{
-              validate: nombre => {
-                if (puestosData.some(puesto => puesto.descripcion.toLowerCase() === nombre.toLowerCase())) {
-                  return 'Este puesto ya existe'
-                }
-              }
-            }}
           />
 
           <ButtonsContainer closeModal={closeModal} disabled={loading}>

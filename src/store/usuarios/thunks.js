@@ -182,20 +182,10 @@ export const addUsuariosExtraReducers = builder => {
   }
   const usuariosExtraReducers = {
     name: 'usuarios',
-    get: {
-      function: find_user,
-      customFunc: ({ state, data, setProperty }) => {
-        const { general, otros } = data
-        setProperty({
-          property: 'showing',
-          state,
-          value: { ...general, otros }
-        })
-      }
-    },
     add: {
       function: create_user,
-      customFunc: () => {}
+      customFunc: () => {},
+      preventError: true
     },
     update: {
       function: update_user,
@@ -213,6 +203,23 @@ export const addUsuariosExtraReducers = builder => {
   setThunks({ builder, noLoopData: permisosExtraReducers })
   setThunks({ builder, noLoopData: usuariosExtraReducers })
 
+  builder.addCase(find_user.fulfilled, (state, action) => {
+    const { general, otros } = action.payload
+
+    state.usuarios.loading = false
+    state.usuarios.error = null
+    state.usuarios.showing = { ...general, otros }
+  })
+  builder.addCase(find_user.pending, (state, action) => {
+    state.usuarios.loading = true
+    state.usuarios.error = null
+    state.usuarios.showing = {}
+  })
+  builder.addCase(find_user.rejected, (state, action) => {
+    state.usuarios.loading = false
+    state.usuarios.error = action.payload
+    state.usuarios.showing = {}
+  })
   builder.addCase(get_usuarios_parametros.fulfilled, (state, action) => {
     const { roles } = action.payload
     state.roles.loading = false

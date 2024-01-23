@@ -10,27 +10,12 @@ import { useEffect } from 'react'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
-import { general } from '@/utils/routes'
-import { useFetchLocalData } from '@/hooks/useFetchLocalData'
-
-const fetchDependencias = async () => {
-  return await general.parametros().then(({ unidades }) => unidades)
-}
+import { handleErrorInFormResponse } from '@/utils/consts'
 
 export function UpdateDependenciaModal({ closeModal, entryData }) {
-  const { nombre, abreviatura, id_dependencia, id_sector, id_unidad } = entryData
+  const { nombre, abreviatura, id_dependencia, id_sector } = entryData
 
   const { data: sectoresData, error: sectoresError, revalidating: sectoresLoading } = useSelector(s => s.data.sectores)
-  const dependenciasData = useSelector(s => s.data.dependencias.data)
-
-  const {
-    loading: unidadesLoading,
-    data: unidadesData,
-    error: unidadesError
-  } = useFetchLocalData({
-    func: fetchDependencias,
-    dependencies: []
-  })
 
   useEffect(() => {
     getSectoresData()
@@ -40,7 +25,8 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
     register,
     handleSubmit,
     control,
-    formState: { errors, touchedFields }
+    formState: { errors, touchedFields },
+    setError
   } = useForm()
   const { loading, handleLoading } = useFormCustom()
 
@@ -49,20 +35,18 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
   const handleUpdate = handleLoading(async data => {
     if (Object.entries(touchedFields).length < 1) return
 
-    const { sector, unidad } = data
+    const { sector } = data
     const id_sector = sector.id_sector
-    const id_unidad = unidad.id_unidad
 
     const finalData = {
       ...data,
       sector: sector.nombre,
-      unidad: unidad.nombre,
-      id_unidad,
       id_sector
     }
     if (compareValues(entryData, finalData)) return
 
-    await updDependenciasData({ ...finalData, id_dependencia })
+    const res = await updDependenciasData({ ...finalData, id_dependencia })
+    handleErrorInFormResponse(res, setError, closeModal)
     closeModal()
   })
 
@@ -88,12 +72,6 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
             register={register}
             required
             defaultValue={abreviatura}
-            registerProps={{
-              validate: abreviatura => {
-                if (dependenciasData.some(d => d.abreviatura === abreviatura && d.id_dependencia !== id_dependencia))
-                  return 'Ya existe una dependencia con esa abreviatura'
-              }
-            }}
           />
 
           <SelectInputControlledWithLabel
@@ -101,21 +79,11 @@ export function UpdateDependenciaModal({ closeModal, entryData }) {
             control={control}
             rules={{ required: true }}
             defaultValue={sectoresData.find(el => el.id_sector === id_sector)}
-            options={sectoresData}
+            options={sectoresData.filter(el => el.estado)}
             loading={sectoresLoading}
             error={sectoresError}
             show="nombre"
             labelText={'Sector'}
-          />
-          <SelectInputControlledWithLabel
-            name="unidad"
-            control={control}
-            rules={{ required: true }}
-            defaultValue={unidadesData.find(el => el.id_unidad === id_unidad)}
-            show={'abreviatura'}
-            loading={unidadesLoading}
-            error={unidadesError}
-            options={unidadesData}
           />
 
           <div className="mt-5" />

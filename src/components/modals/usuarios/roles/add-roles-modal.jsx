@@ -3,7 +3,6 @@ import { ButtonsContainer } from '../../buttons-container'
 import { DefaultModalLayout } from '../../default-modal-layout'
 import { ModalBackground } from '../../modal-background'
 import { InputWLabel } from '../../../common/input-w-label'
-import { useSelector } from 'react-redux'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { SubmitButton } from '@/components/common/submit-button'
 import { handleErrorInFormResponse } from '@/utils/consts'
@@ -16,7 +15,6 @@ export function AddRolesModal({ closeModal }) {
     setError
   } = useForm()
 
-  const { data: rolesData } = useSelector(s => s.usuarios).roles
   const { addRole } = useUsuariosActions()
 
   const handleUpdate = async data => {
@@ -36,13 +34,6 @@ export function AddRolesModal({ closeModal }) {
             autoFocus
             register={register}
             required
-            registerProps={{
-              validate: nombre => {
-                if (rolesData.some(el => el.nombre === nombre)) {
-                  return 'Ya existe un rol de esas características.'
-                }
-              }
-            }}
           />
           <InputWLabel
             id="descripcion"

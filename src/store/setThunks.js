@@ -92,7 +92,7 @@ const thunksSets = ({
   // oferta_academica -> extension <== Este no contiene sub-slices
   // Y property corresponde al estado que se quiere setear, por ejemplo: data, loading, error, filtered etc.
 
-  const addActionCase = (actionType, dataExtractor, type) => {
+  const addActionCase = (actionType, dataExtractor, type, preventError = false) => {
     builder.addCase(actionType.fulfilled, (state, action) => {
       const data = dataExtractor(action.payload)
 
@@ -183,6 +183,8 @@ const thunksSets = ({
 
       setProperty({ property: 'loading', state, value: false })
       setProperty({ property: 'revalidating', state, value: false })
+
+      if (preventError) return
       setProperty({ property: 'error', state, value: data })
     })
   }
@@ -200,11 +202,11 @@ const thunksSets = ({
     addActionCase(
       add.function,
       payload => {
-        // <-- DataExtractor
         if (add.dataExtractor) return add.dataExtractor(payload)
         return payload
       },
-      'add'
+      'add',
+      add.preventError ?? true
     )
   update &&
     addActionCase(

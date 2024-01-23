@@ -48,10 +48,10 @@ export function PermisosFilter({ outsideFunc = false, outsideData = false }) {
 
   return (
     <div
-      className="flex flex-col gap-y-2 max-w-[300px] w-full items-center gap-x-4"
+      className="flex flex-col gap-y-2 max-w-[300px] w-full gap-x-4"
       style={outsideFunc ? { flexDirection: 'row' } : {}}
     >
-      <span className="font-semibold">Modulo</span>
+      <span className="font-semibold text-start">Módulo</span>
       <div className="w-full">
         <SelectInput
           notFocusable

@@ -47,12 +47,11 @@ export const general = {
         })
       })
     },
-    update: async (_, { id_dependencia, id_unidad, id_sector, abreviatura }) => {
+    update: async (_, { id_dependencia, id_sector, abreviatura }) => {
       return await appFetch(`${BASE_URL}/rye/dependencia/actualizar`, {
         method: 'POST',
         body: JSON.stringify({
           id_dependencia,
-          id_unidad,
           id_sector,
           estado: true,
           abreviatura

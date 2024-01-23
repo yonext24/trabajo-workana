@@ -8,7 +8,6 @@ import { useFormCustom } from '@/hooks/useFormCustom'
 import { handleErrorInFormResponse } from '@/utils/consts'
 import { SubmitButton } from '@/components/common/submit-button'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
-import { useSelector } from 'react-redux'
 
 export function UnidadUpdateModal({ closeModal, tipo_ua, abreviatura, nombre, codigo, id_unidad }) {
   const {
@@ -28,8 +27,6 @@ export function UnidadUpdateModal({ closeModal, tipo_ua, abreviatura, nombre, co
     handleErrorInFormResponse(res, setError, closeModal)
   })
 
-  const data = useSelector(s => s.ofertaAcademica.unidadAcademica.unidad.data)
-
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
       <DefaultModalLayout title="Actualizar Unidad" errors={errors} loading={loading}>
@@ -48,13 +45,6 @@ export function UnidadUpdateModal({ closeModal, tipo_ua, abreviatura, nombre, co
             required
             register={register}
             defaultValue={codigo}
-            registerProps={{
-              validate: codigo => {
-                if (data.find(el => el.codigo === parseInt(codigo) && el.id_unidad !== id_unidad)) {
-                  return 'El código ya existe'
-                }
-              }
-            }}
           />
           <InputWLabel
             name="nombre"
@@ -70,13 +60,6 @@ export function UnidadUpdateModal({ closeModal, tipo_ua, abreviatura, nombre, co
             id="abreviatura"
             required
             register={register}
-            registerProps={{
-              validate: abreviatura => {
-                if (data.find(el => el.abreviatura === abreviatura && el.id_unidad !== id_unidad)) {
-                  return 'La abreviatura ya existe'
-                }
-              }
-            }}
             defaultValue={abreviatura}
           />
 

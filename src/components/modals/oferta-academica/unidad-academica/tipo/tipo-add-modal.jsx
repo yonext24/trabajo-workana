@@ -3,14 +3,12 @@ import { DefaultModalLayout } from '../../../default-modal-layout'
 import { ModalBackground } from '../../../modal-background'
 import { InputWLabel } from '@/components/common/input-w-label'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
-import { useSelector } from 'react-redux'
 import { ButtonsContainer } from '../../../buttons-container'
 import { useFormCustom } from '@/hooks/useFormCustom'
 import { handleErrorInFormResponse } from '@/utils/consts'
 import { SubmitButton } from '@/components/common/submit-button'
 
 export function TipoAddModal({ closeModal }) {
-  const tiposData = useSelector(s => s.ofertaAcademica.unidadAcademica.tipo.data)
   const {
     register,
     handleSubmit,
@@ -34,9 +32,6 @@ export function TipoAddModal({ closeModal }) {
             id="nombre"
             register={register}
             registerProps={{
-              validate: nombre => {
-                return !tiposData.some(el => el.nombre === nombre) || 'Ya existe un tipo con ese nombre'
-              },
               minLength: {
                 value: 2,
                 message: 'Debe tener al menos 3 caracteres'

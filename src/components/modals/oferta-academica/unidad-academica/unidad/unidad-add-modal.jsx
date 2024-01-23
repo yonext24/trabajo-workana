@@ -12,7 +12,6 @@ import { useEffect } from 'react'
 import { handleErrorInFormResponse } from '@/utils/consts'
 
 export function UnidadAddModal({ closeModal }) {
-  const data = useSelector(s => s.ofertaAcademica.unidadAcademica.unidad.data)
   const tiposLoading = useSelector(s => s.ofertaAcademica.unidadAcademica.tipo.loading)
   const tiposData = useSelector(s => s.ofertaAcademica.unidadAcademica.tipo.data)
 
@@ -53,51 +52,19 @@ export function UnidadAddModal({ closeModal }) {
             loading={tiposLoading}
             show={'nombre'}
           />
-          <InputWLabel
-            name="codigo"
-            id="codigo"
-            labelText="Código"
-            required
-            registerProps={{
-              validate: codigo => {
-                if (data.some(el => el.codigo === parseInt(codigo))) {
-                  return 'Ya existe una unidad con este código.'
-                }
-              }
-            }}
-            type="number"
-            register={register}
-          />
+          <InputWLabel name="codigo" id="codigo" labelText="Código" required type="number" register={register} />
           <InputWLabel
             name="nombre"
             registerProps={{
               maxLength: { value: 50, message: 'Máximo 50 caracteres.' },
-              minLenght: { value: 2, message: 'Mínimo 2 caracteres.' },
-              validate: nombre => {
-                if (data.some(el => el.nombre === nombre)) {
-                  return 'Ya existe una unidad con este nombre.'
-                }
-              }
+              minLenght: { value: 2, message: 'Mínimo 2 caracteres.' }
             }}
             id="nombre"
             labelText="Nombre"
             required
             register={register}
           />
-          <InputWLabel
-            inputClassName="mb-12"
-            name="abreviatura"
-            id="abreviatura"
-            registerProps={{
-              validate: abreviatura => {
-                if (data.find(el => el.abreviatura === abreviatura)) {
-                  return 'La abreviatura ya existe'
-                }
-              }
-            }}
-            required
-            register={register}
-          />
+          <InputWLabel inputClassName="mb-12" name="abreviatura" id="abreviatura" required register={register} />
 
           <ButtonsContainer closeModal={closeModal}>
             <SubmitButton text="Agregar" loading={loading} />

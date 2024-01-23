@@ -5,7 +5,6 @@ import { ButtonsContainer } from '../../buttons-container'
 import { useUsuariosActions } from '@/hooks/useUsuariosActions'
 import { useEffect, useMemo } from 'react'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
-import { useFormCustom } from '@/hooks/useFormCustom'
 import { SubmitButton } from '@/components/common/submit-button'
 import { BASE_URL, handleErrorInFormResponse } from '@/utils/consts'
 import { appFetch } from '@/utils/fetchHandler'
@@ -30,12 +29,11 @@ export function AddPermisosModal({ closeModal }) {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting: loading },
     setError,
     setValue,
     watch
   } = useForm()
-  const { loading, handleLoading } = useFormCustom()
 
   const moduloSelected = watch('modulo')
   const operacionSelected = watch('operacion')
@@ -78,18 +76,22 @@ export function AddPermisosModal({ closeModal }) {
 
   const { addPermission } = useUsuariosActions()
 
-  const handleUpload = handleLoading(async ({ operacion, unidad, extension, modulo, nivel }) => {
+  const handleUpload = async ({ operacion, unidad, extension, modulo, nivel }) => {
+    const extensionToUse = isOfertaAcademicaUpdate ? -1 : extension.id_extension ?? -2
+    const nivelToUse = isOfertaAcademicaUpdate ? -1 : nivel.id_nivel ?? -2
+    const unidadToUse = isOfertaAcademicaUpdate ? -1 : unidad.id_unidad ?? -2
+
     const data = {
       id_operacion: operacion.id,
       id_modulo: modulo.id,
-      id_nivel: nivel?.id_nivel ?? -2,
-      id_unidad: unidad?.id_unidad ?? -2,
-      id_extension: extension?.id_extension ?? -2
+      id_nivel: nivelToUse,
+      id_unidad: unidadToUse,
+      id_extension: extensionToUse
     }
 
     const res = await addPermission(data)
     handleErrorInFormResponse(res, setError, closeModal)
-  })
+  }
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
@@ -125,8 +127,12 @@ export function AddPermisosModal({ closeModal }) {
             <SelectInputControlledWithLabel
               labelText="Unidad"
               ligatedToExternalChange
-              disabled={!isOfertaAcademica}
-              disabledMessage="Esta opción sólo está disponible en el módulo Oferta Académica"
+              disabled={!isOfertaAcademica || isOfertaAcademicaUpdate}
+              disabledMessage={(() => {
+                if (!isOfertaAcademica) return 'Esta opción sólo está disponible en el módulo Oferta Académica'
+                if (isOfertaAcademicaUpdate)
+                  return 'Al otorgar permisos de actualización, podrá actualizar todas las unidades del módulo seleccionado.'
+              })()}
               name="unidad"
               loading={paramsLoading}
               error={paramsError}
@@ -145,9 +151,11 @@ export function AddPermisosModal({ closeModal }) {
               labelText="Extensión"
               resetOnOptionsChange
               ligatedToExternalChange
-              disabled={!isOfertaAcademica || !unidadSelected}
+              disabled={!isOfertaAcademica || isOfertaAcademicaUpdate || !unidadSelected}
               disabledMessage={(() => {
                 if (!isOfertaAcademica) return 'Esta opción sólo está disponible en el módulo Oferta Académica'
+                if (isOfertaAcademicaUpdate)
+                  return 'Al otorgar permisos de actualización, podrá actualizar todas las extensiones del módulo seleccionado.'
                 if (!unidadSelected) return 'Primero debe seleccionar una unidad'
               })()}
               name="extension"
@@ -162,8 +170,12 @@ export function AddPermisosModal({ closeModal }) {
             <SelectInputControlledWithLabel
               labelText="Nivel"
               ligatedToExternalChange
-              disabled={!isOfertaAcademica}
-              disabledMessage="Esta opción sólo está disponible en el módulo Oferta Académica"
+              disabled={!isOfertaAcademica || isOfertaAcademicaUpdate}
+              disabledMessage={(() => {
+                if (!isOfertaAcademica) return 'Esta opción sólo está disponible en el módulo Oferta Académica'
+                if (isOfertaAcademicaUpdate)
+                  return 'Al otorgar permisos de actualización, podrá actualizar todos los niveles del módulo seleccionado.'
+              })()}
               name="nivel"
               loading={paramsLoading}
               error={paramsError}
@@ -174,7 +186,7 @@ export function AddPermisosModal({ closeModal }) {
             />
           </div>
 
-          <ButtonsContainer disabled={loading}>
+          <ButtonsContainer disabled={loading} closeModal={closeModal}>
             <SubmitButton loading={loading} />
           </ButtonsContainer>
         </form>
