@@ -38,6 +38,14 @@ export const extension = {
       body: JSON.stringify(data)
     })
   },
+
+  update_carrera_extension: async data => {
+    return await appFetch(`${BASE_OFERTA_URL}/rye/unidad/actualizar_carrera_extension`, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+  },
+
   add: async data => {
     return await appFetch(`${BASE_OFERTA_URL}/rye/extension/nuevo`, {
       method: 'POST',

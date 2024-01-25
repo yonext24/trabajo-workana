@@ -71,12 +71,34 @@ export function CarreraAddModal({ closeModal }) {
           </div>
           <InputWLabel
             name="nombre"
-            registerProps={{ minLength: { value: 2, message: 'El nombre debe tener mínimo 2 caracteres.' } }}
+            maxLength={50}
+            registerProps={{
+              minLength: { value: 2, message: 'El nombre debe tener mínimo 2 caracteres.' },
+              maxLength: { value: 50, message: 'El nombre debe tener como máximo 50 caracteres.' }
+            }}
             register={register}
             required
           />
-          <InputWLabel name="titulo_femenino" labelText="Título femenino" register={register} required />
-          <InputWLabel name="titulo_masculino" labelText="Título masculino" register={register} required />
+          <InputWLabel
+            name="titulo_femenino"
+            labelText="Título femenino"
+            maxLength={150}
+            registerProps={{
+              maxLength: { value: 150, message: 'El titulo femenino debe tener como máximo 150 caracteres.' }
+            }}
+            register={register}
+            required
+          />
+          <InputWLabel
+            name="titulo_masculino"
+            labelText="Título masculino"
+            maxLength={150}
+            registerProps={{
+              maxLength: { value: 150, message: 'El titulo femenino debe tener como máximo 150 caracteres.' }
+            }}
+            register={register}
+            required
+          />
           <InputWLabel
             name="fecha_creacion"
             labelText="Fecha de creación"
@@ -85,7 +107,7 @@ export function CarreraAddModal({ closeModal }) {
             register={register}
             required
           />
-          <ButtonsContainer className="[&>button]:py-[7px] mt-5">
+          <ButtonsContainer className="[&>button]:py-[7px] mt-5" closeModal={closeModal}>
             <SubmitButton text="Guardar" loading={loading} />
           </ButtonsContainer>
         </form>

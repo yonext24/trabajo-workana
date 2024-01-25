@@ -7,6 +7,7 @@ import { SubmitButton } from '@/components/common/submit-button'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 import { extension as extensionRouter } from '@/utils/routes'
 import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
 
 export function ExtensionUpdateCarreraModal({
   closeModal,
@@ -29,8 +30,10 @@ export function ExtensionUpdateCarreraModal({
     setError
   } = useForm()
 
+  const selectedUnidad = useSelector(s => s.ofertaAcademica.extension.extension.selectedUnidad)
+
   const handleUpdate = async ({ rawEstado: { estado }, ...rest }) => {
-    const data = { ...rest, estado, id_extension, id_carrera }
+    const data = { ...rest, estado, id_extension, id_carrera, id_unidad: selectedUnidad?.id_unidad }
     await extensionRouter
       .update_carrera(data)
       .then(() => {
@@ -66,15 +69,7 @@ export function ExtensionUpdateCarreraModal({
             <InputWLabel labelText="Carrera" name="nombre" disabled defaultValue={nombre} />
           </HorizontalDiv>
           <HorizontalDiv>
-            <InputWLabel
-              id="codigo"
-              name="codigo"
-              labelText="Código"
-              type="number"
-              required
-              register={register}
-              defaultValue={codigo}
-            />
+            <InputWLabel id="codigo" name="codigo" labelText="Código" type="number" disabled value={codigo} />
             <SelectInputControlledWithLabel
               control={control}
               id="rawEstado"

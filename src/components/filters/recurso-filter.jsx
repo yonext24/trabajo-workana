@@ -26,7 +26,7 @@ export function RecursoFilter() {
 
   // El siguiente useMemo se encarga de obtener una lista (sin repeticiones, por eso el Set), de todos los sectores de los valores de la data
   const options = useMemo(() => {
-    return ['Todos'].concat(tipoRecursoData)
+    return ['Todos'].concat(tipoRecursoData.filter(el => el.estado))
   }, [recursoData])
 
   const handleChange = value => {
@@ -39,6 +39,7 @@ export function RecursoFilter() {
       <label className="font-semibold text-lg">Tipo</label>
       <SelectInput
         notFocusable
+        firstOne
         handleOptionClick={handleChange}
         loading={tipoRecursoLoading}
         error={tipoRecursoError}

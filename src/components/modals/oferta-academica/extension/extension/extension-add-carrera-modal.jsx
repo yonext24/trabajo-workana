@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 import { useModalLogic } from '@/hooks/useModalLogic'
 import { carrera } from '@/utils/routes/oferta/carrera'
 import { useSelector } from 'react-redux'
+import { useMemo } from 'react'
 
 export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nombre }) {
   const {
@@ -24,6 +25,7 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
   useModalLogic({ closeModal, noScroll: true })
 
   const selectedNivel = watch('nivel')
+  const selectedCarrera = watch('carrera')
   const selectedUnidadGlobal = useSelector(s => s.ofertaAcademica.extension.extension.selectedUnidad)
 
   const {
@@ -69,6 +71,11 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
         setError('root.fetchError', { type: 'to-not-invalidate', message })
       })
   }
+
+  const codigo = useMemo(() => {
+    if (!selectedCarrera) return ''
+    return selectedCarrera.codigo
+  }, [selectedCarrera])
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
@@ -128,7 +135,7 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
               defaultValue={new Date().toISOString().split('T')[0]}
               required
             />
-            <InputWLabel id="codigo" name="codigo" register={register} required />
+            <InputWLabel id="codigo" name="codigo" register={register} value={codigo} disabled />
           </div>
 
           <ButtonsContainer className="[&>button]:py-2 mt-2" disabled={isSubmitting} closeModal={closeModal}>

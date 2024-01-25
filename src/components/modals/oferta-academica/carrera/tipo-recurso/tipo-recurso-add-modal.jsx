@@ -7,8 +7,6 @@ import { useFormCustom } from '@/hooks/useFormCustom'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { handleErrorInFormResponse } from '@/utils/consts'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
 
 export function AddTipoRecursoModal({ closeModal }) {
   const {
@@ -19,7 +17,6 @@ export function AddTipoRecursoModal({ closeModal }) {
   } = useForm()
   const { loading, handleLoading } = useFormCustom()
 
-  const tipoRecursoData = useSelector(s => s.ofertaAcademica.carrera.tipo_recurso.data)
   const { addCarreraTipoRecurso } = useOfertaAcademicaActions()
 
   const handleUpload = handleLoading(async data => {
@@ -35,16 +32,22 @@ export function AddTipoRecursoModal({ closeModal }) {
             name="nombre"
             required
             registerProps={{
-              validate: nombre => {
-                if (tipoRecursoData.some(el => el.nombre === nombre)) {
-                  toast.error('Ya hay un nivel con ese nombre.')
-                  return
-                }
-              }
+              maxLength: { value: 50, message: 'El nombre debe tener como máximo 50 caracteres.' }
             }}
+            maxLength={50}
             register={register}
           />
-          <InputWLabel name="descripcion" required register={register} isTextArea />
+          <InputWLabel
+            name="descripcion"
+            labelText={'Descripción'}
+            maxLength={50}
+            registerProps={{
+              maxLength: { value: 50, message: 'La descripción debe tener como máximo 50 caracteres.' }
+            }}
+            required
+            register={register}
+            isTextArea
+          />
 
           <ButtonsContainer className={'mt-6'} disabled={loading}>
             <SubmitButton text="Enviar" laoding={loading} />

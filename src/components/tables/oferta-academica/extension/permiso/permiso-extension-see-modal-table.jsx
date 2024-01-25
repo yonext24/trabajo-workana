@@ -13,7 +13,7 @@ export function PermisoExtensionSeeModalTable({ data, loading, error }) {
     >
       {data.map(el => {
         return (
-          <RowLayout data-disabled={!el.estado} key={el.id_extension_permiso}>
+          <RowLayout key={el.id_extension_permiso}>
             <Row text={el.nombre} />
             <Row text={el.descripcion} />
           </RowLayout>

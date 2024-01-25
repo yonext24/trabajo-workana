@@ -12,7 +12,7 @@ export function CentrosEducativosTitulosTable({ loading, error, data }) {
       {data.map((el, i) => (
         <RowLayout key={el.id_titulo ?? i}>
           <td className="!border-r !text-center">{el.codigo}</td>
-          <td>{el.nombre}</td>
+          <td className="!text-center">{el.nombre}</td>
         </RowLayout>
       ))}
     </TableLayout>

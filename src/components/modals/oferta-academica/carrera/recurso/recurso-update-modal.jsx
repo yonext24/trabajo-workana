@@ -32,15 +32,18 @@ export function RecursoUpdateModal({ closeModal, id_recurso, descripcion, nombre
 
           <InputWLabel name="nombre" defaultValue={nombre} disabled />
           <InputWLabel
+            labelText={'Descripción'}
             name="descripcion"
             defaultValue={descripcion}
-            registerProps={{ maxLength: { value: 20, message: 'Máximo 20 caracteres.' } }}
-            required
+            maxLength={50}
+            registerProps={{
+              maxLength: { value: 50, message: 'La descripción debe tener como máximo 50 caracteres.' }
+            }}
             register={register}
             isTextArea
           />
 
-          <ButtonsContainer className={'mt-6'}>
+          <ButtonsContainer className={'mt-6'} closeModal={closeModal}>
             <SubmitButton text="Actualizar" loading={loading} />
           </ButtonsContainer>
         </form>

@@ -8,7 +8,7 @@ export function RecursoTable({
   outsideLoading,
   outsideError,
   selectFunction,
-  columns = [{ text: 'Tipo' }, { text: 'Recurso' }, { text: 'Descripcion' }, { text: 'Acciones' }]
+  columns = [{ text: 'Tipo' }, { text: 'Recurso' }, { text: 'Descripción' }, { text: 'Acciones' }]
 }) {
   const { filtered, loading, revalidating } = useSelector(s => s.ofertaAcademica.carrera.recurso)
 

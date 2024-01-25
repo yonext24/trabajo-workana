@@ -35,10 +35,23 @@ export function PermisoExtensionAddModal({ closeModal }) {
             register={register}
             name="nombre"
             required
-            registerProps={{ minLength: { value: 2, message: 'El nombre debe tener al menos 2 caracteres.' } }}
+            registerProps={{
+              minLength: { value: 2, message: 'El nombre debe tener al menos 2 caracteres.' },
+              maxLength: { value: 50, message: 'El nombre debe tener como máximo 50 caracteres.' }
+            }}
+            maxLength={50}
             autoFocus
           />
-          <InputWLabel register={register} isTextArea rows={3} name="descripcion" />
+          <InputWLabel
+            register={register}
+            isTextArea
+            maxLength={50}
+            registerProps={{
+              maxLength: { value: 50, message: 'La descripción debe tener como máximo 50 caracteres.' }
+            }}
+            rows={3}
+            name="descripcion"
+          />
 
           <ButtonsContainer closeModal={closeModal} disabled={loading} className={'mt-8'}>
             <SubmitButton loading={loading} text="Agregar" />

@@ -16,6 +16,7 @@ export function CentrosEducativosFilter() {
   const { size, page, selectedDepartamento, selectedMunicipio, selectedSector, shouldRevalidate } = useSelector(
     s => s.centrosEducativos.paginationData
   )
+
   const {
     loading: loadingParams,
     error: errorParams,
@@ -53,6 +54,7 @@ export function CentrosEducativosFilter() {
     setPaginationData({ selectedDepartamento: departamento })
   }
   const handleMunicipioChange = municipio => {
+    console.log('Trigger municipio change: ', municipio)
     setPaginationData({ selectedMunicipio: municipio })
   }
   const handleSectorChange = sector => {
@@ -61,7 +63,7 @@ export function CentrosEducativosFilter() {
 
   return (
     <div
-      className="w-full flex flex-col gap-4 justify-start items-start text-lg font-semibold  md:max-[1000px]:flex-col
+      className="w-full flex flex-col gap-4 justify-start items-start text-lg  md:max-[1000px]:flex-col
     md:max-[1000px]:items-start"
     >
       <div className="flex gap-4 w-full md:max-[1000px]:flex-col">
@@ -85,7 +87,8 @@ export function CentrosEducativosFilter() {
             notFocusable
             labelText="Municipio"
             noOptionsMessage={`No hay municipios para el departamento ${selectedDepartamento?.nombre}`}
-            ligatedToExternalChange
+            resetOnOptionsChange
+            rawOnChange={handleMunicipioChange}
             handleOptionClick={handleMunicipioChange}
             onFirstChange={handleMunicipioChange}
             firstOne

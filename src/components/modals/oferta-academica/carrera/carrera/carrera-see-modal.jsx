@@ -1,7 +1,6 @@
 import { InputWLabel } from '@/components/common/input-w-label'
 import { SelectInput } from '@/components/common/select-input/select-input'
 import { SwitchButton } from '@/components/common/table-buttons'
-import { ButtonsContainer } from '@/components/modals/buttons-container'
 import { DefaultModalLayout } from '@/components/modals/default-modal-layout'
 import { ModalBackground } from '@/components/modals/modal-background'
 import { RecursoTable } from '@/components/tables/oferta-academica/carrera/recurso/recurso-table'
@@ -39,10 +38,10 @@ export function CarreraSeeModal({
   const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
 
   return (
-    <ModalBackground closeModal={closeModal} onClick={closeModal}>
+    <ModalBackground closeModal={closeModal} onClick={closeModal} className={'py-1'}>
       <DefaultModalLayout
         title="Ver Carrera"
-        className={'!max-h-[98vh] h-full w-full max-w-[880px] !mx-4 overflow-hidden'}
+        className={'!max-h-[900px] h-full !mx-4 overflow-hidden w-full max-w-[800px]'}
         closeModal={closeModal}
       >
         <div className="p-4 flex flex-col gap-4 overflow-y-auto">
@@ -95,8 +94,6 @@ export function CarreraSeeModal({
             outsideLoading={recursos.loading}
             permissions={permissions}
           />
-
-          <ButtonsContainer className="[&>button]:py-[7px] mt-4"></ButtonsContainer>
         </div>
       </DefaultModalLayout>
     </ModalBackground>

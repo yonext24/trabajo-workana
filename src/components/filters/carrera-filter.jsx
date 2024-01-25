@@ -1,12 +1,17 @@
-import { useSelector } from 'react-redux'
 import { SelectInput } from '../common/select-input/select-input'
 import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { useEffect } from 'react'
+import { carrera } from '@/utils/routes/oferta/carrera'
+import { useFetchLocalData } from '@/hooks/useFetchLocalData'
 
 export function CarreraFilter() {
-  const nivelesData = useSelector(s => s.ofertaAcademica.carrera.nivel.data)
-  const nivelesLoading = useSelector(s => s.ofertaAcademica.carrera.nivel.revalidating)
-  const nivelesError = useSelector(s => s.ofertaAcademica.carrera.nivel.error)
+  const {
+    loading: nivelesLoading,
+    error: nivelesError,
+    data: nivelesData
+  } = useFetchLocalData({
+    func: carrera.carrera.param_leer
+  })
 
   const { setCarreraCarreraPaginationData, getCarreraNivelData, setCarreraError } = useOfertaAcademicaActions()
 

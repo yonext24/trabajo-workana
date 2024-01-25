@@ -26,12 +26,30 @@ export function UpdateTipoRecursoModal({ nombre, descripcion, id_tipo_recurso, c
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Actualizar Nivel" closeModal={closeModal} errors={errors} loading={loading}>
+      <DefaultModalLayout title="Actualizar Tipo de Recurso" closeModal={closeModal} errors={errors} loading={loading}>
         <form className="p-6 gap-4 flex flex-col" onSubmit={handleSubmit(handleUpload)}>
-          <InputWLabel name="nombre" disabled defaultValue={nombre} />
-          <InputWLabel name="descripcion" required register={register} isTextArea defaultValue={descripcion} />
+          <InputWLabel
+            name="nombre"
+            maxLength={50}
+            registerProps={{
+              maxLength: { value: 50, message: 'El nombre debe tener como máximo 50 caracteres.' }
+            }}
+            disabled
+            defaultValue={nombre}
+          />
+          <InputWLabel
+            name="descripcion"
+            maxLength={50}
+            registerProps={{
+              maxLength: { value: 50, message: 'La descripción debe tener como máximo 50 caracteres.' }
+            }}
+            required
+            register={register}
+            isTextArea
+            defaultValue={descripcion}
+          />
 
-          <ButtonsContainer className={'mt-6'} disabled={loading}>
+          <ButtonsContainer className={'mt-6'} disabled={loading} closeModal={closeModal}>
             <SubmitButton loading={loading} text="Actualizar" />
           </ButtonsContainer>
         </form>

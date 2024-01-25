@@ -30,13 +30,26 @@ export function AddNivelModal({ closeModal }) {
         <form className="p-6 gap-4 flex flex-col" onSubmit={handleSubmit(handleUpload)}>
           <InputWLabel
             name="nombre"
-            registerProps={{ minLength: { value: 2, message: 'La longitud del nombre debe ser mayor a 1 carácter.' } }}
+            registerProps={{
+              minLength: { value: 2, message: 'La longitud del nombre debe ser mayor a 1 carácter.' },
+              maxLength: { value: 50, message: 'La longitud del nombre debe ser menor a 50 caracteres.' }
+            }}
+            maxLength={50}
             required
             register={register}
           />
-          <InputWLabel name="descripcion" register={register} isTextArea />
+          <InputWLabel
+            name="descripcion"
+            labelText="Descripción"
+            maxLength={50}
+            registerProps={{
+              maxLength: { value: 50, message: 'La descripción debe tener como máximo 50 caracteres.' }
+            }}
+            register={register}
+            isTextArea
+          />
 
-          <ButtonsContainer className={'mt-6'} disabled={loading}>
+          <ButtonsContainer className={'mt-6'} disabled={loading} closeModal={closeModal}>
             <SubmitButton text="Agregar" loading={loading} />
           </ButtonsContainer>
         </form>

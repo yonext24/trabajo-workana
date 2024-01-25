@@ -125,10 +125,10 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
   const permissions = usePermissions({ nameOfModule: 'OFERTA_ACADEMICA' })
 
   return (
-    <ModalBackground closeModal={closeModal} onClick={closeModal}>
+    <ModalBackground closeModal={closeModal} onClick={closeModal} className={'py-1'}>
       <DefaultModalLayout
         title="Actualizar Carrera"
-        className={'!max-h-[98vh] h-full !mx-4 overflow-hidden w-full max-w-[880px]'}
+        className={'!max-h-[900px] h-full !mx-4 overflow-hidden w-full max-w-[800px]'}
         closeModal={closeModal}
         errors={errors}
         loading={isSubmitting}
@@ -147,12 +147,20 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
           <InputWLabel name="nombre" labelText={'Nombre'} disabled defaultValue={nombre} />
           <InputWLabel
             name="titulo_femenino"
+            maxLength={150}
+            registerProps={{
+              maxLength: { value: 150, message: 'El titulo femenino debe tener como máximo 150 caracteres.' }
+            }}
             defaultValue={titulo_femenino}
             labelText="Título femenino"
             register={register}
           />
           <InputWLabel
             name="titulo_masculino"
+            maxLength={150}
+            registerProps={{
+              maxLength: { value: 150, message: 'El titulo masculino debe tener como máximo 150 caracteres.' }
+            }}
             defaultValue={titulo_masculino}
             labelText="Título masculino"
             register={register}
@@ -201,7 +209,7 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
             selectFunction={selectFunction}
           />
 
-          <ButtonsContainer className="[&>button]:py-[7px] mt-4" disabled={isSubmitting}>
+          <ButtonsContainer className="[&>button]:py-[7px] mt-4" disabled={isSubmitting} closeModal={closeModal}>
             <SubmitButton text="Actualizar" loading={isSubmitting} />
           </ButtonsContainer>
         </form>

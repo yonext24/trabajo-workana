@@ -20,7 +20,6 @@ export function RecursoAddModal({ closeModal }) {
   } = useForm()
   const { loading, handleLoading } = useFormCustom()
 
-  const recursoData = useSelector(s => s.ofertaAcademica.carrera.recurso.data)
   const {
     data: tipoRecursoData,
     revalidating: tipoRecursoLoading,
@@ -48,25 +47,31 @@ export function RecursoAddModal({ closeModal }) {
             name="tipo"
             rules={{ required: true }}
             show={'nombre'}
-            options={tipoRecursoData}
+            options={tipoRecursoData.filter(el => el.estado)}
           />
 
           <InputWLabel
             name="nombre"
+            maxLength={50}
             required
             register={register}
             registerProps={{
-              minLength: { value: 3, message: 'El nombre debe tener al menos 3 caracteres.' },
-              validate: nombre => {
-                if (recursoData.some(el => el.nombre === nombre)) {
-                  return 'Ya hay un recurso con ese nombre.'
-                }
-              }
+              maxLength: { value: 50, message: 'El nombre debe tener como máximo 50 caracteres.' },
+              minLength: { value: 3, message: 'El nombre debe tener al menos 3 caracteres.' }
             }}
           />
-          <InputWLabel name="descripcion" required register={register} isTextArea />
+          <InputWLabel
+            name="descripcion"
+            labelText={'Descripción'}
+            maxLength={50}
+            registerProps={{
+              maxLength: { value: 50, message: 'La descripción debe tener como máximo 50 caracteres.' }
+            }}
+            register={register}
+            isTextArea
+          />
 
-          <ButtonsContainer className={'mt-6'}>
+          <ButtonsContainer className={'mt-6'} closeModal={closeModal}>
             <SubmitButton text="Agregar" loading={loading} />
           </ButtonsContainer>
         </form>
