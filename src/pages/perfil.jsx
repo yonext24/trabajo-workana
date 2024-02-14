@@ -50,27 +50,27 @@ export function Perfil() {
           onSubmit={handleSubmit(handleUpload)}
           className="grid grid-cols-[auto_1fr] py-6 gap-y-8 gap-x-2 lg:gap-x-12 [&>#input-w-label]:col-[2]"
         >
-          <label htmlFor={'username'} className="font-semibold text-2xl">
+          <label htmlFor={'username'} className="font-semibold text-xl">
             Usuario actual
           </label>
           <InputWLabel noLabel name="username" disabled value={usuario} labelText="Usuario actual" />
-          <label htmlFor={'rol'} className="font-semibold text-2xl">
+          <label htmlFor={'rol'} className="font-semibold text-xl">
             Rol de usuario
           </label>
           <InputWLabel noLabel name="rol" disabled value={rol} labelText="Rol de usuario" />
-          <label htmlFor={'puesto'} className="font-semibold text-2xl">
+          <label htmlFor={'puesto'} className="font-semibold text-xl">
             Puesto de usuario
           </label>
           <InputWLabel noLabel name="puesto" disabled value={puesto} labelText="Puesto" />
-          <label htmlFor={'nombres'} className="font-semibold text-2xl">
+          <label htmlFor={'nombres'} className="font-semibold text-xl">
             Nombres
           </label>
           <InputWLabel noLabel name="nombres" disabled value={nombres} labelText="nombres" />
-          <label htmlFor={'apellidos'} className="font-semibold text-2xl">
+          <label htmlFor={'apellidos'} className="font-semibold text-xl">
             Apellidos
           </label>
           <InputWLabel noLabel name="apellidos" disabled value={apellidos} labelText="apellidos" />
-          <label htmlFor={'telefono'} autoFocus className="font-semibold text-2xl">
+          <label htmlFor={'telefono'} autoFocus className="font-semibold text-xl">
             Teléfono
           </label>
           <InputWLabel
@@ -83,7 +83,7 @@ export function Perfil() {
             defaultValue={telefono}
             labelText="telefono"
           />
-          <label htmlFor={'celular'} type="number" className="font-semibold text-2xl">
+          <label htmlFor={'celular'} type="number" className="font-semibold text-xl">
             Celular
           </label>
           <InputWLabel
@@ -95,11 +95,11 @@ export function Perfil() {
             register={register}
             labelText="celular"
           />
-          <label htmlFor={'CUI'} className="font-semibold text-2xl">
+          <label htmlFor={'CUI'} className="font-semibold text-xl">
             CUI
           </label>
           <InputWLabel noLabel name="CUI" disabled value={CUI} labelText="CUI" />
-          <label htmlFor={'correo'} className="font-semibold text-2xl">
+          <label htmlFor={'correo'} className="font-semibold text-xl">
             Correo
           </label>
           <InputWLabel noLabel name="correo" register={register} required defaultValue={correo} labelText="correo" />

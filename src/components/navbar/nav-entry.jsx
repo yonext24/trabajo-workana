@@ -29,7 +29,7 @@ export function RawEntry({
           toastId: permissionName
         })
       } else {
-        navigate(href, {  })
+        navigate(href, {})
         closeModal && closeModal()
       }
     }
@@ -45,13 +45,13 @@ export function RawEntry({
   return (
     <button
       onClick={handleEntryClick}
-      className={`h-16 ${isSub ? 'ml-4' : ''} w-full hover:text-white
+      className={`h-12 ${isSub ? 'ml-4' : ''} w-full hover:text-white
   transition-colors flex items-center justify-between text-gray-400 font-semibold ${isSelected ? 'text-white' : ''} ${
     isSub ? '' : ''
   }`}
     >
-      <Icon className="h-6 w-6 mr-3" strokeWidth={2} />
-      <div id="text-container" className="flex-1 text-start">
+      <Icon className="h-5 w-5 mr-3" strokeWidth={2} />
+      <div id="text-container" className="flex-1 text-start text-xs">
         <span>{text}</span>
       </div>
       {!noArrow && (
@@ -72,7 +72,7 @@ export function NavEntry({ text, Icon, sub, href = false, closeModal = false, is
 
   // 64 Es el alto de cada uno de las entrys, entonces simplemente multiplico la cantidad de sub-entrys por su alto y tengo el alto
   // que van a tener, esto es para que haya una animación a la hora de apretar el botón
-  const maxHeightValue = useMemo(() => (sub ? sub.length * 64 : 0))
+  const maxHeightValue = useMemo(() => (sub ? sub.length * 48 : 0))
 
   return (
     <div className="flex flex-col overflow-hidden">

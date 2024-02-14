@@ -8,8 +8,8 @@ const toShow = [
   { text: 'Puesto', key: 'puesto' },
   { text: 'Dependencia', key: 'dependencia' },
   { text: 'Referencia de Oficio', key: 'ref_oficio' },
-  { text: 'Fecha de desactivación', key: 'fecha_desactivacion' },
-  { text: 'Fecha de activación', key: 'fecha_activacion' }
+  { text: 'Fecha de activación', key: 'fecha_activacion' },
+  { text: 'Fecha de desactivación', key: 'fecha_desactivacion' }
 ]
 
 export function InfoUsuariosModal({ closeModal }) {

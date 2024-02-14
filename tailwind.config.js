@@ -18,7 +18,7 @@ export default {
 
       fontSize: {
         tab: '18px',
-        button: '24px'
+        button: '18px'
       },
 
       animation: {

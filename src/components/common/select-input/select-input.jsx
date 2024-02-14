@@ -205,7 +205,7 @@ export function SelectInput({
         data-disabled={Boolean(disabled || error || loading || options?.length === 0)}
         data-loading={loading}
         data-focused={focused}
-        className="cursor-default data-[loading=true]:cursor-not-allowed text-base sm:text-lg pl-4 data-[focused=true]:border-black
+        className="cursor-default data-[loading=true]:cursor-not-allowed text-base pl-4 data-[focused=true]:border-black
         border-2 border-gris rounded-md grid grid-cols-[1fr,50px] w-full overflow-hidden data-[disabled=true]:shadow-lg data-[disabled=true]:cursor-not-allowed"
       >
         <div className="flex-1 text-left py-[2px] overflow-hidden">
