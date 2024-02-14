@@ -14,6 +14,8 @@ import { usePermissions } from '@/hooks/usePermissions'
 import { SubmitButton } from '@/components/common/submit-button'
 import { handleErrorInFormResponse } from '@/utils/consts'
 import { useAuthActions } from '@/hooks/useAuthActions'
+import { useLayoutActions } from '@/hooks/useLayoutActions'
+import { ShouldReLoginModal } from '../../login/should-re-login-modal'
 
 export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
   // ***************** SELECTORS *****************
@@ -34,7 +36,8 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
   const permissions = usePermissions('USUARIOS')
   useModalLogic({ closeModal, noScroll: true })
   const { getPermisos, getRolePermissions, getMappedRolePermissions, updateRole } = useUsuariosActions()
-  const { RevalidatePermissions } = useAuthActions()
+  const { openModal, closeModal: closeModalFunc } = useLayoutActions()
+  const { Logout } = useAuthActions()
 
   // **************** STATES *******************
 
@@ -92,6 +95,18 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
     [setUpdatedPermissions]
   )
 
+  const handleSelfRoleChange = () => {
+    closeModal()
+    Logout()
+    openModal({
+      Element: ShouldReLoginModal,
+      id: 'should-re-login',
+      props: {
+        closeModal: () => closeModalFunc('should-re-login')
+      }
+    })
+  }
+
   const user = useSelector(s => s.auth.user)
 
   const onSubmit = useCallback(
@@ -106,12 +121,12 @@ export function UpdRolesModal({ closeModal, nombre, descripcion, id_rol }) {
       }
 
       const res = await updateRole({ rol, actualizar: updatedPermissions })
-      if (currentRole.nombre === user.rol) {
-        RevalidatePermissions()
-      }
 
       handleErrorInFormResponse(res, setError, () => {
         setUpdatedPermissions([])
+        if (currentRole.nombre === user.rol) {
+          handleSelfRoleChange()
+        }
       })
     }),
     [handleLoading, id_rol, updatedPermissions, user]
