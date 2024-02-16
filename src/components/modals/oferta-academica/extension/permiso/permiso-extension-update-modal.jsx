@@ -39,6 +39,7 @@ export function PermisoExtensionUpdateModal({ closeModal, id_permiso, nombre, de
             defaultValue={descripcion}
             register={register}
             name="descripcion"
+            labelText="Descripción"
           />
 
           <ButtonsContainer closeModal={closeModal} disabled={loading} className={'mt-8'}>

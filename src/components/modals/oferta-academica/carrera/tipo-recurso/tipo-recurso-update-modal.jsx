@@ -39,6 +39,7 @@ export function UpdateTipoRecursoModal({ nombre, descripcion, id_tipo_recurso, c
           />
           <InputWLabel
             name="descripcion"
+            labelText="Descripción"
             maxLength={50}
             registerProps={{
               maxLength: { value: 50, message: 'La descripción debe tener como máximo 50 caracteres.' }

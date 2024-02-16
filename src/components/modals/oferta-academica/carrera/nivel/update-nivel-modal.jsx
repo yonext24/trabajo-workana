@@ -29,7 +29,14 @@ export function UpdateNivelModal({ closeModal, nombre, descripcion, id_nivel }) 
       <DefaultModalLayout title="Actualizar Nivel" closeModal={closeModal} loading={loading} errors={errors}>
         <form className="p-6 gap-4 flex flex-col" onSubmit={handleSubmit(handleUpload)}>
           <InputWLabel name="nombre" disabled defaultValue={nombre} />
-          <InputWLabel name="descripcion" required register={register} isTextArea defaultValue={descripcion} />
+          <InputWLabel
+            name="descripcion"
+            labelText="Descripción"
+            required
+            register={register}
+            isTextArea
+            defaultValue={descripcion}
+          />
 
           <ButtonsContainer className={'mt-6'} disabled={loading}>
             <SubmitButton text="Actualizar" loading={loading} />

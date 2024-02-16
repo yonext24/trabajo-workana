@@ -10,6 +10,7 @@ import { BASE_URL, handleErrorInFormResponse } from '@/utils/consts'
 import { appFetch } from '@/utils/fetchHandler'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
 import { general } from '@/utils/routes'
+import { toast } from 'react-toastify'
 
 const fetchData = async () => {
   const { modulos, operaciones } = await appFetch(`${BASE_URL}/rye/permiso/parametros_nuevo`)
@@ -90,7 +91,14 @@ export function AddPermisosModal({ closeModal }) {
     }
 
     const res = await addPermission(data)
-    handleErrorInFormResponse(res, setError, closeModal)
+    handleErrorInFormResponse(res, setError, () => {
+      closeModal()
+      if (isOfertaAcademicaUpdate) {
+        toast.info('INFO: El permiso de actualización se otorgará a los elementos con permisos de lectura activos', {
+          autoClose: 15000
+        })
+      }
+    })
   }
 
   return (

@@ -107,7 +107,7 @@ export function UnidadAddCarreraModal({ closeModal, id_unidad, nombre, tipo_ua }
             />
           </div>
           <div className="flex [&>*]:flex-1 gap-3">
-            <InputWLabel id="codigo" name="codigo" register={register} required />
+            <InputWLabel id="codigo" name="codigo" labelText="Código" register={register} required />
           </div>
 
           <ButtonsContainer className="[&>button]:py-2 mt-2" disabled={isSubmitting} closeModal={closeModal}>

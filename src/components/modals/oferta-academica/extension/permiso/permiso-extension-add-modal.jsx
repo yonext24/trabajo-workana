@@ -51,6 +51,7 @@ export function PermisoExtensionAddModal({ closeModal }) {
             }}
             rows={3}
             name="descripcion"
+            labelText="Descripción"
           />
 
           <ButtonsContainer closeModal={closeModal} disabled={loading} className={'mt-8'}>

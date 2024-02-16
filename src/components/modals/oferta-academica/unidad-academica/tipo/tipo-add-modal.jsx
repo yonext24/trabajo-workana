@@ -47,6 +47,7 @@ export function TipoAddModal({ closeModal }) {
           />
           <InputWLabel
             name="descripcion"
+            labelText="Descripción"
             id="descripcion"
             register={register}
             type="text"
