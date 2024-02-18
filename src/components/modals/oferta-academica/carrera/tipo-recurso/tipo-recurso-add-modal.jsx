@@ -49,7 +49,7 @@ export function AddTipoRecursoModal({ closeModal }) {
             isTextArea
           />
 
-          <ButtonsContainer className={'mt-6'} disabled={loading}>
+          <ButtonsContainer className={'mt-6'} disabled={loading} closeModal={closeModal}>
             <SubmitButton text="Enviar" laoding={loading} />
           </ButtonsContainer>
         </form>

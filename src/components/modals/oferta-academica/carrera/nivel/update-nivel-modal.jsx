@@ -30,6 +30,10 @@ export function UpdateNivelModal({ closeModal, nombre, descripcion, id_nivel }) 
         <form className="p-6 gap-4 flex flex-col" onSubmit={handleSubmit(handleUpload)}>
           <InputWLabel name="nombre" disabled defaultValue={nombre} />
           <InputWLabel
+            registerProps={{
+              maxLength: { value: 50, message: 'La descripción debe tener menos de 50 caracteres.' }
+            }}
+            maxLength={50}
             name="descripcion"
             labelText="Descripción"
             required
@@ -38,7 +42,7 @@ export function UpdateNivelModal({ closeModal, nombre, descripcion, id_nivel }) 
             defaultValue={descripcion}
           />
 
-          <ButtonsContainer className={'mt-6'} disabled={loading}>
+          <ButtonsContainer className={'mt-6'} disabled={loading} closeModal={closeModal}>
             <SubmitButton text="Actualizar" loading={loading} />
           </ButtonsContainer>
         </form>

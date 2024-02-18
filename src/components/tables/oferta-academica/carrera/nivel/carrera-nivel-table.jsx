@@ -17,7 +17,7 @@ export function CarreraNivelTable({ permissions }) {
     <TableLayout
       loading={loading}
       revalidating={revalidating}
-      columns={[{ text: 'Nombre' }, { text: 'Descripcion' }, { text: 'Estado' }, { text: 'Acciones' }]}
+      columns={[{ text: 'Nombre' }, { text: 'Descripción' }, { text: 'Estado' }, { text: 'Acciones' }]}
     >
       {data.map(el => (
         <CarreraNivelTableRow permissions={permissions} key={el.nombre ?? el.descripcion} {...el} />

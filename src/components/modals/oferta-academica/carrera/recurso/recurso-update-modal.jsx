@@ -26,7 +26,7 @@ export function RecursoUpdateModal({ closeModal, id_recurso, descripcion, nombre
 
   return (
     <ModalBackground closeModal={closeModal} onClick={closeModal}>
-      <DefaultModalLayout title="Agregar Recurso" closeModal={closeModal} errors={errors} loading={loading}>
+      <DefaultModalLayout title="Actualizar Recurso" closeModal={closeModal} errors={errors} loading={loading}>
         <form className="p-6 flex flex-col gap-3 overflow-hidden" onSubmit={handleSubmit(handleUpload)}>
           <InputWLabel labelText={'Tipo'} disabled name="tipo" defaultValue={tipo} />
 

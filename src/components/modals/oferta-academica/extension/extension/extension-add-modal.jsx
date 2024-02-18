@@ -7,7 +7,7 @@ import { useOfertaAcademicaActions } from '@/hooks/useOfertaAcademicaActions'
 import { handleErrorInFormResponse } from '@/utils/consts'
 import { SubmitButton } from '@/components/common/submit-button'
 import { useFetchLocalData } from '@/hooks/useFetchLocalData'
-import { extension, geografia } from '@/utils/routes'
+import { extension, geografia, unidad } from '@/utils/routes'
 import { useEffect, useMemo } from 'react'
 import { SelectInputControlledWithLabel } from '@/components/common/select-input/select-input-controlled-with-label'
 
@@ -26,6 +26,12 @@ export function ExtensionAddModal({ closeModal }) {
   const selectedTipo = watch('tipo')
 
   const {
+    data: tiposData,
+    loading: tiposLoading,
+    error: tiposError
+  } = useFetchLocalData({ func: unidad.unidad.params })
+
+  const {
     loading: unidadLoading,
     error: unidadError,
     data: unidadData
@@ -40,18 +46,6 @@ export function ExtensionAddModal({ closeModal }) {
     getUnidadAcademicaTipos()
   }, [])
 
-  const tipos = useMemo(() => {
-    if (!unidadData) return []
-    // I dont know why Set doesnt work here
-    const addedIds = {}
-    const tipos = []
-    unidadData.forEach(({ id_tipo_ua, tipo }) => {
-      if (addedIds[id_tipo_ua]) return
-      addedIds[id_tipo_ua] = true
-      tipos.push({ id_tipo_ua, nombre: tipo })
-    })
-    return tipos
-  }, [unidadData])
   const unidades = useMemo(() => {
     if (!unidadData) return []
     return unidadData.filter(el => el.id_tipo_ua === selectedTipo?.id_tipo_ua)
@@ -87,9 +81,9 @@ export function ExtensionAddModal({ closeModal }) {
               labelText={'Tipo Unidad'}
               control={control}
               name={'tipo'}
-              options={tipos}
-              loading={unidadLoading}
-              error={unidadError}
+              options={tiposData}
+              loading={tiposLoading}
+              error={tiposError}
               show="nombre"
               rules={{ required: true }}
             />
