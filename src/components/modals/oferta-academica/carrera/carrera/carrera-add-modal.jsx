@@ -71,7 +71,7 @@ export function CarreraAddModal({ closeModal }) {
           </div>
           <InputWLabel
             name="nombre"
-            maxLength={50}
+            maxLength={150}
             registerProps={{
               minLength: { value: 2, message: 'El nombre debe tener mínimo 2 caracteres.' },
               maxLength: { value: 50, message: 'El nombre debe tener como máximo 50 caracteres.' }

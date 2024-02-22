@@ -97,7 +97,8 @@ export function SwitchButton({
           handleClick(!FState)
         }}
         data-disabled={disabled}
-        className="bg-black rounded-full p-1 w-[45px] h-[25px] data-[disabled=true]:cursor-not-allowed"
+        data-state={FState}
+        className={`bg-black data-[state=true]:!bg-azulfondo rounded-full p-1 w-[45px] h-[25px] transition-colors data-[disabled=true]:cursor-not-allowed`}
         {...props}
       >
         <div className="relative w-full h-full">

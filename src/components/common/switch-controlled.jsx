@@ -14,7 +14,7 @@ export function SwitchControlled({
       name={name}
       defaultValue={defaultValue}
       control={control}
-      render={({ field: { value, name, onChange }, fieldState: { error } }) => {
+      render={({ field: { value, onChange } }) => {
         return <SwitchButton estado={value} handleClick={onChange} disabled={disabled} />
       }}
     />

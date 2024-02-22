@@ -166,7 +166,7 @@ export function CarreraUpdateModal({ closeModal, id_carrera }) {
             register={register}
           />
 
-          <div className="flex w-full justify-end gap-2">
+          <div className="grid grid-cols-2 w-full justify-end gap-2">
             <InputWLabel
               name="fecha_creacion"
               labelText="Fecha de creación"
