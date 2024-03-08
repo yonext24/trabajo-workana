@@ -54,7 +54,7 @@ export function CentrosEducativosFilter() {
     setPaginationData({ selectedDepartamento: departamento })
   }
   const handleMunicipioChange = municipio => {
-    console.log('Trigger municipio change: ', municipio)
+    // console.log('Trigger municipio change: ', municipio)
     setPaginationData({ selectedMunicipio: municipio })
   }
   const handleSectorChange = sector => {

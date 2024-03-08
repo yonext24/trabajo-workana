@@ -31,7 +31,7 @@ export function SelectInput({
   rawOnChange,
   onFirstChange = false,
   autoFocus = false,
-  name,
+  // name,
   className = '',
   notFocusable = false
 }) {
@@ -108,7 +108,7 @@ export function SelectInput({
 
     if (isEqual(previousOptions.current, options)) return
     previousOptions.current = options
-    name === 'carrera' && console.log(resetOnOptionsChange, firstOne, options.length >= 1, 'resetOnOptionsChange')
+    // name === 'carrera' && console.log(resetOnOptionsChange, firstOne, options.length >= 1, 'resetOnOptionsChange')
 
     if (!resetOnOptionsChange) return
     if (firstOne && options.length >= 1) return
@@ -119,7 +119,7 @@ export function SelectInput({
 
   useEffect(() => {
     previousValue.current = value
-    console.log('trigger', value)
+    // console.log('trigger', value)
 
     if (value === 'Seleccionar') rawOnChange?.(undefined)
     !['Seleccionar', 'Cargando...', 'Error', undefined].includes(value) && rawOnChange?.(value)
