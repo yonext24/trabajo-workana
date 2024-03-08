@@ -78,9 +78,9 @@ export function AddPermisosModal({ closeModal }) {
   const { addPermission } = useUsuariosActions()
 
   const handleUpload = async ({ operacion, unidad, extension, modulo, nivel }) => {
-    const extensionToUse = isOfertaAcademicaUpdate ? -1 : extension.id_extension ?? -2
-    const nivelToUse = isOfertaAcademicaUpdate ? -1 : nivel.id_nivel ?? -2
-    const unidadToUse = isOfertaAcademicaUpdate ? -1 : unidad.id_unidad ?? -2
+    const extensionToUse = isOfertaAcademicaUpdate ? -1 : extension?.id_extension ?? -2
+    const nivelToUse = isOfertaAcademicaUpdate ? -1 : nivel?.id_nivel ?? -2
+    const unidadToUse = isOfertaAcademicaUpdate ? -1 : unidad?.id_unidad ?? -2
 
     const data = {
       id_operacion: operacion.id,

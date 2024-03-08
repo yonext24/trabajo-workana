@@ -72,6 +72,7 @@ export function ExtensionAddCarreraModal({ closeModal, id_extension, unidad, nom
       })
   }
 
+  console.log({ selectedCarrera })
   const codigo = useMemo(() => {
     if (!selectedCarrera) return ''
     return selectedCarrera.codigo

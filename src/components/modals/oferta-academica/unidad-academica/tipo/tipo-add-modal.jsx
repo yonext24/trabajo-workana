@@ -30,7 +30,7 @@ export function TipoAddModal({ closeModal }) {
           <InputWLabel
             name="nombre"
             id="nombre"
-            maxlength={50}
+            maxLength={50}
             register={register}
             registerProps={{
               minLength: {
@@ -54,7 +54,7 @@ export function TipoAddModal({ closeModal }) {
             inputClassName="mb-12"
             isTextArea
             rows={3}
-            maxlength={50}
+            maxLength={50}
             registerProps={{
               maxLength: {
                 value: 50,

@@ -31,7 +31,7 @@ export function SelectInput({
   rawOnChange,
   onFirstChange = false,
   autoFocus = false,
-  // name,
+  name,
   className = '',
   notFocusable = false
 }) {
@@ -96,6 +96,7 @@ export function SelectInput({
   }, [loading, error, JSON.stringify(options)])
 
   useEffect(() => {
+    console.log({ options, prev: previousOptions.current })
     /*
      * *******************************************************************************************************
      *  ResetOnOptionsChange se utiliza para que cuando cambian las opciones, se resetee el valor del select
@@ -104,20 +105,24 @@ export function SelectInput({
      *  si no hay ninguna opción, de lo contrario, se selecciona la primer opción (linea 53)
      * *******************************************************************************************************
      */
+
+    if (isEqual(previousOptions.current, options)) return
+    previousOptions.current = options
+    name === 'carrera' && console.log(resetOnOptionsChange, firstOne, options.length >= 1, 'resetOnOptionsChange')
+
     if (!resetOnOptionsChange) return
     if (firstOne && options.length >= 1) return
 
-    if (isEqual(previousOptions.current, options)) return
-
-    previousOptions.current = options
     setCurrentIndex(-1)
     setValue('Seleccionar')
   }, [options])
 
   useEffect(() => {
     previousValue.current = value
+    console.log('trigger', value)
 
-    !disabled && !['Seleccionar', 'Cargando...', 'Error', undefined].includes(value) && rawOnChange?.(value)
+    if (value === 'Seleccionar') rawOnChange?.(undefined)
+    !['Seleccionar', 'Cargando...', 'Error', undefined].includes(value) && rawOnChange?.(value)
     if (!['Seleccionar', 'Cargando...', 'Error'].includes(value)) {
       previousValueBeforeLoading.current = value
     }
