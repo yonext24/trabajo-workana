@@ -81,6 +81,16 @@ export const reportesJsonToExcelMapper = json => {
         continue
       }
 
+      if (reportesRowTypesToJson[key] === 'date') {
+        const newDate = new Date(row[key])
+        const day = String(newDate.getDate()).padStart(2, '0')
+        const month = String(newDate.getMonth() + 1).padStart(2, '0') // 0 based month index...
+        const year = newDate.getFullYear()
+        const date = `${day}-${month}-${year}`
+        parsedRows[parsedColumn] = date
+        continue
+      }
+
       parsedRows[parsedColumn] = row[key]
     }
 

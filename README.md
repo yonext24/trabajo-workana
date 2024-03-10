@@ -106,8 +106,8 @@ const getUserData = async ({ token }) => {
   const userPermissions = await appFetch(auth.permisos)
   const { modulos, operaciones } = await appFetch(auth.parametros)
 
-  //  permissionParser se encarga de fusionar los permisos del usuario con los modulos y operaciones
-  //  y los devuelve en un formato ideal para su uso en los componentes:
+  //  permissionParser se encarga de fusionar los permisos del usuario con los modulos y
+  //  operaciones y los devuelve en un formato ideal para su uso en los componentes:
   //  {
   //    READ: boolean
   //    WRITE: boolean
@@ -165,12 +165,13 @@ export function CentrosEducativos() {
         <CentrosEducativosFilter />
         <div>
           <NuevoButton handleClick={handleAdd} content="Cargar Excel" CREATE={CREATE} />
-          // NuevoButton es un componente que recibe el permiso CREATE y muestra o esconde el botón de agregar dependiendo
+          // NuevoButton es un componente que recibe el permiso CREATE y muestra o esconde el // botón de agregar dependiendo
           de si el usuario tiene el permiso.
         </div>
       </div>
       <CentrosEducativosTable />
-      // Las tablas obtienen los permisos desde el estado global, para evitar hacer uso de prop drilling.
+      // Las tablas obtienen los permisos desde el estado global, para evitar hacer 
+      // uso de prop drilling.
     </div>
   )
 }
