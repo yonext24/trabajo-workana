@@ -1,8 +1,8 @@
 /*
 
   Esta funcion es la que se encarga de setear los thunks en los reducers, es decir, es la que se encarga de setear los estados de loading, error, data, etc.
-  también acepta la posibilidad de setear los estados de manera custom, es decir, si se quiere hacer algo diferente a lo que hace el thunk por defecto, se puede hacer.
-  al final del archivo hay un ejemplo de un noLoopData.
+  Tiene un poco de flexibilidad, y permite hacer ciertas operaciones custom. La idea detrás de este helper era agilizar las operaciones comunes que se realizan en los reducers,
+  ya que se repetían bastante. Funciona bien, pero quizá no es la mejor solución, ya que es un poco confuso de entender, y no es tan flexible como se esperaba.
 
 */
 
@@ -212,7 +212,6 @@ const thunksSets = ({
     addActionCase(
       update.function,
       payload => {
-        // <-- DataExtractor
         if (update.dataExtractor) return update.dataExtractor(payload)
         return payload
       },
@@ -222,7 +221,6 @@ const thunksSets = ({
     addActionCase(
       del.function,
       payload => {
-        // <-- DataExtractor
         if (del.dataExtractor) return del.dataExtractor(payload)
         return payload
       },
@@ -241,6 +239,7 @@ const thunksSets = ({
 }
 
 export function setThunks({ builder, toLoop, noLoopData, hasFiltered = false, placeName }) {
+  // Mala decisión de diseño
   noLoopData &&
     (() => {
       const { name, get, add, update, del, switch_state } = noLoopData

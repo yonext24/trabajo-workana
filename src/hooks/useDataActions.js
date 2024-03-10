@@ -17,9 +17,6 @@ import { add_puestos, get_puestos, switch_state_puestos } from '@/store/general/
 import { add_modulos, get_modulos, switch_state_modulos, update_modulos } from '@/store/general/modulosThunks'
 
 export function useDataActions() {
-  // TO DO?: Separar todas estas acciones en funciones que las creen dependiendo de un parámetro (la página)
-  // para evitar re-renderizados innecesarios y cargar todas las funciones en los componentes
-
   const dispatch = useDispatch()
 
   const getSectoresData = async args => dispatch(get_sectores_data({ args }))

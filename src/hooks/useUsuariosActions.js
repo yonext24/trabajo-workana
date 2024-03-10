@@ -63,7 +63,6 @@ export function useUsuariosActions() {
     addPermission,
     switchPermissionState,
     setUsuariosShowing,
-
     getCreateUsuarioParametros,
     createUsuario,
     searchUsuario,
